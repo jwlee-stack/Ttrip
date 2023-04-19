@@ -1,0 +1,44 @@
+server:
+  port: 8082
+
+spring:
+  profiles:
+    active: local # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
+
+  batch-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+  core-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+
+  redis:
+    host: redis-db
+    port: 6379
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        show_sql: true #show sql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  batch:
+    job:
+      enabled: false   # batch server 실행시켰을 때, 실행되는지 아닌지
+    jdbc:
+      isolation-level-for-create: default
+
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace #show parameter binding
+      SQL: DEBUG
+
+custom:
+  path:
+    upload-images: '/var/lib/images'
