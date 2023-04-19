@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://ttrip-db:3306/core-db
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: none
