@@ -1,0 +1,93 @@
+buildscript {
+    ext {
+        springBootVersion = '2.7.9'
+    }
+    repositories {
+
+        mavenCentral()  // Maven Central repository
+        jcenter()
+
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+
+
+    }
+}
+
+// 하위 모든 프로젝트 공통 세팅
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group 'org.example'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+
+        mavenCentral()  // Maven Central repository
+    }
+
+    // 하위 모듈에서 공통으로 사용하는 세팅 추가
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+        // h2
+        runtimeOnly 'com.h2database:h2'
+        testImplementation 'com.h2database:h2'
+
+        configurations {
+            all {
+                exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+            }
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+project(':core') {
+    // 공통 코드
+
+    bootJar { enabled = false } // core 은 bootJar 로 패키징 할 필요 없음
+    jar { enabled = true }
+
+    dependencies {
+    }
+}
+
+project(':api-server') {
+    bootJar { enabled = true }
+    jar { enabled = false }
+
+    dependencies {
+        implementation project(':core') // 컴파일 시 velog-core project 로딩
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+}
+
+project(':batch-server') {
+    bootJar { enabled = true }
+    jar { enabled = false }
+
+    dependencies {
+        implementation project(':core') // 컴파일 시 velog-core project 로딩
+    }
+}

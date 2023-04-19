@@ -1,0 +1,110 @@
+version: "3.2"
+services:
+  ttrip-db:
+    container_name: ttrip-db
+    image: mariadb
+    volumes:
+      - "/etc/timezone/:/etc/timezone:ro" #ubuntu timezone기준으로 설정
+      - type: volume
+        source: initdb-volume
+        target: /docker-entrypoint-initdb.d
+      - type: volume
+        source: confd-volume
+        target: /etc/mysql/conf.d
+      - type: volume
+        source: data-volume
+        target: /var/lib/mysql
+    environment:
+      - MYSQL_DATABASE_1=coredb
+      - MYSQL_DATABASE_2=batchdb
+      - MYSQL_ROOT_PASSWORD=
+    command: ['--character-set-server=utf8mb4',
+              '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.10
+
+  application:
+    build: ./api-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
+      SPRING_DATASOURCE_USERNAME: root  #local환경에서는 root로 변경
+      SPRING_DATASOURCE_PASSWORD:
+      TZ: "Asia/Seoul"
+    ports:
+      - 8081:8081
+    depends_on:
+      - ttrip-db
+    volumes:
+      - upload-images:/var/lib/images
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.11
+  batch-server:
+    build: ./batch-server
+    environment:
+      SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/batchdb?useUnicode=true
+      SPRING_BATCH_DB_DATASOURCE_USERNAME: root #local환경에서는 root로 변경
+      SPRING_BATCH_DB_DATASOURCE_PASSWORD:
+      SPRING_CAMPINITY_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
+      SPRING_CAMPINITY_DB_DATASOURCE_USERNAME: root #local환경에서는 root로 변경
+      SPRING_CAMPINITY_DATASOURCE_PASSWORD:
+      TZ: "Asia/Seoul"
+    ports:
+      - 8082:8082
+    depends_on:
+      - ttrip-db
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.12
+
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass {비밀번호} --port 6379
+    container_name: redis_boot
+    hostname: redis_boot
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    environment:
+      TZ: "Asia/Seoul"
+      REDIS_PASSWORD:
+    ports:
+      - 6379:6379
+    volumes:
+      - type: bind
+        source: ./redis.conf
+        target: /usr/local/etc/redis/redis.conf
+      - type: volume
+        source: redis-data
+        target: /data
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.13
+
+volumes:
+  upload-images:
+  initdb-volume:
+  confd-volume:
+  data-volume:
+  redis-data:
+  mongo-data:
+networks:
+  ttrip_bridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.35.0.0/16
