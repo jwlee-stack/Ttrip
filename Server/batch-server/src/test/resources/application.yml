@@ -1,0 +1,64 @@
+server:
+  port: 8082
+
+spring:
+  profiles: batchtest
+  batch-db:
+    datasource:
+      jdbc-url: jdbc:h2:mem:batchdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE #;INIT=CREATE SCHEMA schema1
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+  core-db:
+    datasource:
+      jdbc-url: jdbc:h2:mem:coredb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE #;INIT=CREATE SCHEMA schema2
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
+    useMysqlMetadata: true
+    url: jdbc:h2:mem:coredb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE
+    locations: classpath:db/migration/coredb
+    user: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  redis:
+    host: redis-db
+    port: 6379
+    password:
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        type:
+          preferred_uuid_jdbc_type: CHAR
+    #    show_sql: true #show sql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace #show parameter binding
+      SQL: DEBUG
+
+custom:
+  path:
+    upload-images: '/var/lib/images'
+

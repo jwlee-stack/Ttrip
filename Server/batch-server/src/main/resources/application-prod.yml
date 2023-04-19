@@ -1,0 +1,15 @@
+spring:
+  batch-db:
+    datasource:
+      jdbc-url: jdbc:mariadb://ttrip-db:3306/batchdb
+      username: root
+      password:
+  core-db:
+    datasource:
+      jdbc-url: jdbc:mariadb://ttrip-db:3306/coredb
+      username: root
+      password:
+
+  jpa:
+    hibernate:
+      ddl-auto: none
