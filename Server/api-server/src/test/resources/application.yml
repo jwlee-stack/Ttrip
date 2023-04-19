@@ -1,0 +1,64 @@
+server:
+  port: 8081
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:coredb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    initialization-mode: always
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  hikari:
+    connectionTimeout : 30000
+    maximumPoolSize : 30
+    maxLifeTime : 97
+    poolName : HikariCP
+    readOnly : false
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        type:
+          preferred_uuid_jdbc_type: CHAR
+    #    show_sql: true #show sql
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  redis:
+    host: redis-db
+    port: 6379
+    password:
+
+logging:
+  config: classpath:log4j2.yml
+
+custom:
+  path:
+    upload-images: '/var/lib/images'
