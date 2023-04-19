@@ -1,0 +1,64 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: local # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
+
+  hikari:
+    connectionTimeout : 30000
+    maximumPoolSize : 30
+    maxLifeTime : 97
+    poolName : HikariCP
+    readOnly : false
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        type:
+          preferred_uuid_jdbc_type: CHAR
+    #    show_sql: true #show sql
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+  sql:
+    init:
+      mode: always
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  redis:
+    host: redis-db
+    port: 6379
+    password:
+
+logging:
+  config: classpath:log4j2.yml
+  level:
+    org:
+      springframework:
+        web:
+          socket:
+            messaging:
+              WebSocketMessageHandler: TRACE
+        messaging:
+          simp:
+            user:
+              SimpUserRegistry: TRACE
+            stomp:
+              StompDecoder: TRACE
+              StompEncoder: TRACE
+
+custom:
+  path:
+    upload-images: '/var/lib/images'
