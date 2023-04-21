@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Ttrip</string>
+
+    <!-- Splash -->
+    <string name="content_logo_text1">TT</string>
+    <string name="content_logo_text2">r</string>
+    <string name="content_logo_text3">!P</string>
+    <string name="image_splash_ticket_back">image_splash_ticket_back</string>
+    <string name="image_splash_ticket_front">image_splash_ticket_front</string>
 </resources>
