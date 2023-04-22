@@ -3,4 +3,4 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/coredb  #test코드 실행할 때는 localhost로 변경
     username: root
-    password: 
+    password:
