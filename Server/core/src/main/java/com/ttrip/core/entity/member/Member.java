@@ -1,12 +1,13 @@
 package com.ttrip.core.entity.member;
 
 import com.ttrip.core.entity.BaseEntity;
+import com.ttrip.core.enum2.Gender;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,10 +19,41 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
+    @Column
+    @Type(type="org.hibernate.type.UUIDCharType")
+    private UUID uuid;
+    @Column
+    private String phoneNumber;
+    @Column
+    private String password;
+    @Column(length = 6, unique = true)
+    private String nickname;
+    @Column(length = 20)
+    private String intro;
+    @Column
+    private String imagePath;
+    @Column
+    private String fcmToken;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @Column
+    private LocalDate birthday;
+    @Column
+    private Boolean shareLocation;
 
     @Builder
-    public Member(int id) {
-        this.id = id;
+    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation) {
+        this.uuid = uuid;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.nickname = nickname;
+        this.intro = intro;
+        this.imagePath = imagePath;
+        this.fcmToken = fcmToken;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.shareLocation = shareLocation;
     }
 }
