@@ -21,7 +21,7 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
-    @Column
+    @Column(nullable = false, unique = true)
     @Type(type="org.hibernate.type.UUIDCharType")
     private UUID uuid;
     @Column
