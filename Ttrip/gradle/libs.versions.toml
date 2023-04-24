@@ -31,6 +31,9 @@ viewpager_indicator = "1.2.1"
 
 work-runtime-ktx = "2.7.1"
 
+google-maps-services-maps = "18.0.2"
+google-maps-services-location = "20.0.0"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -59,7 +62,8 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 viewpager-indicator = { module = "com.github.zhpanvip:viewpagerindicator", version.ref = "viewpager_indicator" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
-
+google-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps-services-maps" }
+google-maps-location = { module = "com.google.android.gms:play-services-location", version.ref = "google-maps-services-location" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",
