@@ -1,9 +1,9 @@
 package com.ttrip.core.entity.member;
 
 import com.ttrip.core.entity.BaseEntity;
+import com.ttrip.core.enum2.Authority;
 import com.ttrip.core.enum2.Gender;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -33,7 +33,6 @@ public class Member extends BaseEntity {
     @Column(length = 6, unique = true)
     private String nickname;
     @Column(length = 20)
-    @ColumnDefault("소개글을 입력해주세요.")
     private String intro;
     private String imagePath;
     private String fcmToken;
@@ -42,9 +41,11 @@ public class Member extends BaseEntity {
     private LocalDate birthday;
     @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
 
     @Builder
-    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation) {
+    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
         this.uuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -55,6 +56,7 @@ public class Member extends BaseEntity {
         this.gender = gender;
         this.birthday = birthday;
         this.shareLocation = shareLocation;
+        this.authority=authority;
     }
 
 
