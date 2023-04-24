@@ -28,4 +28,7 @@
     <string name="content_menu_live">실시간</string>
     <string name="content_menu_chat">채팅</string>
     <string name="content_menu_mypage">마이페이지</string>
+    <string name="content_start_login">시작하기</string>
+    <string name="content_ask_id">계정이 없으신가요?</string>
+    <string name="content_sign_up">가입하기</string>
 </resources>
