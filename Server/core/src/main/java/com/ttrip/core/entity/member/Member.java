@@ -1,27 +1,61 @@
 package com.ttrip.core.entity.member;
 
 import com.ttrip.core.entity.BaseEntity;
+import com.ttrip.core.enum2.Gender;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @Entity
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false, unique = true,columnDefinition = "char(36)")
+    @Type(type="org.hibernate.type.UUIDCharType")
+    private UUID uuid;
+    private String phoneNumber;
+    private String password;
+    @Column(length = 6, unique = true)
+    private String nickname;
+    @Column(length = 20)
+    @ColumnDefault("소개글을 입력해주세요.")
+    private String intro;
+    private String imagePath;
+    private String fcmToken;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private LocalDate birthday;
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
+    private Boolean shareLocation;
 
     @Builder
-    public Member(int id) {
-        this.id = id;
+    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation) {
+        this.uuid = uuid;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.nickname = nickname;
+        this.intro = intro;
+        this.imagePath = imagePath;
+        this.fcmToken = fcmToken;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.shareLocation = shareLocation;
     }
+
+
 }

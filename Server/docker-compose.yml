@@ -17,7 +17,7 @@ services:
     environment:
       - MYSQL_DATABASE_1=coredb
       - MYSQL_DATABASE_2=batchdb
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=root
     command: ['--character-set-server=utf8mb4',
               '--collation-server=utf8mb4_unicode_ci']
     ports:
@@ -32,7 +32,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
       SPRING_DATASOURCE_USERNAME: root  #local환경에서는 root로 변경
-      SPRING_DATASOURCE_PASSWORD:
+      SPRING_DATASOURCE_PASSWORD: root
       TZ: "Asia/Seoul"
     ports:
       - 8081:8081
@@ -81,7 +81,7 @@ services:
       - "mode=standalone"
     environment:
       TZ: "Asia/Seoul"
-      REDIS_PASSWORD:
+      REDIS_PASSWORD: root
     ports:
       - 6379:6379
     volumes:

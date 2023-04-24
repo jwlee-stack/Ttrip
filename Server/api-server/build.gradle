@@ -52,8 +52,11 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.65'
     implementation 'org.springframework.boot:spring-boot-starter-websocket:2.6.2'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // mongoDB
 
+    //jwt 관련 의존성
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 }
 
 tasks.named('test') {
