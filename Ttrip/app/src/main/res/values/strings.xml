@@ -8,7 +8,7 @@
     <string name="image_splash_ticket_back">image_splash_ticket_back</string>
     <string name="image_splash_ticket_front">image_splash_ticket_front</string>
 
-    <!-- Live -->
+    <!-- Bottom Navigation Menu -->
     <string name="content_menu_board">게시판</string>
     <string name="content_menu_live">실시간</string>
     <string name="content_menu_chat">채팅</string>
