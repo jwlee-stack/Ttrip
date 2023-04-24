@@ -11,5 +11,177 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
+        <TextView
+            android:id="@+id/tv_onboarding_puzzles1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/gmarket_sans_ttf_light"
+            android:text="@string/content_onboarding_puzzles1"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_onboarding_puzzles2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_onboarding_puzzles1">
+
+            <TextView
+                android:id="@+id/tv_onboarding_puzzles2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_onboarding_puzzles2"
+                android:textColor="@color/pear"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_onboarding_puzzles3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_light"
+                android:text="@string/content_onboarding_puzzles3"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_onboarding_task1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_onboarding_task1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_onboarding_task1"
+                android:textColor="@color/neon_blue"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_onboarding_task2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_light"
+                android:text="@string/content_onboarding_task2"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_onboarding_task2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_onboarding_task1">
+
+            <TextView
+                android:id="@+id/tv_onboarding_task3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_onboarding_task3"
+                android:textColor="@color/pear"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_onboarding_task4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_light"
+                android:text="@string/content_onboarding_task4"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_onboarding_travel1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_onboarding_travel1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_onboarding_travel1"
+                android:textColor="@color/neon_blue"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_onboarding_travel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_onboarding_travel1">
+
+            <TextView
+                android:id="@+id/tv_onboarding_travel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_onboarding_travel2"
+                android:textColor="@color/pear"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_onboarding_travel4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_light"
+                android:text="@string/content_onboarding_travel3"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_onboarding_banner"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:contentDescription="@string/image_onboarding_banner"
+            android:src="@drawable/ic_onboarding_puzzles"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

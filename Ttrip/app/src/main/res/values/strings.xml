@@ -8,6 +8,21 @@
     <string name="image_splash_ticket_back">image_splash_ticket_back</string>
     <string name="image_splash_ticket_front">image_splash_ticket_front</string>
 
+    <!-- OnBoarding -->
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
+    <string name="content_onboarding_puzzles1">내 취향에 딱 어울리는</string>
+    <string name="content_onboarding_puzzles2">여행 메이트</string>
+    <string name="content_onboarding_puzzles3">를 찾아주는</string>
+    <string name="content_onboarding_task1">계획</string>
+    <string name="content_onboarding_task2">적인 여행러부터</string>
+    <string name="content_onboarding_task3">즉흥</string>
+    <string name="content_onboarding_task4">적인 여행러까지</string>
+    <string name="content_onboarding_travel1">국내부터 해외까지</string>
+    <string name="content_onboarding_travel2">띱</string>
+    <string name="content_onboarding_travel3">과 함께 해요!</string>
+    <string name="content_onboarding_skip">Skip</string>
+    <string name="image_onboarding_button">image_onboarding_button</string>
+
     <!-- Bottom Navigation Menu -->
     <string name="content_menu_board">게시판</string>
     <string name="content_menu_live">실시간</string>
