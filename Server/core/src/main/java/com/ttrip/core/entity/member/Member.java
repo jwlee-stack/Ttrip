@@ -3,6 +3,9 @@ package com.ttrip.core.entity.member;
 import com.ttrip.core.entity.BaseEntity;
 import com.ttrip.core.enum2.Gender;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -14,33 +17,30 @@ import java.util.UUID;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @Entity
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private int id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,columnDefinition = "char(36)")
     @Type(type="org.hibernate.type.UUIDCharType")
     private UUID uuid;
-    @Column
     private String phoneNumber;
-    @Column
     private String password;
     @Column(length = 6, unique = true)
     private String nickname;
     @Column(length = 20)
+    @ColumnDefault("소개글을 입력해주세요.")
     private String intro;
-    @Column
     private String imagePath;
-    @Column
     private String fcmToken;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @Column
     private LocalDate birthday;
-    @Column
+    @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
 
     @Builder
@@ -56,4 +56,6 @@ public class Member extends BaseEntity {
         this.birthday = birthday;
         this.shareLocation = shareLocation;
     }
+
+
 }
