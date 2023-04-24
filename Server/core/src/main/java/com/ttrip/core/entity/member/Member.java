@@ -56,4 +56,6 @@ public class Member extends BaseEntity {
         this.birthday = birthday;
         this.shareLocation = shareLocation;
     }
+
+
 }
