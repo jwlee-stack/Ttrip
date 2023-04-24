@@ -7,4 +7,10 @@
     <string name="content_logo_text3">!P</string>
     <string name="image_splash_ticket_back">image_splash_ticket_back</string>
     <string name="image_splash_ticket_front">image_splash_ticket_front</string>
+
+    <!-- Bottom Navigation Menu -->
+    <string name="content_menu_board">게시판</string>
+    <string name="content_menu_live">실시간</string>
+    <string name="content_menu_chat">채팅</string>
+    <string name="content_menu_mypage">마이페이지</string>
 </resources>
