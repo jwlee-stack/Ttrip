@@ -24,7 +24,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             })
 
             tvSkipOnboarding.setOnClickListener {
-                // handle skip action
+                vpBanner.setCurrentItem(2)
             }
         }
     }
@@ -34,6 +34,9 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             ciBanner.visibility = View.GONE
             tvSkipOnboarding.visibility = View.GONE
             ivOnboardingLoader.visibility = View.GONE
+
+            llStartLogin.visibility = View.VISIBLE
+            tvStartLogin.visibility = View.VISIBLE
         }
     }
 }
