@@ -1,12 +1,13 @@
 package com.ttrip.api.dto;
 
-import com.ttrip.core.entity.article.Article;
-import lombok.Builder;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class SearchResultDto {
     private Integer articleId;
     private String authorName;
@@ -18,6 +19,5 @@ public class SearchResultDto {
     private LocalDateTime endDate;
     private LocalDateTime createdDate;
     private char status;
-
 
 }
