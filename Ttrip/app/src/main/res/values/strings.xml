@@ -22,4 +22,8 @@
     <string name="image_detail_info_call_state">image_detail_info_call_state</string>
     <string name="image_end_matching">image_end_matching</string>
     <string name="image_call_to_matching">image_call_to_matching</string>
+
+    <!-- Chat -->
+    <string name="image_chat">image_chat</string>
+    <string name="title_chat">채팅</string>
 </resources>
