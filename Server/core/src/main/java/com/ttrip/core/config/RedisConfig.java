@@ -40,6 +40,8 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
+
+    // GeoSpartial 기능 구현
     @Bean(name = "socketRedisTemplate")
     public RedisTemplate<String, Object> socketRedisTemplate(){
         RedisTemplate<String, Object> socketRedisTemplate = new RedisTemplate<>();
