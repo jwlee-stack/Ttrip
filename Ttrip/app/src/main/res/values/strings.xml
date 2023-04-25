@@ -20,4 +20,6 @@
     <string name="image_distance">image_distance</string>
     <string name="image_detail_info_match_state">image_detail_info_match_state</string>
     <string name="image_detail_info_call_state">image_detail_info_call_state</string>
+    <string name="image_end_matching">image_end_matching</string>
+    <string name="image_call_to_matching">image_call_to_matching</string>
 </resources>
