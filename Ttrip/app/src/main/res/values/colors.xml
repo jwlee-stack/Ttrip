@@ -25,5 +25,7 @@
     <color name="medium_orchid">#BB59EF</color>
     <color name="grey">#868686</color>
     <color name="dim_grey">#737373</color>
+    <color name="dim_gray"> #646464</color>
     <color name="dim_grey_transparent30">#4D696969</color>
+    <color name="whisper">#E8E8E8</color>
 </resources>
