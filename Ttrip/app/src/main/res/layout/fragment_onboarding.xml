@@ -93,6 +93,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_go_to_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gmarket_sans_ttf_medium"

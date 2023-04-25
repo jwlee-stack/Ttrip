@@ -24,7 +24,14 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             })
 
             tvSkipOnboarding.setOnClickListener {
-                vpBanner.setCurrentItem(2)
+                vpBanner.currentItem = 2
+            }
+
+            tvStartLogin.setOnClickListener {
+                navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+            }
+            tvGoToSignUp.setOnClickListener {
+                navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToSignUpFragment())
             }
         }
     }
