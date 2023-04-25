@@ -13,4 +13,13 @@
     <string name="content_menu_live">실시간</string>
     <string name="content_menu_chat">채팅</string>
     <string name="content_menu_mypage">마이페이지</string>
+
+    <!-- Live -->
+    <string name="image_call_state">image_call_state</string>
+    <string name="image_info_profile">image_info_profile</string>
+    <string name="image_distance">image_distance</string>
+    <string name="image_detail_info_match_state">image_detail_info_match_state</string>
+    <string name="image_detail_info_call_state">image_detail_info_call_state</string>
+    <string name="image_end_matching">image_end_matching</string>
+    <string name="image_call_to_matching">image_call_to_matching</string>
 </resources>
