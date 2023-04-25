@@ -22,4 +22,14 @@
     <string name="image_detail_info_call_state">image_detail_info_call_state</string>
     <string name="image_end_matching">image_end_matching</string>
     <string name="image_call_to_matching">image_call_to_matching</string>
+
+    <!-- Chat -->
+    <string name="image_chat">image_chat</string>
+    <string name="title_chat">채팅</string>
+    <string name="image_arrow_left">image_arrow_left</string>
+    <string name="image_other_profile">image_other_profile</string>
+    <string name="image_chat_matching">image_chat_matching</string>
+    <string name="content_matching">매칭</string>
+    <string name="content_chat_input_hint">메시지 보내기</string>
+    <string name="image_send_message">image_send_message</string>
 </resources>
