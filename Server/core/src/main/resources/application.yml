@@ -36,6 +36,19 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    view:
+      # html, js, css, mapper들의 위치
+      static-locations: /resource/**
+      prefix: /WEB-INF/chatt/
+      # servlet의 접두사와 접미사
+      suffix: .jsp
+  # 브라우저에서 프론트엔드 코드 수정 시 자동으로 리로드되도록 하는 설정
+  devtools:
+    livereload:
+      enabled: false
+    # 개발 중인 서버에서 FreeMarker 템플릿 캐시를 사용하지 않도록 하는 설정
+  freemarker:
+    cache: false
 
   redis:
     host: redis-db

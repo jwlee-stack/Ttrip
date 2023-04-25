@@ -50,11 +50,18 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    view:
+      # html, js, css, mapper들의 위치
+      static-locations: /resource/**
+      prefix: /WEB-INF/chatt/
+      # servlet의 접두사와 접미사
+      suffix: .jsp
 
   redis:
     host: redis-db
     port: 6379
     password: ttrip104!
+
 
 logging:
   config: classpath:log4j2.yml
