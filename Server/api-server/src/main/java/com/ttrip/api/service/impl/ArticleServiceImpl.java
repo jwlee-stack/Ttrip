@@ -32,6 +32,9 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articleList;
         List<SearchResultDto> searchResultDtoList = new ArrayList<>();
 
+        if (condition == null) {
+            return DataResDto.builder().message("잘못된 요청입니다.").status(400).data(searchResultDtoList).build();
+        }
         if (condition == 0) {
 //            전체조회
             articleList = articleRepository.findAll();
@@ -43,9 +46,11 @@ public class ArticleServiceImpl implements ArticleService {
 //                나라로 조회
                 articleList = articleRepository.findByNation(nation);
             }
-        } else {
+        } else if (condition == 2){
 //            keyword로 조회
-            articleList = articleRepository.findByTitleContaining(keyword);
+            articleList = articleRepository.findByTitleOrContentContaining(keyword, keyword);
+        } else {
+            return DataResDto.builder().message("잘못된 요청입니다.").status(400).data(searchResultDtoList).build();
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList){
@@ -68,7 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto, UUID uuid) {
+    public DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto) {
         try {
             String title = newArticleParamsDto.getTitle();
             String content = newArticleParamsDto.getContent();
@@ -76,12 +81,15 @@ public class ArticleServiceImpl implements ArticleService {
             String nation = newArticleParamsDto.getNation();
             LocalDateTime startDate = newArticleParamsDto.getStartDate();
             LocalDateTime endDate = newArticleParamsDto.getEndDate();
+            UUID uuid = newArticleParamsDto.getUuid();
+
             Member member = memberRepository.findByUuid(uuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
             Article article = new Article(title, content, nation, city, startDate, endDate, member);
+
             Article savedArticle = articleRepository.save(article);
 
             NewArticleResultDto newArticleResultDto = new NewArticleResultDto();
-
             newArticleResultDto.setArticleId(savedArticle.getId());
 
             return DataResDto.builder().message("게시글 등록이 완료되었습니다.").status(200).data(newArticleResultDto).build();
@@ -96,20 +104,23 @@ public class ArticleServiceImpl implements ArticleService {
         try {
             Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
 
-            SearchResultDto searchResultDto = new SearchResultDto();
+            Boolean isMine = uuid.equals(article.getMember().getUuid()) ? true : false;
 
-            searchResultDto.setArticleId(article.getId());
-            searchResultDto.setAuthorName(article.getMember().getNickname());
-            searchResultDto.setTitle(article.getTitle());
-            searchResultDto.setContent(article.getContent());
-            searchResultDto.setNation(article.getNation());
-            searchResultDto.setCity(article.getCity());
-            searchResultDto.setStartDate(article.getStartDate());
-            searchResultDto.setEndDate(article.getEndDate());
-            searchResultDto.setCreatedDate(article.getCreatedDate());
-            searchResultDto.setStatus(article.getStatus());
+            SearchDetailDto searchDetailDto = new SearchDetailDto();
 
-            return DataResDto.builder().message("게시글 목록이 조회되었습니다.").status(200).data(searchResultDto).build();
+            searchDetailDto.setArticleId(article.getId());
+            searchDetailDto.setAuthorName(article.getMember().getNickname());
+            searchDetailDto.setTitle(article.getTitle());
+            searchDetailDto.setContent(article.getContent());
+            searchDetailDto.setNation(article.getNation());
+            searchDetailDto.setCity(article.getCity());
+            searchDetailDto.setStartDate(article.getStartDate());
+            searchDetailDto.setEndDate(article.getEndDate());
+            searchDetailDto.setCreatedDate(article.getCreatedDate());
+            searchDetailDto.setStatus(article.getStatus());
+            searchDetailDto.setIsMine(isMine);
+
+            return DataResDto.builder().message("게시글 목록이 조회되었습니다.").status(200).data(searchDetailDto).build();
         }catch (Exception e){
             return DataResDto.builder().message("게시글 목록이 조회실패.").status(400).build();
         }
@@ -120,14 +131,14 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> ereaseArticle(Integer articleId, UUID uuid) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         if (!article.getMember().getUuid().equals(uuid)){
-            return DataResDto.builder().message("게시글 삭제:잘못된 접근입니다.").status(400).build();
+            return DataResDto.builder().message("게시글 삭제:잘못된 접근입니다.").status(400).data(false).build();
         }
         try {
 
             articleRepository.delete(article);
             return DataResDto.builder().message("게시글이 삭제되었습니다.").status(200).data(true).build();
         }catch (Exception e){
-            return DataResDto.builder().message("게시글 삭제 실패.").status(400).build();
+            return DataResDto.builder().message("게시글 삭제 실패.").status(400).data(false).build();
         }
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ArticleService {
     DataResDto<?> search(SearchParamsDto searchParamsDto);
-    DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto, UUID uuid);
+    DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto);
     DataResDto<?> searchDetail(Integer articleId, UUID uuid);
     DataResDto<?> ereaseArticle(Integer articleId, UUID uuid);
 }

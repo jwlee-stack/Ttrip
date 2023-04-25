@@ -27,7 +27,7 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 목록 조회 API", httpMethod = "POST")
     @PostMapping("/")
-    public DataResDto<?> search(@RequestBody SearchParamsDto searchParamsDto, UUID uuid) {
+    public DataResDto<?> search(@RequestBody SearchParamsDto searchParamsDto) {
         return articleService.search(searchParamsDto);
     }
 
@@ -37,8 +37,8 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 생성 API", httpMethod = "POST")
     @PostMapping("/new")
-    public DataResDto<?> newArticle(@RequestBody NewArticleParamsDto newArticleParamsDto, UUID uuid) {
-        return articleService.newArticle(newArticleParamsDto, uuid);
+    public DataResDto<?> newArticle(@RequestBody NewArticleParamsDto newArticleParamsDto) {
+        return articleService.newArticle(newArticleParamsDto);
     }
 
     @ApiResponses({
@@ -46,8 +46,8 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "게시글 상세 조회 실패")
     })
     @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
-    @GetMapping("/{articleId}")
-    public DataResDto<?> searchDetail(@PathVariable("articleId") Integer articleId, UUID uuid) {
+    @GetMapping("/{articleId}/{uuid}")
+    public DataResDto<?> searchDetail(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID uuid) {
         return articleService.searchDetail(articleId, uuid);
     }
     @ApiResponses({
@@ -55,8 +55,8 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "게시글 삭제 실패")
     })
     @ApiOperation(value = "게시글 삭제 API", httpMethod = "Delete")
-    @DeleteMapping("/{articleId}")
-    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId, UUID uuid) {
+    @DeleteMapping("/{articleId}/{uuid}")
+    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId,  @PathVariable("uuid") UUID uuid) {
         return articleService.ereaseArticle(articleId, uuid);
     }
 }
