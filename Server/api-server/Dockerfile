@@ -5,7 +5,7 @@ FROM openjdk:11 as build
 ARG JAR_FILE=./build/libs/*.jar
 
 # 지정한 jar 파일을 app.jar 라는 이름으로 Docker Container에 추가합니다.
-ADD ${JAR_FILE} app.jar
+COPY ${JAR_FILE} app.jar
 
 # app.jar 파일을 실행합니다.
 ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul", "-jar","/app.jar"]
