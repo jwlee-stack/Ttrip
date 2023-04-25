@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent70">#B3FFFFFF</color>
+    <color name="white_transparent80">#CCFFFFFF</color>
     <color name="alice_blue">#F1F8FE</color>
     <color name="white_lilac">#EEE5F3</color>
     <color name="twilight_blue">#F7FFE1</color>
@@ -24,5 +25,7 @@
     <color name="free_speech_blue">#4236BB</color>
     <color name="medium_orchid">#BB59EF</color>
     <color name="grey">#868686</color>
+    <color name="dim_grey">#737373</color>
+    <color name="dim_grey_transparent30">#4D696969</color>
     <color name="whisper">#E8E8E8</color>
 </resources>
