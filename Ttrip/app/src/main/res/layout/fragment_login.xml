@@ -93,8 +93,8 @@
                 app:layout_constraintBottom_toTopOf="@id/iv_under_line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="1234"
-                tools:ignore="LabelFor" />
+                tools:ignore="LabelFor"
+                tools:text="1234" />
 
             <TextView
                 android:id="@+id/tv_login_password"
@@ -115,16 +115,16 @@
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginBottom="20dp"
+                android:autofillHints="phone"
                 android:background="@drawable/bg_rect_white_transparent80_radius10"
                 android:elevation="10dp"
                 android:hint="@string/content_hint_password"
+                android:inputType="phone"
                 android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_login_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:hint="01012345678"
-                android:autofillHints="phone"
-                android:inputType="phone" />
+                tools:hint="01012345678" />
 
             <TextView
                 android:id="@+id/tv_login_id"
@@ -159,7 +159,6 @@
                 android:textSize="30sp"
                 app:layout_constraintBottom_toTopOf="@id/iv_upper_line"
                 app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
