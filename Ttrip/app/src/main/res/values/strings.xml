@@ -22,13 +22,26 @@
     <string name="content_onboarding_travel3">과 함께 해요!</string>
     <string name="content_onboarding_skip">Skip</string>
     <string name="image_onboarding_button">image_onboarding_button</string>
+    <string name="content_start_login">시작하기</string>
+    <string name="content_ask_id">계정이 없으신가요?</string>
+    <string name="content_sign_up">가입하기</string>
 
     <!-- Bottom Navigation Menu -->
     <string name="content_menu_board">게시판</string>
     <string name="content_menu_live">실시간</string>
     <string name="content_menu_chat">채팅</string>
     <string name="content_menu_mypage">마이페이지</string>
-    <string name="content_start_login">시작하기</string>
-    <string name="content_ask_id">계정이 없으신가요?</string>
-    <string name="content_sign_up">가입하기</string>
+
+    <!-- login -->
+    <string name="image_back_to_onboarding">image_back_to_onboarding</string>
+    <string name="image_title_login">image_title_login</string>
+    <string name="image_login_earth">image_login_earth</string>
+    <string name="content_login">로그인</string>
+    <string name="content_login_line">content_login_line</string>
+    <string name="content_text_password">PASSWORD</string>
+    <string name="content_hint_password">01012345678</string>
+    <string name="content_login_id">PHONE</string>
+    <string name="content_login_logo">TTr!p</string>
+
+
 </resources>
