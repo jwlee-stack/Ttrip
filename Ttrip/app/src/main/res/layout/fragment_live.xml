@@ -10,8 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="96dp"
         android:backgroundTint="@color/white">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map_fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -89,6 +94,7 @@
             android:id="@+id/rv_collection_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="96dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,10 +107,10 @@
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="96dp"
+            android:visibility="gone"
             android:background="@drawable/bg_rect_neon_blue_white_radius10_stroke2"
             android:paddingHorizontal="15dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -214,12 +220,5 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map_fragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
