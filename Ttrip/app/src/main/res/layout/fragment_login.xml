@@ -118,13 +118,13 @@
                 android:autofillHints="phone"
                 android:background="@drawable/bg_rect_white_transparent80_radius10"
                 android:elevation="10dp"
-                android:hint="@string/content_hint_password"
                 android:inputType="phone"
                 android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@id/tv_login_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:hint="01012345678" />
+                tools:text="01012345678"
+                tools:ignore="LabelFor" />
 
             <TextView
                 android:id="@+id/tv_login_id"
