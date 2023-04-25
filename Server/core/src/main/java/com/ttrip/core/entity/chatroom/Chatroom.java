@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Chatroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +30,12 @@ public class Chatroom {
     @JsonManagedReference
     private Article article;
 
-
-
+    @Builder
+    public Chatroom(Member member, Article article){
+        this.status = 'T';
+        this.createdAt = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
+        this.member = member;
+        this.article = article;
+    }
 }

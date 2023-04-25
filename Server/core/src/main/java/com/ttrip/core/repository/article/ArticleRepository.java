@@ -10,6 +10,7 @@ public interface ArticleRepository extends JpaRepository <Article, Integer> {
     List<Article> findAll();
     List<Article> findByNation(String nation);
     List<Article> findByCity(String city);
-    List<Article> findByTitleContaining(String keyword);
+    List<Article> findByTitleOrContentContaining(String keyword, String keyword2);
+
     Optional<Article> findById(Integer id);
 }

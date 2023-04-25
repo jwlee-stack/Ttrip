@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

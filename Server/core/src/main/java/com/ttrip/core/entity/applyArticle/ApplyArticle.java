@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ApplyArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +34,14 @@ public class ApplyArticle {
     @JoinColumn(name = "articleId")
     @JsonManagedReference
     private Article article;
+
+    @Builder
+    public ApplyArticle(String requestContent, Member member, Article article){
+        this.requestContent = requestContent;
+        this.status = 'T';
+        this.createdAt = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
+        this.member = member;
+        this.article = article;
+    }
 }
