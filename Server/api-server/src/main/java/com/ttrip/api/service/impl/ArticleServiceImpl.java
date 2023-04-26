@@ -106,7 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> searchDetail(Integer articleId, UUID uuid) {
         try {
             Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-            Boolean isMine = uuid.equals(article.getMember().getUuid()) ? true : false;
+            Boolean isMine = uuid.equals(article.getMember().getUuid());
 
             DetailResDto searchDetailDto = DetailResDto.builder()
                     .articleId(articleId)
@@ -146,9 +146,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public DataResDto<?> newApply(ApplyReqDto applyReqDto) {
-        System.out.println(applyReqDto.getArticleId());
-        System.out.println(applyReqDto.getMemberUuid());
-        System.out.println(applyReqDto.getRequestContent());
         Article article = articleRepository.findById(applyReqDto.getArticleId()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         Member member = memberRepository.findByUuid(applyReqDto.getMemberUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         if (article.getMember().getUuid().equals(applyReqDto.getMemberUuid()))
@@ -165,6 +162,53 @@ public class ArticleServiceImpl implements ArticleService {
             return DataResDto.builder().message("신청이 완료되었습니다.").data(true).build();
         } catch (Exception e){
             return DataResDto.builder().message("매칭 참여 신청 실패.").status(400).data(false).build();
+        }
+    }
+
+    @Override
+    public DataResDto<?> searchApply(Integer articleId, UUID memberUuid) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
+        List<SearchApplyResDto> searchApplyResDtoList = new ArrayList<>();
+        // 내 게시긇이면 다른사람 매칭신청을 다볼수있다
+        if (article.getMember().getUuid().equals(memberUuid)) {
+            System.out.println("asd");
+            try {
+                for (ApplyArticle applyArticle : applyArticleRepository.findByArticle(article)) {
+                    SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
+                            .applyId(applyArticle.getId())
+                            .applicantNickname(applyArticle.getMember().getNickname())
+                            .applicantUuid(applyArticle.getMember().getUuid())
+                            .requestContent(applyArticle.getRequestContent())
+                            .imgPath(applyArticle.getMember().getImagePath())
+                            .similarity(100.0f)
+                            .build();
+                    searchApplyResDtoList.add(searchApplyResDto);
+                }
+                return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
+            } catch (Exception e) {
+                return DataResDto.builder().message("신청한 유저 목록 조회 실패.").data(false).build();
+            }
+        }else {
+//            내 게시글이 아닌경우 내 매칭 신청글만 볼수있음!
+            try {
+                Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+                Optional<ApplyArticle> optionalApplyArticle = applyArticleRepository.findByArticleAndMember(article, member);
+                if(optionalApplyArticle.isPresent()) {
+                    ApplyArticle applyArticle = optionalApplyArticle.get();
+                    SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
+                            .applyId(applyArticle.getId())
+                            .applicantNickname(applyArticle.getMember().getNickname())
+                            .applicantUuid(applyArticle.getMember().getUuid())
+                            .requestContent(applyArticle.getRequestContent())
+                            .imgPath(applyArticle.getMember().getImagePath())
+                            .similarity(100.0f)
+                            .build();
+                    searchApplyResDtoList.add(searchApplyResDto);
+                }
+                return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
+            }catch (Exception e) {
+                return DataResDto.builder().message("신청한 유저 목록 조회 실패.").data(false).build();
+            }
         }
     }
 }
