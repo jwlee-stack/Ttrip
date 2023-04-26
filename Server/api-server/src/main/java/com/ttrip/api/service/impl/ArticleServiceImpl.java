@@ -2,8 +2,10 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.dto.*;
 import com.ttrip.api.service.ArticleService;
+import com.ttrip.core.entity.applyArticle.ApplyArticle;
 import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.member.Member;
+import com.ttrip.core.repository.applyArticle.ApplyArticleRepository;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
@@ -19,6 +21,9 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
 
     private final MemberRepository memberRepository;
+
+    private final ApplyArticleRepository applyArticleRepository;
+
     @Override
     public DataResDto<?> search(SearchReqDto searchReqDto) {
 
@@ -136,6 +141,30 @@ public class ArticleServiceImpl implements ArticleService {
             return DataResDto.builder().message("게시글이 삭제되었습니다.").data(true).build();
         }catch (Exception e){
             return DataResDto.builder().message("게시글 삭제 실패.").status(400).data(false).build();
+        }
+    }
+
+    @Override
+    public DataResDto<?> newApply(ApplyReqDto applyReqDto) {
+        System.out.println(applyReqDto.getArticleId());
+        System.out.println(applyReqDto.getMemberUuid());
+        System.out.println(applyReqDto.getRequestContent());
+        Article article = articleRepository.findById(applyReqDto.getArticleId()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
+        Member member = memberRepository.findByUuid(applyReqDto.getMemberUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        if (article.getMember().getUuid().equals(applyReqDto.getMemberUuid()))
+            return DataResDto.builder().message("자신의 게시글입니다.").status(400).data(false).build();
+
+        try{
+            ApplyArticle applyArticle = ApplyArticle.builder()
+                    .article(article)
+                    .status('T')
+                    .member(member)
+                    .requestContent(applyReqDto.getRequestContent())
+                    .build();
+            applyArticleRepository.save(applyArticle);
+            return DataResDto.builder().message("신청이 완료되었습니다.").data(true).build();
+        } catch (Exception e){
+            return DataResDto.builder().message("매칭 참여 신청 실패.").status(400).data(false).build();
         }
     }
 }

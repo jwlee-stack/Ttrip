@@ -1,5 +1,6 @@
 package com.ttrip.api.service;
 
+import com.ttrip.api.dto.ApplyReqDto;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.NewArticleReqDto;
 import com.ttrip.api.dto.SearchReqDto;
@@ -11,4 +12,5 @@ public interface ArticleService {
     DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto);
     DataResDto<?> searchDetail(Integer articleId, UUID uuid);
     DataResDto<?> ereaseArticle(Integer articleId, UUID uuid);
+    DataResDto<?> newApply(ApplyReqDto applyReqDto);
 }

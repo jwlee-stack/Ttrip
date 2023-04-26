@@ -1,5 +1,6 @@
 package com.ttrip.api.controller;
 
+import com.ttrip.api.dto.ApplyReqDto;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.NewArticleReqDto;
 import com.ttrip.api.dto.SearchReqDto;
@@ -57,5 +58,14 @@ public class ArticleController {
     @DeleteMapping("/{articleId}/{uuid}")
     public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId,  @PathVariable("uuid") UUID uuid) {
         return articleService.ereaseArticle(articleId, uuid);
+    }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신청이 완료되었습니다."),
+            @ApiResponse(code = 400, message = "매칭 참여 신청 실패")
+    })
+    @ApiOperation(value = "매칭 참여 신청", httpMethod = "POST")
+    @PostMapping("/newApply")
+    public DataResDto<?> newApply(@RequestBody ApplyReqDto applyReqDto) {
+        return articleService.newApply(applyReqDto);
     }
 }
