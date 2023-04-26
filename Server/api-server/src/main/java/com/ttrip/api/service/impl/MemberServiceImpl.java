@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DataResDto<?> findMemberById(Integer id) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        Member member = memberRepository.findBymemberId(id).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         return DataResDto.builder().message("example").data(member).build();
     }
 
@@ -82,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(member.getUuid().toString()) //rt_key=uuid
+                .key(member.getMemberUuid().toString()) //rt_key=uuid
                 .value(tokenDto.getRefreshToken()) //rt_value=refresh token
                 .build();
 
@@ -98,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public DataResDto<?> logout(MemberDetails memberDetails) {
         //memberDetails를 통해, 내 UUID 획득
-        String myUuid=memberDetails.getMember().getUuid().toString();
+        String myUuid=memberDetails.getMember().getMemberUuid().toString();
         //내 UUID로 리프래시 토큰 서칭
         RefreshToken refreshToken=refreshTokenRepository.findByKey(myUuid).get();
         try{
