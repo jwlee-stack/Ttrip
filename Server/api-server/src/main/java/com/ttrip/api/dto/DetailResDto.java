@@ -1,12 +1,16 @@
 package com.ttrip.api.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class SearchDetailDto {
+public class DetailResDto {
         private Integer articleId;
         private String authorName;
         private String title;
@@ -15,7 +19,7 @@ public class SearchDetailDto {
         private String city;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
-        private LocalDateTime createdDate;
+        private LocalDateTime createdAt;
         private char status;
         private Boolean isMine;
 
