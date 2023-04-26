@@ -20,7 +20,7 @@ class SignUpInformationBannerFragment :
                     binding.clUserInfoNickName,
                     binding.clUserInfoDay,
                     binding.clUserInfoSex,
-                    binding.clUserInfoSex,
+                    binding.clUserInfoProfile,
                     binding.clUserInfoSex,
                 )
 
