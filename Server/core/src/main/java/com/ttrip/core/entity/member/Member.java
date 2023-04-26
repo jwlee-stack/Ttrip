@@ -4,11 +4,9 @@ import com.ttrip.core.entity.BaseEntity;
 import com.ttrip.core.enum2.Authority;
 import com.ttrip.core.enum2.Gender;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
