@@ -84,4 +84,16 @@
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
 
+    <!-- sign_up_information -->
+    <string name="image_back_to_login">image_back_to_login</string>
+    <string name="title_user_info">회원 정보 입력</string>
+    <string name="content_user_info_next">다음</string>
+    <string name="content_user_info_nick_name">닉네임을\n입력해주세요</string>
+    <string name="content_user_info_nick_name_hint">6자 이내로 입력해주세요</string>
+    <string name="content_user_info_nick_name_check">중복체크</string>
+    <string name="content_user_info_day">생년월일을\n입력해주세요</string>
+    <string name="content_user_info_sex">성별을\n선택해주세요</string>
+    <string name="content_user_info_sex_girl">여자</string>
+    <string name="content_user_info_sex_boy">남자</string>
+
 </resources>

@@ -33,6 +33,9 @@
         android:name="org.sfy.ttrip.presentation.init.LoginFragment"
         android:label="loginFragment"
         tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_signUpInformationFragment"
+            app:destination="@id/signUpInformationFragment" />
     </fragment>
 
     <fragment
@@ -40,6 +43,13 @@
         android:name="org.sfy.ttrip.presentation.init.SignUpFragment"
         android:label="signUpFragment"
         tools:layout="@layout/fragment_sign_up">
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpInformationFragment"
+        android:name="org.sfy.ttrip.presentation.init.SignUpInformationFragment"
+        android:label="signUpInformationFragment"
+        tools:layout="@layout/fragment_sign_up_information">
     </fragment>
 
 </navigation>
