@@ -64,6 +64,15 @@
     <string name="image_detail_info_call_state">image_detail_info_call_state</string>
     <string name="image_end_matching">image_end_matching</string>
     <string name="image_call_to_matching">image_call_to_matching</string>
+    <string name="image_current_location">image_current_location</string>
+    <string name="content_request_matching">님과 동행하시겠습니까?</string>
+    <string name="content_end_matching">님과 만나셨나요?</string>
+    <string name="content_cancel">취소</string>
+    <string name="content_confirm">확인</string>
+    <string name="content_no">아니오</string>
+    <string name="content_yes">네</string>
+    <string name="content_live_toggle_off">OFF</string>
+    <string name="content_live_toggle_on">ON</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>

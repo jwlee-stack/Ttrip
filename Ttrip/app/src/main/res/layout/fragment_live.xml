@@ -10,8 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="96dp"
         android:backgroundTint="@color/white">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map_fragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -49,6 +54,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_switch_live"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
@@ -60,11 +66,13 @@
 
             <TextView
                 android:id="@+id/tv_switch_state"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:fontFamily="@font/sc_dream5"
-                android:textColor="@color/neon_blue"
+                android:gravity="center"
+                android:text="@string/content_live_toggle_off"
+                android:textColor="@color/grey"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/switch_live"
@@ -75,20 +83,33 @@
                 android:id="@+id/switch_live"
                 android:layout_width="40dp"
                 android:layout_height="20dp"
-                android:checked="true"
+                android:checked="false"
                 android:gravity="center"
                 android:thumb="@drawable/shape_switch_thumb"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:switchMinWidth="40dp"
-                app:track="@drawable/selector_switch" />
+                app:track="@drawable/selector_switch"
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/image_current_location"
+            android:onClick="onMyLocationButtonClick"
+            android:src="@drawable/ic_current_location"
+            app:layout_constraintEnd_toEndOf="@id/cl_switch_live"
+            app:layout_constraintTop_toBottomOf="@id/cl_switch_live" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_collection_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="96dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="96dp"
             android:background="@drawable/bg_rect_neon_blue_white_radius10_stroke2"
             android:paddingHorizontal="15dp"
             android:visibility="gone"

@@ -64,6 +64,9 @@ dependencies {
     annotationProcessor libs.glide.compiler
 
     implementation libs.viewpager.indicator
+
+    implementation libs.google.maps
+    implementation libs.google.maps.location
 }
 
 kapt {
