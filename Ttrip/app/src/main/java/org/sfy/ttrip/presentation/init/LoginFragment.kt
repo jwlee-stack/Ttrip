@@ -7,6 +7,14 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
 
     override fun initView() {
+        initListener()
+    }
 
+    private fun initListener() {
+        binding.apply {
+            ivBackToOnboarding.setOnClickListener {
+                popBackStack()
+            }
+        }
     }
 }

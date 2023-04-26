@@ -27,6 +27,10 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
                 vpBanner.currentItem = 2
             }
 
+            ivOnboardingLoader.setOnClickListener {
+                vpBanner.currentItem = 2
+            }
+
             tvStartLogin.setOnClickListener {
                 navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
             }
