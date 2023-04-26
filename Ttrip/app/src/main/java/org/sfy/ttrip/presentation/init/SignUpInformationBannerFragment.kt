@@ -21,7 +21,7 @@ class SignUpInformationBannerFragment :
                     binding.clUserInfoDay,
                     binding.clUserInfoSex,
                     binding.clUserInfoProfile,
-                    binding.clUserInfoSex,
+                    binding.clUserInfoTest,
                 )
 
             when (bannerPosition) {
