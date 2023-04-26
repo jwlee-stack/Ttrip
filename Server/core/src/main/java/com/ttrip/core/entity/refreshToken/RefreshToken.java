@@ -1,4 +1,4 @@
-package com.ttrip.api.entity.refreshToken;
+package com.ttrip.core.entity.refreshToken;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +16,10 @@ import javax.persistence.Table;
 public class RefreshToken {
 
     @Id
-    @Column(name = "rt_key")
+    @Column(name = "rt_key") //member의 uuid
     private String key;
 
-    @Column(name = "rt_value")
+    @Column(name = "rt_value") //리프래시 토큰
     private String value;
 
     @Builder

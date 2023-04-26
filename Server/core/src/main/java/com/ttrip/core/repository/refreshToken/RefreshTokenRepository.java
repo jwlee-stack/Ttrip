@@ -1,6 +1,6 @@
-package com.ttrip.api.repository;
+package com.ttrip.core.repository.refreshToken;
 
-import com.ttrip.api.entity.refreshToken.RefreshToken;
+import com.ttrip.core.entity.refreshToken.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

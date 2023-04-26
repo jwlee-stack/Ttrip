@@ -1,4 +1,4 @@
-package com.ttrip.core.dto.tokenDto;
+package com.ttrip.api.dto.tokenDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
