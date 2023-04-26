@@ -1,4 +1,4 @@
-package com.ttrip.api.config.security;
+package com.ttrip.api.config.jwt;
 
 import com.ttrip.api.config.jwt.JwtFilter;
 import com.ttrip.api.config.jwt.TokenProvider;
