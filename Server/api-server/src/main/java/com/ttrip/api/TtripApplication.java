@@ -1,4 +1,4 @@
-package com.ttrip.api;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.ttrip"}, exclude = SecurityAutoConfiguration.class)
-@ComponentScan("com.ttrip.core")
-@ComponentScan("com.ttrip.api")
+//@ComponentScan("com.ttrip.core")
+//@ComponentScan("com.ttrip.api")
+@ComponentScan(basePackages = {"com.ttrip.core","com.ttrip.api"})
 @EntityScan({"com.ttrip.core", "com.ttrip.api"})
 @EnableJpaRepositories("com.ttrip.core")
 @EnableJpaAuditing
