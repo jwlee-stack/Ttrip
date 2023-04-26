@@ -1,3 +1,2 @@
-package com.ttrip.api.dto.memberRequestDto;
-public class MemberSignupRequestDto {
+package com.ttrip.api.dto.memberRequestDto;public class memberSignupRequestDto {
 }
