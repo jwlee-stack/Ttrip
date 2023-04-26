@@ -1,8 +1,8 @@
 package com.ttrip.core.entity.member;
 
 import com.ttrip.core.entity.BaseEntity;
-import com.ttrip.core.enum2.Authority;
-import com.ttrip.core.enum2.Gender;
+import com.ttrip.core.customEnum.Authority;
+import com.ttrip.core.customEnum.Gender;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,7 +13,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
+//@ToString(callSuper = true)
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @DynamicInsert
@@ -40,11 +41,11 @@ public class Member extends BaseEntity {
     private LocalDate birthday;
     @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
 
     @Builder
-    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
+    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
         this.uuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
