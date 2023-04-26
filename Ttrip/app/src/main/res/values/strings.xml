@@ -90,5 +90,10 @@
     <string name="content_user_info_introduction_hint">20자 이내로 입력해주세요</string>
     <string name="content_user_info_profile_photo">content_user_info_profile_photo</string>
     <string name="content_user_info_profile_photo_black">content_user_info_profile_photo_black</string>
+    <string name="title_user_info_test">취향 테스트</string>
+    <string name="content_user_info_test">비슷한 취향의 여행 메이트를 추천해드려요!</string>
+    <string name="content_test_disagree">비동의</string>
+    <string name="content_test_agree">동의</string>
+    <string name="image_test_check">image_test_check</string>
 
 </resources>
