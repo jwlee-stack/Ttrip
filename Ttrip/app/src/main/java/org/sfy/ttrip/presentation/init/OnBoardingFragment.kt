@@ -30,7 +30,6 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             ivOnboardingLoader.setOnClickListener {
                 vpBanner.currentItem = 2
             }
-
         }
     }
 

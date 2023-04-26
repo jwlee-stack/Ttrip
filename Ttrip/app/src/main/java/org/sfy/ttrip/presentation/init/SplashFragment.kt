@@ -14,8 +14,4 @@ class SplashFragment :
             navigate(SplashFragmentDirections.actionSplashFragmentToOnboardingFragment())
         }
     }
-
-    fun goToOnBoarding(){
-        navigate(SplashFragmentDirections.actionSplashFragmentToOnboardingFragment())
-    }
 }
