@@ -46,24 +46,24 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "게시글 상세 조회 실패")
     })
     @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
-    @GetMapping("/{articleId}/{uuid}")
-    public DataResDto<?> searchDetail(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID uuid) {
-        return articleService.searchDetail(articleId, uuid);
+    @GetMapping("/{articleId}/{memberUuid}")
+    public DataResDto<?> searchDetail(@PathVariable("articleId") Integer articleId, @PathVariable("memberUuid") UUID memberUuid) {
+        return articleService.searchDetail(articleId, memberUuid);
     }
     @ApiResponses({
             @ApiResponse(code = 200, message = "게시글 삭제 성공"),
             @ApiResponse(code = 400, message = "게시글 삭제 실패")
     })
     @ApiOperation(value = "게시글 삭제 API", httpMethod = "Delete")
-    @DeleteMapping("/{articleId}/{uuid}")
-    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID uuid) {
-        return articleService.ereaseArticle(articleId, uuid);
+    @DeleteMapping("/{articleId}/{memberUuid}")
+    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+        return articleService.ereaseArticle(articleId, memberUuid);
     }
     @ApiResponses({
             @ApiResponse(code = 200, message = "신청이 완료되었습니다."),
             @ApiResponse(code = 400, message = "매칭 참여 신청 실패")
     })
-    @ApiOperation(value = "매칭 참여 신청", httpMethod = "POST")
+    @ApiOperation(value = "매칭 참여 신청 API", httpMethod = "POST")
     @PostMapping("/newApply")
     public DataResDto<?> newApply(@RequestBody ApplyReqDto applyReqDto) {
         return articleService.newApply(applyReqDto);
@@ -73,17 +73,17 @@ public class ArticleController {
             @ApiResponse(code = 400, message = "신청한 유저 목록이 조회 실패")
     })
     @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
-    @GetMapping("/{articleId}/applyArticle/{uuid}")
-    public DataResDto<?> searchApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID uuid) {
-        return articleService.searchApply(articleId, uuid);
+    @GetMapping("/{articleId}/applyArticle/{memberUuid}")
+    public DataResDto<?> searchApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+        return articleService.searchApply(articleId, memberUuid);
     }
     @ApiResponses({
             @ApiResponse(code = 200, message = "모집이 종료되었습니다."),
             @ApiResponse(code = 400, message = "모집 종료 실패")
     })
-    @ApiOperation(value = "매칭 참여 신청", httpMethod = "POST")
-    @PostMapping("/{articleId}/end/{uuid}")
-    public DataResDto<?> newApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+    @ApiOperation(value = "모집 종료 신청 API", httpMethod = "POST")
+    @PostMapping("/{articleId}/end/{memberUuid}")
+    public DataResDto<?> endArticle(@PathVariable("articleId") Integer articleId, @PathVariable("memberUuid") UUID memberUuid) {
         return articleService.endArticle(articleId, memberUuid);
     }
 }
