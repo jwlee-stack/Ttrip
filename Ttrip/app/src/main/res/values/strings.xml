@@ -23,7 +23,7 @@
     <string name="content_onboarding_skip">Skip</string>
     <string name="image_onboarding_button">image_onboarding_button</string>
     <string name="content_start_login">시작하기</string>
-    <string name="content_ask_id">계정이 없으신가요?</string>
+    <string name="content_ask_id">계정이 없으신가요? </string>
     <string name="content_sign_up">가입하기</string>
 
     <!-- Bottom Navigation Menu -->
