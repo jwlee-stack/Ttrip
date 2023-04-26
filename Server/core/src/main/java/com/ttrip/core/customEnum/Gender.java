@@ -1,4 +1,4 @@
-package com.ttrip.core.enum2;
+package com.ttrip.core.customEnum;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
