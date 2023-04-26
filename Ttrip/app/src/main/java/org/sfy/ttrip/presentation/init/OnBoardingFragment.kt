@@ -31,12 +31,6 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
                 vpBanner.currentItem = 2
             }
 
-            tvStartLogin.setOnClickListener {
-                navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
-            }
-            tvGoToSignUp.setOnClickListener {
-                navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToSignUpFragment())
-            }
         }
     }
 
@@ -45,9 +39,6 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             ciBanner.visibility = View.GONE
             tvSkipOnboarding.visibility = View.GONE
             ivOnboardingLoader.visibility = View.GONE
-
-            llStartLogin.visibility = View.VISIBLE
-            tvStartLogin.visibility = View.VISIBLE
         }
     }
 }

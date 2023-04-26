@@ -60,6 +60,17 @@ class OnBoardingBannerFragment :
                         llOnboardingTravel2.visibility = View.VISIBLE
 
                         (parentFragment as OnBoardingFragment).eraseIndicator()
+
+                        llStartLogin.visibility = View.VISIBLE
+                        tvStartLogin.visibility = View.VISIBLE
+
+                        tvStartLogin.setOnClickListener {
+                            navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+                        }
+
+                        tvGoToSignUp.setOnClickListener {
+                            navigate(OnBoardingFragmentDirections.actionOnboardingFragmentToSignUpFragment())
+                        }
                     }
                 }
                 else -> {}
