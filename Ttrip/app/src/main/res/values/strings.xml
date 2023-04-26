@@ -95,5 +95,9 @@
     <string name="content_user_info_sex">성별을\n선택해주세요</string>
     <string name="content_user_info_sex_girl">여자</string>
     <string name="content_user_info_sex_boy">남자</string>
+    <string name="content_user_info_profile">프로필 사진과\n소개말을 등록해주세요</string>
+    <string name="content_user_info_introduction_hint">20자 이내로 입력해주세요</string>
+    <string name="content_user_info_profile_photo">content_user_info_profile_photo</string>
+    <string name="content_user_info_profile_photo_black">content_user_info_profile_photo_black</string>
 
 </resources>
