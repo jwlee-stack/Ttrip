@@ -84,4 +84,15 @@
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
 
+    <!-- MyPage -->
+    <string name="image_profile_background">image_profile_background</string>
+    <string name="image_edit_profile_background">image_edit_profile_background</string>
+    <string name="image_profile_img">image_profile_img</string>
+    <string name="image_edit_profile_img">image_edit_profile_img</string>
+    <string name="image_certification_badge">image_certification_badge</string>
+    <string name="image_profile_certificate">image_profile_certificate</string>
+    <string name="image_edit_profile">image_edit_profile</string>
+    <string name="content_get_my_posts">내 게시글 보기</string>
+    <string name="content_get_my_badges">뱃지 보기</string>
+    <string name="content_test_again">취향 테스트 다시하기</string>
 </resources>
