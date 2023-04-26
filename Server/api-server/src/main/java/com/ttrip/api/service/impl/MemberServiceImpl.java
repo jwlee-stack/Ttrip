@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DataResDto<?> findMemberById(Integer id) {
-        Member member = memberRepository.findBymemberId(id).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        Member member = memberRepository.findByMemberId(id).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         return DataResDto.builder().message("example").data(member).build();
     }
 
