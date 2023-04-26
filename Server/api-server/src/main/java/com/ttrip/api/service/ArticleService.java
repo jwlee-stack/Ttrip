@@ -11,4 +11,5 @@ public interface ArticleService {
     DataResDto<?> ereaseArticle(Integer articleId, UUID uuid);
     DataResDto<?> newApply(ApplyReqDto applyReqDto);
     DataResDto<?> searchApply(Integer articleId, UUID memberUuid);
+    DataResDto<?> endArticle(Integer articleId, UUID memberUuid);
 }

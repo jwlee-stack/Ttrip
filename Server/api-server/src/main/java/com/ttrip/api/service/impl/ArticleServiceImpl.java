@@ -211,4 +211,21 @@ public class ArticleServiceImpl implements ArticleService {
             }
         }
     }
+
+    @Override
+    public DataResDto<?> endArticle(Integer articleId, UUID memberUuid) {
+        Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        Optional<Article> optionalArticle = articleRepository.findById(articleId);
+        if (!optionalArticle.isPresent()){
+            return DataResDto.builder().message("존재하지않는 게시글입니다.").status(400).data(false).build();
+        }
+        Article article = optionalArticle.get();
+        if (member.equals(article.getMember()) && article.getStatus()== 'T'){
+            article.setStatus('F');
+            articleRepository.save(article);
+            return DataResDto.builder().message("모집이 종료되었습니다.").data(true).build();
+        }else {
+            return DataResDto.builder().message("모집 종료실패.").status(400).data(false).build();
+        }
+    }
 }

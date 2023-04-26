@@ -77,4 +77,13 @@ public class ArticleController {
     public DataResDto<?> searchApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID uuid) {
         return articleService.searchApply(articleId, uuid);
     }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "모집이 종료되었습니다."),
+            @ApiResponse(code = 400, message = "모집 종료 실패")
+    })
+    @ApiOperation(value = "매칭 참여 신청", httpMethod = "POST")
+    @PostMapping("/{articleId}/end/{uuid}")
+    public DataResDto<?> newApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+        return articleService.endArticle(articleId, memberUuid);
+    }
 }
