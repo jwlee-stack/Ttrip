@@ -9,9 +9,7 @@ import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,15 +20,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final MemberRepository memberRepository;
     @Override
-    public DataResDto<?> search(SearchParamsDto searchParamsDto) {
+    public DataResDto<?> search(SearchReqDto searchReqDto) {
 
-        Integer condition = searchParamsDto.getCondition();
-        String nation = searchParamsDto.getNation();
-        String city = searchParamsDto.getCity();
-        String keyword = searchParamsDto.getKeyword();
+        Integer condition = searchReqDto.getCondition();
+        String nation = searchReqDto.getNation();
+        String city = searchReqDto.getCity();
+        String keyword = searchReqDto.getKeyword();
 
         List<Article> articleList;
-        List<SearchResultDto> searchResultDtoList = new ArrayList<>();
+        List<SearchRestDto> searchResultDtoList = new ArrayList<>();
 
         if (condition == null) {
             return DataResDto.builder().message("잘못된 요청입니다.").status(400).data(searchResultDtoList).build();
@@ -54,45 +52,45 @@ public class ArticleServiceImpl implements ArticleService {
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList){
-            SearchResultDto searchResultDto = new SearchResultDto();
-
-            searchResultDto.setArticleId(article.getId());
-            searchResultDto.setAuthorName(article.getMember().getNickname());
-            searchResultDto.setTitle(article.getTitle());
-            searchResultDto.setContent(article.getContent());
-            searchResultDto.setNation(article.getNation());
-            searchResultDto.setCity(article.getCity());
-            searchResultDto.setStartDate(article.getStartDate());
-            searchResultDto.setEndDate(article.getEndDate());
-            searchResultDto.setCreatedDate(article.getCreatedDate());
-            searchResultDto.setStatus(article.getStatus());
+            SearchRestDto searchResultDto = SearchRestDto.builder()
+                    .articleId(article.getId())
+                    .authorName(article.getMember().getNickname())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .nation(article.getNation())
+                    .city(article.getCity())
+                    .status(article.getStatus())
+                    .startDate(article.getStartDate())
+                    .endDate(article.getEndDate())
+                    .build();
 
             searchResultDtoList.add(searchResultDto);
         }
-        return DataResDto.builder().message("게시글 목록이 조회되었습니다.").status(200).data(searchResultDtoList).build();
+        return DataResDto.builder().message("게시글 목록이 조회되었습니다.").data(searchResultDtoList).build();
     }
 
     @Override
-    public DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto) {
+    public DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto) {
         try {
-            String title = newArticleParamsDto.getTitle();
-            String content = newArticleParamsDto.getContent();
-            String city = newArticleParamsDto.getCity();
-            String nation = newArticleParamsDto.getNation();
-            LocalDateTime startDate = newArticleParamsDto.getStartDate();
-            LocalDateTime endDate = newArticleParamsDto.getEndDate();
-            UUID uuid = newArticleParamsDto.getUuid();
-
-            Member member = memberRepository.findByUuid(uuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-
-            Article article = new Article(title, content, nation, city, startDate, endDate, member);
+            UUID memberUuid = newArticleReqDto.getUuid();
+            Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            Article article = Article.builder()
+                    .title(newArticleReqDto.getTitle())
+                    .content(newArticleReqDto.getContent())
+                    .city(newArticleReqDto.getCity())
+                    .nation(newArticleReqDto.getNation())
+                    .startDate(newArticleReqDto.getStartDate())
+                    .endDate(newArticleReqDto.getEndDate())
+                    .member(member)
+                    .status('T')
+                    .build();
 
             Article savedArticle = articleRepository.save(article);
 
-            NewArticleResultDto newArticleResultDto = new NewArticleResultDto();
+            NewArticleResDto newArticleResultDto = new NewArticleResDto();
             newArticleResultDto.setArticleId(savedArticle.getId());
 
-            return DataResDto.builder().message("게시글 등록이 완료되었습니다.").status(200).data(newArticleResultDto).build();
+            return DataResDto.builder().message("게시글 등록이 완료되었습니다.").data(newArticleResultDto).build();
         }catch (Exception e){
             return DataResDto.builder().message("게시글 등록에 실패했습니다.").status(400).build();
         }
@@ -103,24 +101,23 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> searchDetail(Integer articleId, UUID uuid) {
         try {
             Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-
             Boolean isMine = uuid.equals(article.getMember().getUuid()) ? true : false;
 
-            SearchDetailDto searchDetailDto = new SearchDetailDto();
+            DetailResDto searchDetailDto = DetailResDto.builder()
+                    .articleId(articleId)
+                    .authorName(article.getMember().getNickname())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .nation(article.getNation())
+                    .city(article.getCity())
+                    .startDate(article.getStartDate())
+                    .endDate(article.getEndDate())
+                    .createdAt(article.getCreatedAt())
+                    .status(article.getStatus())
+                    .isMine(isMine)
+                    .build();
 
-            searchDetailDto.setArticleId(article.getId());
-            searchDetailDto.setAuthorName(article.getMember().getNickname());
-            searchDetailDto.setTitle(article.getTitle());
-            searchDetailDto.setContent(article.getContent());
-            searchDetailDto.setNation(article.getNation());
-            searchDetailDto.setCity(article.getCity());
-            searchDetailDto.setStartDate(article.getStartDate());
-            searchDetailDto.setEndDate(article.getEndDate());
-            searchDetailDto.setCreatedDate(article.getCreatedDate());
-            searchDetailDto.setStatus(article.getStatus());
-            searchDetailDto.setIsMine(isMine);
-
-            return DataResDto.builder().message("게시글 목록이 조회되었습니다.").status(200).data(searchDetailDto).build();
+            return DataResDto.builder().message("게시글 목록이 조회되었습니다.").data(searchDetailDto).build();
         }catch (Exception e){
             return DataResDto.builder().message("게시글 목록이 조회실패.").status(400).build();
         }
@@ -128,15 +125,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public DataResDto<?> ereaseArticle(Integer articleId, UUID uuid) {
+    public DataResDto<?> ereaseArticle(Integer articleId, UUID memberUuid) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-        if (!article.getMember().getUuid().equals(uuid)){
+        if (!article.getMember().getUuid().equals(memberUuid)){
             return DataResDto.builder().message("게시글 삭제:잘못된 접근입니다.").status(400).data(false).build();
         }
         try {
 
             articleRepository.delete(article);
-            return DataResDto.builder().message("게시글이 삭제되었습니다.").status(200).data(true).build();
+            return DataResDto.builder().message("게시글이 삭제되었습니다.").data(true).build();
         }catch (Exception e){
             return DataResDto.builder().message("게시글 삭제 실패.").status(400).data(false).build();
         }

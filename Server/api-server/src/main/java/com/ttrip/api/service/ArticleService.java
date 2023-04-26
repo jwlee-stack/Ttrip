@@ -1,14 +1,14 @@
 package com.ttrip.api.service;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.NewArticleParamsDto;
-import com.ttrip.api.dto.SearchParamsDto;
+import com.ttrip.api.dto.NewArticleReqDto;
+import com.ttrip.api.dto.SearchReqDto;
 
 import java.util.UUID;
 
 public interface ArticleService {
-    DataResDto<?> search(SearchParamsDto searchParamsDto);
-    DataResDto<?> newArticle(NewArticleParamsDto newArticleParamsDto);
+    DataResDto<?> search(SearchReqDto searchReqDto);
+    DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto);
     DataResDto<?> searchDetail(Integer articleId, UUID uuid);
     DataResDto<?> ereaseArticle(Integer articleId, UUID uuid);
 }

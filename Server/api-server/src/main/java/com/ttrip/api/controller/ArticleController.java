@@ -1,11 +1,10 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.NewArticleParamsDto;
-import com.ttrip.api.dto.SearchParamsDto;
+import com.ttrip.api.dto.NewArticleReqDto;
+import com.ttrip.api.dto.SearchReqDto;
 import com.ttrip.api.service.ArticleService;
 import io.swagger.annotations.Api;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,8 +26,8 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 목록 조회 API", httpMethod = "POST")
     @PostMapping("/")
-    public DataResDto<?> search(@RequestBody SearchParamsDto searchParamsDto) {
-        return articleService.search(searchParamsDto);
+    public DataResDto<?> search(@RequestBody SearchReqDto searchReqDto) {
+        return articleService.search(searchReqDto);
     }
 
     @ApiResponses({
@@ -37,8 +36,8 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 생성 API", httpMethod = "POST")
     @PostMapping("/new")
-    public DataResDto<?> newArticle(@RequestBody NewArticleParamsDto newArticleParamsDto) {
-        return articleService.newArticle(newArticleParamsDto);
+    public DataResDto<?> newArticle(@RequestBody NewArticleReqDto newArticleReqDto) {
+        return articleService.newArticle(newArticleReqDto);
     }
 
     @ApiResponses({
