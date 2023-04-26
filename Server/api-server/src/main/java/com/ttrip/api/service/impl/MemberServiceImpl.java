@@ -2,7 +2,7 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
+import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
@@ -57,7 +57,7 @@ public class MemberServiceImpl implements MemberService {
         {
             return DataResDto.builder()
                     .message("회원가입이 완료되었습니다.")
-                    .data(member)
+                    .data(MemberResDto.toBuild(member,null))
                     .build();
         }
         else
@@ -92,7 +92,7 @@ public class MemberServiceImpl implements MemberService {
 
         return DataResDto.builder()
                 .message("토큰 생성 완료")
-                .data(MemberLoginResDto.toBuild(member,tokenDto))
+                .data(MemberResDto.toBuild(member,tokenDto))
                 .build();
     }
     @Override
