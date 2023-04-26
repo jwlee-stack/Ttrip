@@ -2,10 +2,12 @@ package org.sfy.ttrip.presentation.init
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
+import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentOnboardingBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
+@AndroidEntryPoint
 class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.fragment_onboarding) {
 
     override fun initView() {
@@ -15,7 +17,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
     private fun initBanner() {
         binding.apply {
             vpBanner.adapter = OnBoardingAdapter(this@OnBoardingFragment)
-            ciBanner.setViewPager(binding.vpBanner)
+            ciBanner.setViewPager(vpBanner)
 
             vpBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
