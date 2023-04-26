@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             searchResultDtoList.add(searchResultDto);
         }
-        throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
+        return DataResDto.builder().message("게시글 목록이 조회되었습니다.").data(searchResultDtoList).build();
     }
 
     @Override
