@@ -61,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList){
             SearchRestDto searchResultDto = SearchRestDto.builder()
-                    .articleId(article.getId())
+                    .articleId(article.getArticleId())
                     .authorName(article.getMember().getNickname())
                     .title(article.getTitle())
                     .content(article.getContent())
@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             searchResultDtoList.add(searchResultDto);
         }
-        throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+        throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
     }
 
     @Override
@@ -96,11 +96,11 @@ public class ArticleServiceImpl implements ArticleService {
             Article savedArticle = articleRepository.save(article);
 
             NewArticleResDto newArticleResultDto = new NewArticleResDto();
-            newArticleResultDto.setArticleId(savedArticle.getId());
+            newArticleResultDto.setArticleId(savedArticle.getArticleId());
 
             return DataResDto.builder().message("게시글 등록이 완료되었습니다.").data(newArticleResultDto).build();
         }catch (Exception e){
-            throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+            throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
         }
 
     }
@@ -108,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public DataResDto<?> searchDetail(Integer articleId, UUID memberUuid) {
         try {
-            Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
+            Article article = articleRepository.findByArticleId(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
             Boolean isMine = memberUuid.equals(article.getMember().getUuid());
 
             DetailResDto searchDetailDto = DetailResDto.builder()
@@ -127,7 +127,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             return DataResDto.builder().message("게시글 목록이 조회되었습니다.").data(searchDetailDto).build();
         }catch (Exception e){
-            throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+            throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
         }
     }
 
@@ -143,7 +143,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleRepository.delete(article);
             return DataResDto.builder().message("게시글이 삭제되었습니다.").data(true).build();
         }catch (Exception e){
-            throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+            throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ public class ArticleServiceImpl implements ArticleService {
             applyArticleRepository.save(applyArticle);
             return DataResDto.builder().message("신청이 완료되었습니다.").data(true).build();
         } catch (Exception e){
-            throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+            throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
         }
     }
 
@@ -178,7 +178,7 @@ public class ArticleServiceImpl implements ArticleService {
             try {
                 for (ApplyArticle applyArticle : applyArticleRepository.findByArticle(article)) {
                     SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
-                            .applyId(applyArticle.getId())
+                            .applyId(applyArticle.getApplyArticleId())
                             .applicantNickname(applyArticle.getMember().getNickname())
                             .applicantUuid(applyArticle.getMember().getUuid())
                             .requestContent(applyArticle.getRequestContent())
@@ -189,7 +189,7 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
             } catch (Exception e) {
-                throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+                throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
             }
         }else {
 //            내 게시글이 아닌경우 내 매칭 신청글만 볼수있음!
@@ -199,7 +199,7 @@ public class ArticleServiceImpl implements ArticleService {
                 if(optionalApplyArticle.isPresent()) {
                     ApplyArticle applyArticle = optionalApplyArticle.get();
                     SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
-                            .applyId(applyArticle.getId())
+                            .applyId(applyArticle.getApplyArticleId())
                             .applicantNickname(applyArticle.getMember().getNickname())
                             .applicantUuid(applyArticle.getMember().getUuid())
                             .requestContent(applyArticle.getRequestContent())
@@ -210,7 +210,7 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
             }catch (Exception e) {
-                throw new BadRequestException(ErrorMessageEnum.SEVER_ERROR.getMessage());
+                throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
             }
         }
     }

@@ -56,7 +56,7 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 삭제 API", httpMethod = "Delete")
     @DeleteMapping("/{articleId}/{memberUuid}")
-    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+    public DataResDto<?> ereaseArticle(@PathVariable("articleId") Integer articleId, @PathVariable("memberUuid") UUID memberUuid) {
         return articleService.ereaseArticle(articleId, memberUuid);
     }
     @ApiResponses({
@@ -74,7 +74,7 @@ public class ArticleController {
     })
     @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
     @GetMapping("/{articleId}/applyArticle/{memberUuid}")
-    public DataResDto<?> searchApply(@PathVariable("articleId") Integer articleId, @PathVariable("uuid") UUID memberUuid) {
+    public DataResDto<?> searchApply(@PathVariable("articleId") Integer articleId, @PathVariable("memberUuid") UUID memberUuid) {
         return articleService.searchApply(articleId, memberUuid);
     }
     @ApiResponses({

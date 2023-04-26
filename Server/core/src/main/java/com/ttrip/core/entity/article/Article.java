@@ -22,7 +22,8 @@ import java.util.List;
 public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", nullable = false)
+    private Integer articleId;
     private String title;
     private String content;
     private String nation;

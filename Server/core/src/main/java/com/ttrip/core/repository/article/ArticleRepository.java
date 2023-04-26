@@ -11,5 +11,5 @@ public interface ArticleRepository extends JpaRepository <Article, Integer> {
     List<Article> findByNation(String nation);
     List<Article> findByCity(String city);
     List<Article> findByTitleOrContentContaining(String keyword, String keyword2);
-    Optional<Article> findById(Integer id);
+    Optional<Article> findByArticleId(Integer id);
 }

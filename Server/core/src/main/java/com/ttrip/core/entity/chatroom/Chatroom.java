@@ -18,7 +18,8 @@ import javax.persistence.*;
 public class Chatroom extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id", nullable = false)
+    private Integer chatRoomId;
     private char status;
     @ManyToOne
     @JoinColumn(name = "memberId")
