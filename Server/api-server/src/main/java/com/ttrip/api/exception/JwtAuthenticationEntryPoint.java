@@ -1,4 +1,4 @@
-package com.ttrip.api.config.jwt;
+package com.ttrip.api.exception;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

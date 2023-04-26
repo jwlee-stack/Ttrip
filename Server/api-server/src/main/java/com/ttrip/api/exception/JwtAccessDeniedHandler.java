@@ -1,4 +1,4 @@
-package com.ttrip.api.config.jwt;
+package com.ttrip.api.exception;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
