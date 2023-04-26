@@ -1,23 +1,20 @@
-package com.ttrip.api.dto.memberDto.memberResponseDto;
+package com.ttrip.api.dto.memberDto.memberResDto;
 
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.core.entity.member.Member;
-import com.ttrip.core.enum2.Gender;
+import com.ttrip.core.customEnum.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberLoginResponseDto {
+public class MemberResDto {
     //private Member member;
     private String phoneNumber;
     private String nickname;
@@ -29,10 +26,9 @@ public class MemberLoginResponseDto {
     private Boolean shareLocation;
     private TokenDto tokenDto;
 
-
-    public static MemberLoginResponseDto toBuild(Member member, TokenDto tokenDto)
+    public static MemberResDto toBuild(Member member, TokenDto tokenDto)
     {
-        return MemberLoginResponseDto.builder()
+        return MemberResDto.builder()
                 .phoneNumber(member.getPhoneNumber())
                 .nickname(member.getNickname())
                 .intro(member.getIntro())

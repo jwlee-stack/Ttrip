@@ -1,4 +1,4 @@
-package com.ttrip.api.dto.memberDto.memberRequestDto;
+package com.ttrip.api.dto.memberDto.memberReqDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberLoginRequestDto {
+public class MemberLoginReqDto {
     private String phoneNumber;
     private String password;
 
