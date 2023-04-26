@@ -8,11 +8,53 @@
     <string name="image_splash_ticket_back">image_splash_ticket_back</string>
     <string name="image_splash_ticket_front">image_splash_ticket_front</string>
 
+    <!-- OnBoarding -->
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
+    <string name="content_onboarding_puzzles1">내 취향에 딱 어울리는</string>
+    <string name="content_onboarding_puzzles2">여행 메이트</string>
+    <string name="content_onboarding_puzzles3">를 찾아주는</string>
+    <string name="content_onboarding_task1">계획</string>
+    <string name="content_onboarding_task2">적인 여행러부터</string>
+    <string name="content_onboarding_task3">즉흥</string>
+    <string name="content_onboarding_task4">적인 여행러까지</string>
+    <string name="content_onboarding_travel1">국내부터 해외까지</string>
+    <string name="content_onboarding_travel2">띱</string>
+    <string name="content_onboarding_travel3">과 함께 해요!</string>
+    <string name="content_onboarding_skip">Skip</string>
+    <string name="image_onboarding_button">image_onboarding_button</string>
+    <string name="content_start_login">시작하기</string>
+    <string name="content_ask_id">계정이 없으신가요? </string>
+    <string name="content_sign_up">가입하기</string>
+
     <!-- Bottom Navigation Menu -->
     <string name="content_menu_board">게시판</string>
     <string name="content_menu_live">실시간</string>
     <string name="content_menu_chat">채팅</string>
     <string name="content_menu_mypage">마이페이지</string>
+
+    <!-- login -->
+    <string name="image_back_to_onboarding">image_back_to_onboarding</string>
+    <string name="image_title_login">image_title_login</string>
+    <string name="image_login_earth">image_login_earth</string>
+    <string name="content_login">로그인</string>
+    <string name="content_login_line">content_login_line</string>
+    <string name="content_text_password">PASSWORD</string>
+    <string name="content_hint_password">01012345678</string>
+    <string name="content_login_id">PHONE</string>
+    <string name="content_login_logo">TTr!p</string>
+    <string name="content_sign_up_user">회원가입</string>
+    <string name="content_phone_number">휴대폰 번호</string>
+    <string name="content_phone_number_check">휴대폰 번호 인증</string>
+    <string name="content_sign_up_password">비밀번호</string>
+    <string name="content_sign_up_check">비밀번호 확인</string>
+    <string name="content_sign_up_password_not_valid">비밀번호가 일치하지 않습니다.</string>
+    <string name="content_declaration_title1">신고</string>
+    <string name="content_declaration_title2">가 접수된 회원입니다.</string>
+    <string name="content_declaration_title3">소명하시려면 내용을 작성해주세요.</string>
+    <string name="content_declaration_phone">phone</string>
+    <string name="content_declaration_content">소명내용</string>
+    <string name="content_declaration_submit">확인</string>
+    <string name="content_declaration_cancel">취소</string>
 
     <!-- Live -->
     <string name="image_call_state">image_call_state</string>
@@ -32,4 +74,5 @@
     <string name="content_matching">매칭</string>
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
+
 </resources>
