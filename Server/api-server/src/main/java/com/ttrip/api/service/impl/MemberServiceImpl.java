@@ -2,6 +2,7 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
@@ -148,5 +149,24 @@ public class MemberServiceImpl implements MemberService {
                 .message("토큰 재생성 완료")
                 .data(tokenDto)
                 .build();
+    }
+
+    public DataResDto<?> checkNickname(String nickname)
+    {
+        if(memberRepository.existsByNickname(nickname))
+        {
+            return DataResDto.builder()
+                    .message("존재하는 닉네임입니다.")
+                    .data(MemberCheckNicknameResDto.builder().isExist(true).build())
+                    .build();
+        }
+        else
+        {
+            return DataResDto.builder()
+                    .message("사용 가능한 닉네임입니다.")
+                    .data(MemberCheckNicknameResDto.builder().isExist(false).build())
+                    .build();
+        }
+
     }
 }

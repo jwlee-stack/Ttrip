@@ -50,4 +50,9 @@ public class MemberController {
         return memberService.logout(memberDetails);
     }
 
+    @GetMapping("/{nickname}/exists")
+    public DataResDto<?> checkNickname(@PathVariable String nickname)
+    {
+        return memberService.checkNickname(nickname);
+    }
 }

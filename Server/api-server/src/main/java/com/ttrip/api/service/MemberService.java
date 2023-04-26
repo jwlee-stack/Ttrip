@@ -12,4 +12,6 @@ public interface MemberService {
     DataResDto<?> login(MemberLoginReqDto memberLoginReqDto);
     DataResDto<?> logout(MemberDetails memberDetails);
     DataResDto<?> reissue(TokenReqDto tokenReqDto);
+
+    DataResDto<?> checkNickname(String nickname);
 }
