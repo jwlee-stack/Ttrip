@@ -80,6 +80,20 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         binding.ivCurrentLocation.setOnClickListener {
             getDeviceLocation()
         }
+        binding.switchLive.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.tvSwitchState.apply {
+                    setText(R.string.content_live_toggle_on)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.neon_blue))
+                    showToast("LIVE 모드가 시작됩니다.")
+                }
+            } else {
+                binding.tvSwitchState.apply {
+                    setText(R.string.content_live_toggle_off)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+                }
+            }
+        }
     }
 
     private fun setMapView() {

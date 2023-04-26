@@ -29,6 +29,8 @@
     <string name="content_confirm">확인</string>
     <string name="content_no">아니오</string>
     <string name="content_yes">네</string>
+    <string name="content_live_toggle_off">OFF</string>
+    <string name="content_live_toggle_on">ON</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
