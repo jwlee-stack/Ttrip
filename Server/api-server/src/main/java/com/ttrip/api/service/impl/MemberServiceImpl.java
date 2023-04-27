@@ -36,12 +36,6 @@ public class MemberServiceImpl implements MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
-    public DataResDto<?> findMemberById(Integer id) {
-        Member member = memberRepository.findByMemberId(id).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-        return DataResDto.builder().message("example").data(member).build();
-    }
-
-    @Override
     @Transactional
     public DataResDto<?> signup(MemberSignupReqDto memberSignupReqDto)
     {

@@ -26,11 +26,6 @@ public class MemberController {
             @ApiResponse(code = 400, message = "존재하지 않는 회원일 경우")
     })
     @ApiOperation(value = "유저 프로필 이미지 조회 API")
-    @GetMapping("/")
-    public DataResDto<?> getMemberExample() {
-
-        return memberService.findMemberById(1);
-    }
 
     @PostMapping
     public DataResDto<?> signup(@RequestBody MemberSignupReqDto memberSignupReqDto)
