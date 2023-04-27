@@ -52,8 +52,8 @@ services:
     build: ./batch-server
     environment:
       SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/batchdb?useUnicode=true
-      SPRING_BATCH_DB_DATASOURCE_USERNAME: ttrip104!
-      SPRING_BATCH_DB_DATASOURCE_PASSWORD: root
+      SPRING_BATCH_DB_DATASOURCE_USERNAME: root
+      SPRING_BATCH_DB_DATASOURCE_PASSWORD: ttrip104!
       SPRING_CORE_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
       SPRING_CORE_DB_DATASOURCE_USERNAME: root
       SPRING_CORE_DATASOURCE_PASSWORD: ttrip104!
