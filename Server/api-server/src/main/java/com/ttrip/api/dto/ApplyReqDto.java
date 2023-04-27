@@ -5,7 +5,6 @@ import java.util.UUID;
 
 @Data
 public class ApplyReqDto {
-    private UUID memberUuid;
     private Integer articleId;
     private String requestContent;
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchRestDto {
+public class SearchResDto {
     private Integer articleId;
     private String authorName;
     private String title;
