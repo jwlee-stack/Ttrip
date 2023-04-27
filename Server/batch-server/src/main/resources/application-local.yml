@@ -3,9 +3,9 @@ spring:
     datasource:
       jdbc-url: jdbc:mariadb://ttrip-db:3306/batchdb  #test코드 실행할 때는 localhost로 변경
       username: root
-      password:
+      password: ttrip104!
   core-db:
     datasource:
       jdbc-url: jdbc:mariadb://ttrip-db:3306/coredb  #test코드 실행할 때는 localhost로 변경
       username: root
-      password:
+      password: ttrip104!

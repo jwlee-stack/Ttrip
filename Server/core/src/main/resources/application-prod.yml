@@ -3,7 +3,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://ttrip-db:3306/coredb
     username: root
-    password:
+    password: ttrip104!
 
   jpa:
     hibernate:

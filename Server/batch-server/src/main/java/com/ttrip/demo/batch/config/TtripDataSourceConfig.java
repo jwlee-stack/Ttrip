@@ -30,7 +30,7 @@ public class TtripDataSourceConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean ttripEntityManager() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(campinityDataSource());
+        em.setDataSource(ttripDataSource());
         em.setPackagesToScan("com.ttrip.core.entity");
         em.setPersistenceUnitName("ttripEntityManager");
 
@@ -50,12 +50,12 @@ public class TtripDataSourceConfig {
 
     @Bean
     @ConfigurationProperties(prefix="spring.ttrip-db.datasource")
-    public DataSource campinityDataSource() {
+    public DataSource ttripDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
-    public PlatformTransactionManager campinityTransactionManager() {
+    public PlatformTransactionManager ttripTransactionManager() {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(ttripEntityManager().getObject());
         return transactionManager;

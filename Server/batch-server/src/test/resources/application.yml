@@ -35,7 +35,7 @@ spring:
   redis:
     host: redis-db
     port: 6379
-    password:
+    password: ttrip104!
 
   jpa:
     open-in-view: false
