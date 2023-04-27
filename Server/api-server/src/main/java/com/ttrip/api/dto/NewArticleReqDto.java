@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Data
 public class NewArticleReqDto {
-    private UUID uuid;
     private String title;
     private String content;
     private String nation;

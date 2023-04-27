@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public interface ArticleService {
     DataResDto<?> search(SearchReqDto searchReqDto);
-    DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto);
+    DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto, UUID memberUuid);
     DataResDto<?> searchDetail(Integer articleId, UUID memberUuid);
-    DataResDto<?> ereaseArticle(Integer articleId, UUID memberUuid);
-    DataResDto<?> newApply(ApplyReqDto applyReqDto);
+    DataResDto<?> eraseArticle(Integer articleId, UUID memberUuid);
+    DataResDto<?> newApply(ApplyReqDto applyReqDto, UUID memberUuid);
     DataResDto<?> searchApply(Integer articleId, UUID memberUuid);
     DataResDto<?> endArticle(Integer articleId, UUID memberUuid);
 }

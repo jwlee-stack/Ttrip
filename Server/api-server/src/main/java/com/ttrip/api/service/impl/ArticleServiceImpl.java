@@ -36,7 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
         String keyword = searchReqDto.getKeyword();
 
         List<Article> articleList;
-        List<SearchRestDto> searchResultDtoList = new ArrayList<>();
+        List<SearchResDto> searchResultDtoList = new ArrayList<>();
 
         if (condition == null) {
             throw new BadRequestException(ErrorMessageEnum.UNEXPECT_VALUE.getMessage());
@@ -60,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList){
-            SearchRestDto searchResultDto = SearchRestDto.builder()
+            SearchResDto searchResultDto = SearchResDto.builder()
                     .articleId(article.getArticleId())
                     .authorName(article.getMember().getNickname())
                     .title(article.getTitle())
@@ -78,9 +78,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto) {
+    public DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto, UUID memberUuid) {
         try {
-            UUID memberUuid = newArticleReqDto.getUuid();
             Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
             Article article = Article.builder()
                     .title(newArticleReqDto.getTitle())
@@ -133,7 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public DataResDto<?> ereaseArticle(Integer articleId, UUID memberUuid) {
+    public DataResDto<?> eraseArticle(Integer articleId, UUID memberUuid) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         if (!article.getMember().getMemberUuid().equals(memberUuid)){
             throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH.getMessage());
@@ -148,10 +147,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public DataResDto<?> newApply(ApplyReqDto applyReqDto) {
+    public DataResDto<?> newApply(ApplyReqDto applyReqDto, UUID memberUuid) {
         Article article = articleRepository.findById(applyReqDto.getArticleId()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-        Member member = memberRepository.findByMemberUuid(applyReqDto.getMemberUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-        if (article.getMember().getMemberUuid().equals(applyReqDto.getMemberUuid()))
+        Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        if (article.getMember().getMemberUuid().equals(memberUuid))
             throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH.getMessage());
 
         try{
