@@ -58,6 +58,4 @@ public class Member extends BaseEntity {
         this.shareLocation = shareLocation;
         this.authority=authority;
     }
-
-
 }

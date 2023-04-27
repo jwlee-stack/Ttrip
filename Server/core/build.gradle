@@ -5,7 +5,6 @@ buildscript {
 }
 
 plugins {
-
     id 'java'
 }
 
@@ -29,6 +28,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -50,6 +50,7 @@ dependencies {
 
     //Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     //fcm
     implementation 'com.google.firebase:firebase-admin:9.1.1'
     implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
@@ -60,6 +61,11 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'   // log4j2
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'   // log4j2
+
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl:1.2'
+
 }
 
 test {
@@ -97,5 +103,3 @@ compileQuerydsl{
 configurations {
     querydsl.extendsFrom compileClasspath
 }
-
-

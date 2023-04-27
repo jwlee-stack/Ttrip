@@ -38,7 +38,7 @@ public class TtripDataSourceConfig {
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, String> properties = new HashMap<>();
         properties.put("hibernate.ddl-auto", ddl);
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
         properties.put("hibernate.implicit_naming_strategy",
                 "org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl");
         properties.put("hibernate.physical_naming_strategy",
