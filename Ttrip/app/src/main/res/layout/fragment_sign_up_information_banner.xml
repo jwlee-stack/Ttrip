@@ -201,7 +201,6 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_user_info_profile_photo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_user_info_test"
             android:layout_width="match_parent"
@@ -256,6 +255,5 @@
                 tools:listitem="@layout/list_item_user_info_test" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
