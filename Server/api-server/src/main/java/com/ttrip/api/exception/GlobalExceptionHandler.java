@@ -41,9 +41,12 @@ public class GlobalExceptionHandler {
     public DataResDto<?> handleMethodArgumentTypeNotMismatch(MethodArgumentTypeMismatchException exception) {
         return DataResDto.builder().status(400).message(exception.getMessage()).build();
     }
-
     @ExceptionHandler(UnsupportedAudioFileException.class)
     public DataResDto<?> handleUnSupportedAudioFileException(UnsupportedAudioFileException exception) {
         return DataResDto.builder().status(400).message(exception.getMessage()).build();
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public DataResDto<?> handleUnSupportedAudioFileException(RuntimeException exception) {
+        return DataResDto.builder().status(500).message("unexpected Exception").build();
     }
 }
