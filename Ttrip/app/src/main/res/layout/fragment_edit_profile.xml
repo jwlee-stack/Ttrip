@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/image_arrow_left"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/sc_dream6"
+            android:text="@string/title_edit_profile"
+            android:textColor="@color/honey_suckle"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="25dp"
+            android:background="@drawable/bg_rect_white_radius20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_edit_profile">
+
+            <TextView
+                android:id="@+id/tv_ttrip_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/pacifico_regular"
+                android:text="@string/title_logo_ttrip"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_dash_line"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@string/image_dash_line"
+                android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+                app:layout_constraintTop_toBottomOf="@id/tv_ttrip_logo" />
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/gmarket_sans_ttf_bold"
+                android:text="@string/title_edit_profile_nickname"
+                android:textColor="@color/neon_blue"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_dash_line" />
+
+            <EditText
+                android:id="@+id/et_nickname"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="text"
+                android:background="@drawable/bg_rect_black_white_radius10_stroke1"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:hint="@string/content_user_info_nick_name_hint"
+                android:inputType="text"
+                android:paddingVertical="12dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tv_check_duplication"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_rect_honey_suckle_radius40"
+                android:fontFamily="@font/sc_dream5"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="5dp"
+                android:text="@string/content_user_info_nick_name_check"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="@id/et_nickname"
+                app:layout_constraintEnd_toEndOf="@id/et_nickname"
+                app:layout_constraintTop_toTopOf="@id/et_nickname" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:text="@string/content_enable_nickname"
+                android:textColor="@color/old_rose"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/et_nickname"
+                app:layout_constraintTop_toBottomOf="@id/et_nickname"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/gmarket_sans_ttf_bold"
+                android:text="@string/title_edit_profile_birthday"
+                android:textColor="@color/neon_blue"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/et_nickname"
+                app:layout_constraintTop_toBottomOf="@id/et_nickname" />
+
+            <EditText
+                android:id="@+id/et_birthday"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="text"
+                android:background="@drawable/bg_rect_black_white_radius10_stroke1"
+                android:enabled="false"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:inputType="text"
+                android:paddingVertical="12dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_birthday"
+                app:layout_constraintTop_toBottomOf="@id/tv_birthday"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tv_select_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_rect_honey_suckle_radius40"
+                android:fontFamily="@font/sc_dream5"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="5dp"
+                android:text="@string/content_select_date"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="@id/et_birthday"
+                app:layout_constraintEnd_toEndOf="@id/et_birthday"
+                app:layout_constraintTop_toTopOf="@id/et_birthday" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/gmarket_sans_ttf_bold"
+                android:text="@string/title_edit_profile_gender"
+                android:textColor="@color/neon_blue"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/et_birthday"
+                app:layout_constraintTop_toBottomOf="@id/et_birthday" />
+
+            <TextView
+                android:id="@+id/tv_gender_female"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/bg_rect_whisper_radius10"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:gravity="center"
+                android:text="@string/content_gender_female"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/tv_gender"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender" />
+
+            <TextView
+                android:id="@+id/tv_gender_male"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_rect_whisper_radius10"
+                android:elevation="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:gravity="center"
+                android:text="@string/content_gender_male"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/tv_gender_female"
+                app:layout_constraintTop_toTopOf="@id/tv_gender_female" />
+
+            <TextView
+                android:id="@+id/tv_introduction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/gmarket_sans_ttf_bold"
+                android:text="@string/title_edit_profile_introduction"
+                android:textColor="@color/neon_blue"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/tv_gender_female"
+                app:layout_constraintTop_toBottomOf="@id/tv_gender_female" />
+
+            <EditText
+                android:id="@+id/et_introduction"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="20dp"
+                android:autofillHints="text"
+                android:background="@drawable/bg_rect_black_white_radius10_stroke1"
+                android:elevation="5dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:inputType="text"
+                android:lineSpacingExtra="5dp"
+                android:maxLines="2"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="12dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_introduction"
+                app:layout_constraintTop_toBottomOf="@id/tv_introduction"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/bg_rect_honey_suckle_radius10"
+                android:fontFamily="@font/sc_dream5"
+                android:gravity="center"
+                android:text="@string/content_logout"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/et_introduction"
+                app:layout_constraintStart_toStartOf="@id/et_introduction"
+                app:layout_constraintTop_toBottomOf="@id/et_introduction" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
