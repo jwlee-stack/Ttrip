@@ -85,12 +85,8 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - type: bind
-        source: ./redis.conf
-        target: /usr/local/etc/redis/redis.conf
-      - type: volume
-        source: redis-data
-        target: /data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - redis-data:/data
     networks:
       ttrip_bridge:
         ipv4_address: 172.35.0.13
