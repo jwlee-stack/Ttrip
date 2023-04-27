@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -21,6 +22,7 @@ public class RedisConfig {
     private String redisHost;
     @Value("${spring.redis.password}")
     private String password;
+
     @Bean
     @Primary
     public RedisConnectionFactory redisConnectionFactory() {
@@ -40,7 +42,16 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
-
+    @Bean(name = "liveRedisTemplate")
+    public RedisTemplate<String, Object> liveRedisTemplate(){
+        RedisTemplate<String, Object> liveRedisTemplate = new RedisTemplate<>();
+        liveRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        liveRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        liveRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        liveRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        liveRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return liveRedisTemplate;
+    }
     // GeoSpartial 기능 구현
     @Bean(name = "socketRedisTemplate")
     public RedisTemplate<String, Object> socketRedisTemplate(){
