@@ -95,6 +95,7 @@
     <string name="content_get_my_posts">내 게시글 보기</string>
     <string name="content_get_my_badges">뱃지 보기</string>
     <string name="content_test_again">취향 테스트 다시하기</string>
+    <string name="content_logout">로그아웃</string>
 
     <!-- sign_up_information -->
     <string name="image_back_to_login">image_back_to_login</string>
@@ -116,5 +117,4 @@
     <string name="content_test_disagree">비동의</string>
     <string name="content_test_agree">동의</string>
     <string name="image_test_check">image_test_check</string>
-
 </resources>
