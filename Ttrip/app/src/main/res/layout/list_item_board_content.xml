@@ -84,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sc_dream4"
                     android:text="@string/content_ticket_date"
+                    android:textSize="11sp"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -93,6 +94,7 @@
                     android:background="@drawable/bg_rect_alice_blue_radius10"
                     android:fontFamily="@font/sc_dream4"
                     android:padding="6dp"
+                    android:textSize="14sp"
                     android:textColor="@color/royal_blue"
                     tools:text="2023/04/07 ~ 2023/05/03" />
 
@@ -100,6 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textSize="11sp"
                     android:fontFamily="@font/sc_dream4"
                     android:text="@string/content_ticket_destination"
                     android:textColor="@color/black" />
@@ -111,6 +114,7 @@
                     android:background="@drawable/bg_rect_alice_blue_radius10"
                     android:fontFamily="@font/sc_dream4"
                     android:padding="6dp"
+                    android:textSize="14sp"
                     android:textColor="@color/royal_blue"
                     tools:text="태국-방콕" />
             </androidx.appcompat.widget.LinearLayoutCompat>
