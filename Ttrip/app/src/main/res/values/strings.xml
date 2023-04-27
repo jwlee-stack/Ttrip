@@ -84,6 +84,19 @@
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
 
+    <!-- MyPage -->
+    <string name="image_profile_background">image_profile_background</string>
+    <string name="image_edit_profile_background">image_edit_profile_background</string>
+    <string name="image_profile_img">image_profile_img</string>
+    <string name="image_edit_profile_img">image_edit_profile_img</string>
+    <string name="image_certification_badge">image_certification_badge</string>
+    <string name="image_profile_certificate">image_profile_certificate</string>
+    <string name="image_edit_profile">image_edit_profile</string>
+    <string name="content_get_my_posts">내 게시글 보기</string>
+    <string name="content_get_my_badges">뱃지 보기</string>
+    <string name="content_test_again">취향 테스트 다시하기</string>
+    <string name="content_logout">로그아웃</string>
+
     <!-- sign_up_information -->
     <string name="image_back_to_login">image_back_to_login</string>
     <string name="title_user_info">회원 정보 입력</string>
@@ -105,4 +118,23 @@
     <string name="content_test_agree">동의</string>
     <string name="image_test_check">image_test_check</string>
 
+    <!-- Edit Profile -->
+    <string name="image_dash_line">image_dash_line</string>
+    <string name="title_edit_profile">프로필 수정</string>
+    <string name="title_logo_ttrip">TTr!P</string>
+    <string name="title_edit_profile_nickname">닉네임</string>
+    <string name="content_enable_nickname">사용할 수 있는 닉네임입니다.</string>
+    <string name="title_edit_profile_birthday">생년월일</string>
+    <string name="content_select_date">날짜 선택</string>
+    <string name="title_edit_profile_gender">성별</string>
+    <string name="content_gender_female">여자</string>
+    <string name="content_gender_male">남자</string>
+    <string name="title_edit_profile_introduction">소개글</string>
+    <string name="title_certificate_profile">프로필 인증</string>
+
+    <!-- Certification -->
+    <string name="image_recent_profile_image">image_recent_profile_image</string>
+    <string name="image_input_user_img">image_input_user_img</string>
+    <string name="image_certificate_profile_camera">image_certificate_profile_camera</string>
+    <string name="content_confirm_certificate_profile">본인 인증</string>
 </resources>

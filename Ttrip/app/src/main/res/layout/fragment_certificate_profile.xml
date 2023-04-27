@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/image_arrow_left"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/sc_dream6"
+            android:text="@string/title_certificate_profile"
+            android:textColor="@color/honey_suckle"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_recent_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:contentDescription="@string/image_recent_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_edit_profile" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="55dp"
+            android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            android:contentDescription="@string/image_input_user_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_recent_profile_image" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_camera_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_certificate_profile_camera"
+            android:src="@drawable/ic_certificate_profile_camera"
+            app:layout_constraintBottom_toBottomOf="@id/iv_input_image_2"
+            app:layout_constraintEnd_toEndOf="@id/iv_input_image_2"
+            app:layout_constraintStart_toStartOf="@id/iv_input_image_2"
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_2" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            android:contentDescription="@string/image_input_user_img"
+            app:layout_constraintEnd_toStartOf="@id/iv_input_image_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_2" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_camera_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_certificate_profile_camera"
+            android:src="@drawable/ic_certificate_profile_camera"
+            app:layout_constraintBottom_toBottomOf="@id/iv_input_image_1"
+            app:layout_constraintEnd_toEndOf="@id/iv_input_image_1"
+            app:layout_constraintStart_toStartOf="@id/iv_input_image_1"
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_1" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            android:contentDescription="@string/image_input_user_img"
+            app:layout_constraintStart_toEndOf="@id/iv_input_image_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_2" />
+
+        <ImageView
+            android:id="@+id/iv_input_image_camera_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_certificate_profile_camera"
+            android:src="@drawable/ic_certificate_profile_camera"
+            app:layout_constraintBottom_toBottomOf="@id/iv_input_image_3"
+            app:layout_constraintEnd_toEndOf="@id/iv_input_image_3"
+            app:layout_constraintStart_toStartOf="@id/iv_input_image_3"
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_rect_honey_suckle_radius10"
+            android:fontFamily="@font/sc_dream5"
+            android:gravity="center"
+            android:text="@string/content_confirm_certificate_profile"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="55dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
