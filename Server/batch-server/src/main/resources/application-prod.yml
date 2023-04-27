@@ -3,12 +3,12 @@ spring:
     datasource:
       jdbc-url: jdbc:mariadb://ttrip-db:3306/batchdb
       username: root
-      password:
+      password: ttrip104!
   core-db:
     datasource:
       jdbc-url: jdbc:mariadb://ttrip-db:3306/coredb
       username: root
-      password:
+      password: ttrip104!
 
   jpa:
     hibernate:
