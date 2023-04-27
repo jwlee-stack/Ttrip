@@ -11,9 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.VisibleRegion
+import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
@@ -61,7 +59,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
             map.apply {
                 isMyLocationEnabled = true
                 uiSettings.isMyLocationButtonEnabled = false
-                uiSettings.isCompassEnabled = false
+                setMaxZoomPreference(20f)
+                setMinZoomPreference(5f)
             }
         }
     }
