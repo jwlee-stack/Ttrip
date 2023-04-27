@@ -84,4 +84,25 @@
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
 
+    <!-- sign_up_information -->
+    <string name="image_back_to_login">image_back_to_login</string>
+    <string name="title_user_info">회원 정보 입력</string>
+    <string name="content_user_info_next">다음</string>
+    <string name="content_user_info_nick_name">닉네임을\n입력해주세요</string>
+    <string name="content_user_info_nick_name_hint">6자 이내로 입력해주세요</string>
+    <string name="content_user_info_nick_name_check">중복체크</string>
+    <string name="content_user_info_day">생년월일을\n입력해주세요</string>
+    <string name="content_user_info_sex">성별을\n선택해주세요</string>
+    <string name="content_user_info_sex_girl">여자</string>
+    <string name="content_user_info_sex_boy">남자</string>
+    <string name="content_user_info_profile">프로필 사진과\n소개말을 등록해주세요</string>
+    <string name="content_user_info_introduction_hint">20자 이내로 입력해주세요</string>
+    <string name="content_user_info_profile_photo">content_user_info_profile_photo</string>
+    <string name="content_user_info_profile_photo_black">content_user_info_profile_photo_black</string>
+    <string name="title_user_info_test">취향 테스트</string>
+    <string name="content_user_info_test">비슷한 취향의 여행 메이트를 추천해드려요!</string>
+    <string name="content_test_disagree">비동의</string>
+    <string name="content_test_agree">동의</string>
+    <string name="image_test_check">image_test_check</string>
+
 </resources>

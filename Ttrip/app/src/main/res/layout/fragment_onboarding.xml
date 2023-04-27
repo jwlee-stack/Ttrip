@@ -31,6 +31,7 @@
             app:ci_animator="@anim/ani_banner_ci"
             app:ci_drawable="@drawable/ic_indicator_selected"
             app:ci_drawable_unselected="@drawable/ic_indicator_unselected"
+            app:ci_width="20dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_skip_onboarding"
             app:layout_constraintStart_toStartOf="parent" />
 
