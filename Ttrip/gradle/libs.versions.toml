@@ -35,6 +35,7 @@ work-runtime-ktx = "2.7.1"
 
 google-maps-services-maps = "18.0.2"
 google-maps-services-location = "20.0.0"
+google-maps-services-directions = "2.2.0"
 
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -67,7 +68,7 @@ viewpager-indicator = { module = "com.github.zhpanvip:viewpagerindicator", versi
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 google-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "google-maps-services-maps" }
 google-maps-location = { module = "com.google.android.gms:play-services-location", version.ref = "google-maps-services-location" }
-
+google-maps-directions = { module = "com.google.maps:google-maps-services", version.ref = "google-maps-services-directions" }
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",
     "androidx-fragment-ktx", "androidx-lifecycle-extensions"]
