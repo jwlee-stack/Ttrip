@@ -1,7 +1,9 @@
 package com.ttrip.api.config.jwt;
 
 import com.ttrip.api.dto.tokenDto.TokenDto;
+import com.ttrip.api.exception.UnauthorizationException;
 import com.ttrip.api.service.impl.CustomUserDetailsService;
+import com.ttrip.core.utils.ErrorMessageEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,6 +20,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -75,7 +78,7 @@ public class TokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH_TOKEN.getMessage());
         }
 
         // 클레임에서 권한 정보 가져오기

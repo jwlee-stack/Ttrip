@@ -12,6 +12,7 @@ public enum ErrorMessageEnum {
     SERVER_ERROR("원인을 알 수 없습니다"),
     EXISTS_ACCOUNT("이미 가입한 유저입니다."),
     FAIL_TO_LOGOUT("리프래시 토큰 삭제 실패"),
+    NO_AUTH_TOKEN("권한 정보가 없는 토큰입니다."),
     FAIL_TO_SIGNUP("회원가입 실패");
     private String message;
 
