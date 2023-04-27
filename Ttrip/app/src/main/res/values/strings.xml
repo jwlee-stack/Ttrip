@@ -121,6 +121,10 @@
     <string name="image_select_location">image_select_location</string>
     <string name="image_post_board">image_post_board</string>
     <string name="image_search_board">image_search_board</string>
+    <string name="image_ticket_dash_line">image_ticket_dash_line</string>
+    <string name="content_ticket_date">DATE</string>
+    <string name="content_ticket_destination">DESTINATION</string>
+    <string name="image_ticket_airplane">image_ticket_airplane</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
