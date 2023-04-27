@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_marginBottom="25dp"
-                android:contentDescription="@string/content_login_line"
+                android:contentDescription="@string/image_login_line"
                 android:layerType="software"
                 android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
                 app:layout_constraintBottom_toTopOf="@id/tv_login" />
@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_marginBottom="25dp"
-                android:contentDescription="@string/content_login_line"
+                android:contentDescription="@string/image_login_line"
                 android:layerType="software"
                 android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
                 app:layout_constraintBottom_toTopOf="@id/tv_login_id" />

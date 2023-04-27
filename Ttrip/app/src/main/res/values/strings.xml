@@ -37,7 +37,7 @@
     <string name="image_title_login">image_title_login</string>
     <string name="image_login_earth">image_login_earth</string>
     <string name="content_login">로그인</string>
-    <string name="content_login_line">content_login_line</string>
+    <string name="image_login_line">content_login_line</string>
     <string name="content_text_password">PASSWORD</string>
     <string name="content_hint_password">01012345678</string>
     <string name="content_login_id">PHONE</string>
@@ -117,6 +117,10 @@
     <string name="content_test_disagree">비동의</string>
     <string name="content_test_agree">동의</string>
     <string name="image_test_check">image_test_check</string>
+    <string name="title_board_category">전체</string>
+    <string name="image_select_location">image_select_location</string>
+    <string name="image_post_board">image_post_board</string>
+    <string name="image_search_board">image_search_board</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
