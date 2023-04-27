@@ -54,9 +54,9 @@ services:
       SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/batchdb?useUnicode=true
       SPRING_BATCH_DB_DATASOURCE_USERNAME: root #local환경에서는 root로 변경
       SPRING_BATCH_DB_DATASOURCE_PASSWORD: root
-      SPRING_CAMPINITY_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
-      SPRING_CAMPINITY_DB_DATASOURCE_USERNAME: root #local환경에서는 root로 변경
-      SPRING_CAMPINITY_DATASOURCE_PASSWORD: root
+      SPRING_CORE_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
+      SPRING_CORE_DB_DATASOURCE_USERNAME: root #local환경에서는 root로 변경
+      SPRING_CORE_DATASOURCE_PASSWORD: root
       TZ: "Asia/Seoul"
     ports:
       - 8082:8082
