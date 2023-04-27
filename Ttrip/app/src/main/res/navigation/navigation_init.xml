@@ -47,9 +47,9 @@
 
     <fragment
         android:id="@+id/signUpInformationFragment"
-        android:name="org.sfy.ttrip.presentation.init.SignUpInformationFragment"
+        android:name="org.sfy.ttrip.presentation.init.SignUpInfoFragment"
         android:label="signUpInformationFragment"
-        tools:layout="@layout/fragment_sign_up_information">
+        tools:layout="@layout/fragment_sign_up_info">
     </fragment>
 
 </navigation>

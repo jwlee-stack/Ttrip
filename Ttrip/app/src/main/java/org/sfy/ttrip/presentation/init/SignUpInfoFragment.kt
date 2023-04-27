@@ -4,12 +4,12 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
-import org.sfy.ttrip.databinding.FragmentSignUpInformationBinding
+import org.sfy.ttrip.databinding.FragmentSignUpInfoBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 @AndroidEntryPoint
-class SignUpInformationFragment :
-    BaseFragment<FragmentSignUpInformationBinding>(R.layout.fragment_sign_up_information) {
+class SignUpInfoFragment :
+    BaseFragment<FragmentSignUpInfoBinding>(R.layout.fragment_sign_up_info) {
 
     private val viewModel by viewModels<UserInfoViewModel>()
 
@@ -20,7 +20,7 @@ class SignUpInformationFragment :
 
     private fun initBanner() {
         binding.apply {
-            vpBannerInfo.adapter = SignUpAdapter(this@SignUpInformationFragment)
+            vpBannerInfo.adapter = SignUpAdapter(this@SignUpInfoFragment)
             ciBannerInfo.setViewPager(vpBannerInfo)
 
             vpBannerInfo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

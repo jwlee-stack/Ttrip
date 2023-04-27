@@ -3,18 +3,17 @@ package org.sfy.ttrip.presentation.init
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.sfy.ttrip.R
-import org.sfy.ttrip.databinding.FragmentSignUpInformationBannerBinding
+import org.sfy.ttrip.databinding.FragmentSignUpInfoBannerBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
-class SignUpInformationBannerFragment :
-    BaseFragment<FragmentSignUpInformationBannerBinding>(R.layout.fragment_sign_up_information_banner) {
+class SignUpInfoBannerFragment :
+    BaseFragment<FragmentSignUpInfoBannerBinding>(R.layout.fragment_sign_up_info_banner) {
 
     private var bannerPosition = -1
 
     override fun initView() {
         bannerPosition = arguments?.getInt("banner_position")!!
         with(bannerPosition) {
-
             val bannerData =
                 listOf(
                     binding.clUserInfoNickName,
@@ -45,7 +44,7 @@ class SignUpInformationBannerFragment :
     }
 
     private fun changeVisibility(position: Int, bannerData: List<ConstraintLayout>) {
-        for (i: Int in 0..4) {
+        for (i in 0..4) {
             bannerData[i].visibility = View.GONE
         }
         bannerData[position].visibility = View.VISIBLE

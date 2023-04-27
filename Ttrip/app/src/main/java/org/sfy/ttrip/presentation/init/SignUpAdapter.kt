@@ -9,7 +9,7 @@ class SignUpAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 5
 
     override fun createFragment(position: Int): Fragment {
-        return SignUpInformationBannerFragment().apply {
+        return SignUpInfoBannerFragment().apply {
             arguments = Bundle().apply {
                 putInt("banner_position", position)
             }
