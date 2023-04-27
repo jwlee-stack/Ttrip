@@ -9,110 +9,196 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="210dp"
+        android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="22dp"
-            android:background="@drawable/bg_rect_white_smoke_radius20">
+            android:layout_height="180dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/bg_rect_white_radius20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_user_info_test_subject"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_ticket_top"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_rect_royal_blue_top_radius20"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_board_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sc_dream5"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gl_ticket_dash_line_top"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="방콕 여행 가시는분 계신가요?" />
+
+                <TextView
+                    android:id="@+id/tv_board_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sc_dream5"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/gainsboro"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/gl_ticket_dash_line_top"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="16:00" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_ticket_dash_line_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    app:layout_constraintGuide_percent="0.75" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="@font/sc_dream6"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="번화한 도시보다 자연풍경이 좋다" />
-
-            <TextView
-                android:id="@+id/tv_disagree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:fontFamily="@font/sc_dream5"
-                android:text="@string/content_test_disagree"
-                android:textColor="@color/neon_blue"
-                android:textSize="14sp"
+                android:layout_height="0dp"
+                android:layout_marginStart="18dp"
+                android:gravity="center|left"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/gl_ticket_dash_line"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_info_test_subject" />
+                app:layout_constraintTop_toBottomOf="@+id/cl_ticket_top"
+                tools:ignore="RtlHardcoded">
 
-            <TextView
-                android:id="@+id/tv_agree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/sc_dream5"
-                android:text="@string/content_test_agree"
-                android:textColor="@color/neon_blue"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_info_test_subject" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sc_dream4"
+                    android:text="@string/content_ticket_date"
+                    android:textColor="@color/black" />
 
-            <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_rect_alice_blue_radius10"
+                    android:fontFamily="@font/sc_dream4"
+                    android:padding="6dp"
+                    android:textColor="@color/royal_blue"
+                    tools:text="2023/04/07 ~ 2023/05/03" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/sc_dream4"
+                    android:text="@string/content_ticket_destination"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_rect_alice_blue_radius10"
+                    android:fontFamily="@font/sc_dream4"
+                    android:padding="6dp"
+                    android:textColor="@color/royal_blue"
+                    tools:text="태국-방콕" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_ticket_d_day"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="15dp"
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/bg_rect_alice_blue_radius10"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_agree"
-                app:layout_constraintStart_toEndOf="@+id/tv_disagree"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_info_test_subject">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_dash_line_vertical"
+                app:layout_constraintTop_toBottomOf="@id/cl_ticket_top">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
-                    android:id="@+id/iv_user_info_test_check1"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/image_test_check"
-                    android:src="@drawable/ic_circle_check_test" />
+                    android:id="@+id/iv_ticket_d_day_airplane"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/image_ticket_airplane"
+                    android:src="@drawable/ic_airplane_blue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_user_info_test_check2"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/image_test_check"
-                    android:src="@drawable/ic_circle_check_test" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/sc_dream6"
+                    android:gravity="center"
+                    android:rotation="90"
+                    android:textColor="@color/royal_blue"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_ticket_d_day_airplane"
+                    tools:text="D-3" />
 
-                <ImageView
-                    android:id="@+id/iv_user_info_test_check3"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/image_test_check"
-                    android:src="@drawable/ic_circle_check_test" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/iv_user_info_test_check4"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/image_test_check"
-                    android:src="@drawable/ic_circle_check_test" />
+            <View
+                android:id="@+id/tv_dash_line_vertical"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10_vertical"
+                app:layout_constraintStart_toEndOf="@id/gl_ticket_dash_line" />
 
-                <ImageView
-                    android:id="@+id/iv_user_info_test_check5"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/image_test_check"
-                    android:src="@drawable/ic_circle_check_test" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_marginBottom="170dp"
+                android:contentDescription="@string/image_ticket_dash_line"
+                android:src="@drawable/ic_ticket_dash_line_point"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_dash_line_vertical"
+                app:layout_constraintStart_toStartOf="@id/tv_dash_line_vertical" />
 
-            </LinearLayout>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="170dp"
+                android:contentDescription="@string/image_ticket_dash_line"
+                android:src="@drawable/ic_ticket_dash_line_point"
+                app:layout_constraintEnd_toEndOf="@id/tv_dash_line_vertical"
+                app:layout_constraintStart_toStartOf="@id/tv_dash_line_vertical"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_ticket_dash_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.75" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
