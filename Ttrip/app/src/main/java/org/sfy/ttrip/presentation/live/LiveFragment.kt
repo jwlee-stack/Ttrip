@@ -2,6 +2,7 @@ package org.sfy.ttrip.presentation.live
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -11,7 +12,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.VisibleRegion
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
@@ -66,7 +69,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun onCameraMove() {
-        if(::map.isInitialized) {
+        if (::map.isInitialized) {
             visibleRegion = map.projection.visibleRegion
             val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
             val northeast: LatLng = latLngBounds.northeast
@@ -137,7 +140,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     // 지도 이동
     private fun moveCamera(latLng: LatLng) {
-        if(::map.isInitialized) {
+        if (::map.isInitialized) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
         }
     }
@@ -155,5 +158,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
             // 권한이 이미 부여되어 있는 경우 처리할 로직
             getDeviceLocation()
         }
+    }
+
+    // 전화 요청시 벨소리
+    private fun setRingtone() {
+        val mediaPlayer = MediaPlayer.create(context, R.raw.ringtone)
+        mediaPlayer.start()
     }
 }
