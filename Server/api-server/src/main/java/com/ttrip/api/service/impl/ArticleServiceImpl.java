@@ -11,6 +11,7 @@ import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.applyArticle.ApplyArticleRepository;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
