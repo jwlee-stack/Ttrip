@@ -1,8 +1,8 @@
 package com.ttrip.core.entity.member;
 
 import com.ttrip.core.entity.BaseEntity;
-import com.ttrip.core.enum2.Authority;
-import com.ttrip.core.enum2.Gender;
+import com.ttrip.core.customEnum.Authority;
+import com.ttrip.core.customEnum.Gender;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -23,10 +23,11 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(nullable = false, unique = true,columnDefinition = "char(36)")
+    @Column(name="id",nullable = false)
+    private int memberId;
+    @Column(name="uuid",nullable = false, unique = true,columnDefinition = "char(36)")
     @Type(type="org.hibernate.type.UUIDCharType")
-    private UUID uuid;
+    private UUID memberUuid;
     private String phoneNumber;
     private String password;
     @Column(length = 6, unique = true)
@@ -40,12 +41,12 @@ public class Member extends BaseEntity {
     private LocalDate birthday;
     @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
 
     @Builder
-    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
-        this.uuid = uuid;
+    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
+        this.memberUuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickname = nickname;

@@ -81,7 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto) {
         try {
             UUID memberUuid = newArticleReqDto.getUuid();
-            Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
             Article article = Article.builder()
                     .title(newArticleReqDto.getTitle())
                     .content(newArticleReqDto.getContent())
@@ -109,7 +109,7 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> searchDetail(Integer articleId, UUID memberUuid) {
         try {
             Article article = articleRepository.findByArticleId(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-            Boolean isMine = memberUuid.equals(article.getMember().getUuid());
+            Boolean isMine = memberUuid.equals(article.getMember().getMemberUuid());
 
             DetailResDto searchDetailDto = DetailResDto.builder()
                     .articleId(articleId)
@@ -135,7 +135,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public DataResDto<?> ereaseArticle(Integer articleId, UUID memberUuid) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-        if (!article.getMember().getUuid().equals(memberUuid)){
+        if (!article.getMember().getMemberUuid().equals(memberUuid)){
             throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH.getMessage());
         }
         try {
@@ -150,8 +150,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public DataResDto<?> newApply(ApplyReqDto applyReqDto) {
         Article article = articleRepository.findById(applyReqDto.getArticleId()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
-        Member member = memberRepository.findByUuid(applyReqDto.getMemberUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-        if (article.getMember().getUuid().equals(applyReqDto.getMemberUuid()))
+        Member member = memberRepository.findByMemberUuid(applyReqDto.getMemberUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        if (article.getMember().getMemberUuid().equals(applyReqDto.getMemberUuid()))
             throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH.getMessage());
 
         try{
@@ -173,14 +173,14 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         List<SearchApplyResDto> searchApplyResDtoList = new ArrayList<>();
         // 내 게시긇이면 다른사람 매칭신청을 다볼수있다
-        if (article.getMember().getUuid().equals(memberUuid)) {
+        if (article.getMember().getMemberUuid().equals(memberUuid)) {
 
             try {
                 for (ApplyArticle applyArticle : applyArticleRepository.findByArticle(article)) {
                     SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
                             .applyId(applyArticle.getApplyArticleId())
                             .applicantNickname(applyArticle.getMember().getNickname())
-                            .applicantUuid(applyArticle.getMember().getUuid())
+                            .applicantUuid(applyArticle.getMember().getMemberUuid())
                             .requestContent(applyArticle.getRequestContent())
                             .imgPath(applyArticle.getMember().getImagePath())
                             .similarity(100.0f)
@@ -194,14 +194,14 @@ public class ArticleServiceImpl implements ArticleService {
         }else {
 //            내 게시글이 아닌경우 내 매칭 신청글만 볼수있음!
             try {
-                Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+                Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
                 Optional<ApplyArticle> optionalApplyArticle = applyArticleRepository.findByArticleAndMember(article, member);
                 if(optionalApplyArticle.isPresent()) {
                     ApplyArticle applyArticle = optionalApplyArticle.get();
                     SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
                             .applyId(applyArticle.getApplyArticleId())
                             .applicantNickname(applyArticle.getMember().getNickname())
-                            .applicantUuid(applyArticle.getMember().getUuid())
+                            .applicantUuid(applyArticle.getMember().getMemberUuid())
                             .requestContent(applyArticle.getRequestContent())
                             .imgPath(applyArticle.getMember().getImagePath())
                             .similarity(100.0f)
@@ -217,7 +217,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public DataResDto<?> endArticle(Integer articleId, UUID memberUuid) {
-        Member member = memberRepository.findByUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
         if (!optionalArticle.isPresent()){
             throw new NotFoundException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage());
