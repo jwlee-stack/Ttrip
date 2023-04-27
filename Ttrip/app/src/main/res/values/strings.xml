@@ -130,4 +130,11 @@
     <string name="content_gender_female">여자</string>
     <string name="content_gender_male">남자</string>
     <string name="title_edit_profile_introduction">소개글</string>
+    <string name="title_certificate_profile">프로필 인증</string>
+
+    <!-- Certification -->
+    <string name="image_recent_profile_image">image_recent_profile_image</string>
+    <string name="image_input_user_img">image_input_user_img</string>
+    <string name="image_certificate_profile_camera">image_certificate_profile_camera</string>
+    <string name="content_confirm_certificate_profile">본인 인증</string>
 </resources>
