@@ -101,7 +101,6 @@ volumes:
   confd-volume:
   data-volume:
   redis-data:
-  mongo-data:
 networks:
   ttrip_bridge:
     ipam:
