@@ -1,6 +1,5 @@
 package com.ttrip.core;
 
-import com.ttrip.core.TtripApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

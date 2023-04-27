@@ -51,6 +51,17 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+    view:
+      # html, js, css, mapper들의 위치
+      static-locations: /resource/**
+      prefix: /WEB-INF/chatt/
+      # servlet의 접두사와 접미사
+      suffix: .jsp
+    devtools:
+      livereload:
+        enabled: false
+    freemarker:
+      cache: false
 
   redis:
     host: redis-db

@@ -22,7 +22,17 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
+    private static final String[] AUTH_ARR = {
+            "/api/members",
+            "/api/members/login",
+            "/ws/live",
+            "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
+            "/ws/live/**/**",
+            "/v2/api-docs",
+            "/swagger/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+    };
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -60,7 +70,7 @@ public class SecurityConfig {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/members","/api/members/login").permitAll()
+                .antMatchers(AUTH_ARR).permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
