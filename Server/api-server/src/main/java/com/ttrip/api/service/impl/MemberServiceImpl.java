@@ -48,16 +48,17 @@ public class MemberServiceImpl implements MemberService {
         Member member= memberSignupReqDto.toMember(passwordEncoder);
 
         //DB에 저장
-        if(memberRepository.save(member)== member)
+        try
         {
+            memberRepository.save(member);
             return DataResDto.builder()
                     .message("회원가입이 완료되었습니다.")
                     .data(MemberResDto.toBuild(member,null))
                     .build();
         }
-        else
-            //회원가입 실패
+        catch (Exception e) {    //회원가입 실패
             throw new NoSuchElementException(ErrorMessageEnum.FAIL_TO_SIGNUP.getMessage());
+        }
     }
     @Override
     @Transactional
