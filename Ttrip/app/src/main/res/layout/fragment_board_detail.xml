@@ -59,10 +59,11 @@
                     tools:text="방콕 여행 가시는분 있나요?\n함께해요!" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_post_board_comment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +84,7 @@
                             android:id="@+id/iv_board_detail_user_profile"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:contentDescription="@string/image_board_profile"
                             android:src="@drawable/ic_profile_circle"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +119,7 @@
                             android:id="@+id/iv_arrow_board_detail_user_detail"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
+                            android:contentDescription="@string/image_go_to_profile_detail"
                             android:src="@drawable/ic_arrow_left"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="20dp"
+                        android:contentDescription="@string/image_board_line"
                         android:layerType="software"
                         android:src="@drawable/line_solid_line_hawkes_blue_stroke2"
                         app:layout_constraintTop_toBottomOf="@id/cl_board_detail_user" />
@@ -197,7 +201,8 @@
                             tools:text="태국-방콕" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <EditText
+                    <TextView
+                        android:id="@+id/tv_board_detail_content"
                         android:layout_width="0dp"
                         android:layout_height="140dp"
                         android:layout_marginTop="40dp"
@@ -206,17 +211,27 @@
                         android:padding="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date"
+                        tools:text="안녕하세요! 이번 주말에 방콕 여행 가는데 같이 카오산로드에서 술 한잔 하실 분 구합니다!" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_board_detail_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_board_detail_content"
+                        tools:listitem="@layout/list_item_board_detail_comment" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <TextView
                 android:id="@+id/tv_post_board_comment"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="25dp"
                 android:background="@drawable/bg_rect_pear_radius10"
                 android:fontFamily="@font/sc_dream5"
