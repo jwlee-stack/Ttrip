@@ -26,11 +26,11 @@ public class SearchResDto {
     private String nation;
     @ApiModelProperty(value = "도시", example = "방콕")
     private String city;
-    @ApiModelProperty(value = "여행 시작 시간", example = "2023-04T27:14:14:25")
+    @ApiModelProperty(value = "여행 시작 시간", example = "2023-04-27T14:14:25.500")
     private LocalDateTime startDate;
-    @ApiModelProperty(value = "여행 마감 시간", example = "2023-04T27:14:14:25")
+    @ApiModelProperty(value = "여행 마감 시간", example = "2023-04-27T14:14:25.500")
     private LocalDateTime endDate;
-    @ApiModelProperty(value = "글 작성 시간", example = "2023-04T27:14:14:25")
+    @ApiModelProperty(value = "글 작성 시간", example = "2023-04-27T14:14:25.500")
     private LocalDateTime createdAt;
     @ApiModelProperty(value = "디폴트:T, 마감시: F ", example = "T")
     private char status;
