@@ -3,6 +3,7 @@ package com.ttrip.api.controller;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.service.MemberService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;
@@ -12,6 +13,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Api(tags = "유저 관련 API")
 @RestController
@@ -49,5 +52,12 @@ public class MemberController {
     public DataResDto<?> checkNickname(@PathVariable String nickname)
     {
         return memberService.checkNickname(nickname);
+    }
+
+    @PatchMapping("/update")
+    public DataResDto<?> updateMember(@ModelAttribute MemberUpdateReqDto memberUpdateReqDto,
+                                      @AuthenticationPrincipal MemberDetails memberDetails) throws IOException
+    {
+        return memberService.updateMember(memberUpdateReqDto,memberDetails);
     }
 }

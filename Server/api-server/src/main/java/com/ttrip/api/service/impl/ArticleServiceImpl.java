@@ -181,7 +181,7 @@ public class ArticleServiceImpl implements ArticleService {
                             .applicantNickname(applyArticle.getMember().getNickname())
                             .applicantUuid(applyArticle.getMember().getMemberUuid())
                             .requestContent(applyArticle.getRequestContent())
-                            .imgPath(applyArticle.getMember().getImagePath())
+                            .imgPath(applyArticle.getMember().getProfileImgPath())
                             .similarity(100.0f)
                             .build();
                     searchApplyResDtoList.add(searchApplyResDto);
@@ -202,7 +202,7 @@ public class ArticleServiceImpl implements ArticleService {
                             .applicantNickname(applyArticle.getMember().getNickname())
                             .applicantUuid(applyArticle.getMember().getMemberUuid())
                             .requestContent(applyArticle.getRequestContent())
-                            .imgPath(applyArticle.getMember().getImagePath())
+                            .imgPath(applyArticle.getMember().getProfileImgPath())
                             .similarity(100.0f)
                             .build();
                     searchApplyResDtoList.add(searchApplyResDto);
