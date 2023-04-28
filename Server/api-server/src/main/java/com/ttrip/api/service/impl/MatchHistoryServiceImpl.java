@@ -23,13 +23,9 @@ public class MatchHistoryServiceImpl implements MatchHistoryService {
     private final MemberRepository memberRepository;
     @Override
     public DataResDto<?> historyMaker(MatchMakerReqDto matchMakerReqDto, Member member) {
-        if (memberRepository.existsByMemberUuid(matchMakerReqDto.getEvaluatedUuid())) {
-            MatchHistory matchHistory = matchMakerReqDto.toMatchHistory(member, memberRepository.findByMemberUuid(matchMakerReqDto.getEvaluatedUuid()).get());
+        MatchHistory matchHistory = matchMakerReqDto.toMatchHistory(member, memberRepository.findByMemberUuid(matchMakerReqDto.getEvaluatedUuid()).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage())));
             matchHistoryRepository.save(matchHistory);
             return DataResDto.builder().message("매칭을 평가했습니다.").data(true).build();
-        }else{
-            throw new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
-        }
     }
 
     @Override
