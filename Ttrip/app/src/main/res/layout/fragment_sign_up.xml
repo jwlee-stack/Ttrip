@@ -39,7 +39,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="60dp"
             android:background="@drawable/bg_rect_white_radius30"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,16 +108,32 @@
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:autofillHints="phone"
-                    android:background="@drawable/bg_rect_white_transparent80_radius10"
-                    android:elevation="10dp"
+                    android:background="@drawable/bg_rect_black_white_radius10_stroke1"
                     android:inputType="phone"
                     android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_sign_up_phone"
                     tools:ignore="LabelFor" />
+
+                <TextView
+                    android:id="@+id/tv_verify_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_rect_neon_blue_radius40"
+                    android:fontFamily="@font/gmarket_sans_ttf_bold"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/content_certificate_phone"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/et_sign_up_phone"
+                    app:layout_constraintEnd_toEndOf="@id/et_sign_up_phone"
+                    app:layout_constraintTop_toTopOf="@id/et_sign_up_phone" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -149,17 +165,47 @@
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="6dp"
-                    android:autofillHints=""
                     android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@drawable/bg_rect_white_transparent80_radius10"
-                    android:elevation="10dp"
+                    android:autofillHints=""
+                    android:background="@drawable/bg_rect_black_white_radius10_stroke1"
                     android:inputType="text"
                     android:padding="10dp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_verify_certification_number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_sign_up_phone_check"
                     tools:ignore="LabelFor,TextFields" />
+
+                <TextView
+                    android:id="@+id/tv_verify_certification_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_rect_neon_blue_radius40"
+                    android:fontFamily="@font/gmarket_sans_ttf_bold"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/content_confirm"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/et_sign_up_phone_check"
+                    app:layout_constraintEnd_toEndOf="@id/et_sign_up_phone_check"
+                    app:layout_constraintTop_toTopOf="@id/et_sign_up_phone_check" />
+
+                <TextView
+                    android:id="@+id/tv_verification_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="@string/content_verification_again"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/et_sign_up_phone_check"
+                    app:layout_constraintTop_toBottomOf="@+id/et_sign_up_phone_check" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,18 +237,16 @@
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="6dp"
-                    android:autofillHints=""
-                    android:background="@drawable/bg_rect_white_transparent80_radius10"
-                    android:elevation="10dp"
                     android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:autofillHints=""
+                    android:background="@drawable/bg_rect_black_white_radius10_stroke1"
                     android:inputType="textPassword"
                     android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_sign_up_password"
                     tools:ignore="LabelFor" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -234,13 +278,12 @@
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="6dp"
-                    android:autofillHints=""
-                    android:background="@drawable/bg_rect_white_transparent80_radius10"
-                    android:elevation="10dp"
-                    android:inputType="textPassword"
                     android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:autofillHints=""
+                    android:background="@drawable/bg_rect_black_white_radius10_stroke1"
+                    android:inputType="textPassword"
                     android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_sign_up_password_check"
@@ -251,14 +294,15 @@
                 android:id="@+id/tv_not_check_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/gmarket_sans_ttf_light"
                 android:text="@string/content_sign_up_password_not_valid"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@+id/cl_sign_up_password_check"
                 app:layout_constraintBottom_toTopOf="@id/iv_sign_up_under_line"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="@id/cl_sign_up_password_check"
+                app:layout_constraintTop_toBottomOf="@+id/cl_sign_up_password_check" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

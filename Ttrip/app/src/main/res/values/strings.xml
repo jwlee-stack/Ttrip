@@ -44,7 +44,7 @@
     <string name="content_login_logo">TTr!p</string>
     <string name="content_sign_up_user">회원가입</string>
     <string name="content_phone_number">휴대폰 번호</string>
-    <string name="content_phone_number_check">휴대폰 번호 인증</string>
+    <string name="content_phone_number_check">인증번호</string>
     <string name="content_sign_up_password">비밀번호</string>
     <string name="content_sign_up_check">비밀번호 확인</string>
     <string name="content_sign_up_password_not_valid">비밀번호가 일치하지 않습니다.</string>
@@ -117,6 +117,8 @@
     <string name="content_test_disagree">비동의</string>
     <string name="content_test_agree">동의</string>
     <string name="image_test_check">image_test_check</string>
+    <string name="content_certificate_phone">휴대폰 인증</string>
+    <string name="content_verification_again">인증번호를 받지 못하셨나요?</string>
 
     <!-- board -->
     <string name="title_board_category">전체</string>
