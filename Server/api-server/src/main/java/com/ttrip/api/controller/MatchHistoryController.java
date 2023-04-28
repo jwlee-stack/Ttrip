@@ -34,7 +34,7 @@ public class MatchHistoryController {
             @ApiResponse(code = 200, message = "매칭을 조회했습니다."),
             @ApiResponse(code = 400, message = "매칭 조회 실패")
     })
-    @ApiOperation(value = "매칭 기록 생성 API", httpMethod = "GET")
+    @ApiOperation(value = "매칭 기록 생성 API", httpMethod = "POST")
     @PostMapping
     public DataResDto<?> historyMaker(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody MatchMakerReqDto matchMakerReqDto) {
         return matchHistoryService.historyMaker(matchMakerReqDto, memberDetails.getMember());
