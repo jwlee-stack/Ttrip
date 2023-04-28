@@ -3,6 +3,7 @@ package com.ttrip.core.redis;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.repository.socketRedisDao.SocketRedisDao;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class SocketRedisTemplateTest {
     SocketRedisDao socketRedisDao;
     @Autowired
     MemberRepository memberRepository;
+
+    private static String key = "testCity";
+
+    @AfterEach
+    private void initialize() {
+        socketRedisDao.deleteMainKey(key);
+    }
 
     @Test
     @DisplayName("소켓 레디스 Dao 테스트")

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "유저 관련 API")
+@Api(tags = "게시글 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/articles")

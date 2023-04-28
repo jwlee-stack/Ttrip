@@ -4,7 +4,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: test
+      on-profile: apitest
 
   datasource:
     url: jdbc:h2:mem:coredb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE
@@ -58,7 +58,7 @@ spring:
       suffix: .jsp
 
   redis:
-    host: redis-db
+    host: localhost
     port: 6379
     password: ttrip104!
 
