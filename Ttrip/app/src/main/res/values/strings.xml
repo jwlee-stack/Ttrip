@@ -156,5 +156,13 @@
 
     <!-- Post Board -->
     <string name="title_post_board">게시글 등록</string>
+    <string name="content_board_info_title">글의 제목을\n입력해주세요</string>
+    <string name="content_board_info_title_hint">다른 유저들이 한눈에 알아보기 쉽게 제목을 입력해주세요!</string>
+    <string name="content_board_info_content">내용을\n입력해주세요</string>
+    <string name="content_board_info_content_hint">동행을 구하는 목적이나 상세한 일정을 기입해주시면 좋아요!</string>
+    <string name="content_board_info_start_day">여행 시작일을\n설정해주세요</string>
+    <string name="content_board_info_end_day">여행 종료일을\n설정해주세요</string>
+    <string name="content_cancel_post_dialog">게시글 등록을 취소하겠습니까?\n입력된 내용은 저장되지 않습니다.</string>
+    <string name="content_board_info_distination">여행지를\n선택해주세요</string>
 
 </resources>
