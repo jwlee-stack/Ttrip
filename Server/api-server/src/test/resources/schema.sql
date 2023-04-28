@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS `member` (
                                         PRIMARY KEY (`id`),
                                         UNIQUE KEY `UK_errlnismyy5xmphdt6e4l0oi1` (`uuid`),
                                         UNIQUE KEY `UK_hh9kg6jti4n1eoiertn2k6qsc` (`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
