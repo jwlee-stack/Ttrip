@@ -163,19 +163,37 @@ public class MemberServiceImpl implements MemberService {
 
         //프사 변경//
         String path=System.getProperty("user.dir")+"\\profileImg\\"; //공통 경로
-        String customImg=path+member.getMemberUuid()+".png"; //변경 프사 경로
-        String defaultImg=path+"default.png"; //디폴트 프사 경로
-        File profileImg=new File(customImg); //파일 객체 생성
+        String customImgPath=path+member.getMemberUuid()+".png"; //변경 프사 경로
+        String defaultImgPath=path+"default.png"; //디폴트 프사 경로
+        File profileImg=new File(customImgPath); //파일 객체 생성
 
         //사용자가 프사를 설정했는지?
-        if(!memberUpdateReqDto.getFile().isEmpty()) //프사 설정함
+        if(!memberUpdateReqDto.getProfileImg().isEmpty()) //프사 설정함
         {
             //프사 저장
-            memberUpdateReqDto.getFile().transferTo(profileImg);
-            member.setProfileImgPath(customImg);
+            memberUpdateReqDto.getProfileImg().transferTo(profileImg);
+            member.setProfileImgPath(customImgPath);
+
         }
         else if(profileImg.delete()) //프사 설정 안 함 && 기존 프사 삭제
-            member.setProfileImgPath(defaultImg); //디폴트 프사로 변경
+            member.setProfileImgPath(defaultImgPath); //디폴트 프사로 변경
+
+        //마커 변경//
+        path=System.getProperty("user.dir")+"\\markerImg\\"; //공통 경로
+        customImgPath=path+member.getMemberUuid()+".png"; //변경 마커 경로
+        defaultImgPath=path+"default.png"; //디폴트 마커 경로
+        File markerImg=new File(customImgPath); //파일 객체 생성
+
+        //사용자가 마커를 설정했는지?
+        if(!memberUpdateReqDto.getMarkerImg().isEmpty()) //마커 설정함
+        {
+            //마커 저장
+            memberUpdateReqDto.getMarkerImg().transferTo(markerImg);
+            member.setProfileImgPath(customImgPath);
+
+        }
+        else if(markerImg.delete()) //마커 설정 안 함 && 기존 마커 삭제
+            member.setProfileImgPath(defaultImgPath); //디폴트 마커로 변경
 
         memberRepository.save(member);
 
