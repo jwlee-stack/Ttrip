@@ -68,6 +68,8 @@ dependencies {
     implementation libs.google.maps
     implementation libs.google.maps.location
     implementation libs.google.maps.directions
+
+    implementation libs.stomp.protocol
 }
 
 kapt {
