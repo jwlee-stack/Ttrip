@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -67,6 +68,12 @@ dependencies {
 
     implementation libs.google.maps
     implementation libs.google.maps.location
+    implementation libs.google.maps.directions
+
+    implementation libs.stomp.protocol
+
+    implementation libs.firebase.auth
+    implementation platform(libs.firebase.bom)
 }
 
 kapt {
