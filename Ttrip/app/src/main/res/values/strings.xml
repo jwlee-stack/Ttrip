@@ -131,6 +131,9 @@
     <string name="content_comment_hint">작성자에게 전달할\n간단한 소개글을 작성해주세요</string>
     <string name="image_dash_line">image_dash_line</string>
     <string name="content_post_board_comment">신청하기</string>
+    <string name="image_board_profile">image_board_profile</string>
+    <string name="image_go_to_profile_detail">image_go_to_profile_detail</string>
+    <string name="image_board_line">image_board_line</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
