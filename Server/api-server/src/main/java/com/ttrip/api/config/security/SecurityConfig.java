@@ -29,6 +29,7 @@ public class SecurityConfig {
             "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
             "/ws/live/**/**",
             "/v2/api-docs",
+            "/v3/api-docs",
             "/swagger/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
