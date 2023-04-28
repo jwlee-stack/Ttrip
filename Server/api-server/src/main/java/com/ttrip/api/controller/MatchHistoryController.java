@@ -31,8 +31,8 @@ public class MatchHistoryController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = "매칭을 조회했습니다."),
-            @ApiResponse(code = 400, message = "매칭 조회 실패")
+            @ApiResponse(code = 200, message = "매칭기록을 생성했습니다."),
+            @ApiResponse(code = 400, message = "매칭기록 생성 실패")
     })
     @ApiOperation(value = "매칭 기록 생성 API", httpMethod = "POST")
     @PostMapping
