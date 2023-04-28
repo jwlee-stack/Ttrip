@@ -1,5 +1,6 @@
 package org.sfy.ttrip.presentation.init
 
+import android.graphics.Color
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,17 +38,46 @@ class SignUpInfoFragment :
 
     private fun initObserve() {
         viewModel.nickNameValid.observe(this) {
-            when (it) {
-                true -> {
-                    binding.apply {
-                        vpBannerInfo.isUserInputEnabled = true
-                        //tvNextInfo.setBackgroundColor(pear)
-                    }
+            checkInfo(it)
+        }
+
+        viewModel.userBirthDay.observe(this) {
+            checkInfo(it)
+        }
+
+        viewModel.userSex.observe(this) {
+            checkInfo(it)
+        }
+
+        viewModel.userIntro.observe(this) {
+            checkInfo(it)
+        }
+
+        viewModel.userBirthDay.observe(this) {
+            checkInfo(it)
+        }
+    }
+
+    private fun checkInfo(valid: Boolean?) {
+        if (valid != null) {
+            if (valid) {
+                binding.apply {
+                    vpBannerInfo.isUserInputEnabled = true
+                    tvNextInfo.setBackgroundResource(R.drawable.bg_rect_pear_radius10)
+                    tvNextInfo.setTextColor(Color.BLACK)
                 }
-                false -> {
-                    binding.vpBannerInfo.isUserInputEnabled = false
+            } else {
+                binding.apply {
+                    vpBannerInfo.isUserInputEnabled = false
+                    tvNextInfo.setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                    tvNextInfo.setTextColor(Color.WHITE)
                 }
-                else -> {}
+            }
+        } else {
+            binding.apply {
+                vpBannerInfo.isUserInputEnabled = false
+                tvNextInfo.setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                tvNextInfo.setTextColor(Color.WHITE)
             }
         }
     }
