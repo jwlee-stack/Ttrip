@@ -177,5 +177,6 @@
     <string name="title_rating_ask2">어떠셨나요?</string>
     <string name="image_declaration_siren">image_declaration_siren</string>
     <string name="content_declaration">신고하기</string>
+    <string name="content_edit_profile">회원정보 수정 완료</string>
 
 </resources>
