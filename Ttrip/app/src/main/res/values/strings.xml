@@ -133,6 +133,7 @@
     <string name="image_board_profile">image_board_profile</string>
     <string name="image_go_to_profile_detail">image_go_to_profile_detail</string>
     <string name="image_board_line">image_board_line</string>
+    <string name="content_delete_board">게시글을 삭제하겠습니까?</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
@@ -164,5 +165,17 @@
     <string name="content_board_info_end_day">여행 종료일을\n설정해주세요</string>
     <string name="content_cancel_post_dialog">게시글 등록을 취소하겠습니까?\n입력된 내용은 저장되지 않습니다.</string>
     <string name="content_board_info_distination">여행지를\n선택해주세요</string>
+    <string name="image_user_background">image_user_background</string>
+    <string name="image_user_profile">image_user_profile</string>
+    <string name="image_close_user_profile">image_close_user_profile</string>
+    <string name="image_user_check">image_user_check</string>
+
+    <!-- Declaration -->
+    <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>
+    <string name="content_declaration_hint">신고내용이 거짓임이 밝혀질 경우 계정이 정지될 수 있습니다.</string>
+    <string name="title_rating_ask1">님 과의 동행은</string>
+    <string name="title_rating_ask2">어떠셨나요?</string>
+    <string name="image_declaration_siren">image_declaration_siren</string>
+    <string name="content_declaration">신고하기</string>
 
 </resources>

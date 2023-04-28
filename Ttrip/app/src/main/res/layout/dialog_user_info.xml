@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="370dp"
+            android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_rect_white_radius30">
+
+                <ImageView
+                    android:id="@+id/iv_user_profile_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:background="@drawable/bg_rect_white_top_radius30"
+                    android:contentDescription="@string/image_user_background"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_close_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/image_close_user_profile"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/image_send_message"
+                    android:src="@drawable/ic_send_message"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_user_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="60dp"
+                    android:contentDescription="@string/image_user_profile"
+                    android:src="@drawable/ic_profile_circle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_user_profile_background" />
+
+                <TextView
+                    android:id="@+id/tv_user_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/sc_dream5"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_user_profile"
+                    tools:text="림림" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_rect_medium_orchid_white_lilac_radius10_stroke1"
+                    android:fontFamily="@font/sc_dream5"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/medium_orchid"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_user_nick_name"
+                    app:layout_constraintStart_toEndOf="@id/tv_user_nick_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_user_nick_name"
+                    tools:text="97%" />
+
+                <TextView
+                    android:id="@+id/tv_profile_info_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey2"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_nick_name"
+                    tools:text="20대 여성" />
+
+                <ImageView
+                    android:layout_width="16sp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/image_user_check"
+                    android:src="@drawable/ic_user_check"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_profile_info_age"
+                    app:layout_constraintStart_toEndOf="@id/tv_profile_info_age"
+                    app:layout_constraintTop_toTopOf="@id/tv_profile_info_age" />
+
+                <TextView
+                    android:id="@+id/tv_user_info_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="18dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile_info_age"
+                    tools:text="대화하면서 하는 여행을 좋아해요!" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
