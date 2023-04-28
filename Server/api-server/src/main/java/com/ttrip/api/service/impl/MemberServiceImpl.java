@@ -3,12 +3,15 @@ package com.ttrip.api.service.impl;
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
+import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
+import com.ttrip.api.dto.memberRequestDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.exception.BadRequestException;
+import com.ttrip.core.customEnum.Gender;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.api.service.MemberService;
@@ -22,7 +25,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -53,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.save(member);
             return DataResDto.builder()
                     .message("회원가입이 완료되었습니다.")
-                    .data(MemberResDto.toBuild(member,null))
+                    .data(MemberResDto.toBuild(member))
                     .build();
         }
         catch (Exception e) {    //회원가입 실패
@@ -88,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
 
         return DataResDto.builder()
                 .message("토큰 생성 완료")
-                .data(MemberResDto.toBuild(member,tokenDto))
+                .data(MemberLoginResDto.toBuild(member,tokenDto))
                 .build();
     }
     @Override
@@ -143,6 +150,41 @@ public class MemberServiceImpl implements MemberService {
         return DataResDto.builder()
                 .message("토큰 재생성 완료")
                 .data(tokenDto)
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public DataResDto<?> updateMember(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException {
+        //닉네임, 인트로, 성별, 생일, fcm 토큰 변경//
+        Member member=memberDetails.getMember();
+        member.setNickname(memberUpdateReqDto.getNickname().isEmpty()?member.getNickname():memberUpdateReqDto.getNickname());
+        member.setIntro(memberUpdateReqDto.getIntro().isEmpty()?"20자 이내로 입력해주세요":memberUpdateReqDto.getIntro());
+        member.setGender(memberUpdateReqDto.getGender().toString().isEmpty()?member.getGender():memberUpdateReqDto.getGender());
+        member.setBirthday(memberUpdateReqDto.getBirthday().toString().isEmpty()?member.getBirthday():memberUpdateReqDto.getBirthday());
+        member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty()?member.getFcmToken():memberUpdateReqDto.getFcmToken());
+
+        //프사 변경//
+        String path=System.getProperty("user.dir")+"\\profileImg\\"; //공통 경로
+        String customImg=path+member.getMemberUuid()+".png"; //변경 프사 경로
+        String defaultImg=path+"default.png"; //디폴트 프사 경로
+        File profileImg=new File(customImg); //파일 객체 생성
+
+        //사용자가 프사를 설정했는지?
+        if(!memberUpdateReqDto.getFile().isEmpty()) //프사 설정함
+        {
+            //프사 저장
+            memberUpdateReqDto.getFile().transferTo(profileImg);
+            member.setProfileImgPath(customImg);
+        }
+        else if(profileImg.delete()) //프사 설정 안 함 && 기존 프사 삭제
+            member.setProfileImgPath(defaultImg); //디폴트 프사로 변경
+
+        memberRepository.save(member);
+
+        return DataResDto.builder()
+                .message("회원 정보가 업데이트되었습니다.")
+                .data(MemberResDto.toBuild(member))
                 .build();
     }
 

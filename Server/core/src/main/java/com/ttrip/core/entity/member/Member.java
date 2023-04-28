@@ -34,7 +34,8 @@ public class Member extends BaseEntity {
     private String nickname;
     @Column(length = 20)
     private String intro;
-    private String imagePath;
+    private String profileImgPath;
+    private String markerImgPath;
     private String fcmToken;
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -45,13 +46,14 @@ public class Member extends BaseEntity {
     private Authority authority;
 
     @Builder
-    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String imagePath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
+    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String markerImgPath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
         this.memberUuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickname = nickname;
         this.intro = intro;
-        this.imagePath = imagePath;
+        this.profileImgPath = profileImgPath;
+        this.markerImgPath = markerImgPath;
         this.fcmToken = fcmToken;
         this.gender = gender;
         this.birthday = birthday;

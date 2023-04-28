@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class MemberLoginResDto {
-    //private Member member;
     private String phoneNumber;
     private String nickname;
     private String intro;
@@ -26,14 +25,13 @@ public class MemberLoginResDto {
     private Boolean shareLocation;
     private TokenDto tokenDto;
 
-
     public static MemberLoginResDto toBuild(Member member, TokenDto tokenDto)
     {
         return MemberLoginResDto.builder()
                 .phoneNumber(member.getPhoneNumber())
                 .nickname(member.getNickname())
                 .intro(member.getIntro())
-                .imagePath(member.getImagePath())
+                .imagePath(member.getProfileImgPath())
                 .fcmToken(member.getFcmToken())
                 .gender(member.getGender())
                 .birthday(member.getBirthday())
