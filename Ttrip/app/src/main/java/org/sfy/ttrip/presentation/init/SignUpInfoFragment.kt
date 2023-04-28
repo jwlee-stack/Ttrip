@@ -39,7 +39,10 @@ class SignUpInfoFragment :
         viewModel.nickNameValid.observe(this) {
             when (it) {
                 true -> {
-                    binding.vpBannerInfo.isUserInputEnabled = true
+                    binding.apply {
+                        vpBannerInfo.isUserInputEnabled = true
+                        //tvNextInfo.setBackgroundColor(pear)
+                    }
                 }
                 false -> {
                     binding.vpBannerInfo.isUserInputEnabled = false
