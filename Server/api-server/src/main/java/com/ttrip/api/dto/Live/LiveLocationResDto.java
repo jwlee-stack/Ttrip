@@ -28,7 +28,7 @@ public class LiveLocationResDto {
         this.age = payload.getAge();
         this.memberUuid = payload.getMemberUuid();
         this.longitude = payload.getLongitude();
-        this.latitude = payload.getLongitude();
+        this.latitude = payload.getLatitude();
         this.matchingRate = matchingRate;
         this.distanceFromMe =
                 Objects.equals(payload.getLatitude(), -1) ?
