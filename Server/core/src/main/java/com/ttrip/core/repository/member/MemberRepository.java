@@ -15,4 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
     Optional<Member> findByPhoneNumber(String phoneNumber);
     List<Member> findMembersByMemberUuidInOrderByMemberUuid(List<UUID> memeberUuidList);
     boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByMemberUuid(UUID memberUuid);
 }

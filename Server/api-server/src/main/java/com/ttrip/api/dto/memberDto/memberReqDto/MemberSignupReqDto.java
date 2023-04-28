@@ -2,6 +2,8 @@ package com.ttrip.api.dto.memberDto.memberReqDto;
 
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.customEnum.Authority;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,13 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(value = "회원가입 요청")
 public class MemberSignupReqDto {
+    @ApiModelProperty(value = "전화번호", example = "01012345678")
     private String phoneNumber;
+    @ApiModelProperty(value = "비밀번호", example = "www1234")
     private String password;
+    @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
 
     public Member toMember(PasswordEncoder passwordEncoder)
