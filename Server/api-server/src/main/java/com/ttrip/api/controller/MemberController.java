@@ -3,7 +3,7 @@ package com.ttrip.api.controller;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
-import com.ttrip.api.dto.memberRequestDto.MemberUpdateReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.service.MemberService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;

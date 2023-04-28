@@ -5,13 +5,12 @@ import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
-import com.ttrip.api.dto.memberRequestDto.MemberUpdateReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.exception.BadRequestException;
-import com.ttrip.core.customEnum.Gender;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.api.service.MemberService;
@@ -25,11 +24,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor

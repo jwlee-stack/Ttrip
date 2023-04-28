@@ -1,4 +1,4 @@
-package com.ttrip.api.dto.memberRequestDto;
+package com.ttrip.api.dto.memberDto.memberReqDto;
 
 import com.ttrip.core.customEnum.Gender;
 import lombok.Builder;
