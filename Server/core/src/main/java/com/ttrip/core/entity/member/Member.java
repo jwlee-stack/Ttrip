@@ -20,7 +20,6 @@ import java.util.UUID;
 @DynamicUpdate
 @Entity
 public class Member extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id",nullable = false)
