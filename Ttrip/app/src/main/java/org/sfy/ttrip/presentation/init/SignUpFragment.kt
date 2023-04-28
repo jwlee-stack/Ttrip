@@ -73,6 +73,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sig
                     tvVerificationAgain.visibility = View.GONE
                 }
             }
+            tvSignUp.setOnClickListener {
+                singUpViewModel.requestSignUp(
+                    etSignUpPhone.text.toString(),
+                    etSignUpPassword.text.toString()
+                )
+                showToast("회원가입되었습니다!")
+                navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
+            }
         }
     }
 
