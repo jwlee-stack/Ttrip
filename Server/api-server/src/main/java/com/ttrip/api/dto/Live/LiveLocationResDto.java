@@ -1,5 +1,7 @@
 package com.ttrip.api.dto.Live;
 
+import com.ttrip.core.dto.live.LiveAllLocationsDto;
+import com.ttrip.core.entity.member.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,6 @@ public class LiveLocationResDto {
     private String nickname;
     private String gender;
     private String age;
-    private String city;
     private String memberUuid;
     private double latitude;
     private double longitude;
@@ -25,15 +26,26 @@ public class LiveLocationResDto {
         this.nickname = payload.getNickname();
         this.gender = payload.getGender();
         this.age = payload.getAge();
-        this.city = payload.getCity();
         this.memberUuid = payload.getMemberUuid();
         this.longitude = payload.getLongitude();
-        this.latitude = payload.getLongitude();
+        this.latitude = payload.getLatitude();
         this.matchingRate = matchingRate;
         this.distanceFromMe =
                 Objects.equals(payload.getLatitude(), -1) ?
                         0 :
                         getDistance(payload.getLatitude(), payload.getLongitude(), otherLatitude, otherLongitude);
+    }
+    @Builder
+    public LiveLocationResDto(Member member, Double memberLat, Double memberLng,
+                              double matchingRate, LiveAllLocationsDto other) {
+        this.nickname = member.getNickname();
+        this.gender = Objects.isNull(member.getGender()) ? "null" : member.getGender().toString();
+        this.age = Objects.isNull(member.getBirthday()) ? "null" : member.getBirthday().toString();
+        this.memberUuid = member.getMemberUuid().toString();
+        this.longitude = other.getLongitude();
+        this.latitude = other.getLatitude();
+        this.matchingRate = matchingRate;
+        this.distanceFromMe = getDistance(memberLat, memberLng, other.getLongitude(), other.getLatitude());
     }
 
     /**

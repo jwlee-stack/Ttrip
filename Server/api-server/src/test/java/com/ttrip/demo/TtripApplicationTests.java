@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = TtripApplication.class)
-@ActiveProfiles("test")
+@ActiveProfiles("apitest")
 class TtripApplicationTests {
 	@Test
 	void contextLoads() {
