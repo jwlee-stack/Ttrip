@@ -38,9 +38,17 @@ public class LiveRedisDao {
         return hashOperations.get(city, memberUuid);
     }
 
+    /**
+     * 특정 도시에 속한 유저의 위치 정보를 uuid기준으로 정렬하여 반환합니다.
+     * @param city : 조회한 도시명
+     * @return : memberUuid, longitude, latitude 정보를 담은 리스트가 반환됩니다.
+     */
     public List<LiveAllLocationsDto> getAllLocationsInCity(String city) {
         Set<String> memberUuids = getMemberUuidsInCity(city);
-        return memberUuids.stream()
+        List<String> sortedMemberUuids = memberUuids.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        return sortedMemberUuids.stream()
                 .map(memberUuid -> {
                     Map<String, Double> location = hashOperations.get(city, memberUuid);
                     return LiveAllLocationsDto.builder().memberUuid(memberUuid).location(location).build();

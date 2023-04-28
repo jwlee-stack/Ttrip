@@ -63,4 +63,8 @@ public class SocketRedisDao {
     public List<Point> getLocation(String city, String memberId) {
         return socketRedisTemplate.opsForGeo().geoPos(city, memberId);
     }
+    public void deleteMainKey(String mainKey) {
+        socketRedisTemplate.delete(mainKey);
+    }
+
 }

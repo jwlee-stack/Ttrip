@@ -20,4 +20,10 @@ public class LiveAllLocationsDto {
         this.longitude = location.get("longitude");
         this.latitude = location.get("latitude");
     }
+
+    public LiveAllLocationsDto(String memberUuid, Double longitude, Double latitude) {
+        this.memberUuid = memberUuid;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 }
