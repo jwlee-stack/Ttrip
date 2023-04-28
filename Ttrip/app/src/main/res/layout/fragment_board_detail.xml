@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_detail_all"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginVertical="35dp"
+            android:background="@drawable/bg_rect_white_radius20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_board_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_rect_royal_blue_top_radius20"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_back_to_board"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/image_back_to_onboarding"
+                    android:src="@drawable/ic_back_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_board_detail_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:fontFamily="@font/sc_dream5"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="방콕 여행 가시는분 있나요?\n함께해요!" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_post_board_comment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_board_detail_title">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_board_detail_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="20dp"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_board_detail_user_profile"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:contentDescription="@string/image_board_profile"
+                            android:src="@drawable/ic_profile_circle"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_board_detail_user_nick_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/sc_dream4"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toEndOf="@id/iv_board_detail_user_profile"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="림림" />
+
+                        <TextView
+                            android:id="@+id/tv_board_detail_user_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/sc_dream3"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toEndOf="@id/iv_board_detail_user_profile"
+                            app:layout_constraintTop_toBottomOf="@id/tv_board_detail_user_nick_name"
+                            tools:text="2023.04.19 12:05" />
+
+                        <ImageView
+                            android:id="@+id/iv_arrow_board_detail_user_detail"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:contentDescription="@string/image_go_to_profile_detail"
+                            android:src="@drawable/ic_arrow_left"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/bg_rect_white_radius10"
+                            android:backgroundTint="@color/pear"
+                            android:paddingHorizontal="5dp"
+                            android:paddingVertical="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/iv_arrow_board_detail_user_detail"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="97%" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_board_detail_ticket_line1"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="20dp"
+                        android:contentDescription="@string/image_board_line"
+                        android:layerType="software"
+                        android:src="@drawable/line_solid_line_hawkes_blue_stroke2"
+                        app:layout_constraintTop_toBottomOf="@id/cl_board_detail_user" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_board_detail_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center|left"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iv_board_detail_ticket_line1"
+                        tools:ignore="RtlHardcoded">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sc_dream4"
+                            android:text="@string/content_ticket_date"
+                            android:textColor="@color/black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_rect_alice_blue_radius10"
+                            android:fontFamily="@font/sc_dream4"
+                            android:padding="6dp"
+                            android:textColor="@color/free_speech_blue"
+                            tools:text="2023/04/07 ~ 2023/05/03" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/sc_dream4"
+                            android:text="@string/content_ticket_destination"
+                            android:textColor="@color/black"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/bg_rect_alice_blue_radius10"
+                            android:fontFamily="@font/sc_dream4"
+                            android:padding="6dp"
+                            android:textColor="@color/free_speech_blue"
+                            tools:text="태국-방콕" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <TextView
+                        android:id="@+id/tv_board_detail_content"
+                        android:layout_width="0dp"
+                        android:layout_height="140dp"
+                        android:layout_marginTop="40dp"
+                        android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                        android:gravity="top"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date"
+                        tools:text="안녕하세요! 이번 주말에 방콕 여행 가는데 같이 카오산로드에서 술 한잔 하실 분 구합니다!" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_board_detail_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_board_detail_content"
+                        tools:listitem="@layout/list_item_board_detail_comment" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <TextView
+                android:id="@+id/tv_post_board_comment"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/bg_rect_pear_radius10"
+                android:fontFamily="@font/sc_dream5"
+                android:gravity="center"
+                android:text="@string/content_post_board_comment"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_board_detail_line1_right"
+            android:layout_width="18dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="170dp"
+            android:contentDescription="@string/image_ticket_dash_line"
+            android:src="@drawable/ic_ticket_dash_line_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line1" />
+
+        <ImageView
+            android:id="@+id/iv_board_detail_line1_left"
+            android:layout_width="18dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="170dp"
+            android:contentDescription="@string/image_ticket_dash_line"
+            android:src="@drawable/ic_ticket_dash_line_point"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line1" />
+
+        <ImageView
+            android:id="@+id/iv_board_detail_line2_right"
+            android:layout_width="18dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="170dp"
+            android:contentDescription="@string/image_ticket_dash_line"
+            android:src="@drawable/ic_ticket_dash_line_point"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line2" />
+
+        <ImageView
+            android:id="@+id/iv_board_detail_line2_left"
+            android:layout_width="18dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="170dp"
+            android:contentDescription="@string/image_ticket_dash_line"
+            android:src="@drawable/ic_ticket_dash_line_point"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line2" />
+
+        <ImageView
+            android:id="@+id/iv_upper_line"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:contentDescription="@string/image_dash_line"
+            android:layerType="software"
+            android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+            app:layout_constraintBottom_toBottomOf="@id/iv_board_detail_line1_left"
+            app:layout_constraintTop_toTopOf="@id/iv_board_detail_line1_left" />
+
+        <ImageView
+            android:id="@+id/iv_under_line"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:contentDescription="@string/image_dash_line"
+            android:layerType="software"
+            android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+            app:layout_constraintBottom_toBottomOf="@id/iv_board_detail_line2_left"
+            app:layout_constraintTop_toTopOf="@id/iv_board_detail_line2_left" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_board_detail_dash_line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_board_detail_dash_line2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

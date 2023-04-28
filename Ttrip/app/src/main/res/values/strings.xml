@@ -37,7 +37,7 @@
     <string name="image_title_login">image_title_login</string>
     <string name="image_login_earth">image_login_earth</string>
     <string name="content_login">로그인</string>
-    <string name="content_login_line">content_login_line</string>
+    <string name="image_login_line">content_login_line</string>
     <string name="content_text_password">PASSWORD</string>
     <string name="content_hint_password">01012345678</string>
     <string name="content_login_id">PHONE</string>
@@ -118,6 +118,22 @@
     <string name="content_test_agree">동의</string>
     <string name="image_test_check">image_test_check</string>
 
+    <!-- board -->
+    <string name="title_board_category">전체</string>
+    <string name="image_select_location">image_select_location</string>
+    <string name="image_post_board">image_post_board</string>
+    <string name="image_search_board">image_search_board</string>
+    <string name="image_ticket_dash_line">image_ticket_dash_line</string>
+    <string name="content_ticket_date">DATE</string>
+    <string name="content_ticket_destination">DESTINATION</string>
+    <string name="image_ticket_airplane">image_ticket_airplane</string>
+    <string name="content_post_comment">20자 이내로 작성해주세요!</string>
+    <string name="content_comment_hint">작성자에게 전달할\n간단한 소개글을 작성해주세요</string>
+    <string name="content_post_board_comment">신청하기</string>
+    <string name="image_board_profile">image_board_profile</string>
+    <string name="image_go_to_profile_detail">image_go_to_profile_detail</string>
+    <string name="image_board_line">image_board_line</string>
+
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
     <string name="title_edit_profile">프로필 수정</string>
@@ -137,4 +153,5 @@
     <string name="image_input_user_img">image_input_user_img</string>
     <string name="image_certificate_profile_camera">image_certificate_profile_camera</string>
     <string name="content_confirm_certificate_profile">본인 인증</string>
+
 </resources>

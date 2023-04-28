@@ -3,8 +3,6 @@
     android:shape="line">
     <solid android:color="@android:color/transparent" />
     <stroke
-        android:width="3dp"
-        android:color="@color/dim_grey_transparent30"
-        android:dashWidth="10dp"
-        android:dashGap="10dp" />
+        android:width="2dp"
+        android:color="@color/hawkes_blue" />
 </shape>
