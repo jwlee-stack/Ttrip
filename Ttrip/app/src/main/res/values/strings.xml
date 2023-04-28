@@ -154,4 +154,7 @@
     <string name="image_certificate_profile_camera">image_certificate_profile_camera</string>
     <string name="content_confirm_certificate_profile">본인 인증</string>
 
+    <!-- Post Board -->
+    <string name="title_post_board">게시글 등록</string>
+
 </resources>
