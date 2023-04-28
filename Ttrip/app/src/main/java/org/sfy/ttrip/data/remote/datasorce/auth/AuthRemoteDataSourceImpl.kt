@@ -7,7 +7,10 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     private val authApiService: AuthApiService
 ) : AuthRemoteDataSource {
 
-    override suspend fun requestSignUp(body: SignUpRequest) {
+    override suspend fun requestSignUp(body: AuthRequest) {
         authApiService.requestSignUp(body)
     }
+
+    override suspend fun loginRequest(body: AuthRequest): AuthResponse =
+        authApiService.requestLogin(body).data!!
 }

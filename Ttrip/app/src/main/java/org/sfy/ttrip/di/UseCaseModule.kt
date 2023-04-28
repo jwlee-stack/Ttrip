@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
+import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import javax.inject.Singleton
 
@@ -16,4 +17,9 @@ object UseCaseModule {
     @Provides
     fun provideSignUpUseCase(authRepository: AuthRepository): SignUpUseCase =
         SignUpUseCase(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase =
+        LoginUseCase(authRepository)
 }

@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
 
-    private val singUpViewModel by viewModels<SignUpViewModel>()
+    private val singUpViewModel by viewModels<AuthViewModel>()
     private val mAuth = FirebaseAuth.getInstance()
     private var verificationCode = ""
 
