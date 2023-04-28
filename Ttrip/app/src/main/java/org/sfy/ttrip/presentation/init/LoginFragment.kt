@@ -22,9 +22,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
             tvLogin.setOnClickListener {
                 // 추후 로그인 이후 회원 정보 입력 api 연결 시 수정 예정
-                //navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
+                navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
+//                val intent = Intent(requireContext(), MainActivity::class.java)
+//                startActivity(intent)
             }
         }
     }
