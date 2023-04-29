@@ -103,4 +103,14 @@ public class MemberController {
     {
         return memberService.updateSurvey(surveyReq,memberDetails);
     }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "프로필 조회 성공"),
+            @ApiResponse(code = 400, message = "프로필 조회 실패")
+    })
+    @ApiOperation(value = "프로필 조회 API")
+    @GetMapping("/{nickname}")
+    public DataResDto<?> viewMemberInfo(@PathVariable String nickname)
+    {
+        return memberService.viewMemberInfo(nickname);
+    }
 }

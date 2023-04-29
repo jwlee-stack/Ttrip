@@ -226,6 +226,18 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    @Override
+    public DataResDto<?> viewMemberInfo(String nickname) {
+        if(!memberRepository.existsByNickname(nickname))
+            throw new BadRequestException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
+
+        Member member=memberRepository.findByNickname(nickname).get();
+        return DataResDto.builder()
+                .message("회원 프로필이 조회되었습니다.")
+                .data(MemberResDto.toBuild(member))
+                .build();
+    }
+
     public String changeImg(Member member, MultipartFile img, String folder) throws IOException {
         //이미지 변경//
         String path=System.getProperty("user.dir")+File.separator+folder+File.separator; //공통 경로

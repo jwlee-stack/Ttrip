@@ -19,4 +19,5 @@ public interface MemberService {
     DataResDto<?> updateMember (MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException;
     DataResDto<?> checkNickname(String nickname);
     DataResDto<?> updateSurvey(Survey surveyReq, MemberDetails memberDetails);
+    DataResDto<?> viewMemberInfo(String nickname);
 }
