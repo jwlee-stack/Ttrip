@@ -24,6 +24,8 @@ class LiveViewModel @Inject constructor() : ViewModel() {
         .url("http://k8d104.p.ssafy.io:8081")
         .build()
 
+    var cityOnLive = ""
+
     init {
         val listener = WebSocketListener()
         client.newWebSocket(request, listener)

@@ -2,11 +2,13 @@ package org.sfy.ttrip.presentation.live
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.media.MediaPlayer
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import java.util.Locale
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
@@ -27,6 +30,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val liveViewModel by viewModels<LiveViewModel>()
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -126,6 +131,13 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         if (location != null) {
                             // 위치가 null이 아니면 지도 이동
                             moveCamera(LatLng(location.latitude, location.longitude))
+                            // 현재 도시의 이름을 받아오기
+                            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                            val cityName = addresses!![0].locality
+                            if (liveViewModel.cityOnLive != cityName) {
+                                liveViewModel.cityOnLive = cityName
+                            }
                             // 위치 정보 수신 중지
                             fusedLocationClient.removeLocationUpdates(this)
                         }
