@@ -4,5 +4,5 @@ interface AuthRemoteDataSource {
 
     suspend fun requestSignUp(body: AuthRequest)
 
-    suspend fun loginRequest(body: AuthRequest): AuthResponse
+    suspend fun requestLogin(body: AuthRequest): AuthResponse
 }

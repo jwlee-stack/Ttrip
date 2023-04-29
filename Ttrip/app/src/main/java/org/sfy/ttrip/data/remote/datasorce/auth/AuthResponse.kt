@@ -9,17 +9,20 @@ data class AuthResponse(
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("nickname")
-    val nickname: String,
+    val nickname: String?,
     @SerializedName("intro")
-    val intro: String,
+    val intro: String?,
     @SerializedName("imagePath")
-    val imagePath: String,
+    val imagePath: String?,
     @SerializedName("fcmToken")
-    val fcmToken: String,
+    val fcmToken: String?,
     @SerializedName("gender")
-    val gender: String,
+    val gender: String?,
     @SerializedName("birthday")
-    val birthday: LocalDate,
+    val birthday: LocalDate?,
+    @SerializedName("shareLocation")
+    val shareLocation: Boolean,
+    @SerializedName("tokenDto")
     val tokenResponse: TokenResponse
 ) : DataToDomainMapper<Auth> {
     override fun toDomainModel(): Auth =
@@ -31,6 +34,7 @@ data class AuthResponse(
             fcmToken,
             gender,
             birthday,
+            shareLocation,
             tokenResponse.toDomainModel()
         )
 }

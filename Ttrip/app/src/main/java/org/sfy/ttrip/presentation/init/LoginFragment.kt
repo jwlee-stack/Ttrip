@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.init
 
 import android.content.Intent
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
@@ -10,7 +11,10 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
 
+    private val authViewModel by viewModels<AuthViewModel>()
+
     override fun initView() {
+        observeData()
         initListener()
     }
 
@@ -19,10 +23,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             ivBackToOnboarding.setOnClickListener {
                 popBackStack()
             }
-
             tvLogin.setOnClickListener {
-                // 추후 로그인 이후 회원 정보 입력 api 연결 시 수정 예정
-                //navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
+                val id = etLoginId.text.toString()
+                val pw = etLoginPassword.text.toString()
+                if (id.isEmpty() || pw.isEmpty()) {
+                    showToast("모든 정보를 입력해주세요.")
+                } else {
+                    authViewModel.requestLogin(id, pw)
+                }
+            }
+        }
+    }
+
+    private fun observeData() {
+        authViewModel.emptyNickname.observe(viewLifecycleOwner) {
+            if (it == true) {
+                showToast("로그인되었습니다.")
+                navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
+            } else {
+                showToast("돌아오신걸 환영해요!")
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
             }
