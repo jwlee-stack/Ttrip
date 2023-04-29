@@ -2,7 +2,7 @@ package org.sfy.ttrip.data.remote.datasorce.auth
 
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
-import org.sfy.ttrip.domain.entity.user.Token
+import org.sfy.ttrip.domain.entity.auth.Token
 
 data class TokenResponse(
     @SerializedName("accessToken")

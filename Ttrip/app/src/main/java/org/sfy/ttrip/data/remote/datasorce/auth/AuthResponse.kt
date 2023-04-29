@@ -2,7 +2,7 @@ package org.sfy.ttrip.data.remote.datasorce.auth
 
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
-import org.sfy.ttrip.domain.entity.user.Auth
+import org.sfy.ttrip.domain.entity.auth.Auth
 import java.time.LocalDate
 
 data class AuthResponse(

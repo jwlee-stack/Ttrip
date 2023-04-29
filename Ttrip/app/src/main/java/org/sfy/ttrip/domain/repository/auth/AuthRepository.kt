@@ -1,7 +1,7 @@
 package org.sfy.ttrip.domain.repository.auth
 
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.domain.entity.user.Auth
+import org.sfy.ttrip.domain.entity.auth.Auth
 
 
 interface AuthRepository {

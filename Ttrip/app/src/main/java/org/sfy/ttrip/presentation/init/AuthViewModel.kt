@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.domain.entity.user.Auth
+import org.sfy.ttrip.domain.entity.auth.Auth
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import javax.inject.Inject
