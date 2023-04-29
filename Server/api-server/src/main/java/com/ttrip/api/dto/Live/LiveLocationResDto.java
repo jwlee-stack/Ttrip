@@ -19,6 +19,8 @@ public class LiveLocationResDto {
     private double latitude;
     private double longitude;
     private double matchingRate;
+    private String profileImgPath;
+    private String markerImgPath;
     private double distanceFromMe;
 
     @Builder
@@ -30,22 +32,25 @@ public class LiveLocationResDto {
         this.longitude = payload.getLongitude();
         this.latitude = payload.getLatitude();
         this.matchingRate = matchingRate;
+        this.profileImgPath = payload.getProfileImgPath();
+        this.markerImgPath = payload.getMarkerImgPath();
         this.distanceFromMe =
                 Objects.equals(payload.getLatitude(), -1) ?
                         0 :
                         getDistance(payload.getLatitude(), payload.getLongitude(), otherLatitude, otherLongitude);
     }
-    @Builder
-    public LiveLocationResDto(Member member, Double memberLat, Double memberLng,
-                              double matchingRate, LiveAllLocationsDto other) {
-        this.nickname = member.getNickname();
-        this.gender = Objects.isNull(member.getGender()) ? "null" : member.getGender().toString();
-        this.age = Objects.isNull(member.getBirthday()) ? "null" : member.getBirthday().toString();
-        this.memberUuid = member.getMemberUuid().toString();
-        this.longitude = other.getLongitude();
-        this.latitude = other.getLatitude();
+    public LiveLocationResDto(Member other, Double memberLat, Double memberLng,
+                              double matchingRate, LiveAllLocationsDto otherLocation) {
+        this.nickname = other.getNickname();
+        this.gender = Objects.isNull(other.getGender()) ? "null" : other.getGender().toString();
+        this.age = Objects.isNull(other.getBirthday()) ? "null" : other.getBirthday().toString();
+        this.memberUuid = other.getMemberUuid().toString();
+        this.longitude = otherLocation.getLongitude();
+        this.latitude = otherLocation.getLatitude();
         this.matchingRate = matchingRate;
-        this.distanceFromMe = getDistance(memberLat, memberLng, other.getLongitude(), other.getLatitude());
+        this.profileImgPath = other.getProfileImgPath();
+        this.markerImgPath = other.getMarkerImgPath();
+        this.distanceFromMe = getDistance(memberLat, memberLng, otherLocation.getLongitude(), otherLocation.getLatitude());
     }
 
     /**

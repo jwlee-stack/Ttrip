@@ -51,8 +51,6 @@ public class LiveHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 1. 유저의 위치 변경 정보
         LivePayloadDto payload = new Gson().fromJson(message.getPayload(), LivePayloadDto.class);
-        System.out.println(message.getPayload());
-        System.out.println("here it is" + payload.getCity() + payload.getMemberUuid() + payload.getLatitude() +  payload.getLatitude() + payload.getAge() + payload.getGender());
         Map<String, Double> location = new HashMap<>();
         location.put("longitude", payload.getLongitude());
         location.put("latitude", payload.getLatitude());
