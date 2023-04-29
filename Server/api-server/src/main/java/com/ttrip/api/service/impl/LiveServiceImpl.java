@@ -39,7 +39,7 @@ public class LiveServiceImpl implements LiveService {
         for (int i = 0; i < members.size(); i++){
             if (!Objects.equals(members.get(i).getMemberUuid().toString(), locationsInCity.get(i).getMemberUuid()))
                 continue;
-            res.add(new LiveLocationResDto(members.get(i), lat, lng, 0, locationsInCity.get(i)) );
+            res.add(new LiveLocationResDto(members.get(i), lat, lng, 0, locationsInCity.get(i)));
         }
         return DataResDto.builder()
                 .message(String.format("%s에 존재하는 유저 정보 목록입니다.", city))

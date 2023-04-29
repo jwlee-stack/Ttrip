@@ -14,9 +14,11 @@ public class LivePayloadDto {
     private String memberUuid;
     private double latitude;
     private double longitude;
+    private String profileImgPath;
+    private String markerImgPath;
 
     @Builder
-    public LivePayloadDto(String nickname, String gender, String age, String city, String memberUuid, double latitude, double longitude) {
+    public LivePayloadDto(String nickname, String gender, String age, String city, String memberUuid, double latitude, double longitude, String profileImgPath, String markerImgPath) {
         this.nickname = nickname;
         this.gender = gender;
         this.age = age;
@@ -24,5 +26,7 @@ public class LivePayloadDto {
         this.memberUuid = memberUuid;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.profileImgPath = profileImgPath;
+        this.markerImgPath = markerImgPath;
     }
 }
