@@ -30,6 +30,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     private val liveViewModel by viewModels<LiveViewModel>()
     private val locationPermissionLauncher = registerForActivityResult(
@@ -37,7 +38,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     ) { isGranted: Boolean ->
         if (isGranted) {
             // 권한이 부여된 경우 현재 위치 가져오기
-            getDeviceLocation()
+            setLocationService()
         } else {
             // 권한이 거부된 경우 처리
             showToast("위치 권한이 필요합니다.")
@@ -86,7 +87,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private fun initListener() {
         binding.apply {
             ivCurrentLocation.setOnClickListener {
-                getDeviceLocation()
+                setLocationService()
             }
             switchLive.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -94,11 +95,13 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         setText(R.string.content_live_toggle_on)
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.neon_blue))
                         showToast("LIVE 모드가 시작됩니다.")
+                        startLocationUpdates()
                     }
                 } else {
                     tvSwitchState.apply {
                         setText(R.string.content_live_toggle_off)
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+                        stopLocationUpdates()
                     }
                 }
             }
@@ -112,42 +115,47 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     // 현재 위치 가져오기
-    private fun getDeviceLocation() {
+    private fun setLocationService() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                // 위치 결과를 가져옴
+                val location = locationResult.lastLocation
+                if (location != null) {
+                    // 위치가 null이 아니면 지도 이동
+                    moveCamera(LatLng(location.latitude, location.longitude))
+                    // 현재 도시의 이름을 받아오기
+                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    val cityName = addresses!![0].locality
+                    if (liveViewModel.cityOnLive != cityName) {
+                        liveViewModel.cityOnLive = cityName
+                    }
+                    // 위치 정보 수신 중지
+                    fusedLocationClient.removeLocationUpdates(this)
+                }
+            }
+        }
+    }
+
+    // 위치 정보 수신
+    private fun startLocationUpdates() {
         try {
-            // 위치 요청 설정
             val locationRequest = LocationRequest.create().apply {
                 interval = 10000
                 fastestInterval = 5000
                 priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             }
             // 위치 요청 시작
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                object : LocationCallback() {
-                    override fun onLocationResult(locationResult: LocationResult) {
-                        // 위치 결과를 가져옴
-                        val location = locationResult.lastLocation
-                        if (location != null) {
-                            // 위치가 null이 아니면 지도 이동
-                            moveCamera(LatLng(location.latitude, location.longitude))
-                            // 현재 도시의 이름을 받아오기
-                            val geocoder = Geocoder(requireContext(), Locale.getDefault())
-                            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                            val cityName = addresses!![0].locality
-                            if (liveViewModel.cityOnLive != cityName) {
-                                liveViewModel.cityOnLive = cityName
-                            }
-                            // 위치 정보 수신 중지
-                            fusedLocationClient.removeLocationUpdates(this)
-                        }
-                    }
-                },
-                null
-            )
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message ?: "")
         }
+    }
+
+    // 위치 정보 수신 중지
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     // 지도 이동
@@ -168,7 +176,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             // 권한이 이미 부여되어 있는 경우 처리할 로직
-            getDeviceLocation()
+            setLocationService()
         }
     }
 

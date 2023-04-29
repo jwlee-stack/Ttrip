@@ -9,15 +9,21 @@ import okhttp3.Request
 import org.sfy.ttrip.domain.entity.live.LiveUser
 import javax.inject.Inject
 import android.util.Log
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
+import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 
 @HiltViewModel
-class LiveViewModel @Inject constructor() : ViewModel() {
+class LiveViewModel @Inject constructor(
+    private val getLiveUsersUseCase: GetLiveUsersUseCase
+) : ViewModel() {
 
-    private val _liveUserList = MutableLiveData<List<LiveUser>>()
-    val liveUserList: LiveData<List<LiveUser>> = _liveUserList
+    private val _liveUserList = MutableLiveData<List<LiveUser?>?>()
+    val liveUserList: LiveData<List<LiveUser?>?> = _liveUserList
 
     private val client = OkHttpClient()
     private val request = Request.Builder()
@@ -31,6 +37,17 @@ class LiveViewModel @Inject constructor() : ViewModel() {
         client.newWebSocket(request, listener)
     }
 
+    fun getLiveUsers(city: String, lng: Double, lat: Double) = viewModelScope.launch {
+        when (val value = getLiveUsersUseCase(city, lng, lat)) {
+            is Resource.Success -> {
+                _liveUserList.value = value.data
+            }
+            is Resource.Error -> {
+                Log.d("getLiveUsers", "getLiveUsers: ${value.errorMessage}")
+            }
+        }
+    }
+
     inner class WebSocketListener : okhttp3.WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             webSocket.send("{\"type\":\"ticker\", \"symbols\": [\"BTC_KRW\"], \"tickTypes\": [\"30M\"]}")
@@ -38,7 +55,7 @@ class LiveViewModel @Inject constructor() : ViewModel() {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            Log.d("Socket","Receiving : $text")
+            Log.d("Socket", "Receiving : $text")
         }
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -46,13 +63,13 @@ class LiveViewModel @Inject constructor() : ViewModel() {
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-            Log.d("Socket","Closing : $code / $reason")
+            Log.d("Socket", "Closing : $code / $reason")
             webSocket.close(NORMAL_CLOSURE_STATUS, null)
             webSocket.cancel()
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            Log.d("Socket","Error : " + t.message)
+            Log.d("Socket", "Error : " + t.message)
         }
     }
 
