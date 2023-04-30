@@ -96,6 +96,7 @@
     <string name="content_get_my_badges">뱃지 보기</string>
     <string name="content_test_again">취향 테스트 다시하기</string>
     <string name="content_logout">로그아웃</string>
+    <string name="title_my_board">게시글 조회</string>
 
     <!-- sign_up_information -->
     <string name="image_back_to_login">image_back_to_login</string>
@@ -104,7 +105,7 @@
     <string name="content_user_info_nick_name">닉네임을\n입력해주세요</string>
     <string name="content_user_info_nick_name_hint">6자 이내로 입력해주세요</string>
     <string name="content_user_info_nick_name_check">중복체크</string>
-    <string name="content_user_info_day">생년월일을\n입력해주세요</string>
+    <string name="content_user_info_age">나이를\n입력해주세요</string>
     <string name="content_user_info_sex">성별을\n선택해주세요</string>
     <string name="content_user_info_sex_girl">여자</string>
     <string name="content_user_info_sex_boy">남자</string>
@@ -180,4 +181,5 @@
     <string name="image_declaration_siren">image_declaration_siren</string>
     <string name="content_declaration">신고하기</string>
     <string name="content_edit_profile">회원정보 수정 완료</string>
+    <string name="content_user_info_age_hint">나이를 입력하세요</string>
 </resources>

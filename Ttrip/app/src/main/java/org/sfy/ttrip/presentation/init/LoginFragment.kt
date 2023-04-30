@@ -23,6 +23,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             ivBackToOnboarding.setOnClickListener {
                 popBackStack()
             }
+
             tvLogin.setOnClickListener {
                 val id = etLoginId.text.toString()
                 val pw = etLoginPassword.text.toString()

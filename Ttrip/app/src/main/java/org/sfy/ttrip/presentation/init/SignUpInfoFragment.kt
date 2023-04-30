@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.init
 
-import androidx.fragment.app.viewModels
+import android.graphics.Color
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
@@ -11,40 +12,92 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class SignUpInfoFragment :
     BaseFragment<FragmentSignUpInfoBinding>(R.layout.fragment_sign_up_info) {
 
-    private val viewModel by viewModels<UserInfoViewModel>()
+    private val viewModel by activityViewModels<UserInfoViewModel>()
 
     override fun initView() {
-        initBanner()
-        initObserve()
+        initContent()
     }
 
-    private fun initBanner() {
+    private fun initContent() {
         binding.apply {
-            vpBannerInfo.adapter = SignUpAdapter(this@SignUpInfoFragment)
-            ciBannerInfo.setViewPager(vpBannerInfo)
+            vpContentInfo.adapter = SignUpAdapter(this@SignUpInfoFragment)
+            ciBannerInfo.setViewPager(vpContentInfo)
 
-            vpBannerInfo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            vpContentInfo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    vpBannerInfo.isUserInputEnabled = false
+                    vpContentInfo.isUserInputEnabled = false
+
+                    when (position) {
+                        0 -> {
+                            viewModel.nickNameValid.observe(this@SignUpInfoFragment) {
+                                checkInfo(it)
+                            }
+                        }
+                        1 -> {
+                            viewModel.userAge.observe(this@SignUpInfoFragment) {
+                                if (it == "") checkInfo(false)
+                                else checkInfo(true)
+                            }
+                        }
+                        2 -> {
+                            //viewModel.nickNameValid.removeObservers(this@SignUpInfoFragment)
+                            viewModel.userSex.observe(this@SignUpInfoFragment) {
+                                if (it == "") checkInfo(false)
+                                else checkInfo(true)
+                            }
+                        }
+                        3 -> {
+                            viewModel.profileImgUri.observe(this@SignUpInfoFragment) { uri ->
+                                if (uri == null) {
+                                    checkInfo(false)
+                                } else {
+                                    viewModel.userIntro.observe(this@SignUpInfoFragment) {
+                                        if (it == "") checkInfo(false)
+                                        else checkInfo(true)
+                                    }
+                                }
+                            }
+                        }
+                        4 -> {
+
+                        }
+                    }
                 }
             })
-
-            tvNextInfo.setOnClickListener {
-                viewModel.checkNickName()
-            }
         }
     }
 
-    private fun initObserve() {
-        viewModel.nickNameValid.observe(this) {
-            when (it) {
-                true -> {
-                    binding.vpBannerInfo.isUserInputEnabled = true
+    private fun checkInfo(valid: Boolean?) {
+        if (valid != null) {
+            if (valid) {
+                binding.apply {
+                    vpContentInfo.isUserInputEnabled = true
+                    tvNextInfo.apply {
+                        setOnClickListener {
+                            vpContentInfo.currentItem = vpContentInfo.currentItem + 1
+                        }
+                        setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
+                        setTextColor(Color.BLACK)
+                    }
                 }
-                false -> {
-                    binding.vpBannerInfo.isUserInputEnabled = false
+            } else {
+                binding.apply {
+                    vpContentInfo.isUserInputEnabled = false
+                    tvNextInfo.apply {
+                        isEnabled = false
+                        setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                        setTextColor(Color.WHITE)
+                    }
                 }
-                else -> {}
+            }
+        } else {
+            binding.apply {
+                vpContentInfo.isUserInputEnabled = false
+                tvNextInfo.apply {
+                    isEnabled = false
+                    setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                    setTextColor(Color.WHITE)
+                }
             }
         }
     }
