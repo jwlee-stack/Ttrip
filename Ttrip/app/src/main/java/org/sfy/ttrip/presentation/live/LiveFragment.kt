@@ -152,12 +152,14 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     tvSwitchState.apply {
                         setText(R.string.content_live_toggle_off)
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-                        liveViewModel.liveOn.value = false
-                        liveViewModel.cityOnLive.value = ""
-                        liveViewModel.lat = 0.0
-                        liveViewModel.lng = 0.0
+                        liveViewModel.apply {
+                            liveOn.value = false
+                            cityOnLive.value = ""
+                            lat = 0.0
+                            lng = 0.0
+                            disconnectSocket()
+                        }
                         stopLocationUpdates()
-                        liveViewModel.disconnectSocket()
                     }
                 }
             }

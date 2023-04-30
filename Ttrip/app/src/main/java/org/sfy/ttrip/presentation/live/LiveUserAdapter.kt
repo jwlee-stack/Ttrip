@@ -33,9 +33,11 @@ class LiveUserAdapter(
         private val onItemClicked: (songId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: LiveUser) {
-            binding.user = data
-            binding.root.setOnClickListener {
-                onItemClicked(data.memberUuid)
+            binding.apply {
+                user = data
+                root.setOnClickListener {
+                    onItemClicked(data.memberUuid)
+                }
             }
         }
     }

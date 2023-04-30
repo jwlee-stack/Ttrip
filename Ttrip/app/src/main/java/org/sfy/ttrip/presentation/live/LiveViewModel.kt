@@ -27,17 +27,18 @@ class LiveViewModel @Inject constructor(
     private val _liveUserList = MutableLiveData<List<LiveUser?>?>()
     val liveUserList: LiveData<List<LiveUser?>?> = _liveUserList
 
-    val filteredLiveUserList: MutableLiveData<List<LiveUser?>?> = MutableLiveData()
-
     private val client = OkHttpClient()
-    val listener = WebSocketListener()
 
+    lateinit var webSocket: WebSocket
+
+    val filteredLiveUserList: MutableLiveData<List<LiveUser?>?> = MutableLiveData()
+    val listener = WebSocketListener()
     val liveOn: MutableLiveData<Boolean> = MutableLiveData(false)
+
     var cityOnLive: MutableLiveData<String?> = MutableLiveData("")
     var lng = 0.0
     var lat = 0.0
     var lastUpdateTime = 0L
-    lateinit var webSocket: WebSocket
 
     fun connectSocket(city: String, memberId: String) {
         val request = Request.Builder()
