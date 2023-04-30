@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="user"
+            type="org.sfy.ttrip.domain.entity.live.LiveUser" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,6 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sc_dream5"
+                    android:text="@{user.nickname}"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +65,7 @@
                     android:fontFamily="@font/sc_dream5"
                     android:paddingHorizontal="5dp"
                     android:paddingVertical="3dp"
+                    android:text="@{@string/matching_rate_format(user.matchingRate)}"
                     android:textColor="@color/medium_orchid"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_info_nickname"
@@ -75,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/sc_dream4"
+                    android:text="@{@string/age_gender_format(user.age, user.gender)}"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@id/tv_info_nickname"
@@ -98,6 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:fontFamily="@font/sc_dream4"
+                android:text="@{@string/distance_format(user.distanceFromMe)}"
                 android:textColor="@color/neon_blue"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_distance"

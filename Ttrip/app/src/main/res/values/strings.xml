@@ -73,6 +73,9 @@
     <string name="content_yes">네</string>
     <string name="content_live_toggle_off">OFF</string>
     <string name="content_live_toggle_on">ON</string>
+    <string name="matching_rate_format">%d%</string>
+    <string name="age_gender_format">%s %s</string>
+    <string name="distance_format">%dkm</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>

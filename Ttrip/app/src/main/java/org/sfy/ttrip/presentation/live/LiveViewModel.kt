@@ -25,12 +25,18 @@ class LiveViewModel @Inject constructor(
     private val _liveUserList = MutableLiveData<List<LiveUser?>?>()
     val liveUserList: LiveData<List<LiveUser?>?> = _liveUserList
 
+    val filteredLiveUserList: MutableLiveData<List<LiveUser?>?> = MutableLiveData()
+
     private val client = OkHttpClient()
     private val request = Request.Builder()
         .url("http://k8d104.p.ssafy.io:8081")
         .build()
 
-    var cityOnLive = ""
+    val liveOn: MutableLiveData<Boolean> = MutableLiveData(false)
+    var cityOnLive: MutableLiveData<String?> = MutableLiveData("")
+    var lng = 0.0
+    var lat = 0.0
+    var lastUpdateTime = 0L
 
     init {
         val listener = WebSocketListener()
@@ -46,6 +52,10 @@ class LiveViewModel @Inject constructor(
                 Log.d("getLiveUsers", "getLiveUsers: ${value.errorMessage}")
             }
         }
+    }
+
+    fun setLiveUserReset() {
+        _liveUserList.value = null
     }
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {
