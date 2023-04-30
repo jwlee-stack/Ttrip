@@ -46,6 +46,9 @@ public class Member extends BaseEntity {
     private Boolean shareLocation;
     @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
+    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Survey survey=new Survey();
 
     @Builder
     public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String markerImgPath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
@@ -62,8 +65,4 @@ public class Member extends BaseEntity {
         this.shareLocation = shareLocation;
         this.authority=authority;
     }
-
-    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private Survey survey=new Survey();
 }

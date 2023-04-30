@@ -18,6 +18,6 @@ public interface MemberService {
     DataResDto<?> reissue(TokenReqDto tokenReqDto, UUID uuid);
     DataResDto<?> updateMember (MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException;
     DataResDto<?> checkNickname(String nickname);
-    DataResDto<?> updateSurvey(Survey surveyReq, MemberDetails memberDetails);
+    DataResDto<?> updateSurvey(Survey surveyReqDto, MemberDetails memberDetails);
     DataResDto<?> viewMemberInfo(String nickname);
 }

@@ -36,7 +36,6 @@ public class Survey extends BaseEntity {
     private int preferTightSchedule;
     @Column(columnDefinition = "TINYINT")
     private int preferShoppingThanTour;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     @JsonBackReference
