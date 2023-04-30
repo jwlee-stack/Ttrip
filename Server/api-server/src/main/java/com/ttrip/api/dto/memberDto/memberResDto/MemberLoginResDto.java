@@ -18,6 +18,8 @@ import java.time.LocalDate;
 @Builder
 @ApiModel(value = "로그인 응답")
 public class MemberLoginResDto {
+    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-8d93-62efd2539c20")
+    private String uuid;
     @ApiModelProperty(value = "전화번호", example = "01012345678")
     private String phoneNumber;
     @ApiModelProperty(value = "닉네임", example = "진평동대마법사")
@@ -42,6 +44,7 @@ public class MemberLoginResDto {
     public static MemberLoginResDto toBuild(Member member, TokenDto tokenDto)
     {
         return MemberLoginResDto.builder()
+                .uuid(member.getMemberUuid().toString())
                 .phoneNumber(member.getPhoneNumber())
                 .nickname(member.getNickname())
                 .intro(member.getIntro())

@@ -2,20 +2,22 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.exception.BadRequestException;
-import com.ttrip.core.entity.refreshToken.RefreshToken;
-import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.api.service.MemberService;
 import com.ttrip.core.entity.member.Member;
+import com.ttrip.core.entity.refreshToken.RefreshToken;
+import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
+import com.ttrip.core.repository.survey.SurveyRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,10 +26,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -38,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final SurveyRepository surveyRepository;
 
     @Override
     @Transactional
@@ -118,17 +123,17 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public DataResDto<?> reissue(TokenReqDto tokenReqDto) {
+    public DataResDto<?> reissue(TokenReqDto tokenReqDto, UUID uuid) {
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenReqDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
         }
 
-        // 2. Access Token 에서 Member ID 가져오기
+        // 2. Access Token 에서 authentication 가져오기
         Authentication authentication = tokenProvider.getAuthentication(tokenReqDto.getAccessToken());
 
-        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
+        // 3. 저장소에서 Member UUID 를 기반으로 Refresh Token 값 가져옴
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(uuid.toString())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
         // 4. Refresh Token 일치하는지 검사
@@ -153,48 +158,24 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> updateMember(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException {
-        //닉네임, 인트로, 성별, 생일, fcm 토큰 변경//
+        if(memberUpdateReqDto.getNickname().isEmpty()||memberUpdateReqDto.getGender()==null||memberUpdateReqDto.getBirthday()==null)
+            throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/생일)");
+
         Member member=memberDetails.getMember();
-        member.setNickname(memberUpdateReqDto.getNickname().isEmpty()?member.getNickname():memberUpdateReqDto.getNickname());
+
+        //이미지 변경//
+        String imgPath;
+        imgPath=changeImg(member,memberUpdateReqDto.getProfileImg(),"profileImg");
+        member.setProfileImgPath(imgPath);
+        imgPath=changeImg(member,memberUpdateReqDto.getMarkerImg(),"markerImg");
+        member.setMarkerImgPath(imgPath);
+
+        //닉네임, 성별, 생일, 인트로, fcm 토큰 변경//
+        member.setNickname(memberUpdateReqDto.getNickname());
+        member.setGender(memberUpdateReqDto.getGender());
+        member.setBirthday(memberUpdateReqDto.getBirthday());
         member.setIntro(memberUpdateReqDto.getIntro().isEmpty()?"20자 이내로 입력해주세요":memberUpdateReqDto.getIntro());
-        member.setGender(memberUpdateReqDto.getGender().toString().isEmpty()?member.getGender():memberUpdateReqDto.getGender());
-        member.setBirthday(memberUpdateReqDto.getBirthday().toString().isEmpty()?member.getBirthday():memberUpdateReqDto.getBirthday());
         member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty()?member.getFcmToken():memberUpdateReqDto.getFcmToken());
-
-        //프사 변경//
-        String path=System.getProperty("user.dir")+"\\profileImg\\"; //공통 경로
-        String customImgPath=path+member.getMemberUuid()+".png"; //변경 프사 경로
-        String defaultImgPath=path+"default.png"; //디폴트 프사 경로
-        File profileImg=new File(customImgPath); //파일 객체 생성
-
-        //사용자가 프사를 설정했는지?
-        if(!memberUpdateReqDto.getProfileImg().isEmpty()) //프사 설정함
-        {
-            //프사 저장
-            memberUpdateReqDto.getProfileImg().transferTo(profileImg);
-            member.setProfileImgPath(customImgPath);
-
-        }
-        else if(profileImg.delete()) //프사 설정 안 함 && 기존 프사 삭제
-            member.setProfileImgPath(defaultImgPath); //디폴트 프사로 변경
-
-        //마커 변경//
-        path=System.getProperty("user.dir")+"\\markerImg\\"; //공통 경로
-        customImgPath=path+member.getMemberUuid()+".png"; //변경 마커 경로
-        defaultImgPath=path+"default.png"; //디폴트 마커 경로
-        File markerImg=new File(customImgPath); //파일 객체 생성
-
-        //사용자가 마커를 설정했는지?
-        if(!memberUpdateReqDto.getMarkerImg().isEmpty()) //마커 설정함
-        {
-            //마커 저장
-            memberUpdateReqDto.getMarkerImg().transferTo(markerImg);
-            member.setProfileImgPath(customImgPath);
-
-        }
-        else if(markerImg.delete()) //마커 설정 안 함 && 기존 마커 삭제
-            member.setProfileImgPath(defaultImgPath); //디폴트 마커로 변경
-
         memberRepository.save(member);
 
         return DataResDto.builder()
@@ -203,6 +184,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    @Override
     public DataResDto<?> checkNickname(String nickname)
     {
         if(memberRepository.existsByNickname(nickname))
@@ -220,5 +202,57 @@ public class MemberServiceImpl implements MemberService {
                     .build();
         }
 
+    }
+
+    @Override
+    public DataResDto<?> updateSurvey(Survey surveyReqDto, MemberDetails memberDetails) {
+        Member member=memberDetails.getMember();
+
+        Survey survey=surveyRepository.findBySurveyId(member.getMemberId()).get();
+        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity());
+        survey.setPreferPlan(surveyReqDto.getPreferPlan());
+        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight());
+        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort());
+        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood());
+        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic());
+        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget());
+        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule());
+        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour());
+        surveyRepository.save(survey);
+
+        return DataResDto.builder()
+                .message("회원의 여행 취향이 저장되었습니다.")
+                .data(survey)
+                .build();
+    }
+
+    @Override
+    public DataResDto<?> viewMemberInfo(String nickname) {
+        if(!memberRepository.existsByNickname(nickname))
+            throw new BadRequestException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
+
+        Member member=memberRepository.findByNickname(nickname).get();
+        return DataResDto.builder()
+                .message("회원 프로필이 조회되었습니다.")
+                .data(MemberResDto.toBuild(member))
+                .build();
+    }
+
+    public String changeImg(Member member, MultipartFile img, String folder) throws IOException {
+        //이미지 변경//
+        String path=System.getProperty("user.dir")+File.separator+folder+File.separator; //공통 경로
+        String customImgPath=path+member.getMemberUuid()+".png"; //변경 이미지 경로
+        String defaultImgPath=path+"default.png"; //디폴트 이미지 경로
+        File profileImg=new File(customImgPath); //파일 객체 생성
+
+        //사용자가 이미지를 설정했는지?
+        if(!img.isEmpty()) //이미지 설정함
+            img.transferTo(profileImg); //이미지 저장
+        else //이미지 설정 안 함
+        {
+            profileImg.delete();//기존 이미지 삭제
+            customImgPath = defaultImgPath; //디폴트 이미지로 변경
+        }
+        return customImgPath;
     }
 }
