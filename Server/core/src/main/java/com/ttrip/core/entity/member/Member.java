@@ -1,12 +1,15 @@
 package com.ttrip.core.entity.member;
 
-import com.ttrip.core.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ttrip.core.customEnum.Authority;
 import com.ttrip.core.customEnum.Gender;
+import com.ttrip.core.entity.BaseEntity;
+import com.ttrip.core.entity.survey.Survey;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -59,4 +62,8 @@ public class Member extends BaseEntity {
         this.shareLocation = shareLocation;
         this.authority=authority;
     }
+
+    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Survey survey=new Survey();
 }
