@@ -6,7 +6,7 @@ import org.sfy.ttrip.domain.entity.live.LiveUser
 
 data class LiveUserResponse(
     @SerializedName("nickname")
-    val nickname: String,
+    val nickname: String?,
     @SerializedName("gender")
     val gender: String,
     @SerializedName("age")

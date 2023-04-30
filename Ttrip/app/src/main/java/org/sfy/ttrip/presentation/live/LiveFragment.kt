@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +21,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.VisibleRegion
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.init.AuthViewModel
 import java.util.Locale
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -38,8 +41,9 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-    private val liveUserAdapter by lazy { LiveUserAdapter(this::getLiveUser) }
+    private val authViewModel by activityViewModels<AuthViewModel>()
     private val liveViewModel by viewModels<LiveViewModel>()
+    private val liveUserAdapter by lazy { LiveUserAdapter(this::getLiveUser) }
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -53,11 +57,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun initView() {
+        setLiveUsersRecyclerView()
         observeLiveState()
         setMapView()
         initListener()
         requestLocationPermission()
-        setLiveUsersRecyclerView()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -84,16 +88,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun onCameraMove() {
-        if (::map.isInitialized) {
-            visibleRegion = map.projection.visibleRegion
-            val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
-            // 범위 안에 있는 유저들만 표시
-            liveViewModel.filteredLiveUserList.value =
-                liveViewModel.liveUserList.value?.filter { user ->
-                    val userLatLng = LatLng(user!!.latitude, user.longitude)
-                    latLngBounds.contains(userLatLng)
-                }
-        }
+        getFilteredList()
     }
 
     private fun observeLiveState() {
@@ -103,6 +98,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     liveViewModel.apply {
                         if (city != null) {
                             this.getLiveUsers(city, lng, lat)
+                            getFilteredList()
                         }
                     }
                 } else {
@@ -120,6 +116,19 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
         liveViewModel.filteredLiveUserList.observe(viewLifecycleOwner) { response ->
             response?.let { liveUserAdapter.setLiveUser(it.map { users -> users!! }) }
+        }
+    }
+
+    // 범위 안에 있는 유저들만 표시
+    private fun getFilteredList() {
+        if (::map.isInitialized) {
+            visibleRegion = map.projection.visibleRegion
+            val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
+            liveViewModel.filteredLiveUserList.value =
+                liveViewModel.liveUserList.value?.filter { user ->
+                    val userLatLng = LatLng(user!!.latitude, user.longitude)
+                    latLngBounds.contains(userLatLng)
+                }
         }
     }
 
@@ -148,6 +157,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         liveViewModel.lat = 0.0
                         liveViewModel.lng = 0.0
                         stopLocationUpdates()
+                        liveViewModel.disconnectSocket()
                     }
                 }
             }
@@ -180,15 +190,31 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     // 위치가 null이 아니면 지도 이동
                     moveCamera(LatLng(location.latitude, location.longitude))
                     // 현재 도시의 이름을 받아오기
-                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                    val geocoder = Geocoder(requireContext(), Locale.ENGLISH)
                     val addresses =
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    val cityName = addresses!![0].locality?.trim()
+                    val cityName = addresses!![0].locality?.trim()?.replace("-", "")
                     if (liveViewModel.cityOnLive.value == "") {
                         liveViewModel.cityOnLive.value = cityName
+                        // 소켓 연결
+                        liveViewModel.connectSocket(
+                            liveViewModel.cityOnLive.value.toString(),
+                            ApplicationClass.preferences.userId.toString()
+                        )
+                        liveViewModel.sendMyInfo(
+                            liveViewModel.cityOnLive.value.toString(),
+                            ApplicationClass.preferences.userId.toString(),
+                            liveViewModel.lat,
+                            liveViewModel.lng,
+                            "nickname",
+                            "gender",
+                            "20대",
+                            "profilepath",
+                            "markerpath"
+                        )
                     } else if (liveViewModel.cityOnLive.value != cityName) {
-                       // Socket 끊기 추가 필요
                         binding.switchLive.isChecked = false
+                        liveViewModel.disconnectSocket()
                     }
                     // 위치 정보 수신 중지
                     fusedLocationClient.removeLocationUpdates(this)
@@ -258,7 +284,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 longitude,
                 liveViewModel.lat,
                 liveViewModel.lng
-            ) >= 100.0
+            ) <= 100.0
         ) {
             liveViewModel.apply {
                 this.lat = latitude

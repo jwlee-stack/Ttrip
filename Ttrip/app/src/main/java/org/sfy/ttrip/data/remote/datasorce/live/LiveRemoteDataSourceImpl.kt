@@ -12,5 +12,5 @@ class LiveRemoteDataSourceImpl @Inject constructor(
         lng: Double,
         lat: Double
     ): List<LiveUserResponse?> =
-        liveApiService.getLiveUsers(city, lng, lat)
+        liveApiService.getLiveUsers(city, lng, lat).data!!
 }

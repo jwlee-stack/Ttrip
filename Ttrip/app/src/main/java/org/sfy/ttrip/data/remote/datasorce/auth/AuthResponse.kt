@@ -6,14 +6,18 @@ import org.sfy.ttrip.domain.entity.auth.Auth
 import java.time.LocalDate
 
 data class AuthResponse(
+    @SerializedName("uuid")
+    val uuid: String,
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("nickname")
     val nickname: String?,
     @SerializedName("intro")
     val intro: String?,
-    @SerializedName("imagePath")
-    val imagePath: String?,
+    @SerializedName("profileImgPath")
+    val profileImgPath: String?,
+    @SerializedName("markerImgPath")
+    val markerImgPath: String?,
     @SerializedName("fcmToken")
     val fcmToken: String?,
     @SerializedName("gender")
@@ -27,10 +31,12 @@ data class AuthResponse(
 ) : DataToDomainMapper<Auth> {
     override fun toDomainModel(): Auth =
         Auth(
+            uuid,
             phoneNumber,
             nickname,
             intro,
-            imagePath,
+            profileImgPath,
+            markerImgPath,
             fcmToken,
             gender,
             birthday,

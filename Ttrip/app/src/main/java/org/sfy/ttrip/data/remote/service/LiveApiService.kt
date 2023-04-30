@@ -1,5 +1,6 @@
 package org.sfy.ttrip.data.remote.service
 
+import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
 import org.sfy.ttrip.data.remote.datasorce.live.LiveUserResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,5 +12,5 @@ interface LiveApiService {
         @Path("city") city: String,
         @Path("lng") lng: Double,
         @Path("lat") lat: Double
-    ): List<LiveUserResponse>
+    ): BaseResponse<List<LiveUserResponse>>
 }

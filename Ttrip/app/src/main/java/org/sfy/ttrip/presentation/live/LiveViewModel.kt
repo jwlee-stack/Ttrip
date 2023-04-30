@@ -10,10 +10,12 @@ import org.sfy.ttrip.domain.entity.live.LiveUser
 import javax.inject.Inject
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
+import org.json.JSONObject
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 
@@ -28,19 +30,24 @@ class LiveViewModel @Inject constructor(
     val filteredLiveUserList: MutableLiveData<List<LiveUser?>?> = MutableLiveData()
 
     private val client = OkHttpClient()
-    private val request = Request.Builder()
-        .url("http://k8d104.p.ssafy.io:8081")
-        .build()
+    val listener = WebSocketListener()
 
     val liveOn: MutableLiveData<Boolean> = MutableLiveData(false)
     var cityOnLive: MutableLiveData<String?> = MutableLiveData("")
     var lng = 0.0
     var lat = 0.0
     var lastUpdateTime = 0L
+    lateinit var webSocket: WebSocket
 
-    init {
-        val listener = WebSocketListener()
-        client.newWebSocket(request, listener)
+    fun connectSocket(city: String, memberId: String) {
+        val request = Request.Builder()
+            .url("ws://k8d104.p.ssafy.io:8081/ws/live/$city/$memberId")
+            .build()
+        webSocket = client.newWebSocket(request, listener)
+    }
+
+    fun disconnectSocket() {
+        webSocket.close(NORMAL_CLOSURE_STATUS, null)
     }
 
     fun getLiveUsers(city: String, lng: Double, lat: Double) = viewModelScope.launch {
@@ -58,14 +65,43 @@ class LiveViewModel @Inject constructor(
         _liveUserList.value = null
     }
 
+    fun sendMyInfo(
+        city: String,
+        uuid: String,
+        lat: Double,
+        lng: Double,
+        nickname: String,
+        gender: String,
+        age: String,
+        profileImgPath: String,
+        markerImgPath: String
+    ) {
+        val data = JSONObject().apply {
+            put("city", city)
+            put("memberUuid", uuid)
+            put("latitude", lat)
+            put("longitude", lng)
+            put("nickname", nickname)
+            put("gender", gender)
+            put("age", age)
+            put("profileImgPath", profileImgPath)
+            put("markerImgPath", markerImgPath)
+        }
+        webSocket.send(data.toString())
+
+    }
+
     inner class WebSocketListener : okhttp3.WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            webSocket.send("{\"type\":\"ticker\", \"symbols\": [\"BTC_KRW\"], \"tickTypes\": [\"30M\"]}")
-            webSocket.close(NORMAL_CLOSURE_STATUS, null) //없을 경우 끊임없이 서버와 통신함
+            Log.d("Socket", "onOpen")
+            super.onOpen(webSocket, response)
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             Log.d("Socket", "Receiving : $text")
+            val gson = Gson()
+            val userResponse = gson.fromJson(text, LiveUser::class.java)
+
         }
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {

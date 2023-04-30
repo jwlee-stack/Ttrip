@@ -3,6 +3,7 @@ package org.sfy.ttrip.presentation.init
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
@@ -19,7 +20,7 @@ import java.util.regex.Pattern
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(R.layout.fragment_sign_up) {
 
-    private val singUpViewModel by viewModels<AuthViewModel>()
+    private val singUpViewModel by activityViewModels<AuthViewModel>()
     private val mAuth = FirebaseAuth.getInstance()
     private var verificationCode = ""
 

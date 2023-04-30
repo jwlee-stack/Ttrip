@@ -40,6 +40,7 @@ class AuthViewModel @Inject constructor(
                 _emptyNickname.value = value.data.nickname == null
                 ApplicationClass.preferences.accessToken = value.data.token.accessToken
                 ApplicationClass.preferences.refreshToken = value.data.token.refreshToken
+                ApplicationClass.preferences.userId = value.data.uuid
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
