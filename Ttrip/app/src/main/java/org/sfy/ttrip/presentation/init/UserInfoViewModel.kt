@@ -19,14 +19,14 @@ class UserInfoViewModel @Inject constructor() : ViewModel() {
     private val _nickNameValid: MutableLiveData<Boolean> = MutableLiveData(false)
     val nickNameValid: LiveData<Boolean> = _nickNameValid
 
-    private val _userBirthDay: MutableLiveData<Boolean?> = MutableLiveData()
-    val userBirthDay: LiveData<Boolean?> = _userBirthDay
+    private val _userAge: MutableLiveData<String?> = MutableLiveData("")
+    val userAge: LiveData<String?> = _userAge
 
-    private val _userSex: MutableLiveData<Boolean?> = MutableLiveData()
-    val userSex: LiveData<Boolean?> = _userSex
+    private val _userSex: MutableLiveData<String?> = MutableLiveData("")
+    val userSex: LiveData<String?> = _userSex
 
-    private val _userIntro: MutableLiveData<Boolean?> = MutableLiveData()
-    val userIntro: LiveData<Boolean?> = _userIntro
+    private val _userIntro: MutableLiveData<String?> = MutableLiveData()
+    val userIntro: LiveData<String?> = _userIntro
 
     private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData(null)
     val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
@@ -35,6 +35,18 @@ class UserInfoViewModel @Inject constructor() : ViewModel() {
 
     fun checkNickName() {
         _nickNameValid.value = !_nickNameValid.value!!
+    }
+
+    fun postAge(age: String?) {
+        _userAge.value = age
+    }
+
+    fun postSex(sex: String?) {
+        _userSex.value = sex
+    }
+
+    fun postIntro(intro: String?) {
+        _userIntro.value = intro
     }
 
     fun setProfileImg(uri: Uri, file: File) {
