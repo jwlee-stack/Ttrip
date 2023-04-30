@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@id/cl_switch_live" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_collection_home"
+            android:id="@+id/rv_live_users"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="96dp"

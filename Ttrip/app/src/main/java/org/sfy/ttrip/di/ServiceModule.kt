@@ -4,8 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.sfy.ttrip.AuthInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
 import org.sfy.ttrip.data.remote.service.AuthApiService
+import org.sfy.ttrip.data.remote.service.LiveApiService
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -19,4 +21,11 @@ object ServiceModule {
         @NoAuthInterceptorClient retrofit: Retrofit
     ): AuthApiService =
         retrofit.create(AuthApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLiveApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): LiveApiService =
+        retrofit.create(LiveApiService::class.java)
 }

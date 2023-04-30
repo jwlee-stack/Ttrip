@@ -5,7 +5,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.data.remote.datasorce.auth.AuthRemoteDataSourceImpl
+import org.sfy.ttrip.data.remote.datasorce.live.LiveRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.service.AuthApiService
+import org.sfy.ttrip.data.remote.service.LiveApiService
 import javax.inject.Singleton
 
 @Module
@@ -17,4 +19,10 @@ object DataSourceModule {
     fun provideAuthDataSource(
         authApiService: AuthApiService
     ): AuthRemoteDataSourceImpl = AuthRemoteDataSourceImpl(authApiService)
+
+    @Provides
+    @Singleton
+    fun provideLiveDataSource(
+        liveApiService: LiveApiService
+    ): LiveRemoteDataSourceImpl = LiveRemoteDataSourceImpl(liveApiService)
 }
