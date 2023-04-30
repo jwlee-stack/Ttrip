@@ -3,6 +3,7 @@ package com.ttrip.api.service.impl;
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
@@ -12,11 +13,13 @@ import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.exception.BadRequestException;
 import com.ttrip.api.service.MemberService;
+import com.ttrip.core.entity.blacklist.Blacklist;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
+import com.ttrip.core.repository.blacklist.BlacklistRepository;
 import com.ttrip.core.repository.survey.SurveyRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
@@ -43,32 +46,31 @@ public class MemberServiceImpl implements MemberService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final SurveyRepository surveyRepository;
+    private final BlacklistRepository blacklistRepository;
 
     @Override
     @Transactional
-    public DataResDto<?> signup(MemberSignupReqDto memberSignupReqDto)
-    {
+    public DataResDto<?> signup(MemberSignupReqDto memberSignupReqDto) {
         //이미 가입한 전화번호?
-        if(memberRepository.existsByPhoneNumber(memberSignupReqDto.getPhoneNumber()))
+        if (memberRepository.existsByPhoneNumber(memberSignupReqDto.getPhoneNumber()))
             //이미 가입한 유저입니다.
             throw new BadRequestException(ErrorMessageEnum.EXISTS_ACCOUNT.getMessage());
 
         //멤버 생성
-        Member member= memberSignupReqDto.toMember(passwordEncoder);
+        Member member = memberSignupReqDto.toMember(passwordEncoder);
 
         //DB에 저장
-        try
-        {
+        try {
             memberRepository.save(member);
             return DataResDto.builder()
                     .message("회원가입이 완료되었습니다.")
                     .data(MemberResDto.toBuild(member))
                     .build();
-        }
-        catch (Exception e) {    //회원가입 실패
+        } catch (Exception e) {    //회원가입 실패
             throw new NoSuchElementException(ErrorMessageEnum.FAIL_TO_SIGNUP.getMessage());
         }
     }
+
     @Override
     @Transactional
     public DataResDto<?> login(MemberLoginReqDto memberLoginReqDto) {
@@ -83,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        Member member=memberRepository.findByPhoneNumber(memberLoginReqDto.getPhoneNumber()).get();
+        Member member = memberRepository.findByPhoneNumber(memberLoginReqDto.getPhoneNumber()).get();
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
@@ -97,25 +99,24 @@ public class MemberServiceImpl implements MemberService {
 
         return DataResDto.builder()
                 .message("토큰 생성 완료")
-                .data(MemberLoginResDto.toBuild(member,tokenDto))
+                .data(MemberLoginResDto.toBuild(member, tokenDto))
                 .build();
     }
+
     @Override
     public DataResDto<?> logout(MemberDetails memberDetails) {
         //memberDetails를 통해, 내 UUID 획득
-        String myUuid=memberDetails.getMember().getMemberUuid().toString();
+        String myUuid = memberDetails.getMember().getMemberUuid().toString();
         //내 UUID로 리프래시 토큰 서칭
-        RefreshToken refreshToken=refreshTokenRepository.findByKey(myUuid).get();
-        try{
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(myUuid).get();
+        try {
             //해당 리프래시 토큰 삭제
             refreshTokenRepository.delete(refreshToken);
             return DataResDto.builder()
                     .message("로그아웃되었습니다.")
                     .data(true)
                     .build();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new NoSuchElementException(ErrorMessageEnum.FAIL_TO_LOGOUT.getMessage());
         }
@@ -158,24 +159,24 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> updateMember(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException {
-        if(memberUpdateReqDto.getNickname().isEmpty()||memberUpdateReqDto.getGender()==null||memberUpdateReqDto.getBirthday()==null)
+        if (memberUpdateReqDto.getNickname().isEmpty() || memberUpdateReqDto.getGender() == null || memberUpdateReqDto.getBirthday() == null)
             throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/생일)");
 
-        Member member=memberDetails.getMember();
+        Member member = memberDetails.getMember();
 
         //이미지 변경//
         String imgPath;
-        imgPath=changeImg(member,memberUpdateReqDto.getProfileImg(),"profileImg");
+        imgPath = changeImg(member, memberUpdateReqDto.getProfileImg(), "profileImg");
         member.setProfileImgPath(imgPath);
-        imgPath=changeImg(member,memberUpdateReqDto.getMarkerImg(),"markerImg");
+        imgPath = changeImg(member, memberUpdateReqDto.getMarkerImg(), "markerImg");
         member.setMarkerImgPath(imgPath);
 
         //닉네임, 성별, 생일, 인트로, fcm 토큰 변경//
         member.setNickname(memberUpdateReqDto.getNickname());
         member.setGender(memberUpdateReqDto.getGender());
         member.setBirthday(memberUpdateReqDto.getBirthday());
-        member.setIntro(memberUpdateReqDto.getIntro().isEmpty()?"20자 이내로 입력해주세요":memberUpdateReqDto.getIntro());
-        member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty()?member.getFcmToken():memberUpdateReqDto.getFcmToken());
+        member.setIntro(memberUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : memberUpdateReqDto.getIntro());
+        member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? member.getFcmToken() : memberUpdateReqDto.getFcmToken());
         memberRepository.save(member);
 
         return DataResDto.builder()
@@ -185,17 +186,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public DataResDto<?> checkNickname(String nickname)
-    {
-        if(memberRepository.existsByNickname(nickname))
-        {
+    public DataResDto<?> checkNickname(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
             return DataResDto.builder()
                     .message("존재하는 닉네임입니다.")
                     .data(MemberCheckNicknameResDto.builder().isExist(true).build())
                     .build();
-        }
-        else
-        {
+        } else {
             return DataResDto.builder()
                     .message("사용 가능한 닉네임입니다.")
                     .data(MemberCheckNicknameResDto.builder().isExist(false).build())
@@ -206,9 +203,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DataResDto<?> updateSurvey(Survey surveyReqDto, MemberDetails memberDetails) {
-        Member member=memberDetails.getMember();
+        Member member = memberDetails.getMember();
 
-        Survey survey=surveyRepository.findBySurveyId(member.getMemberId()).get();
+        Survey survey = surveyRepository.findBySurveyId(member.getMemberId()).get();
         survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity());
         survey.setPreferPlan(surveyReqDto.getPreferPlan());
         survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight());
@@ -228,25 +225,41 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DataResDto<?> viewMemberInfo(String nickname) {
-        if(!memberRepository.existsByNickname(nickname))
+        if (!memberRepository.existsByNickname(nickname))
             throw new BadRequestException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
 
-        Member member=memberRepository.findByNickname(nickname).get();
+        Member member = memberRepository.findByNickname(nickname).get();
         return DataResDto.builder()
                 .message("회원 프로필이 조회되었습니다.")
                 .data(MemberResDto.toBuild(member))
                 .build();
     }
 
+    @Override
+    public DataResDto<?> reportMember(MemberReportReqDto memberReportReqDto, MemberDetails memberDetails) {
+        Member member = memberRepository.findByNickname(memberReportReqDto.getReportedNickname()).get();
+        Blacklist blacklist = Blacklist.builder()
+                .reporterId(memberDetails.getMember().getMemberId())
+                .reportContext(memberReportReqDto.getReportContext())
+                .member(member)
+                .build();
+        blacklistRepository.save(blacklist);
+
+        return DataResDto.builder()
+                .message("신고가 접수되었습니다.")
+                .data(blacklistRepository.findAllByMember(member))
+                .build();
+    }
+
     public String changeImg(Member member, MultipartFile img, String folder) throws IOException {
         //이미지 변경//
-        String path=System.getProperty("user.dir")+File.separator+folder+File.separator; //공통 경로
-        String customImgPath=path+member.getMemberUuid()+".png"; //변경 이미지 경로
-        String defaultImgPath=path+"default.png"; //디폴트 이미지 경로
-        File profileImg=new File(customImgPath); //파일 객체 생성
+        String path = System.getProperty("user.dir") + File.separator + folder + File.separator; //공통 경로
+        String customImgPath = path + member.getMemberUuid() + ".png"; //변경 이미지 경로
+        String defaultImgPath = path + "default.png"; //디폴트 이미지 경로
+        File profileImg = new File(customImgPath); //파일 객체 생성
 
         //사용자가 이미지를 설정했는지?
-        if(!img.isEmpty()) //이미지 설정함
+        if (!img.isEmpty()) //이미지 설정함
             img.transferTo(profileImg); //이미지 저장
         else //이미지 설정 안 함
         {

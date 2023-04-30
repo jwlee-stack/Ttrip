@@ -2,6 +2,7 @@ package com.ttrip.api.service;
 
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
@@ -20,4 +21,5 @@ public interface MemberService {
     DataResDto<?> checkNickname(String nickname);
     DataResDto<?> updateSurvey(Survey surveyReqDto, MemberDetails memberDetails);
     DataResDto<?> viewMemberInfo(String nickname);
+    DataResDto<?> reportMember(MemberReportReqDto memberReportReqDto, MemberDetails memberDetails);
 }

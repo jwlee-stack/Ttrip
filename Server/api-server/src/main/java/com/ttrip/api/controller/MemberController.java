@@ -2,6 +2,7 @@ package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
@@ -107,5 +108,16 @@ public class MemberController {
     @GetMapping("/{nickname}")
     public DataResDto<?> viewMemberInfo(@PathVariable String nickname) {
         return memberService.viewMemberInfo(nickname);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신고 성공"),
+            @ApiResponse(code = 400, message = "신고 실패")
+    })
+    @ApiOperation(value = "신고")
+    @PostMapping("/report")
+    public DataResDto<?> reportMember(@RequestBody MemberReportReqDto memberReportReqDto,
+                                      @AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.reportMember(memberReportReqDto, memberDetails);
     }
 }
