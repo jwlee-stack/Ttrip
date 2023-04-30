@@ -32,8 +32,7 @@ public class MemberController {
     })
     @ApiOperation(value = "회원가입 API")
     @PostMapping
-    public DataResDto<?> signup(@RequestBody MemberSignupReqDto memberSignupReqDto)
-    {
+    public DataResDto<?> signup(@RequestBody MemberSignupReqDto memberSignupReqDto) {
         return memberService.signup(memberSignupReqDto);
     }
 
@@ -43,8 +42,7 @@ public class MemberController {
     })
     @ApiOperation(value = "로그인 API")
     @PostMapping("/login")
-    public DataResDto<?> login(@RequestBody MemberLoginReqDto memberLoginReqDto)
-    {
+    public DataResDto<?> login(@RequestBody MemberLoginReqDto memberLoginReqDto) {
         return memberService.login(memberLoginReqDto);
     }
 
@@ -54,8 +52,7 @@ public class MemberController {
     })
     @ApiOperation(value = "로그아웃 API")
     @GetMapping("/logout")
-    public DataResDto<?> logout(@AuthenticationPrincipal MemberDetails memberDetails)
-    {
+    public DataResDto<?> logout(@AuthenticationPrincipal MemberDetails memberDetails) {
         return memberService.logout(memberDetails);
     }
 
@@ -65,8 +62,7 @@ public class MemberController {
     })
     @ApiOperation(value = "닉네임 중복 체크 API")
     @GetMapping("/{nickname}/exists")
-    public DataResDto<?> checkNickname(@PathVariable String nickname)
-    {
+    public DataResDto<?> checkNickname(@PathVariable String nickname) {
         return memberService.checkNickname(nickname);
     }
 
@@ -77,10 +73,10 @@ public class MemberController {
     @ApiOperation(value = "회원 정보 업데이트 API")
     @PatchMapping("/update")
     public DataResDto<?> updateMember(@ModelAttribute MemberUpdateReqDto memberUpdateReqDto,
-                                      @AuthenticationPrincipal MemberDetails memberDetails) throws IOException
-    {
-        return memberService.updateMember(memberUpdateReqDto,memberDetails);
+                                      @AuthenticationPrincipal MemberDetails memberDetails) throws IOException {
+        return memberService.updateMember(memberUpdateReqDto, memberDetails);
     }
+
     @ApiResponses({
             @ApiResponse(code = 200, message = "accessToken 재발급 성공"),
             @ApiResponse(code = 400, message = "accessToken 재발급 실패")
@@ -88,29 +84,28 @@ public class MemberController {
     @ApiOperation(value = "accessToken 재발급 API")
     @PatchMapping("/reissue")
     public DataResDto<?> reissue(@RequestBody TokenReqDto tokenReqDto,
-                                     @AuthenticationPrincipal MemberDetails memberDetails)
-    {
-        return memberService.reissue(tokenReqDto,memberDetails.getMember().getMemberUuid());
+                                 @AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.reissue(tokenReqDto, memberDetails.getMember().getMemberUuid());
     }
+
     @ApiResponses({
             @ApiResponse(code = 200, message = "여행 취향 저장 성공"),
             @ApiResponse(code = 400, message = "여행 취향 저장 실패")
     })
     @ApiOperation(value = "여행 취향 저장  API")
     @PatchMapping("/preferences")
-    public DataResDto<?> updateSurvey(@RequestBody Survey surveyReq,
-                                 @AuthenticationPrincipal MemberDetails memberDetails)
-    {
-        return memberService.updateSurvey(surveyReq,memberDetails);
+    public DataResDto<?> updateSurvey(@RequestBody Survey surveyReqDto,
+                                      @AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.updateSurvey(surveyReqDto, memberDetails);
     }
+
     @ApiResponses({
             @ApiResponse(code = 200, message = "프로필 조회 성공"),
             @ApiResponse(code = 400, message = "프로필 조회 실패")
     })
     @ApiOperation(value = "프로필 조회 API")
     @GetMapping("/{nickname}")
-    public DataResDto<?> viewMemberInfo(@PathVariable String nickname)
-    {
+    public DataResDto<?> viewMemberInfo(@PathVariable String nickname) {
         return memberService.viewMemberInfo(nickname);
     }
 }
