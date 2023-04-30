@@ -6,8 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.data.remote.datasorce.auth.AuthRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.live.LiveRemoteDataSourceImpl
+import org.sfy.ttrip.data.remote.datasorce.user.UserRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.service.AuthApiService
 import org.sfy.ttrip.data.remote.service.LiveApiService
+import org.sfy.ttrip.data.remote.service.UserApiService
+import org.sfy.ttrip.domain.entity.user.User
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +28,10 @@ object DataSourceModule {
     fun provideLiveDataSource(
         liveApiService: LiveApiService
     ): LiveRemoteDataSourceImpl = LiveRemoteDataSourceImpl(liveApiService)
+
+    @Provides
+    @Singleton
+    fun provideUserDataSource(
+        userApiService: UserApiService
+    ): UserRemoteDataSourceImpl = UserRemoteDataSourceImpl(userApiService)
 }
