@@ -29,7 +29,6 @@ class UserInfoTestListAdapter() :
             parent,
             false
         )
-
         return UserInfoTestListViewHolder(binding)
     }
 

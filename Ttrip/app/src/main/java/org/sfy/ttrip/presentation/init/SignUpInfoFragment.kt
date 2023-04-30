@@ -15,17 +15,17 @@ class SignUpInfoFragment :
     private val viewModel by activityViewModels<UserInfoViewModel>()
 
     override fun initView() {
-        initBanner()
+        initContent()
     }
 
-    private fun initBanner() {
+    private fun initContent() {
         binding.apply {
-            vpBannerInfo.adapter = SignUpAdapter(this@SignUpInfoFragment)
-            ciBannerInfo.setViewPager(vpBannerInfo)
+            vpContentInfo.adapter = SignUpAdapter(this@SignUpInfoFragment)
+            ciBannerInfo.setViewPager(vpContentInfo)
 
-            vpBannerInfo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            vpContentInfo.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    vpBannerInfo.isUserInputEnabled = false
+                    vpContentInfo.isUserInputEnabled = false
 
                     when (position) {
                         0 -> {
@@ -46,23 +46,18 @@ class SignUpInfoFragment :
                                 else checkInfo(true)
                             }
                         }
-
                         3 -> {
                             viewModel.profileImgUri.observe(this@SignUpInfoFragment) { uri ->
-                                when (uri) {
-                                    null -> {
-                                        checkInfo(false)
-                                    }
-                                    else -> {
-                                        viewModel.userIntro.observe(this@SignUpInfoFragment) {
-                                            if (it == "") checkInfo(false)
-                                            else checkInfo(true)
-                                        }
+                                if (uri == null) {
+                                    checkInfo(false)
+                                } else {
+                                    viewModel.userIntro.observe(this@SignUpInfoFragment) {
+                                        if (it == "") checkInfo(false)
+                                        else checkInfo(true)
                                     }
                                 }
                             }
                         }
-
                         4 -> {
 
                         }
@@ -76,10 +71,10 @@ class SignUpInfoFragment :
         if (valid != null) {
             if (valid) {
                 binding.apply {
-                    vpBannerInfo.isUserInputEnabled = true
+                    vpContentInfo.isUserInputEnabled = true
                     tvNextInfo.apply {
                         setOnClickListener {
-                            vpBannerInfo.currentItem = vpBannerInfo.currentItem + 1
+                            vpContentInfo.currentItem = vpContentInfo.currentItem + 1
                         }
                         setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
                         setTextColor(Color.BLACK)
@@ -87,9 +82,9 @@ class SignUpInfoFragment :
                 }
             } else {
                 binding.apply {
-                    vpBannerInfo.isUserInputEnabled = false
+                    vpContentInfo.isUserInputEnabled = false
                     tvNextInfo.apply {
-                        setOnClickListener {}
+                        isEnabled = false
                         setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
                         setTextColor(Color.WHITE)
                     }
@@ -97,9 +92,9 @@ class SignUpInfoFragment :
             }
         } else {
             binding.apply {
-                vpBannerInfo.isUserInputEnabled = false
+                vpContentInfo.isUserInputEnabled = false
                 tvNextInfo.apply {
-                    setOnClickListener {}
+                    isEnabled = false
                     setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
                     setTextColor(Color.WHITE)
                 }

@@ -18,12 +18,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.R
-import org.sfy.ttrip.databinding.FragmentSignUpInfoBannerBinding
+import org.sfy.ttrip.databinding.FragmentSignUpInfoContentBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.io.File
 
-class SignUpInfoBannerFragment :
-    BaseFragment<FragmentSignUpInfoBannerBinding>(R.layout.fragment_sign_up_info_banner) {
+class SignUpInfoContentFragment :
+    BaseFragment<FragmentSignUpInfoContentBinding>(R.layout.fragment_sign_up_info_content) {
 
     private var bannerPosition = -1
     private val userInfoTestListAdapter by lazy {
@@ -126,7 +126,7 @@ class SignUpInfoBannerFragment :
                         }
                     })
 
-                    userInfoViewModel.profileImgUri.observe(this@SignUpInfoBannerFragment) {
+                    userInfoViewModel.profileImgUri.observe(this@SignUpInfoContentFragment) {
                         when (it) {
                             null -> binding.ivUserInfoProfilePhotoBlack.visibility = View.VISIBLE
                             else -> binding.ivUserInfoProfilePhotoBlack.visibility = View.GONE
