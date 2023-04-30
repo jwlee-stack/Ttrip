@@ -62,6 +62,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         setMapView()
         initListener()
         requestLocationPermission()
+        getFilteredList()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -124,11 +125,18 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         if (::map.isInitialized) {
             visibleRegion = map.projection.visibleRegion
             val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
-            liveViewModel.filteredLiveUserList.value =
-                liveViewModel.liveUserList.value?.filter { user ->
-                    val userLatLng = LatLng(user!!.latitude, user.longitude)
-                    latLngBounds.contains(userLatLng)
-                }
+            liveViewModel.liveUserList.observe(viewLifecycleOwner) {
+                liveViewModel.filteredLiveUserList.value =
+                    it?.filter { user ->
+                        val userLatLng = LatLng(user!!.latitude, user.longitude)
+                        latLngBounds.contains(userLatLng)
+                    }
+            }
+//            liveViewModel.filteredLiveUserList.value =
+//                liveViewModel.liveUserList.value?.filter { user ->
+//                    val userLatLng = LatLng(user!!.latitude, user.longitude)
+//                    latLngBounds.contains(userLatLng)
+//                }
         }
     }
 
