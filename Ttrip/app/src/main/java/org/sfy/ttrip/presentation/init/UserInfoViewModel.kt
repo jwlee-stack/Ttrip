@@ -14,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
+import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
 import org.sfy.ttrip.domain.usecase.user.PatchUserInfoUseCase
 import java.io.File
@@ -45,6 +46,10 @@ class UserInfoViewModel @Inject constructor(
 
     private var profileImgMultiPart: MultipartBody.Part? = null
 
+    private val _userTest: MutableLiveData<UserTest> =
+        MutableLiveData(UserTest(0, 0, 0, 0, 0, 0, 0, 0, 0))
+    val userTest: LiveData<UserTest> = _userTest
+
     suspend fun checkDuplication() =
         viewModelScope.async {
             when (val value = checkDuplicationUseCase(nickname.value!!)) {
@@ -59,8 +64,29 @@ class UserInfoViewModel @Inject constructor(
             }
         }.await()
 
+    fun checkSurvey(position: Int, record: Int) {
+        val userTest = userTest.value ?: return // 라이브데이터 객체 가져오기
+        when (position) {
+            0 -> userTest.preferNatureThanCity = record
+            1 -> userTest.preferPlan = record
+            2 -> userTest.preferDirectFlight = record
+            3 -> userTest.preferCheapHotelThanComfort = record
+            4 -> userTest.preferGoodFood = record
+            5 -> userTest.preferCheapTraffic = record
+            6 -> userTest.preferPersonalBudget = record
+            7 -> userTest.preferTightSchedule = record
+            8 -> userTest.preferShoppingThanTour = record
+        }
+        _userTest.value = userTest // 라이브데이터 객체 업데이트
+    }
+
+    fun patchUserInfoTest() = viewModelScope.launch {
+
+    }
+
     fun patchUserInfo() =
         viewModelScope.launch {
+            Log.d("asd", "patchUserInfo: ${nickname.value},  ${userIntro.value}, ${ userSex.value}, ${userAge.value}")
             patchUserInfoUseCase(
                 nickname.value!!,
                 userIntro.value!!,

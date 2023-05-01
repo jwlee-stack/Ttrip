@@ -1,7 +1,6 @@
 package org.sfy.ttrip.presentation.init
 
 import android.graphics.Color
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,14 +60,11 @@ class SignUpInfoFragment :
                             }
                         }
                         3 -> {
+                            binding.tvNextInfo.text = "다음"
                             viewModel.profileImgUri.observe(this@SignUpInfoFragment) { uri ->
                                 if (uri == null) {
                                     checkInfo(false)
                                 } else {
-                                    Log.d(
-                                        "wpqkf",
-                                        "onPageSelected: ${viewModel.profileImgUri.value}"
-                                    )
                                     viewModel.userIntro.observe(this@SignUpInfoFragment) {
                                         if (it == "") checkInfo(false)
                                         else checkInfo(true)
@@ -77,9 +73,32 @@ class SignUpInfoFragment :
                             }
                         }
                         4 -> {
-                            binding.tvNextInfo.apply {
-                                text = "입력 완료"
-                                viewModel.patchUserInfo()
+                            binding.tvNextInfo.text = "입력 완료"
+                            viewModel.userTest.observe(this@SignUpInfoFragment) {
+                                if (it.preferCheapHotelThanComfort != 0 &&
+                                    it.preferCheapTraffic != 0 &&
+                                    it.preferGoodFood != 0 &&
+                                    it.preferDirectFlight != 0 &&
+                                    it.preferPlan != 0 &&
+                                    it.preferTightSchedule != 0 &&
+                                    it.preferShoppingThanTour != 0 &&
+                                    it.preferNatureThanCity != 0 &&
+                                    it.preferPersonalBudget != 0
+                                ) {
+                                    binding.tvNextInfo.apply {
+                                        isEnabled = true
+                                        setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
+                                        setOnClickListener {
+                                            viewModel.patchUserInfo()
+                                            viewModel.patchUserInfoTest()
+                                        }
+                                    }
+                                } else {
+                                    binding.tvNextInfo.apply {
+                                        isEnabled = false
+                                        setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                                    }
+                                }
                             }
                         }
                     }
