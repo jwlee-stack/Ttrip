@@ -77,3 +77,7 @@ custom:
 
 jwt:
   secret: 52099f75a38f208a0c873b4c2ae43aaf72a4ac0898d713a8ab22d8c57a439f5dada15dcd23d857971fc4d48f8c8df038a2f0044de2bc8b6817ed5bc9ae1ea43b
+
+openvidu:
+  url: https://localhost:4443/
+  secret: MY_SECRET

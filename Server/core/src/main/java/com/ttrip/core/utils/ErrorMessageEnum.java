@@ -16,7 +16,9 @@ public enum ErrorMessageEnum {
     SESSION_DISCONNECTED_BY_ERROR("session is disconnected by unexpected Error."),
     USER_NOT_EXIST("존재하지 않는 회원입니다"),
     MATCH_NOT_EXIST("존재하지 않는 매칭 이력입니다."),
-    CHATMEMBER_NOT_EXIST("존재하지않는 채팅입니다.");
+    CHATMEMBER_NOT_EXIST("존재하지않는 채팅입니다."),
+    ALREADY_CALLING("이미 통화중인 상대입니다."),
+    FAILD_TO_TOKEN("토큰 발급에 실패하였습니다.");
     private String message;
 
     ErrorMessageEnum(String message) {
