@@ -92,23 +92,6 @@ services:
       ttrip_bridge:
         ipv4_address: 172.35.0.13
 
-  flask-server:
-    container_name: flask-server
-    hostname: flask-server
-    image: my-flask:latest
-    build: ./flask-server
-    command: python app.py
-    restart: unless-stopped
-    env_file:
-      - ./flask-server/.env
-    ports:
-      - 5000:5000
-    volumes:
-      - flask-data:/app
-    networks:
-      ttrip_bridge:
-        ipv4_address: 172.35.0.14
-
   mongo-db:
     image: mongo:4.4.3
     container_name: mongo-db
