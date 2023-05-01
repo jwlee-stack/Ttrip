@@ -10,8 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,8 +32,8 @@ public class MemberLoginResDto {
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
     private Gender gender;
-    @ApiModelProperty(value = "생일", example = "1995-02-02")
-    private LocalDate birthday;
+    @ApiModelProperty(value = "나이", example = "23")
+    private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
     @ApiModelProperty(value = "액세스 토큰", example = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTA3Nzc3IiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY4MjU3OTc1Mn0.DJ6cw9gTASIcqsfVvdtLzOUJ-g66JAvfi7HobBstUhFn1IwJuoYUXVLGCQX-z2ykHwlEeKZX_Pgh9D4kn2OJZw")
@@ -52,7 +50,7 @@ public class MemberLoginResDto {
                 .markerImgPath(member.getMarkerImgPath())
                 .fcmToken(member.getFcmToken())
                 .gender(member.getGender())
-                .birthday(member.getBirthday())
+                .age(member.getAge())
                 .shareLocation(member.getShareLocation())
                 .tokenDto(tokenDto)
                 .build();

@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -41,7 +40,7 @@ public class Member extends BaseEntity {
     private String fcmToken;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private LocalDate birthday;
+    private Integer age;
     @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
     @Enumerated(EnumType.STRING) //문자열 자체 저장
@@ -51,7 +50,7 @@ public class Member extends BaseEntity {
     private Survey survey=new Survey();
 
     @Builder
-    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String markerImgPath, String fcmToken, Gender gender, LocalDate birthday, Boolean shareLocation,Authority authority) {
+    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String markerImgPath, String fcmToken, Gender gender, Integer age, Boolean shareLocation,Authority authority) {
         this.memberUuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -61,7 +60,7 @@ public class Member extends BaseEntity {
         this.markerImgPath = markerImgPath;
         this.fcmToken = fcmToken;
         this.gender = gender;
-        this.birthday = birthday;
+        this.age = age;
         this.shareLocation = shareLocation;
         this.authority=authority;
     }
