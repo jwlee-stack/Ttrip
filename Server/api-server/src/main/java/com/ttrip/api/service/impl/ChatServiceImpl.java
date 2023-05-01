@@ -43,35 +43,22 @@ public class ChatServiceImpl implements ChatService {
             Optional<ChatMember> optionalChatMember = chatMember.getChatroom().getChatMemberList().stream()
                     .filter(target -> !target.getMember().equals(member))
                     .findFirst();
+            ChatMessage lastMessage = chatMessageRepository.findByChatroomId(chatMember.getChatroom().getChatRoomId())
+                    .get(chatMessageRepository.findByChatroomId(chatMember.getChatroom().getChatRoomId()).size() - 1);
             //대화 상대가 있으면
-            if (optionalChatMember.isPresent()) {
-                Member opponent = optionalChatMember.get().getMember();
-                GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
-                        .chatroomId(chatMember.getChatroom().getChatRoomId())
-                        .nickname(opponent.getNickname())
-                        .memberUuid(opponent.getMemberUuid())
-                        .imagePath(opponent.getProfileImgPath())
-                        .updatedAt(LocalDateTime.now())
-                        .lastMessage("test")
-                        .articleId(chatMember.getChatroom().getArticle().getArticleId())
-                        .articleTitle(chatMember.getChatroom().getArticle().getTitle())
-                        .build();
-                chatroomList.add(getChatroomResDto);
-            } else {
-                //대화 상대가 없으면 "알수없음, 기본이미지, Uuid null"
-                GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
-                        .chatroomId(chatMember.getChatroom().getChatRoomId())
-                        .nickname("알수없음")
-                        .memberUuid(null)
-                        .imagePath(null)
-                        .updatedAt(LocalDateTime.now())
-                        .lastMessage("test")
-                        .articleId(chatMember.getChatroom().getArticle().getArticleId())
-                        .articleTitle(chatMember.getChatroom().getArticle().getTitle())
-                        .build();
-                chatroomList.add(getChatroomResDto);
-            }
-            //추가할거
+            Member opponent = optionalChatMember.get().getMember();
+            GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
+                    .chatroomId(chatMember.getChatroom().getChatRoomId())
+                    .nickname(opponent.getNickname())
+                    .memberUuid(opponent.getMemberUuid())
+                    .lastMessage(lastMessage.getText())
+                    .updatedAt(lastMessage.getCreatedAt())
+                    .imagePath(opponent.getProfileImgPath())
+                    .articleId(chatMember.getChatroom().getArticle().getArticleId())
+                    .articleTitle(chatMember.getChatroom().getArticle().getTitle())
+                    .build();
+            chatroomList.add(getChatroomResDto);
+
         }
 
         return DataResDto.builder().data(chatroomList).message("채팅목록을 조회했습니다.").build();
