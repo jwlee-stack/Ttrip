@@ -46,7 +46,7 @@ public class OpenViduRedisDao {
      * @return : 들어갈 수 있는 세션이라면 true, 들어갈 수 없다면 false를 반환합니다.
      */
     public boolean JoinableSession(String sessionId) {
-        if(setOperations.size(sessionId) < 2)
+        if(setOperations.size("openvidu:" + sessionId) < 2)
             return true;
         return false;
     }
