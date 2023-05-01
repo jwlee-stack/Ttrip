@@ -2,7 +2,7 @@ package org.sfy.ttrip.domain.repository.user
 
 import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
+import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 
 interface UserRepository {
 

@@ -4,7 +4,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
 import org.sfy.ttrip.data.remote.service.UserApiService
 import javax.inject.Inject
 

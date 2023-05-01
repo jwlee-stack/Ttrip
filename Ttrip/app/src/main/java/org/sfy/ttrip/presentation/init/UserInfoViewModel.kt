@@ -13,7 +13,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
+import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
 import org.sfy.ttrip.domain.usecase.user.PatchUserInfoUseCase
@@ -65,7 +65,7 @@ class UserInfoViewModel @Inject constructor(
         }.await()
 
     fun checkSurvey(position: Int, record: Int) {
-        val userTest = userTest.value ?: return // 라이브데이터 객체 가져오기
+        val userTest = userTest.value ?: return
         when (position) {
             0 -> userTest.preferNatureThanCity = record
             1 -> userTest.preferPlan = record
@@ -77,7 +77,7 @@ class UserInfoViewModel @Inject constructor(
             7 -> userTest.preferTightSchedule = record
             8 -> userTest.preferShoppingThanTour = record
         }
-        _userTest.value = userTest // 라이브데이터 객체 업데이트
+        _userTest.value = userTest
     }
 
     fun patchUserInfoTest() = viewModelScope.launch {
@@ -86,7 +86,10 @@ class UserInfoViewModel @Inject constructor(
 
     fun patchUserInfo() =
         viewModelScope.launch {
-            Log.d("asd", "patchUserInfo: ${nickname.value},  ${userIntro.value}, ${ userSex.value}, ${userAge.value}")
+            Log.d(
+                "asd",
+                "patchUserInfo:${profileImgMultiPart}, ${nickname.value},  ${userIntro.value}, ${userSex.value}, ${userAge.value}"
+            )
             patchUserInfoUseCase(
                 nickname.value!!,
                 userIntro.value!!,
