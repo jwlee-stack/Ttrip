@@ -42,8 +42,12 @@ class LiveUserAdapter(
         }
     }
 
-    fun setLiveUser(songItem: List<LiveUser>) {
-        this.items = songItem
+    fun setLiveUser(users: List<LiveUser>?) {
+        if (users != null) {
+            this.items = users
+        } else {
+            this.items = emptyList()
+        }
         notifyDataSetChanged()
     }
 }

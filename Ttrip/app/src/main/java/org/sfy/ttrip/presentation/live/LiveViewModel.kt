@@ -44,13 +44,15 @@ class LiveViewModel @Inject constructor(
         val currentList = _liveUserList.value.orEmpty().toMutableList()
         val userToRemove = currentList.find { it?.memberUuid == id }
         currentList.remove(userToRemove)
-        _liveUserList.value = currentList
+        _liveUserList.postValue(currentList)
     }
 
     private fun addLiveUser(user: LiveUser) {
         val currentList = _liveUserList.value?.toMutableList() ?: mutableListOf()
-        currentList.add(user)
-        _liveUserList.value = currentList.toList()
+        if (currentList.none { it?.memberUuid == user.memberUuid }) {
+            currentList.add(user)
+            _liveUserList.postValue(currentList)
+        }
     }
 
     fun connectSocket(city: String, memberId: String) {
