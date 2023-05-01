@@ -40,6 +40,7 @@ public class Member extends BaseEntity {
     private String fcmToken;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Column(columnDefinition = "TINYINT")
     private Integer age;
     @Column(columnDefinition="BOOLEAN DEFAULT false")
     private Boolean shareLocation;
