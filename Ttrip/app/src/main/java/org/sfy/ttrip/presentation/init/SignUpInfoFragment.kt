@@ -29,8 +29,14 @@ class SignUpInfoFragment :
 
                     when (position) {
                         0 -> {
-                            viewModel.nickNameValid.observe(this@SignUpInfoFragment) {
-                                checkInfo(it)
+                            viewModel.isDuplicate.observe(this@SignUpInfoFragment) {
+                                it?.let {
+                                    if (it) {
+                                        checkInfo(false)
+                                    } else {
+                                        checkInfo(true)
+                                    }
+                                }
                             }
                         }
                         1 -> {

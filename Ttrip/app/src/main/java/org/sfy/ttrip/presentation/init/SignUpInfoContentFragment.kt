@@ -14,9 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentSignUpInfoContentBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -46,6 +49,7 @@ class SignUpInfoContentFragment :
 
     override fun initView() {
         initListener()
+        setTextWatcher()
 
         bannerPosition = arguments?.getInt("banner_position")!!
         with(bannerPosition) {
@@ -150,7 +154,14 @@ class SignUpInfoContentFragment :
     private fun initListener() {
         binding.apply {
             tvUserInfoCheckNickName.setOnClickListener {
-                userInfoViewModel.checkNickName()
+                if (userInfoViewModel.nickname.value == null) {
+                    showToast("닉네임을 입력해주세요.")
+                } else {
+                    lifecycleScope.launch {
+                        val async = userInfoViewModel.checkDuplication()
+                        showDuplicateInfo(async)
+                    }
+                }
             }
 
             tvUserInfoSexMale.setOnClickListener {
@@ -166,6 +177,21 @@ class SignUpInfoContentFragment :
             }
 
             clUserInfoProfile.setOnClickListener { setAlbumView() }
+        }
+    }
+
+    private fun showDuplicateInfo(async: Int) {
+        if (userInfoViewModel.isDuplicate.value == true) {
+            showToast("중복된 닉네임입니다.")
+        } else {
+            showToast("사용할 수 있는 닉네임입니다.")
+        }
+    }
+
+    private fun setTextWatcher() {
+        binding.etUserInfoNickName.addTextChangedListener {
+            userInfoViewModel.nickname.value = binding.etUserInfoNickName.text.toString()
+            userInfoViewModel.returnDuplicationTrue()
         }
     }
 

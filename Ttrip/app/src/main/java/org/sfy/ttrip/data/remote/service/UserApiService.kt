@@ -2,10 +2,9 @@ package org.sfy.ttrip.data.remote.service
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Multipart
-import retrofit2.http.PATCH
-import retrofit2.http.Part
-import retrofit2.http.PartMap
+import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
+import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
+import retrofit2.http.*
 
 interface UserApiService {
     @Multipart
@@ -15,4 +14,7 @@ interface UserApiService {
         @Part profileFile: MultipartBody.Part?,
         @Part markerFile: MultipartBody.Part?
     )
+
+    @GET("/api/members/{nickname}/exists")
+    suspend fun checkDuplication(@Path("nickname") nickname: String): BaseResponse<CheckDuplicationResponse>
 }
