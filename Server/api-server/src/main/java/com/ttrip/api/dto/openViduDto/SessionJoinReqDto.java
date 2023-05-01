@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value="세션 초기화")
+@ApiModel(value="토큰 발급")
 public class SessionJoinReqDto {
     @ApiModelProperty(value = "세션 아이디", example = "sessionA")
     private String sessionId;
