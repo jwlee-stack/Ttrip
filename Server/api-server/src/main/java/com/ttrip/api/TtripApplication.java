@@ -7,11 +7,13 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.ttrip"}, exclude = SecurityAutoConfiguration.class)
 @ComponentScan(basePackages = {"com.ttrip.core","com.ttrip.api"})
 @EntityScan({"com.ttrip.core", "com.ttrip.api"})
 @EnableJpaRepositories("com.ttrip.core")
+@EnableMongoRepositories(basePackages = "com.ttrip.core")
 @EnableJpaAuditing
 public class TtripApplication {
 

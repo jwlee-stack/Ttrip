@@ -19,11 +19,11 @@ spring:
       path: /h2-console
 
   hikari:
-    connectionTimeout : 30000
-    maximumPoolSize : 30
-    maxLifeTime : 97
-    poolName : HikariCP
-    readOnly : false
+    connectionTimeout: 30000
+    maximumPoolSize: 30
+    maxLifeTime: 97
+    poolName: HikariCP
+    readOnly: false
 
   jpa:
     open-in-view: false
@@ -62,6 +62,10 @@ spring:
         enabled: false
     freemarker:
       cache: false
+
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/chatDB?authSource=admin
 
   redis:
     host: localhost
