@@ -15,5 +15,4 @@ public class MatchRateReqDto {
     private Integer matchHistoryId;
     @ApiModelProperty(value = "평가 점수", example = "4")
     private Integer rate;
-
 }
