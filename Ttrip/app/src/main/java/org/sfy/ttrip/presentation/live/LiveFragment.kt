@@ -62,6 +62,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         setMapView()
         initListener()
         requestLocationPermission()
+        getFilteredList()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -124,11 +125,13 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         if (::map.isInitialized) {
             visibleRegion = map.projection.visibleRegion
             val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
-            liveViewModel.filteredLiveUserList.value =
-                liveViewModel.liveUserList.value?.filter { user ->
-                    val userLatLng = LatLng(user!!.latitude, user.longitude)
-                    latLngBounds.contains(userLatLng)
-                }
+            liveViewModel.liveUserList.observe(viewLifecycleOwner) {
+                liveViewModel.filteredLiveUserList.value =
+                    it?.filter { user ->
+                        val userLatLng = LatLng(user!!.latitude, user.longitude)
+                        latLngBounds.contains(userLatLng)
+                    }
+            }
         }
     }
 
@@ -160,6 +163,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             disconnectSocket()
                         }
                         stopLocationUpdates()
+                        liveViewModel.apply {
+                            setLiveUserReset()
+                            filteredLiveUserList.value = null
+                        }
+                        liveUserAdapter.setLiveUser(null)
                     }
                 }
             }
@@ -216,7 +224,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         )
                     } else if (liveViewModel.cityOnLive.value != cityName) {
                         binding.switchLive.isChecked = false
-                        liveViewModel.disconnectSocket()
                     }
                     // 위치 정보 수신 중지
                     fusedLocationClient.removeLocationUpdates(this)

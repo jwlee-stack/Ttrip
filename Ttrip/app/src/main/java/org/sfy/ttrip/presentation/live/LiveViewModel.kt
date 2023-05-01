@@ -40,6 +40,21 @@ class LiveViewModel @Inject constructor(
     var lat = 0.0
     var lastUpdateTime = 0L
 
+    private fun removeLiveUserById(id: String) {
+        val currentList = _liveUserList.value.orEmpty().toMutableList()
+        val userToRemove = currentList.find { it?.memberUuid == id }
+        currentList.remove(userToRemove)
+        _liveUserList.postValue(currentList)
+    }
+
+    private fun addLiveUser(user: LiveUser) {
+        val currentList = _liveUserList.value?.toMutableList() ?: mutableListOf()
+        if (currentList.none { it?.memberUuid == user.memberUuid }) {
+            currentList.add(user)
+            _liveUserList.postValue(currentList)
+        }
+    }
+
     fun connectSocket(city: String, memberId: String) {
         val request = Request.Builder()
             .url("ws://k8d104.p.ssafy.io:8081/ws/live/$city/$memberId")
@@ -102,7 +117,22 @@ class LiveViewModel @Inject constructor(
             Log.d("Socket", "Receiving : $text")
             val gson = Gson()
             val userResponse = gson.fromJson(text, LiveUser::class.java)
-
+            if (userResponse.latitude.toInt() == -1 && userResponse.longitude.toInt() == -1) {
+                removeLiveUserById(userResponse.memberUuid)
+            } else {
+                addLiveUser(
+                    LiveUser(
+                        userResponse.nickname,
+                        userResponse.gender,
+                        userResponse.age,
+                        userResponse.memberUuid,
+                        userResponse.latitude,
+                        userResponse.longitude,
+                        userResponse.matchingRate,
+                        userResponse.matchingRate
+                    )
+                )
+            }
         }
 
         override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
