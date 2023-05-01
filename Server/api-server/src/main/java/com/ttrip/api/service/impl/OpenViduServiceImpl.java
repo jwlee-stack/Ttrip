@@ -66,18 +66,18 @@ public class OpenViduServiceImpl implements OpenViduService {
         // 세션이 존재하지 않을 때
         if (!openViduRedisDao.findSessionId(sessionJoinReqDto.getSessionId())) {
             // 토큰 발급
-            token = createOpenViduToken(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getUuid());
+            token = createOpenViduToken(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getMemberUuid());
             // 저장
-            openViduRedisDao.saveOpenViduSession(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getUuid());
+            openViduRedisDao.saveOpenViduSession(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getMemberUuid());
         } else {
             // 이미 세션에 2명이 들어가 있을 때
             if (!openViduRedisDao.JoinableSession(sessionJoinReqDto.getSessionId())) {
                 throw new RuntimeException(ErrorMessageEnum.ALREADY_CALLING.getMessage());
             } else {
                 // 토큰 발급
-                token = createOpenViduToken(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getUuid());
+                token = createOpenViduToken(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getMemberUuid());
                 // 저장
-                openViduRedisDao.saveOpenViduSession(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getUuid());
+                openViduRedisDao.saveOpenViduSession(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getMemberUuid());
             }
         }
         if(token == null)
@@ -92,15 +92,15 @@ public class OpenViduServiceImpl implements OpenViduService {
     /**
      * 토큰을 발급합니다.
      * @param sessionId : OpenVidu SessionId
-     * @param uuid : 사용자 uuid
+     * @param memberUuid : 사용자 uuid
      * @return : 생성된 토큰
      */
-    private String createOpenViduToken(String sessionId, String uuid) throws OpenViduJavaClientException, OpenViduHttpException {
+    private String createOpenViduToken(String sessionId, String memberUuid) throws OpenViduJavaClientException, OpenViduHttpException {
         Session session = openVidu.getActiveSession(sessionId);
         ConnectionProperties properties = new ConnectionProperties.Builder()
                 .type(ConnectionType.WEBRTC)
                 .role(OpenViduRole.SUBSCRIBER)
-                .data("{\"memberUuid\": \"" + uuid + "\"}")
+                .data("{\"memberUuid\": \"" + memberUuid + "\"}")
                 .build();
         // ex) wss://localhost:4443?sessionId=ses_Ogize1yQIj&token=tok_A1c0pNsLJFwVJTeb
         return session.createConnection(properties).getToken();
