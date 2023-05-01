@@ -8,3 +8,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+  data:
+    mongodb:
+      uri: mongodb://root:ttrip104!@mongo-db:27017/chatDB?authSource=admin

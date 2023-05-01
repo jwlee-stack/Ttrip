@@ -1,10 +1,11 @@
-package com.ttrip.api.dto;
+package com.ttrip.api.dto.matchDto;
 
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 
 @Data
 @Builder
@@ -14,4 +15,6 @@ public class MatchHistoryResDto {
     private String evaluatedNickname;
     @ApiModelProperty(value = "평가점수", example = "5")
     private Integer rate;
+    @ApiModelProperty(value = "매칭이력 id", example = "3")
+    private Integer matchHistoryId;
 }

@@ -1,9 +1,9 @@
 package com.ttrip.api.controller;
 
-import com.ttrip.api.dto.ApplyReqDto;
+import com.ttrip.api.dto.artticleDto.ApplyReqDto;
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.NewArticleReqDto;
-import com.ttrip.api.dto.SearchReqDto;
+import com.ttrip.api.dto.artticleDto.NewArticleReqDto;
+import com.ttrip.api.dto.artticleDto.SearchReqDto;
 import com.ttrip.api.service.ArticleService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;
@@ -22,15 +22,14 @@ public class ArticleController {
     private final ArticleService articleService;
 //  dto쓸려고 post요청
     @ApiResponses({
-            @ApiResponse(code = 200, message = "게시글 조회 성공"),
-            @ApiResponse(code = 400, message = "게시글 조회 실패")
+            @ApiResponse(code = 200, message = "게시글 검색 성공"),
+            @ApiResponse(code = 400, message = "게시글 검색 실패")
     })
     @ApiOperation(value = "게시글 목록 조회 API", httpMethod = "POST")
-    @PostMapping("/")
+    @PostMapping
     public DataResDto<?> search(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody SearchReqDto searchReqDto) {
         return articleService.search(searchReqDto);
     }
-
     @ApiResponses({
             @ApiResponse(code = 200, message = "게시글 생성 성공"),
             @ApiResponse(code = 400, message = "게시글 생성 실패")

@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository <Article, Integer> {
-    List<Article> findAll();
-    List<Article> findByNation(String nation);
-    List<Article> findByCity(String city);
-    List<Article> findByTitleOrContentContaining(String keyword, String keyword2);
+    List<Article> findAllByOrderByEndDateAsc();
+    List<Article> findByNationOrderByEndDateAsc(String nation);
+    List<Article> findByCityOrderByEndDateAsc(String city);
+    List<Article> findByTitleOrContentContainingOrderByEndDateAsc(String keyword, String keyword2);
     Optional<Article> findByArticleId(Integer id);
     List<Article> findAllByMember(Member member);
 }

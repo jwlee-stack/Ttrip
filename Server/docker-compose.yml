@@ -38,6 +38,7 @@ services:
       - 8081:8081
     depends_on:
       - ttrip-db
+      - mongo-db
     volumes:
       - upload-images:/var/lib/images
     logging:
@@ -91,15 +92,54 @@ services:
       ttrip_bridge:
         ipv4_address: 172.35.0.13
 
+  flask-server:
+    container_name: flask-server
+    hostname: flask-server
+    image: my-flask:latest
+    build: ./flask-server
+    command: python app.py
+    restart: unless-stopped
+    env_file:
+      - ./flask-server/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - flask-data:/app
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.14
+
+  mongo-db:
+    image: mongo:4.4.3
+    container_name: mongo-db
+    hostname: mongo-db
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.15
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=ttrip1014! #local 도커환경에서는 root로 설정하세요.
+    ports:
+      - 27017:27017
+    command: [ "--bind_ip", "0.0.0.0" ]
+    volumes:
+      - type: volume
+        source: mongo-data
+        target: /data/db
+
 volumes:
   upload-images:
   initdb-volume:
   confd-volume:
   data-volume:
   redis-data:
+  flask-data:
+  mongo-data:
+
 networks:
   ttrip_bridge:
     ipam:
       driver: default
       config:
-        - subnet: 172.35.0.0/24
+        - subnet: 172.35.0.0/27 # 32개의 IP만 허용합니다.

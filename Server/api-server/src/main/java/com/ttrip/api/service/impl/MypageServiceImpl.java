@@ -1,7 +1,7 @@
 package com.ttrip.api.service.impl;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.SearchResDto;
+import com.ttrip.api.dto.artticleDto.SearchResDto;
 import com.ttrip.api.service.MypageService;
 import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.member.Member;
