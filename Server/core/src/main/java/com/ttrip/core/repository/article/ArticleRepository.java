@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository <Article, Integer> {
     List<Article> findAllByOrderByEndDateAsc();
-    List<Article> findByNationByOrderByEndDateAsc(String nation);
-    List<Article> findByCityByOrderByEndDateAsc(String city);
-    List<Article> findByTitleOrContentContainingByOrderByEndDateAsc(String keyword, String keyword2);
+    List<Article> findByNationOrderByEndDateAsc(String nation);
+    List<Article> findByCityOrderByEndDateAsc(String city);
+    List<Article> findByTitleOrContentContainingOrderByEndDateAsc(String keyword, String keyword2);
     Optional<Article> findByArticleId(Integer id);
     List<Article> findAllByMember(Member member);
 }

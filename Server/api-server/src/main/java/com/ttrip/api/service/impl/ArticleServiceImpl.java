@@ -48,14 +48,14 @@ public class ArticleServiceImpl implements ArticleService {
         } else if (condition == 1) {
             if (city != null ) {
 //                도시로 조회
-                articleList = articleRepository.findByCityByOrderByEndDateAsc(city);
+                articleList = articleRepository.findByCityOrderByEndDateAsc(city);
             }else {
 //                나라로 조회
-                articleList = articleRepository.findByNationByOrderByEndDateAsc(nation);
+                articleList = articleRepository.findByNationOrderByEndDateAsc(nation);
             }
         } else if (condition == 2){
 //            keyword로 조회
-            articleList = articleRepository.findByTitleOrContentContainingByOrderByEndDateAsc(keyword, keyword);
+            articleList = articleRepository.findByTitleOrContentContainingOrderByEndDateAsc(keyword, keyword);
         } else {
             throw new BadRequestException(ErrorMessageEnum.UNEXPECT_VALUE.getMessage());
         }
