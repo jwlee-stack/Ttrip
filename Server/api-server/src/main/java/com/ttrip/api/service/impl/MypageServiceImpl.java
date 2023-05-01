@@ -20,11 +20,11 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public DataResDto<?> viewMyArticles(MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
-        List<Article> myArticles = articleRepository.findAllByMember(member);
+        List<Article> myArticleList = articleRepository.findAllByMember(member);
         List<SearchResDto> searchResultDtoList = new ArrayList<>();
 
         //코드 중복으로 노란 밑줄 생기는데, toBuild로 묶으면 어떨까요?
-        for (Article article : myArticles) {
+        for (Article article : myArticleList) {
             SearchResDto searchResultDto = SearchResDto.builder()
                     .articleId(article.getArticleId())
                     .authorName(article.getMember().getNickname())
