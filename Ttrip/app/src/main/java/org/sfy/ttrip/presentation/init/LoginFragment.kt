@@ -40,7 +40,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         authViewModel.emptyNickname.observe(viewLifecycleOwner) {
             if (it == true) {
                 showToast("로그인되었습니다.")
-                navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
+                //navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
             } else {
                 showToast("돌아오신걸 환영해요!")
                 val intent = Intent(requireContext(), MainActivity::class.java)
