@@ -7,13 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
-
 @Getter
 @Builder
 @ApiModel(value = "멤버 응답")
 public class MemberResDto {
-    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-8d93-62efd2539c20")
+    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-...")
     private String uuid;
     @ApiModelProperty(value = "전화번호", example = "01012345678")
     private String phoneNumber;
@@ -29,8 +27,8 @@ public class MemberResDto {
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
     private Gender gender;
-    @ApiModelProperty(value = "생일", example = "1995-02-02")
-    private LocalDate birthday;
+    @ApiModelProperty(value = "나이", example = "23")
+    private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
 
@@ -45,7 +43,7 @@ public class MemberResDto {
                 .markerImgPath(member.getMarkerImgPath())
                 .fcmToken(member.getFcmToken())
                 .gender(member.getGender())
-                .birthday(member.getBirthday())
+                .age(member.getAge())
                 .shareLocation(member.getShareLocation())
                 .build();
     }
