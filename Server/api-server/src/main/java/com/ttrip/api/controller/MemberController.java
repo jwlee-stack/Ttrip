@@ -2,12 +2,13 @@ package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
 import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
+import com.ttrip.api.dto.surveyDto.surverReqDto.SurveyReqDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.service.MemberService;
 import com.ttrip.api.service.impl.MemberDetails;
-import com.ttrip.core.entity.survey.Survey;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -94,7 +95,7 @@ public class MemberController {
     })
     @ApiOperation(value = "여행 취향 저장  API")
     @PatchMapping("/preferences")
-    public DataResDto<?> updateSurvey(@RequestBody Survey surveyReqDto,
+    public DataResDto<?> updateSurvey(@RequestBody SurveyReqDto surveyReqDto,
                                       @AuthenticationPrincipal MemberDetails memberDetails) {
         return memberService.updateSurvey(surveyReqDto, memberDetails);
     }
@@ -107,5 +108,16 @@ public class MemberController {
     @GetMapping("/{nickname}")
     public DataResDto<?> viewMemberInfo(@PathVariable String nickname) {
         return memberService.viewMemberInfo(nickname);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신고 성공"),
+            @ApiResponse(code = 400, message = "신고 실패")
+    })
+    @ApiOperation(value = "신고")
+    @PostMapping("/report")
+    public DataResDto<?> reportMember(@RequestBody MemberReportReqDto memberReportReqDto,
+                                      @AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.reportMember(memberReportReqDto, memberDetails);
     }
 }

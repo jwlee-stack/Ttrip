@@ -3,15 +3,11 @@ package com.ttrip.api.dto.memberDto.memberReqDto;
 import com.ttrip.core.customEnum.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -31,8 +27,7 @@ public class MemberUpdateReqDto {
     private String fcmToken;
     @ApiModelProperty(value = "변경할 성별", notes="MALE/FEMALE", example = "MALE")
     private Gender gender;
-    @ApiModelProperty(value = "변경할 생일", notes="String", example = "1999-06-06")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthday;
+    @ApiModelProperty(value = "변경할 나이", notes="String", example = "23")
+    private Integer age;
 
 }

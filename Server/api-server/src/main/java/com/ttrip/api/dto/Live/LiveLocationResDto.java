@@ -43,7 +43,7 @@ public class LiveLocationResDto {
                               double matchingRate, LiveAllLocationsDto otherLocation) {
         this.nickname = other.getNickname();
         this.gender = Objects.isNull(other.getGender()) ? "null" : other.getGender().toString();
-        this.age = Objects.isNull(other.getBirthday()) ? "null" : other.getBirthday().toString();
+        this.age = Objects.isNull(other.getAge()) ? "null" : other.getAge().toString();
         this.memberUuid = other.getMemberUuid().toString();
         this.longitude = otherLocation.getLongitude();
         this.latitude = otherLocation.getLatitude();
