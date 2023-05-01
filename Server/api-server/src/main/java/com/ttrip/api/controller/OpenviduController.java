@@ -37,7 +37,7 @@ public class OpenviduController {
             @ApiResponse(code = 200, message = "토큰 발급 성공 시 응답"),
             @ApiResponse(code = 401, message = "인증 실패")
     })
-    @ApiOperation(value = "세션 생성 API")
+    @ApiOperation(value = "토큰 발급 API")
     @PostMapping("/{sessionId}/connections")
     public DataResDto<?> joinSession(@RequestBody(required = false) SessionJoinReqDto sessionJoinReqDto)
             throws OpenViduJavaClientException, OpenViduHttpException {
