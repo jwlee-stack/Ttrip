@@ -12,6 +12,7 @@ import org.sfy.ttrip.data.remote.repository.LiveRepositoryImpl
 import org.sfy.ttrip.data.remote.repository.UserRepositoryImpl
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
+import org.sfy.ttrip.domain.repository.user.UserRepository
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -34,5 +35,5 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(
         userRemoteDataSourceImpl: UserRemoteDataSourceImpl
-    ): UserRepositoryImpl = UserRepositoryImpl(userRemoteDataSourceImpl)
+    ): UserRepository = UserRepositoryImpl(userRemoteDataSourceImpl)
 }
