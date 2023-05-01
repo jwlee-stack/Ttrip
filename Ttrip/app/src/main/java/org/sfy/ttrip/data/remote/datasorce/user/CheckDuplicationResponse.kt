@@ -1,4 +1,4 @@
-package org.sfy.ttrip.data.remote.repository
+package org.sfy.ttrip.data.remote.datasorce.user
 
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper

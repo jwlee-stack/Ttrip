@@ -3,7 +3,7 @@ package org.sfy.ttrip.data.remote.service
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
-import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
+import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import retrofit2.http.*
 
 interface UserApiService {
@@ -17,4 +17,9 @@ interface UserApiService {
 
     @GET("/api/members/{nickname}/exists")
     suspend fun checkDuplication(@Path("nickname") nickname: String): BaseResponse<CheckDuplicationResponse>
+
+    @PATCH(" /api/members/preferences")
+    suspend fun patchUserTestInfo(
+
+    )
 }
