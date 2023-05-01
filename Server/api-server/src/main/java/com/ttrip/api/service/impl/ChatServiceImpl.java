@@ -1,6 +1,11 @@
 package com.ttrip.api.service.impl;
 
-import com.ttrip.api.dto.*;
+import com.ttrip.api.dto.ChatMessageResDto;
+import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
+import com.ttrip.api.dto.chatroomDto.ExitChatReqDto;
+import com.ttrip.api.dto.chatroomDto.GetChatroomResDto;
+import com.ttrip.api.dto.matchDto.MakeMatchReqDto;
 import com.ttrip.api.service.ChatService;
 import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.chatMember.ChatMember;
@@ -83,7 +88,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public DataResDto<?> makeMatch(MakeMatchREqDto makeMatchREqDto, Member member) {
+    public DataResDto<?> makeMatch(MakeMatchReqDto makeMatchREqDto, Member member) {
         Member opponent = memberRepository.findByMemberUuid(makeMatchREqDto.getOpponentUuid())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         Article article = articleRepository.findByArticleId(makeMatchREqDto.getArticleId())
@@ -118,8 +123,25 @@ public class ChatServiceImpl implements ChatService {
         Article article = articleRepository.findByArticleId(chatMakerReqDto.getArticleId())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         //이미 채팅방이있다면?
-        if (chatroomRepoistory.findByArticleAndMember(article, opponentUser).isPresent()) {
-            return DataResDto.builder().status(400).message("생성된적있는 채팅방입니다.").data(false).build();
+        Optional<Chatroom> optionalChatroom = chatroomRepoistory.findByArticleAndMember(article, opponentUser);
+        if (optionalChatroom.isPresent()) {
+            if (optionalChatroom.get().getChatMemberList().contains(member)) {
+                List<ChatMessage> chatMessageList = chatMessageRepository.findByChatroomId(optionalChatroom.get().getChatRoomId());
+                ChatMessage lastChatMessage = chatMessageList.get(chatMessageList.size() - 1);
+                GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
+                        .chatroomId(optionalChatroom.get().getChatRoomId())
+                        .nickname(opponentUser.getNickname())
+                        .memberUuid(opponentUser.getMemberUuid())
+                        .imagePath(opponentUser.getProfileImgPath())
+                        .updatedAt(lastChatMessage.getCreatedAt())
+                        .lastMessage(lastChatMessage.getText())
+                        .articleId(article.getArticleId())
+                        .articleTitle(article.getTitle())
+                        .build();
+                return DataResDto.builder().data(getChatroomResDto).message("채팅방을 생성했습니다.").build();
+            } else {
+                return DataResDto.builder().status(400).message("이미 나간 채팅방입니다.").data(false).build();
+            }
         }
         //                ChatRoom
         //채팅방 저장
@@ -138,13 +160,20 @@ public class ChatServiceImpl implements ChatService {
                 .member(opponentUser)
                 .chatroom(newChatroom)
                 .build());
+        //생성 메세지 추가
+        chatMessageRepository.save(ChatMessage.builder()
+                .text("여만추를 원하는 당신에게 선물 ~")
+                .chatroomId(newChatroom.getChatRoomId())
+                .createdAt(LocalDateTime.now())
+                .memberUuid(member.getMemberUuid().toString())
+                .build());
         GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
                 .chatroomId(chatroom.getChatRoomId())
                 .nickname(opponentUser.getNickname())
                 .memberUuid(opponentUser.getMemberUuid())
                 .imagePath(opponentUser.getProfileImgPath())
                 .updatedAt(LocalDateTime.now())
-                .lastMessage("test")
+                .lastMessage("여만추를 원하는 당신에게 선물 ~")
                 .articleId(article.getArticleId())
                 .articleTitle(article.getTitle())
                 .build();
@@ -155,7 +184,6 @@ public class ChatServiceImpl implements ChatService {
     public DataResDto<?> getDetail(Integer chatRoomId, Member member) {
         List<ChatMessageResDto> chatMessageResDtoList = new ArrayList<>();
         for (ChatMessage chatMessage : chatMessageRepository.findByChatroomId(chatRoomId)) {
-            System.out.println(member.getMemberUuid() + "  " + chatMessage.getMemberUuid());
             ChatMessageResDto chatMessageResDto = ChatMessageResDto.builder()
                     .content(chatMessage.getText())
                     .createdAt(chatMessage.getCreatedAt())

@@ -1,8 +1,8 @@
 package com.ttrip.api.service.impl;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.MatchHistoryResDto;
-import com.ttrip.api.dto.MatchRateReqDto;
+import com.ttrip.api.dto.matchDto.MatchHistoryResDto;
+import com.ttrip.api.dto.matchDto.MatchRateReqDto;
 import com.ttrip.api.exception.UnauthorizationException;
 import com.ttrip.api.service.MatchHistoryService;
 import com.ttrip.core.entity.matchHistory.MatchHistory;

@@ -1,7 +1,7 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.MatchRateReqDto;
+import com.ttrip.api.dto.matchDto.MatchRateReqDto;
 import com.ttrip.api.service.MatchHistoryService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;

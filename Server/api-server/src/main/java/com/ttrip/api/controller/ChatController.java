@@ -1,9 +1,9 @@
 package com.ttrip.api.controller;
 
-import com.ttrip.api.dto.ChatMakerReqDto;
+import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.ExitChatReqDto;
-import com.ttrip.api.dto.MakeMatchREqDto;
+import com.ttrip.api.dto.chatroomDto.ExitChatReqDto;
+import com.ttrip.api.dto.matchDto.MakeMatchReqDto;
 import com.ttrip.api.service.ChatService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;
@@ -57,7 +57,7 @@ public class ChatController {
     })
     @ApiOperation(value = "채팅방에서 매칭 API", httpMethod = "GET")
     @PostMapping("/match")
-    public DataResDto<?> makeMatch(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody MakeMatchREqDto makeMatchREqDto) {
+    public DataResDto<?> makeMatch(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody MakeMatchReqDto makeMatchREqDto) {
         return chatService.makeMatch(makeMatchREqDto, memberDetails.getMember());
     }
 
