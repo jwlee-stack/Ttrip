@@ -1,13 +1,15 @@
 package com.ttrip.core.entity.chatroom;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ttrip.core.entity.BaseEntity;
 import com.ttrip.core.entity.article.Article;
+import com.ttrip.core.entity.chatMember.ChatMember;
 import com.ttrip.core.entity.member.Member;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -29,5 +31,8 @@ public class Chatroom extends BaseEntity {
     @JoinColumn(name = "articleId")
     @JsonManagedReference
     private Article article;
+    @OneToMany(mappedBy = "chatroom", fetch = FetchType.EAGER)
+    @JsonBackReference
+    private List<ChatMember> chatMemberList;
 
 }

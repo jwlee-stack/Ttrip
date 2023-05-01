@@ -1,30 +1,30 @@
-package com.ttrip.core.entity.matchHistory;
+package com.ttrip.core.entity.chatMember;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ttrip.core.entity.BaseEntity;
-import com.ttrip.core.entity.article.Article;
+import com.ttrip.core.entity.chatroom.Chatroom;
 import com.ttrip.core.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
+@Entity
 @Setter
 @Getter
-@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatchHistory extends BaseEntity{
+public class ChatMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer matchHistoryId;
-    private Integer rate;
+    private Integer chatMemberId;
     @ManyToOne
+    @JoinColumn(name = "ParticipantId")
     @JsonManagedReference
-    private Member evaluator;
+    private Member member;
     @ManyToOne
+    @JoinColumn(name = "chatRoomId")
     @JsonManagedReference
-    private Member evaluated;
+    private Chatroom chatroom;
 }

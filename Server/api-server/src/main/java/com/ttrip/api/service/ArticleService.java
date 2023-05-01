@@ -1,6 +1,9 @@
 package com.ttrip.api.service;
 
 import com.ttrip.api.dto.*;
+import com.ttrip.api.dto.artticleDto.ApplyReqDto;
+import com.ttrip.api.dto.artticleDto.NewArticleReqDto;
+import com.ttrip.api.dto.artticleDto.SearchReqDto;
 
 import java.util.UUID;
 
