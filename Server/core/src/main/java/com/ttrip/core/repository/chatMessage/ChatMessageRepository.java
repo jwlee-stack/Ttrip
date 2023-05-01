@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Integer> {
     List<ChatMessage> findByChatroomId(Integer chatRoomId);
-
-    List<ChatMessage> findAll();
 }
 //import com.ttrip.core.entity.chatroom.ChatMessage;
 //import org.springframework.data.mongodb.repository.MongoRepository;
