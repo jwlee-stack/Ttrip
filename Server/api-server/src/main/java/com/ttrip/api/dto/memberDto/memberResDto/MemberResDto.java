@@ -11,7 +11,7 @@ import lombok.Getter;
 @Builder
 @ApiModel(value = "멤버 응답")
 public class MemberResDto {
-    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-8d93-62efd2539c20")
+    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-...")
     private String uuid;
     @ApiModelProperty(value = "전화번호", example = "01012345678")
     private String phoneNumber;

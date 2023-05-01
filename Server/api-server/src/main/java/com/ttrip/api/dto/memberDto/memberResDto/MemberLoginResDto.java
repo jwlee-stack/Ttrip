@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @ApiModel(value = "로그인 응답")
 public class MemberLoginResDto {
-    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-49ae-8d93-62efd2539c20")
+    @ApiModelProperty(value = "UUID", example = "fb71e4a5-bd11-...")
     private String uuid;
     @ApiModelProperty(value = "전화번호", example = "01012345678")
     private String phoneNumber;
@@ -36,7 +36,7 @@ public class MemberLoginResDto {
     private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
-    @ApiModelProperty(value = "액세스 토큰", example = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTA3Nzc3IiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY4MjU3OTc1Mn0.DJ6cw9gTASIcqsfVvdtLzOUJ-g66JAvfi7HobBstUhFn1IwJuoYUXVLGCQX-z2ykHwlEeKZX_Pgh9D4kn2OJZw")
+    @ApiModelProperty(value = "액세스 토큰", example = "eyJhbGci...")
     private TokenDto tokenDto;
 
     public static MemberLoginResDto toBuild(Member member, TokenDto tokenDto)
