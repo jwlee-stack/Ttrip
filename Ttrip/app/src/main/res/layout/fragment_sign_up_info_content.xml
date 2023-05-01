@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="org.sfy.ttrip.presentation.init.UserInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,7 +66,8 @@
             android:id="@+id/cl_user_info_age"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="30dp">
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_user_info_age"
@@ -148,8 +152,7 @@
             android:id="@+id/cl_user_info_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="30dp"
-            android:visibility="gone">
+            android:layout_marginHorizontal="30dp">
 
             <TextView
                 android:id="@+id/tv_user_info_profile"
@@ -176,6 +179,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:contentDescription="@string/content_user_info_profile_photo"
+                    android:profileImgUri="@{viewModel.profileImgUri}"
                     android:src="@drawable/ic_profile_circle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -48,6 +48,8 @@ class SignUpInfoContentFragment :
     }
 
     override fun initView() {
+        binding.viewModel = userInfoViewModel
+
         initListener()
         setTextWatcher()
 
@@ -176,7 +178,7 @@ class SignUpInfoContentFragment :
                 userInfoViewModel.postSex("FEMALE")
             }
 
-            clUserInfoProfile.setOnClickListener { setAlbumView() }
+            clUserInfoProfilePhoto.setOnClickListener { setAlbumView() }
         }
     }
 

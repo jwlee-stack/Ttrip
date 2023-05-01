@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.init
 
 import android.graphics.Color
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,13 @@ class SignUpInfoFragment :
 
     override fun initView() {
         initContent()
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.ivBackToLogin.setOnClickListener {
+            popBackStack()
+        }
     }
 
     private fun initContent() {
@@ -57,6 +65,10 @@ class SignUpInfoFragment :
                                 if (uri == null) {
                                     checkInfo(false)
                                 } else {
+                                    Log.d(
+                                        "wpqkf",
+                                        "onPageSelected: ${viewModel.profileImgUri.value}"
+                                    )
                                     viewModel.userIntro.observe(this@SignUpInfoFragment) {
                                         if (it == "") checkInfo(false)
                                         else checkInfo(true)
@@ -65,7 +77,10 @@ class SignUpInfoFragment :
                             }
                         }
                         4 -> {
-
+                            binding.tvNextInfo.apply {
+                                text = "입력 완료"
+                                viewModel.patchUserInfo()
+                            }
                         }
                     }
                 }
@@ -82,6 +97,7 @@ class SignUpInfoFragment :
                         setOnClickListener {
                             vpContentInfo.currentItem = vpContentInfo.currentItem + 1
                         }
+                        isEnabled = true
                         setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
                         setTextColor(Color.BLACK)
                     }
