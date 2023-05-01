@@ -15,12 +15,14 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.repository.CheckDuplicationResponse
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
+import org.sfy.ttrip.domain.usecase.user.PatchUserInfoUseCase
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
-    private val checkDuplicationUseCase: CheckDuplicationUseCase
+    private val checkDuplicationUseCase: CheckDuplicationUseCase,
+    private val patchUserInfoUseCase: PatchUserInfoUseCase
 ) : ViewModel() {
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(null)
@@ -56,6 +58,19 @@ class UserInfoViewModel @Inject constructor(
                 }
             }
         }.await()
+
+    fun patchUserInfo() =
+        viewModelScope.launch {
+            patchUserInfoUseCase(
+                nickname.value!!,
+                userIntro.value!!,
+                userSex.value!!,
+                profileImgMultiPart,
+                profileImgMultiPart,
+                userAge.value!!,
+                ""
+            )
+        }
 
     fun returnDuplicationTrue() {
         _isDuplicate.value = true

@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.ListItemUserInfoTestBinding
 
-class UserInfoTestListAdapter() :
+class UserInfoTestListAdapter :
     RecyclerView.Adapter<UserInfoTestListAdapter.UserInfoTestListViewHolder>() {
 
     lateinit var binding: ListItemUserInfoTestBinding
-    private var testList = listOf<String>(
+    private var testList = listOf(
         "번화한 도시보다 자연 풍경이 좋다",
         "미리 여행 계획을 세워야 마음이 편하다",
         "경유보다 직항을 선호한다",

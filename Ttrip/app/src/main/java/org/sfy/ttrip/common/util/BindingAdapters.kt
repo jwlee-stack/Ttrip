@@ -1,5 +1,6 @@
 package org.sfy.ttrip.common.util
 
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -20,6 +21,17 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("android:circleImgUri")
     fun ImageView.setProfileImg(imgUri: String?) {
+        Glide.with(this.context)
+            .load(imgUri)
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
+            .circleCrop()
+            .into(this)
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:profileImgUri")
+    fun ImageView.setProfileImg(imgUri: Uri?) {
         Glide.with(this.context)
             .load(imgUri)
             .placeholder(R.drawable.ic_profile_default)
