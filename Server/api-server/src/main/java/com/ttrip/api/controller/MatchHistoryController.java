@@ -1,7 +1,7 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.MatchMakerReqDto;
+import com.ttrip.api.dto.MatchRateReqDto;
 import com.ttrip.api.service.MatchHistoryService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;
@@ -31,12 +31,12 @@ public class MatchHistoryController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = "매칭기록을 생성했습니다."),
-            @ApiResponse(code = 400, message = "매칭기록 생성 실패")
+            @ApiResponse(code = 200, message = "매칭을 평가했습니다."),
+            @ApiResponse(code = 400, message = "매칭 평가 실패")
     })
-    @ApiOperation(value = "매칭 기록 생성 API", httpMethod = "POST")
+    @ApiOperation(value = "매칭 평가 생성 API", httpMethod = "POST")
     @PostMapping
-    public DataResDto<?> historyMaker(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody MatchMakerReqDto matchMakerReqDto) {
-        return matchHistoryService.historyMaker(matchMakerReqDto, memberDetails.getMember());
+    public DataResDto<?> historyMaker(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody MatchRateReqDto matchRateReqDto) {
+        return matchHistoryService.historyMaker(matchRateReqDto, memberDetails.getMember());
     }
 }
