@@ -1,4 +1,4 @@
-package com.ttrip.api.dto;
+package com.ttrip.api.dto.matchDto;
 
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import io.swagger.annotations.ApiModel;

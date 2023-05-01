@@ -1,4 +1,4 @@
-package com.ttrip.api.dto;
+package com.ttrip.api.dto.chatroomDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

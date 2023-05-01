@@ -1,5 +1,6 @@
-package com.ttrip.api.dto;
+package com.ttrip.api.dto.artticleDto;
 
+import com.ttrip.core.entity.article.Article;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -35,4 +36,17 @@ public class SearchResDto {
     @ApiModelProperty(value = "디폴트:T, 마감시: F ", example = "T")
     private char status;
 
+    public static SearchResDto toBuild(Article article){
+        return SearchResDto.builder()
+                .articleId(article.getArticleId())
+                .authorName(article.getMember().getNickname())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .nation(article.getNation())
+                .city(article.getCity())
+                .status(article.getStatus())
+                .startDate(article.getStartDate())
+                .endDate(article.getEndDate())
+                .build();
+    }
 }

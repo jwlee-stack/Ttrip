@@ -1,4 +1,4 @@
-package com.ttrip.api.dto;
+package com.ttrip.api.dto.chatroomDto;
 
 import lombok.Data;
 
