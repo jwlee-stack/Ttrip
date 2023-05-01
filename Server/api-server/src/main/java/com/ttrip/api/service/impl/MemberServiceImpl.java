@@ -9,6 +9,8 @@ import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
+import com.ttrip.api.dto.surveyDto.surverReqDto.SurveyReqDto;
+import com.ttrip.api.dto.surveyDto.surveyResDto.SurveyResDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.exception.BadRequestException;
@@ -17,9 +19,9 @@ import com.ttrip.core.entity.blacklist.Blacklist;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.entity.survey.Survey;
+import com.ttrip.core.repository.blacklist.BlacklistRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
-import com.ttrip.core.repository.blacklist.BlacklistRepository;
 import com.ttrip.core.repository.survey.SurveyRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
@@ -159,7 +161,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> updateMember(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException {
-        if (memberUpdateReqDto.getNickname().isEmpty() || memberUpdateReqDto.getGender() == null || memberUpdateReqDto.getBirthday() == null)
+        if (memberUpdateReqDto.getNickname().isEmpty() || memberUpdateReqDto.getGender() == null || memberUpdateReqDto.getAge() == null)
             throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/생일)");
 
         Member member = memberDetails.getMember();
@@ -174,7 +176,7 @@ public class MemberServiceImpl implements MemberService {
         //닉네임, 성별, 생일, 인트로, fcm 토큰 변경//
         member.setNickname(memberUpdateReqDto.getNickname());
         member.setGender(memberUpdateReqDto.getGender());
-        member.setBirthday(memberUpdateReqDto.getBirthday());
+        member.setAge(memberUpdateReqDto.getAge());
         member.setIntro(memberUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : memberUpdateReqDto.getIntro());
         member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? member.getFcmToken() : memberUpdateReqDto.getFcmToken());
         memberRepository.save(member);
@@ -202,7 +204,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public DataResDto<?> updateSurvey(Survey surveyReqDto, MemberDetails memberDetails) {
+    public DataResDto<?> updateSurvey(SurveyReqDto surveyReqDto, MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
 
         Survey survey = surveyRepository.findBySurveyId(member.getMemberId()).get();
@@ -219,7 +221,7 @@ public class MemberServiceImpl implements MemberService {
 
         return DataResDto.builder()
                 .message("회원의 여행 취향이 저장되었습니다.")
-                .data(survey)
+                .data(SurveyResDto.toBuild(survey))
                 .build();
     }
 
@@ -247,7 +249,7 @@ public class MemberServiceImpl implements MemberService {
 
         return DataResDto.builder()
                 .message("신고가 접수되었습니다.")
-                .data(blacklistRepository.findAllByMember(member))
+                .data(true)
                 .build();
     }
 
