@@ -43,7 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (condition == 0) {
 //            전체조회
-            articleList = articleRepository.findAll();
+            articleList = articleRepository.findAllByOrderByEndDateAsc();
         } else if (condition == 1) {
             if (city != null ) {
 //                도시로 조회
@@ -60,6 +60,27 @@ public class ArticleServiceImpl implements ArticleService {
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList){
+            SearchResDto searchResultDto = SearchResDto.builder()
+                    .articleId(article.getArticleId())
+                    .authorName(article.getMember().getNickname())
+                    .title(article.getTitle())
+                    .content(article.getContent())
+                    .nation(article.getNation())
+                    .city(article.getCity())
+                    .status(article.getStatus())
+                    .startDate(article.getStartDate())
+                    .endDate(article.getEndDate())
+                    .build();
+
+            searchResultDtoList.add(searchResultDto);
+        }
+        return DataResDto.builder().message("게시글 목록을 검색했습니다.").data(searchResultDtoList).build();
+    }
+
+    @Override
+    public DataResDto<?> getAll() {
+        List<SearchResDto> searchResultDtoList = new ArrayList<>();
+        for(Article article : articleRepository.findAllByOrderByEndDateAsc()){
             SearchResDto searchResultDto = SearchResDto.builder()
                     .articleId(article.getArticleId())
                     .authorName(article.getMember().getNickname())

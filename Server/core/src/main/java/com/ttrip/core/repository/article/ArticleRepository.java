@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository <Article, Integer> {
-    List<Article> findAll();
+    List<Article> findAllByOrderByEndDateAsc();
     List<Article> findByNation(String nation);
     List<Article> findByCity(String city);
     List<Article> findByTitleOrContentContaining(String keyword, String keyword2);

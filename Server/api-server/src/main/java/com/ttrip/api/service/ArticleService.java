@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public interface ArticleService {
     DataResDto<?> search(SearchReqDto searchReqDto);
+    DataResDto<?> getAll();
     DataResDto<?> newArticle(NewArticleReqDto newArticleReqDto, UUID memberUuid);
     DataResDto<?> searchDetail(Integer articleId, UUID memberUuid);
     DataResDto<?> eraseArticle(Integer articleId, UUID memberUuid);
