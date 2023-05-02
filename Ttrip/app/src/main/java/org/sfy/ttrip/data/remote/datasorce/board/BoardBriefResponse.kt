@@ -2,44 +2,41 @@ package org.sfy.ttrip.data.remote.datasorce.board
 
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
-import org.sfy.ttrip.domain.entity.board.BoardDetail
+import org.sfy.ttrip.domain.entity.board.BoardBrief
 
-data class BoardDetailResponse(
+data class BoardBriefResponse(
     @SerializedName("articleId")
     val articleId: Int,
     @SerializedName("authorName")
     val authorName: String,
-    @SerializedName("createdDate")
-    val createdDate: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("content")
-    val content: String,
     @SerializedName("nation")
     val nation: String,
     @SerializedName("city")
     val city: String,
+    @SerializedName("dueDay")
+    val dueDay: Long,
     @SerializedName("startDate")
     val startDate: String,
     @SerializedName("endDate")
     val endDate: String,
+    @SerializedName("createdAt")
+    val createdAt: String,
     @SerializedName("status")
-    val status: Char,
-    @SerializedName("isMine")
-    val isMine: Boolean
-) : DataToDomainMapper<BoardDetail> {
-    override fun toDomainModel(): BoardDetail =
-        BoardDetail(
+    val status: Char
+) : DataToDomainMapper<BoardBrief> {
+    override fun toDomainModel(): BoardBrief =
+        BoardBrief(
             articleId,
             authorName,
-            createdDate,
             title,
-            content,
             nation,
             city,
+            dueDay,
             startDate,
             endDate,
-            status,
-            isMine
+            createdAt,
+            status
         )
 }
