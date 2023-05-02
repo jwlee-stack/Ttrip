@@ -37,6 +37,7 @@ public class Member extends BaseEntity {
     private String intro;
     private String profileImgPath;
     private String markerImgPath;
+    private String backgroundImgPath;
     private String fcmToken;
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -9,12 +9,15 @@ import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
+import com.ttrip.api.dto.mypageDto.mypageReqDto.InfoUpdateReqDto;
+import com.ttrip.api.dto.mypageDto.mypageReqDto.ProfileUpdateReqDto;
 import com.ttrip.api.dto.surveyDto.surverReqDto.SurveyReqDto;
 import com.ttrip.api.dto.surveyDto.surveyResDto.SurveyResDto;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.exception.BadRequestException;
 import com.ttrip.api.service.MemberService;
+import com.ttrip.api.service.MypageService;
 import com.ttrip.core.entity.blacklist.Blacklist;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
@@ -31,10 +34,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -49,6 +49,7 @@ public class MemberServiceImpl implements MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final SurveyRepository surveyRepository;
     private final BlacklistRepository blacklistRepository;
+    private final MypageService mypageService;
 
     @Override
     @Transactional
@@ -160,30 +161,21 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public DataResDto<?> updateMember(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException {
-        if (memberUpdateReqDto.getNickname().isEmpty() || memberUpdateReqDto.getGender() == null || memberUpdateReqDto.getAge() == null)
-            throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/생일)");
-
-        Member member = memberDetails.getMember();
+    public DataResDto<?> setInfo(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) {
+        //fcm 토큰 변경//
+        memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? memberDetails.getMember().getFcmToken() : memberUpdateReqDto.getFcmToken());
 
         //이미지 변경//
-        String imgPath;
-        imgPath = changeImg(member, memberUpdateReqDto.getProfileImg(), "profileImg");
-        member.setProfileImgPath(imgPath);
-        imgPath = changeImg(member, memberUpdateReqDto.getMarkerImg(), "markerImg");
-        member.setMarkerImgPath(imgPath);
+        ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
+        mypageService.updateProfileImg(profileUpdateReqDto, memberDetails);
 
-        //닉네임, 성별, 생일, 인트로, fcm 토큰 변경//
-        member.setNickname(memberUpdateReqDto.getNickname());
-        member.setGender(memberUpdateReqDto.getGender());
-        member.setAge(memberUpdateReqDto.getAge());
-        member.setIntro(memberUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : memberUpdateReqDto.getIntro());
-        member.setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? member.getFcmToken() : memberUpdateReqDto.getFcmToken());
-        memberRepository.save(member);
+        //닉네임, 성별, 생일, 인트로 변경//
+        InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
+        mypageService.updateMember(infoUpdateReqDto,memberDetails);
 
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
-                .data(MemberResDto.toBuild(member))
+                .data(MemberResDto.toBuild(memberDetails.getMember()))
                 .build();
     }
 
@@ -253,21 +245,4 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    public String changeImg(Member member, MultipartFile img, String folder) throws IOException {
-        //이미지 변경//
-        String path = System.getProperty("user.dir") + File.separator + folder + File.separator; //공통 경로
-        String customImgPath = path + member.getMemberUuid() + ".png"; //변경 이미지 경로
-        String defaultImgPath = path + "default.png"; //디폴트 이미지 경로
-        File profileImg = new File(customImgPath); //파일 객체 생성
-
-        //사용자가 이미지를 설정했는지?
-        if (!img.isEmpty()) //이미지 설정함
-            img.transferTo(profileImg); //이미지 저장
-        else //이미지 설정 안 함
-        {
-            profileImg.delete();//기존 이미지 삭제
-            customImgPath = defaultImgPath; //디폴트 이미지로 변경
-        }
-        return customImgPath;
-    }
 }

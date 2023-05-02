@@ -10,7 +10,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -61,5 +60,16 @@ public class RedisConfig {
         socketRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         socketRedisTemplate.setConnectionFactory(redisConnectionFactory());
         return socketRedisTemplate;
+    }
+
+    @Bean(name = "openviduRedisTemplate")
+    public RedisTemplate<String, Object> openviduRedisTemplate(){
+        RedisTemplate<String, Object> openviduRedisTemplate = new RedisTemplate<>();
+        openviduRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        openviduRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        openviduRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        openviduRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        openviduRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return openviduRedisTemplate;
     }
 }

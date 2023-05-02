@@ -68,14 +68,14 @@ public class MemberController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 정보 업데이트 성공"),
-            @ApiResponse(code = 400, message = "회원 정보 업데이트 실패")
+            @ApiResponse(code = 200, message = "회원 정보 세팅 성공"),
+            @ApiResponse(code = 400, message = "회원 정보 세팅 실패")
     })
-    @ApiOperation(value = "회원 정보 업데이트 API")
-    @PatchMapping("/update")
-    public DataResDto<?> updateMember(@ModelAttribute MemberUpdateReqDto memberUpdateReqDto,
+    @ApiOperation(value = "회원 정보 세팅 API")
+    @PatchMapping("/setInfo")
+    public DataResDto<?> setInfo(@ModelAttribute MemberUpdateReqDto memberUpdateReqDto,
                                       @AuthenticationPrincipal MemberDetails memberDetails) throws IOException {
-        return memberService.updateMember(memberUpdateReqDto, memberDetails);
+        return memberService.setInfo(memberUpdateReqDto, memberDetails);
     }
 
     @ApiResponses({

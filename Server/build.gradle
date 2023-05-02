@@ -48,6 +48,8 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
+        implementation 'io.openvidu:openvidu-java-client:2.26.0'
+
         // h2
         runtimeOnly 'com.h2database:h2'
         testImplementation 'com.h2database:h2'
