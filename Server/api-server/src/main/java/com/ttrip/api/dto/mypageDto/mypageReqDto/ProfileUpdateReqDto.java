@@ -13,9 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @ApiModel(value = "프로필 사진 업데이트 요청")
 public class ProfileUpdateReqDto {
-    @ApiModelProperty(value = "변경할 프로필 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png")
+    @ApiModelProperty(value = "변경할 프로필 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png",allowEmptyValue = true)
     private MultipartFile profileImg;
-    @ApiModelProperty(value = "변경할 마커 사진", notes="파일 형식은 png 또는 jpg", example = "bb.png")
+    @ApiModelProperty(value = "변경할 마커 사진", notes="파일 형식은 png 또는 jpg", example = "bb.png",allowEmptyValue = true)
     private MultipartFile markerImg;
 
 }

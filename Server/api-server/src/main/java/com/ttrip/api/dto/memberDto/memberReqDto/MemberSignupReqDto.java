@@ -20,7 +20,6 @@ public class MemberSignupReqDto {
     private String phoneNumber;
     @ApiModelProperty(value = "비밀번호", example = "www1234")
     private String password;
-    @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
 
     public Member toMember(PasswordEncoder passwordEncoder)

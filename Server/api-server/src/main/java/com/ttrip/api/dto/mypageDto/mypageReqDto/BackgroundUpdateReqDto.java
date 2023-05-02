@@ -13,6 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @ApiModel(value = "배경 사진 업데이트 요청")
 public class BackgroundUpdateReqDto {
-    @ApiModelProperty(value = "변경할 배경 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png")
+    @ApiModelProperty(value = "변경할 배경 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png",allowEmptyValue = true)
     private MultipartFile backgroundImg;
 }

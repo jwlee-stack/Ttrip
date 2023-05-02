@@ -17,15 +17,15 @@ import org.springframework.web.multipart.MultipartFile;
 @ToString
 @ApiModel(value = "회원 정보 업데이트 요청")
 public class MemberUpdateReqDto {
-    @ApiModelProperty(value = "변경할 프로필 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png")
+    @ApiModelProperty(value = "변경할 프로필 사진", notes="파일 형식은 png 또는 jpg", example = "aa.png", allowEmptyValue = true)
     private MultipartFile profileImg;
-    @ApiModelProperty(value = "변경할 마커 사진", notes="파일 형식은 png 또는 jpg", example = "bb.png")
+    @ApiModelProperty(value = "변경할 마커 사진", notes="파일 형식은 png 또는 jpg", example = "bb.png", allowEmptyValue = true)
     private MultipartFile markerImg;
     @ApiModelProperty(value = "변경할 닉네임", notes="6자 이내", example = "새닉넴")
     private String nickname;
-    @ApiModelProperty(value = "변경할 소개말", notes="20자 이내", example = "할로할로")
+    @ApiModelProperty(value = "변경할 소개말", notes="20자 이내", example = "hello")
     private String intro;
-    @ApiModelProperty(value = "변경할 fcm 토큰", notes="푸시 알림을 위한 토큰", example = "158qwe456wre8we1r3...")
+    @ApiModelProperty(value = "변경할 fcm 토큰", notes="푸시 알림을 위한 토큰", example = "158qwe456wre8we1r3...", allowEmptyValue = true)
     private String fcmToken;
     @ApiModelProperty(value = "변경할 성별", notes="MALE/FEMALE", example = "MALE")
     private Gender gender;
