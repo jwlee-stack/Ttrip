@@ -48,22 +48,24 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
     @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn
     @JsonManagedReference
-    private Survey survey=new Survey();
+    private Survey survey;
 
     @Builder
-    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String markerImgPath, String fcmToken, Gender gender, Integer age, Boolean shareLocation,Authority authority) {
+    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String backgroundImgPath,String markerImgPath, String fcmToken, Gender gender, Integer age, Boolean shareLocation,Authority authority) {
         this.memberUuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickname = nickname;
         this.intro = intro;
         this.profileImgPath = profileImgPath;
+        this.backgroundImgPath=backgroundImgPath;
         this.markerImgPath = markerImgPath;
         this.fcmToken = fcmToken;
         this.gender = gender;
         this.age = age;
-        this.shareLocation = shareLocation;
+        this.shareLocation = false;
         this.authority=authority;
     }
 }
