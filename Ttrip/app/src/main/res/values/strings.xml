@@ -120,6 +120,7 @@
     <string name="image_test_check">image_test_check</string>
     <string name="content_certificate_phone">휴대폰 인증</string>
     <string name="content_verification_again">인증번호를 받지 못하셨나요?</string>
+    <string name="content_user_info_age_hint">나이를 입력하세요</string>
 
     <!-- board -->
     <string name="title_board_category">전체</string>
@@ -151,6 +152,8 @@
     <string name="content_gender_male">남자</string>
     <string name="title_edit_profile_introduction">소개글</string>
     <string name="title_certificate_profile">프로필 인증</string>
+    <string name="content_edit_profile">회원정보 수정완료</string>
+    <string name="content_confirm_test_again">취향테스트 마치기</string>
 
     <!-- Certification -->
     <string name="image_recent_profile_image">image_recent_profile_image</string>
@@ -180,6 +183,4 @@
     <string name="title_rating_ask2">어떠셨나요?</string>
     <string name="image_declaration_siren">image_declaration_siren</string>
     <string name="content_declaration">신고하기</string>
-    <string name="content_edit_profile">회원정보 수정완료</string>
-    <string name="content_user_info_age_hint">나이를 입력하세요</string>
 </resources>

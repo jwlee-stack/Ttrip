@@ -15,9 +15,13 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     }
 
     private fun initListener() {
-        binding.ivEditProfile.setOnClickListener {
-            showToast("이동")
-            navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+        binding.apply {
+            ivEditProfile.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+            }
+            tvTestAgain.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToPreferenceTestAgainFragment())
+            }
         }
     }
 }
