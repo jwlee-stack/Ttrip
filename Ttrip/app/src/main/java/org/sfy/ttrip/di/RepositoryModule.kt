@@ -5,10 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.data.remote.datasorce.auth.AuthRemoteDataSourceImpl
+import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.live.LiveRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.repository.AuthRepositoryImpl
+import org.sfy.ttrip.data.remote.repository.BoardRepositoryImpl
 import org.sfy.ttrip.data.remote.repository.LiveRepositoryImpl
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
+import org.sfy.ttrip.domain.repository.board.BoardRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
 import javax.inject.Singleton
 
@@ -27,4 +30,10 @@ object RepositoryModule {
     fun provideLiveRepository(
         liveRemoteDataSourceImpl: LiveRemoteDataSourceImpl
     ): LiveRepository = LiveRepositoryImpl(liveRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideBoardRepository(
+        boardRemoteDataSourceImpl: BoardRemoteDataSourceImpl
+    ): BoardRepository = BoardRepositoryImpl(boardRemoteDataSourceImpl)
 }

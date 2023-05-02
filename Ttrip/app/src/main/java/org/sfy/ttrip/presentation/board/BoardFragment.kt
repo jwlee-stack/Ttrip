@@ -1,6 +1,9 @@
 package org.sfy.ttrip.presentation.board
 
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardBinding
@@ -9,7 +12,14 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 @AndroidEntryPoint
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
 
+    private val viewModel by activityViewModels<BoardViewModel>()
+    private val boardListAdapter by lazy {
+        BoardListAdapter(this::selectBoard)
+    }
+
     override fun initView() {
+        initObserver()
+        initRecyclerView()
         initListener()
     }
 
@@ -25,4 +35,21 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         }
     }
 
+    private fun initRecyclerView() {
+        viewModel.getBoards(0, "", "", "")
+        binding.rvBoardBrief.apply {
+            adapter = boardListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun initObserver() {
+        viewModel.boardListData.observe(viewLifecycleOwner) { response ->
+            response?.let { boardListAdapter.setBoard(it) }
+        }
+    }
+
+    private fun selectBoard(boardId: Int) {
+
+    }
 }
