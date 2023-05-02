@@ -47,7 +47,7 @@ public class ArticleController {
     @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
     @GetMapping("/{articleId}")
     public DataResDto<?> searchDetail(@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable("articleId") Integer articleId) {
-        return articleService.searchDetail(articleId, memberDetails.getMember().getMemberUuid());
+        return articleService.searchDetail(articleId, memberDetails.getMember());
     }
     @ApiResponses({
             @ApiResponse(code = 200, message = "게시글 삭제 성공"),
