@@ -6,6 +6,7 @@ import org.sfy.ttrip.data.remote.datasorce.board.BoardDetailResponse
 import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
 import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -22,5 +23,8 @@ interface BoardApiService {
     suspend fun getBoardDetail(@Path("articleId") articleId: Int): BoardDetailResponse
 
     @POST("/api/articles/{articleId}/end")
-    suspend fun endBoard()
+    suspend fun endBoard(@Path("articleId") articleId: Int)
+
+    @DELETE("/api/articles/{articleId}")
+    suspend fun deleteBoard(@Path("articleId") articleId: Int)
 }
