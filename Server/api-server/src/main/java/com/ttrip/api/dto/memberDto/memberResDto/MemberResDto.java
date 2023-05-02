@@ -1,6 +1,5 @@
 package com.ttrip.api.dto.memberDto.memberResDto;
 
-import com.ttrip.core.customEnum.Gender;
 import com.ttrip.core.entity.member.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,7 +25,7 @@ public class MemberResDto {
     @ApiModelProperty(value = "fcm 토큰", example = "asdfaf79797asdfaf...")
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
-    private Gender gender;
+    private String gender;
     @ApiModelProperty(value = "나이", example = "23")
     private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
@@ -42,7 +41,7 @@ public class MemberResDto {
                 .profileImgPath(member.getProfileImgPath())
                 .markerImgPath(member.getMarkerImgPath())
                 .fcmToken(member.getFcmToken())
-                .gender(member.getGender())
+                .gender(member.getGender().toString())
                 .age(member.getAge())
                 .shareLocation(member.getShareLocation())
                 .build();
