@@ -50,12 +50,6 @@ class MyPageViewModel @Inject constructor(
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(false)
     val isDuplicate: MutableLiveData<Boolean?> = _isDuplicate
 
-    fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
-        viewModelScope.launch {
-            updateUserInfoUseCase(age, gender, intro, nickname)
-        }
-    }
-
     suspend fun checkDuplication() =
         viewModelScope.async {
             when (val value = checkDuplicationUseCase(nickname.value!!)) {
@@ -69,6 +63,12 @@ class MyPageViewModel @Inject constructor(
                 }
             }
         }.await()
+
+    fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
+        viewModelScope.launch {
+            updateUserInfoUseCase(age, gender, intro, nickname)
+        }
+    }
 
     fun returnDuplicationTrue() {
         _isDuplicate.value = true

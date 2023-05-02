@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
-import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.ActivityInitBinding
@@ -29,8 +28,6 @@ class InitActivity : AppCompatActivity()  {
         val navGraph = graphInflater.inflate(R.navigation.navigation_init)
 
         navController.graph = navGraph
-
-        ApplicationClass.preferences.clearPreferences()
     }
 
     fun goToMain() {
