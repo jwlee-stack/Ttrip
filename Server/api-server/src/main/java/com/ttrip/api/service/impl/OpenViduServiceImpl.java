@@ -2,6 +2,7 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.dto.*;
 import com.ttrip.api.dto.openViduDto.SessionJoinReqDto;
+import com.ttrip.api.dto.openViduDto.SessionJoinResDto;
 import com.ttrip.api.dto.openViduDto.SessionResDto;
 import com.ttrip.api.service.OpenViduService;
 import com.ttrip.core.repository.openVidu.OpenViduRedisDao;
@@ -25,7 +26,7 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class OpenViduServiceImpl implements OpenViduService {
     private static final Logger logger = LogManager.getLogger(OpenViduServiceImpl.class);
-    OpenViduRedisDao openViduRedisDao;
+    private final OpenViduRedisDao openViduRedisDao;
 
     private OpenVidu openVidu;
 
@@ -83,9 +84,10 @@ public class OpenViduServiceImpl implements OpenViduService {
         if(token == null)
             throw new RuntimeException(ErrorMessageEnum.FAILD_TO_TOKEN.getMessage());
 
+        SessionJoinResDto openViduToken = SessionJoinResDto.builder().openViduToken(token).build();
         return DataResDto.builder()
                 .message("토큰이 발급되었습니다.")
-                .data(token)
+                .data(openViduToken)
                 .build();
     }
 
