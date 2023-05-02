@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_preferenceTestAgainFragment"
             app:destination="@id/preferenceTestAgainFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_initActivity"
+            app:destination="@id/initActivity" />
     </fragment>
 
     <fragment
@@ -47,4 +50,9 @@
         android:name="org.sfy.ttrip.presentation.mypage.PreferenceTestAgainFragment"
         android:label="PreferenceTestAgainFragment"
         tools:layout="@layout/fragment_preference_test_again" />
+    <activity
+        android:id="@+id/initActivity"
+        android:name="org.sfy.ttrip.presentation.init.InitActivity"
+        android:label="InitActivity"
+        tools:layout="@layout/activity_init" />
 </navigation>

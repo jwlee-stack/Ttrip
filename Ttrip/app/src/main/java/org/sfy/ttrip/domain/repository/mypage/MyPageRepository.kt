@@ -20,4 +20,6 @@ interface MyPageRepository {
     )
 
     suspend fun getUserProfile(): Resource<UserProfile>
+
+    suspend fun logout()
 }

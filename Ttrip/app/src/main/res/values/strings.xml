@@ -97,6 +97,7 @@
     <string name="content_test_again">취향 테스트 다시하기</string>
     <string name="content_logout">로그아웃</string>
     <string name="title_my_board">게시글 조회</string>
+    <string name="content_logout_dialog">로그아웃하시겠습니까?</string>
 
     <!-- sign_up_information -->
     <string name="image_back_to_login">image_back_to_login</string>

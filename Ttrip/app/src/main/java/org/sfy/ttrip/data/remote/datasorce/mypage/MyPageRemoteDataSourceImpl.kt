@@ -18,4 +18,7 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getUserProfile(): UserProfileResponse =
         myPageApiService.getUserProfile().data!!
+
+    override suspend fun logout() =
+        myPageApiService.logout()
 }

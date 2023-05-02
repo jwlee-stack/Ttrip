@@ -46,4 +46,7 @@ class MyPageRepositoryImpl @Inject constructor(
     override suspend fun getUserProfile(): Resource<UserProfile> = wrapToResource {
         myPageRemoteDataSource.getUserProfile().toDomainModel()
     }
+
+    override suspend fun logout() =
+        myPageRemoteDataSource.logout()
 }

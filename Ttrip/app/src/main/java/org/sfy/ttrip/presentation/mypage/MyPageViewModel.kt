@@ -13,6 +13,7 @@ import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
+import org.sfy.ttrip.domain.usecase.mypage.LogoutUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
@@ -23,7 +24,8 @@ class MyPageViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase,
     private val updatePreferencesUseCase: UpdatePreferencesUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val checkDuplicationUseCase: CheckDuplicationUseCase
+    private val checkDuplicationUseCase: CheckDuplicationUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
     private val _userTest: MutableLiveData<UserTest> =
@@ -124,6 +126,8 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
+
+    fun logout() = viewModelScope.launch { logoutUseCase() }
 
     fun postNickname(nickname: String?) {
         _nickname.value = nickname
