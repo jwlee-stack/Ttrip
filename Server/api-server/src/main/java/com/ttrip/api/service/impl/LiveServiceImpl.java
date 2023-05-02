@@ -27,17 +27,23 @@ public class LiveServiceImpl implements LiveService {
      * @param lat : 조회하는 유저의 latitude
      * @return : nickname, gender, age, memberUuid, latitude, longitude, matchingRate, distanceFromMe 데이터를 담은 리스트
      */
-    public DataResDto<?> getMembersInCity(String city, double lng, double lat){
+    public DataResDto<?> getMembersInCity(Member requester, String city, double lng, double lat){
         List<LiveAllLocationsDto> locationsInCity = liveRedisDao.getAllLocationsInCity(city);
+        List<LiveLocationResDto> res = new ArrayList<>();
+        if (locationsInCity.isEmpty())
+            return DataResDto.builder()
+                    .message(String.format("%s에 존재하는 유저 정보 목록입니다.", city))
+                    .data(res)
+                    .build();
         List<Member> members = memberRepository
                 .findMembersByMemberUuidInOrderByMemberUuid(
                         locationsInCity.stream()
                                 .map(m -> UUID.fromString(m.getMemberUuid()))
                                 .collect(Collectors.toList())
                 );
-        List<LiveLocationResDto> res = new ArrayList<>();
         for (int i = 0; i < members.size(); i++){
-            if (!Objects.equals(members.get(i).getMemberUuid().toString(), locationsInCity.get(i).getMemberUuid()))
+            if (!Objects.equals(members.get(i).getMemberUuid().toString(), locationsInCity.get(i).getMemberUuid())
+                    || Objects.equals(members.get(i).getMemberUuid().toString(), requester.getMemberUuid().toString()))
                 continue;
             res.add(new LiveLocationResDto(members.get(i), lat, lng, 0, locationsInCity.get(i)));
         }
