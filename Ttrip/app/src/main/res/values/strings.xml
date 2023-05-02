@@ -73,6 +73,7 @@
     <string name="content_yes">네</string>
     <string name="content_live_toggle_off">OFF</string>
     <string name="content_live_toggle_on">ON</string>
+    <string name="content_close_live">라이브 실행중에는\n다른 페이지로 이동할 수 없습니다.\n라이브를 종료하시겠습니까?</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
