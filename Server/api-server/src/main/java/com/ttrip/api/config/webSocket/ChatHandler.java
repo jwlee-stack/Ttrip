@@ -55,7 +55,7 @@ public class ChatHandler extends TextWebSocketHandler {
                 .createdAt(chatMessageResDto.getCreatedAt())
                 .chatroomId(chatroomId)
                 .build());
-        logger.info(memberUuid + "send Message to" + opponentUuid);
+        logger.info("chatting: " + memberUuid + " send Message to " + opponentUuid);
     }
 
     /* Client가 접속 시 호출되는 메서드 */
@@ -63,7 +63,7 @@ public class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) {
         String memberUuid = session.getAttributes().get("memberUuid").toString();
         sessionMap.put(memberUuid, session);
-        logger.info(memberUuid + "access");
+        logger.info("chatting: " + memberUuid + " access");
     }
 
     /* Client가 접속 해제 시 호출되는 메서드드 */
@@ -71,6 +71,6 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         sessionMap.remove(session.getAttributes().get("memberUuid"));
-        logger.info(session.getAttributes().get("memberUuid") + "exit");
+        logger.info("chatting: " + session.getAttributes().get("memberUuid") + " exit");
     }
 }
