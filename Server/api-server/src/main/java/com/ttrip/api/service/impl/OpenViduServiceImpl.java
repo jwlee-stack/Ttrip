@@ -2,6 +2,7 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.dto.*;
 import com.ttrip.api.dto.openViduDto.SessionJoinReqDto;
+import com.ttrip.api.dto.openViduDto.SessionJoinResDto;
 import com.ttrip.api.dto.openViduDto.SessionResDto;
 import com.ttrip.api.service.OpenViduService;
 import com.ttrip.core.repository.openVidu.OpenViduRedisDao;
@@ -13,6 +14,7 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.OpenViduRole;
 import io.openvidu.java.client.Session;
+import io.openvidu.java.client.SessionProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +27,7 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class OpenViduServiceImpl implements OpenViduService {
     private static final Logger logger = LogManager.getLogger(OpenViduServiceImpl.class);
-    OpenViduRedisDao openViduRedisDao;
+    private final OpenViduRedisDao openViduRedisDao;
 
     private OpenVidu openVidu;
 
@@ -83,9 +85,10 @@ public class OpenViduServiceImpl implements OpenViduService {
         if(token == null)
             throw new RuntimeException(ErrorMessageEnum.FAILD_TO_TOKEN.getMessage());
 
+        SessionJoinResDto openViduToken = SessionJoinResDto.builder().openViduToken(token).build();
         return DataResDto.builder()
                 .message("토큰이 발급되었습니다.")
-                .data(token)
+                .data(openViduToken)
                 .build();
     }
 
@@ -97,9 +100,13 @@ public class OpenViduServiceImpl implements OpenViduService {
      */
     private String createOpenViduToken(String sessionId, String memberUuid) throws OpenViduJavaClientException, OpenViduHttpException {
         Session session = openVidu.getActiveSession(sessionId);
+        if(session == null) {
+            SessionProperties properties = new SessionProperties.Builder().customSessionId(sessionId).build();
+            session = openVidu.createSession(properties);
+        }
         ConnectionProperties properties = new ConnectionProperties.Builder()
                 .type(ConnectionType.WEBRTC)
-                .role(OpenViduRole.SUBSCRIBER)
+                .role(OpenViduRole.PUBLISHER)
                 .data("{\"memberUuid\": \"" + memberUuid + "\"}")
                 .build();
         // ex) wss://localhost:4443?sessionId=ses_Ogize1yQIj&token=tok_A1c0pNsLJFwVJTeb
