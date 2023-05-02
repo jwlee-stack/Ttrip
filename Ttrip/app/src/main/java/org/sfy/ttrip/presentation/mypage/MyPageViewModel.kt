@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.domain.entity.user.UserTest
+import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val updateUserInfoUseCase: UpdateUserInfoUseCase
+    private val updateUserInfoUseCase: UpdateUserInfoUseCase,
+    private val updatePreferencesUseCase: UpdatePreferencesUseCase
 ) : ViewModel() {
 
     private val _userTest: MutableLiveData<UserTest> =
@@ -41,5 +43,31 @@ class MyPageViewModel @Inject constructor(
             8 -> userTest.preferShoppingThanTour = record
         }
         _userTest.value = userTest
+    }
+
+    fun updatePreferences(
+        preferCheapHotelThanComfort: Int,
+        preferCheapTraffic: Int,
+        preferDirectFlight: Int,
+        preferGoodFood: Int,
+        preferNatureThanCity: Int,
+        preferPersonalBudget: Int,
+        preferPlan: Int,
+        preferShoppingThanTour: Int,
+        preferTightSchedule: Int
+    ) {
+        viewModelScope.launch {
+            updatePreferencesUseCase(
+                preferCheapHotelThanComfort,
+                preferCheapTraffic,
+                preferDirectFlight,
+                preferGoodFood,
+                preferNatureThanCity,
+                preferPersonalBudget,
+                preferPlan,
+                preferShoppingThanTour,
+                preferTightSchedule
+            )
+        }
     }
 }

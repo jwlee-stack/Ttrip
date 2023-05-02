@@ -1,6 +1,5 @@
 package org.sfy.ttrip.presentation.mypage
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,7 +65,6 @@ class PreferenceTestAgainFragment :
         testList[position].score = record
         userInfoTestListAdapter.setTestInfo(testList)
         myPageViewModel.checkSurvey(position, record)
-        Log.d("asdf", "onUserTestClicked: ${myPageViewModel.userTest.value}")
     }
 
     private fun observeSurvey() {
@@ -85,7 +83,21 @@ class PreferenceTestAgainFragment :
                     isEnabled = true
                     setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
                     setOnClickListener {
-                        // api 연동
+                        myPageViewModel.apply {
+                            updatePreferences(
+                                userTest.value!!.preferNatureThanCity,
+                                userTest.value!!.preferCheapTraffic,
+                                userTest.value!!.preferDirectFlight,
+                                userTest.value!!.preferGoodFood,
+                                userTest.value!!.preferNatureThanCity,
+                                userTest.value!!.preferPersonalBudget,
+                                userTest.value!!.preferPlan,
+                                userTest.value!!.preferShoppingThanTour,
+                                userTest.value!!.preferTightSchedule
+                            )
+                        }
+                        popBackStack()
+                        showToast("취향테스트가 완료되었습니다.")
                     }
                 }
             } else {
