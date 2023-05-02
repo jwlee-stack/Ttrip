@@ -14,11 +14,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentSignUpInfoContentBinding
+import org.sfy.ttrip.domain.entity.user.SurveyItem
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.io.File
 
@@ -27,9 +31,8 @@ class SignUpInfoContentFragment :
 
     private var bannerPosition = -1
     private val userInfoTestListAdapter by lazy {
-        UserInfoTestListAdapter()
+        UserInfoTestListAdapter(this::onUserTestClicked)
     }
-
     private val userInfoViewModel by activityViewModels<UserInfoViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -43,13 +46,45 @@ class SignUpInfoContentFragment :
             }
         }
     }
+    private var testList = listOf(
+        SurveyItem(
+            "번화한 도시보다 자연 풍경이 좋다", 0, 0
+        ),
+        SurveyItem(
+            "미리 여행 계획을 세워야 마음이 편하다", 1, 0
+        ),
+        SurveyItem(
+            "경유보다 직항을 선호한다", 2, 0
+        ),
+        SurveyItem(
+            "숙소에는 경비를 줄이고 싶다", 3, 0
+        ),
+        SurveyItem(
+            "맛집은 무조건 찾아가야 한다", 4, 0
+        ),
+        SurveyItem(
+            "택시보다 대중교통을 이용한다", 5, 0
+        ),
+        SurveyItem(
+            "개인별 경비를 선호한다", 6, 0
+        ),
+        SurveyItem(
+            "타이트한 여행을 추구한다", 7, 0
+        ),
+        SurveyItem(
+            "명소 관광보다 쇼핑이 좋다", 8, 0
+        )
+    )
 
     override fun initView() {
+        binding.viewModel = userInfoViewModel
+
         initListener()
+        setTextWatcher()
 
         bannerPosition = arguments?.getInt("banner_position")!!
         with(bannerPosition) {
-            val bannerData =
+            val contentData =
                 listOf(
                     binding.clUserInfoNickName,
                     binding.clUserInfoAge,
@@ -60,7 +95,7 @@ class SignUpInfoContentFragment :
 
             when (bannerPosition) {
                 0 -> {
-                    changeVisibility(0, bannerData)
+                    changeVisibility(0, contentData)
                 }
                 1 -> {
                     binding.etUserInfoAge.addTextChangedListener(object : TextWatcher {
@@ -86,7 +121,7 @@ class SignUpInfoContentFragment :
                         }
                     })
 
-                    changeVisibility(1, bannerData)
+                    changeVisibility(1, contentData)
                 }
                 2 -> {
                     if (userInfoViewModel.userSex.value == "FEMALE") {
@@ -100,7 +135,7 @@ class SignUpInfoContentFragment :
                             tvUserInfoSexFemale.setBackgroundResource(R.drawable.bg_rect_whisper_radius20)
                         }
                     }
-                    changeVisibility(2, bannerData)
+                    changeVisibility(2, contentData)
                 }
                 3 -> {
                     binding.etUserInfoIntroduction.addTextChangedListener(object : TextWatcher {
@@ -133,10 +168,10 @@ class SignUpInfoContentFragment :
                         }
                     }
 
-                    changeVisibility(3, bannerData)
+                    changeVisibility(3, contentData)
                 }
                 4 -> {
-                    changeVisibility(4, bannerData)
+                    changeVisibility(4, contentData)
                 }
             }
         }
@@ -144,13 +179,21 @@ class SignUpInfoContentFragment :
         binding.rvUserInfoTest.apply {
             adapter = userInfoTestListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            userInfoTestListAdapter.setTestInfo(testList)
         }
     }
 
     private fun initListener() {
         binding.apply {
             tvUserInfoCheckNickName.setOnClickListener {
-                userInfoViewModel.checkNickName()
+                if (userInfoViewModel.nickname.value == null) {
+                    showToast("닉네임을 입력해주세요.")
+                } else {
+                    lifecycleScope.launch {
+                        val async = userInfoViewModel.checkDuplication()
+                        showDuplicateInfo(async)
+                    }
+                }
             }
 
             tvUserInfoSexMale.setOnClickListener {
@@ -165,8 +208,29 @@ class SignUpInfoContentFragment :
                 userInfoViewModel.postSex("FEMALE")
             }
 
-            clUserInfoProfile.setOnClickListener { setAlbumView() }
+            clUserInfoProfilePhoto.setOnClickListener { setAlbumView() }
         }
+    }
+
+    private fun showDuplicateInfo(async: Int) {
+        if (userInfoViewModel.isDuplicate.value == true) {
+            showToast("중복된 닉네임입니다.")
+        } else {
+            showToast("사용할 수 있는 닉네임입니다.")
+        }
+    }
+
+    private fun setTextWatcher() {
+        binding.etUserInfoNickName.addTextChangedListener {
+            userInfoViewModel.nickname.value = binding.etUserInfoNickName.text.toString()
+            userInfoViewModel.returnDuplicationTrue()
+        }
+    }
+
+    private fun onUserTestClicked(position: Int, record: Int) {
+        testList[position].score = record
+        userInfoTestListAdapter.setTestInfo(testList)
+        userInfoViewModel.checkSurvey(position, record)
     }
 
     private fun changeVisibility(position: Int, bannerData: List<ConstraintLayout>) {

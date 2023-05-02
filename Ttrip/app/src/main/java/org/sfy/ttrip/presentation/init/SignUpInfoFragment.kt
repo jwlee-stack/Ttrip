@@ -16,6 +16,13 @@ class SignUpInfoFragment :
 
     override fun initView() {
         initContent()
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.ivBackToLogin.setOnClickListener {
+            popBackStack()
+        }
     }
 
     private fun initContent() {
@@ -29,8 +36,14 @@ class SignUpInfoFragment :
 
                     when (position) {
                         0 -> {
-                            viewModel.nickNameValid.observe(this@SignUpInfoFragment) {
-                                checkInfo(it)
+                            viewModel.isDuplicate.observe(this@SignUpInfoFragment) {
+                                it?.let {
+                                    if (it) {
+                                        checkInfo(false)
+                                    } else {
+                                        checkInfo(true)
+                                    }
+                                }
                             }
                         }
                         1 -> {
@@ -47,6 +60,7 @@ class SignUpInfoFragment :
                             }
                         }
                         3 -> {
+                            binding.tvNextInfo.text = "다음"
                             viewModel.profileImgUri.observe(this@SignUpInfoFragment) { uri ->
                                 if (uri == null) {
                                     checkInfo(false)
@@ -59,7 +73,33 @@ class SignUpInfoFragment :
                             }
                         }
                         4 -> {
-
+                            binding.tvNextInfo.text = "입력 완료"
+                            viewModel.userTest.observe(this@SignUpInfoFragment) {
+                                if (it.preferCheapHotelThanComfort != 0 &&
+                                    it.preferCheapTraffic != 0 &&
+                                    it.preferGoodFood != 0 &&
+                                    it.preferDirectFlight != 0 &&
+                                    it.preferPlan != 0 &&
+                                    it.preferTightSchedule != 0 &&
+                                    it.preferShoppingThanTour != 0 &&
+                                    it.preferNatureThanCity != 0 &&
+                                    it.preferPersonalBudget != 0
+                                ) {
+                                    binding.tvNextInfo.apply {
+                                        isEnabled = true
+                                        setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
+                                        setOnClickListener {
+                                            viewModel.patchUserInfo()
+                                            viewModel.patchUserInfoTest()
+                                        }
+                                    }
+                                } else {
+                                    binding.tvNextInfo.apply {
+                                        isEnabled = false
+                                        setBackgroundResource(R.drawable.bg_rect_gainsboro_radius10)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -76,6 +116,7 @@ class SignUpInfoFragment :
                         setOnClickListener {
                             vpContentInfo.currentItem = vpContentInfo.currentItem + 1
                         }
+                        isEnabled = true
                         setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
                         setTextColor(Color.BLACK)
                     }
