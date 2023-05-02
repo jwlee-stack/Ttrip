@@ -27,5 +27,13 @@
         android:id="@+id/myPageFragment"
         android:name="org.sfy.ttrip.presentation.mypage.MyPageFragment"
         android:label="myPageFragment"
-        tools:layout="@layout/fragment_mypage" />
+        tools:layout="@layout/fragment_mypage" >
+        <action
+            android:id="@+id/action_myPageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.EditProfileFragment"
+        android:label="EditProfileFragment" />
 </navigation>

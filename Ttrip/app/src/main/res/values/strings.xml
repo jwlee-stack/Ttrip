@@ -144,7 +144,7 @@
     <string name="title_logo_ttrip">TTr!P</string>
     <string name="title_edit_profile_nickname">닉네임</string>
     <string name="content_enable_nickname">사용할 수 있는 닉네임입니다.</string>
-    <string name="title_edit_profile_birthday">생년월일</string>
+    <string name="title_edit_profile_age">나이</string>
     <string name="content_select_date">날짜 선택</string>
     <string name="title_edit_profile_gender">성별</string>
     <string name="content_gender_female">여자</string>
@@ -180,6 +180,6 @@
     <string name="title_rating_ask2">어떠셨나요?</string>
     <string name="image_declaration_siren">image_declaration_siren</string>
     <string name="content_declaration">신고하기</string>
-    <string name="content_edit_profile">회원정보 수정 완료</string>
+    <string name="content_edit_profile">회원정보 수정완료</string>
     <string name="content_user_info_age_hint">나이를 입력하세요</string>
 </resources>
