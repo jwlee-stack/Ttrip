@@ -17,7 +17,7 @@ public interface MemberService {
     DataResDto<?> login(MemberLoginReqDto memberLoginReqDto);
     DataResDto<?> logout(MemberDetails memberDetails);
     DataResDto<?> reissue(TokenReqDto tokenReqDto, UUID uuid);
-    DataResDto<?> updateMember (MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException;
+    DataResDto<?> setInfo (MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) throws IOException;
     DataResDto<?> checkNickname(String nickname);
     DataResDto<?> updateSurvey(SurveyReqDto surveyReqDto, MemberDetails memberDetails);
     DataResDto<?> viewMemberInfo(String nickname);
