@@ -4,6 +4,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentPreferenceTestAgainBinding
 import org.sfy.ttrip.domain.entity.user.SurveyItem
@@ -49,6 +50,7 @@ class PreferenceTestAgainFragment :
     )
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(true)
         initRecyclerView()
         observeSurvey()
     }

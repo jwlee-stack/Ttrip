@@ -13,9 +13,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun initView() {
-        (activity as MainActivity).hideBottomNavigation(true)
+        (activity as MainActivity).hideBottomNavigation(false)
         initListener()
         setUserProfile()
+        myPageViewModel.getUserProfile()
     }
 
     private fun initListener() {
@@ -31,7 +32,11 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun setUserProfile() {
         myPageViewModel.userProfile.observe(viewLifecycleOwner) { response ->
-            response?.let { binding.userProfile = it }
+            response?.let {
+                binding.userProfile = it
+                myPageViewModel.postNickname(it.nickname)
+                myPageViewModel.postAge(it.age.toString())
+            }
         }
         myPageViewModel.getUserProfile()
     }
