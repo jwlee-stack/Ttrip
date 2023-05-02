@@ -2,7 +2,6 @@ package com.ttrip.api.dto.memberDto.memberReqDto;
 
 import com.ttrip.api.dto.mypageDto.mypageReqDto.InfoUpdateReqDto;
 import com.ttrip.api.dto.mypageDto.mypageReqDto.ProfileUpdateReqDto;
-import com.ttrip.core.customEnum.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class MemberUpdateReqDto {
     @ApiModelProperty(value = "변경할 fcm 토큰", notes="푸시 알림을 위한 토큰", example = "158qwe456wre8we1r3...", allowEmptyValue = true)
     private String fcmToken;
     @ApiModelProperty(value = "변경할 성별", notes="MALE/FEMALE", example = "MALE")
-    private Gender gender;
+    private String gender;
     @ApiModelProperty(value = "변경할 나이", notes="String", example = "23")
     private Integer age;
 
@@ -44,7 +43,7 @@ public class MemberUpdateReqDto {
         return InfoUpdateReqDto.builder()
                 .nickname(memberUpdateReqDto.getNickname())
                 .age(memberUpdateReqDto.getAge())
-                .gender(memberUpdateReqDto.getGender().toString())
+                .gender(memberUpdateReqDto.getGender())
                 .intro((memberUpdateReqDto.getIntro()))
                 .build();
     }
