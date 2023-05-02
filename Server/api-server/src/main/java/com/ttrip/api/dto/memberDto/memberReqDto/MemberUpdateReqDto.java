@@ -1,5 +1,7 @@
 package com.ttrip.api.dto.memberDto.memberReqDto;
 
+import com.ttrip.api.dto.mypageDto.mypageReqDto.InfoUpdateReqDto;
+import com.ttrip.api.dto.mypageDto.mypageReqDto.ProfileUpdateReqDto;
 import com.ttrip.core.customEnum.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,5 +31,22 @@ public class MemberUpdateReqDto {
     private Gender gender;
     @ApiModelProperty(value = "변경할 나이", notes="String", example = "23")
     private Integer age;
+
+    public static ProfileUpdateReqDto toProfileUpdateReq(MemberUpdateReqDto memberUpdateReqDto)
+    {
+        return ProfileUpdateReqDto.builder()
+                .profileImg(memberUpdateReqDto.getProfileImg())
+                .markerImg(memberUpdateReqDto.getMarkerImg())
+                .build();
+    }
+    public static InfoUpdateReqDto toInfoUpdateReq(MemberUpdateReqDto memberUpdateReqDto)
+    {
+        return InfoUpdateReqDto.builder()
+                .nickname(memberUpdateReqDto.getNickname())
+                .age(memberUpdateReqDto.getAge())
+                .gender(memberUpdateReqDto.getGender().toString())
+                .intro((memberUpdateReqDto.getIntro()))
+                .build();
+    }
 
 }

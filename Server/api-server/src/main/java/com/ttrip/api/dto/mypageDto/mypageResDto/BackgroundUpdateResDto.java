@@ -10,18 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "회원 정보 업데이트 응답")
-public class ProfileUpdateResDto {
-    @ApiModelProperty(value = "프로필 사진 경로", example = "/var/lib/images/profile/aa.png")
-    private String profileImgPath;
-    @ApiModelProperty(value = "마커 이미지 경로", example = "/var/lib/images/marker/aa.png")
-    private String markerImgPath;
+@ApiModel(value = "배경 사진 업데이트 응답")
+public class BackgroundUpdateResDto {
+    @ApiModelProperty(value = "배경 사진 경로", example = "/var/lib/images/profile/aa.png")
+    private String backgroundImgPath;
 
-    public static ProfileUpdateResDto toBuild(Member member)
+    public static BackgroundUpdateResDto toBuild(Member member)
     {
-        return ProfileUpdateResDto.builder()
-                .profileImgPath(member.getProfileImgPath())
-                .markerImgPath(member.getMarkerImgPath())
+        return BackgroundUpdateResDto.builder()
+                .backgroundImgPath(member.getBackgroundImgPath())
                 .build();
     }
 
