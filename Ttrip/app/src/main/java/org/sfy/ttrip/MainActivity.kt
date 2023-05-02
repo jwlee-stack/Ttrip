@@ -1,6 +1,7 @@
 package org.sfy.ttrip
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -36,5 +37,16 @@ class MainActivity : AppCompatActivity() {
             itemIconTintList = null
         }
         navController.graph = navGraph
+    }
+
+    fun hideBottomNavigation(state: Boolean) {
+        when (state) {
+            true -> {
+                binding.bottomNavigation.visibility = View.GONE
+            }
+            else -> {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            }
+        }
     }
 }

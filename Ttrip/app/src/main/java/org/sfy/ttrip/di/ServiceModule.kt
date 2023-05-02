@@ -8,6 +8,7 @@ import org.sfy.ttrip.AuthInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
 import org.sfy.ttrip.data.remote.service.AuthApiService
 import org.sfy.ttrip.data.remote.service.LiveApiService
+import org.sfy.ttrip.data.remote.service.MyPageApiService
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -28,4 +29,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): LiveApiService =
         retrofit.create(LiveApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMyPageApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): MyPageApiService =
+        retrofit.create(MyPageApiService::class.java)
 }

@@ -6,9 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
+import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -29,4 +31,9 @@ object UseCaseModule {
     @Provides
     fun provideGetLiveUsersUseCase(liveRepository: LiveRepository): GetLiveUsersUseCase =
         GetLiveUsersUseCase(liveRepository)
+
+    @Singleton
+    @Provides
+    fun provideUpdateUserInfoUSeCase(myPageRepository: MyPageRepository): UpdateUserInfoUseCase =
+        UpdateUserInfoUseCase(myPageRepository)
 }

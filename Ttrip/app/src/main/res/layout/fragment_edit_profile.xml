@@ -83,6 +83,7 @@
                 android:id="@+id/et_nickname"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_marginVertical="12dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="20dp"
                 android:autofillHints="text"
@@ -90,7 +91,6 @@
                 android:fontFamily="@font/gmarket_sans_ttf_medium"
                 android:hint="@string/content_user_info_nick_name_hint"
                 android:inputType="text"
-                android:paddingVertical="12dp"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/gmarket_sans_ttf_bold"
-                android:text="@string/title_edit_profile_birthday"
+                android:text="@string/title_edit_profile_age"
                 android:textColor="@color/neon_blue"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/et_nickname"
@@ -146,14 +146,13 @@
                 android:id="@+id/et_birthday"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_marginVertical="12dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="20dp"
-                android:autofillHints="text"
+                android:autofillHints=""
                 android:background="@drawable/bg_rect_black_white_radius10_stroke1"
-                android:enabled="false"
                 android:fontFamily="@font/gmarket_sans_ttf_medium"
-                android:inputType="text"
-                android:paddingVertical="12dp"
+                android:inputType="number"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -161,24 +160,6 @@
                 app:layout_constraintStart_toStartOf="@id/tv_birthday"
                 app:layout_constraintTop_toBottomOf="@id/tv_birthday"
                 tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:id="@+id/tv_select_date"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginVertical="5dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_rect_honey_suckle_radius40"
-                android:fontFamily="@font/sc_dream5"
-                android:gravity="center"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="5dp"
-                android:text="@string/content_select_date"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                app:layout_constraintBottom_toBottomOf="@id/et_birthday"
-                app:layout_constraintEnd_toEndOf="@id/et_birthday"
-                app:layout_constraintTop_toTopOf="@id/et_birthday" />
 
             <TextView
                 android:id="@+id/tv_gender"
@@ -256,6 +237,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <TextView
+                android:id="@+id/tv_confirm"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="35dp"
