@@ -1,6 +1,6 @@
 package com.ttrip.api.service.impl;
 
-import com.ttrip.api.dto.ChatMessageResDto;
+import com.ttrip.api.dto.chatroomDto.ChatMessageResDto;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
 import com.ttrip.api.dto.chatroomDto.ExitChatReqDto;
