@@ -52,7 +52,7 @@ public class MemberController {
             @ApiResponse(code = 400, message = "로그아웃 실패")
     })
     @ApiOperation(value = "로그아웃 API")
-    @GetMapping("/logout")
+    @DeleteMapping("/logout")
     public DataResDto<?> logout(@AuthenticationPrincipal MemberDetails memberDetails) {
         return memberService.logout(memberDetails);
     }
