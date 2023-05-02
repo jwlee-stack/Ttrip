@@ -25,6 +25,7 @@ public class ChatHandler extends TextWebSocketHandler {
     private final HashMap<String, WebSocketSession> sessionMap = new HashMap<>();
     private final ChatMessageRepository chatMessageRepository;
     private final Logger logger = LogManager.getLogger(ChatHandler.class);
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String memberUuid = session.getAttributes().get("memberUuid").toString();
