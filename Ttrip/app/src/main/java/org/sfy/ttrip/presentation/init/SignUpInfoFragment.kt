@@ -89,8 +89,10 @@ class SignUpInfoFragment :
                                         isEnabled = true
                                         setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
                                         setOnClickListener {
-                                            viewModel.patchUserInfo()
-                                            viewModel.patchUserInfoTest()
+                                            viewModel.apply {
+                                                postUserInfo()
+                                                postUserInfoTest()
+                                            }
                                         }
                                     }
                                 } else {
