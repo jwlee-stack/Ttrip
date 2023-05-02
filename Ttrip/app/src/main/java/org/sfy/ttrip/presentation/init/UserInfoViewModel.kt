@@ -86,10 +86,6 @@ class UserInfoViewModel @Inject constructor(
 
     fun patchUserInfo() =
         viewModelScope.launch {
-            Log.d(
-                "asd",
-                "patchUserInfo:${profileImgMultiPart}, ${nickname.value},  ${userIntro.value}, ${userSex.value}, ${userAge.value}"
-            )
             patchUserInfoUseCase(
                 nickname.value!!,
                 userIntro.value!!,
