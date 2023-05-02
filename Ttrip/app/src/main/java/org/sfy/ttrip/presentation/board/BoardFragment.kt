@@ -14,7 +14,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
 
     private val viewModel by activityViewModels<BoardViewModel>()
     private val boardListAdapter by lazy {
-        BoardListAdapter(this::selectBoard)
+        BoardListAdapter(this::selectBoard, requireContext())
     }
 
     override fun initView() {
