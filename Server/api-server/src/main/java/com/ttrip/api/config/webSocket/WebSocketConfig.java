@@ -13,7 +13,7 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
     private final LiveHandler liveHandler;
-
+    private final ChatHandler chatHandler;
     /**
      * WebSocket 핸들러를 등록하는 과정
      *
@@ -28,6 +28,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(liveHandler, "ws/live/{city}/{memberUuid}").setAllowedOrigins("*")
+                .addHandler(chatHandler, "ws/chat/{chatroomId}/{memberUuid}/{opponentUuid}").setAllowedOrigins("*")
                 .addInterceptors(new CustomHandshakeInterceptor());
     }
 
