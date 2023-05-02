@@ -28,6 +28,7 @@ public class SecurityConfig {
             "/ws/live",
             "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
             "/ws/live/**/**",
+            "/ws/chat/**/**/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/swagger/**",
