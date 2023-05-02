@@ -1,12 +1,16 @@
 package org.sfy.ttrip.presentation.mypage
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.entity.user.UserTest
+import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import javax.inject.Inject
@@ -14,12 +18,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase,
-    private val updatePreferencesUseCase: UpdatePreferencesUseCase
+    private val updatePreferencesUseCase: UpdatePreferencesUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : ViewModel() {
 
     private val _userTest: MutableLiveData<UserTest> =
         MutableLiveData(UserTest(0, 0, 0, 0, 0, 0, 0, 0, 0))
     val userTest: LiveData<UserTest> = _userTest
+
+    private val _userProfile = MutableLiveData<UserProfile?>()
+    val userProfile: LiveData<UserProfile?> = _userProfile
 
     var genderState = ""
 
@@ -68,6 +76,17 @@ class MyPageViewModel @Inject constructor(
                 preferShoppingThanTour,
                 preferTightSchedule
             )
+        }
+    }
+
+    fun getUserProfile() = viewModelScope.launch {
+        when (val value = getUserProfileUseCase()) {
+            is Resource.Success -> {
+                _userProfile.value = value.data
+            }
+            is Resource.Error -> {
+                Log.d("getUserProfile", "getUserProfile: ${value.errorMessage}")
+            }
         }
     }
 }

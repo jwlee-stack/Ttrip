@@ -8,12 +8,14 @@ import org.sfy.ttrip.databinding.FragmentEditProfileBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 @AndroidEntryPoint
-class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
+class EditProfileFragment :
+    BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
 
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
+        initProfile()
         initListener()
     }
 
@@ -31,15 +33,40 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             }
 
             tvGenderFemale.setOnClickListener {
-                tvGenderFemale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
-                tvGenderMale.setBackgroundResource(R.drawable.bg_rect_whisper_radius10)
-                myPageViewModel.genderState = "FEMALE"
+                selectFemale()
             }
             tvGenderMale.setOnClickListener {
-                tvGenderMale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
-                tvGenderFemale.setBackgroundResource(R.drawable.bg_rect_whisper_radius10)
-                myPageViewModel.genderState = "MALE"
+                selectMale()
             }
         }
+    }
+
+    private fun initProfile() {
+        binding.apply {
+            etNickname.setText(myPageViewModel.userProfile.value!!.nickname.toString())
+            etBirthday.setText(myPageViewModel.userProfile.value!!.age.toString())
+            etIntroduction.setText(myPageViewModel.userProfile.value!!.intro.toString())
+            if (myPageViewModel.userProfile.value!!.gender == "FEMALE") {
+                selectFemale()
+            } else {
+                selectMale()
+            }
+        }
+    }
+
+    private fun selectFemale() {
+        binding.apply {
+            tvGenderFemale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
+            tvGenderMale.setBackgroundResource(R.drawable.bg_rect_whisper_radius10)
+        }
+        myPageViewModel.genderState = "FEMALE"
+    }
+
+    private fun selectMale() {
+        binding.apply {
+            tvGenderMale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius10)
+            tvGenderFemale.setBackgroundResource(R.drawable.bg_rect_whisper_radius10)
+        }
+        myPageViewModel.genderState = "MALE"
     }
 }

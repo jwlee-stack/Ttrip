@@ -7,4 +7,6 @@ interface MyPageRemoteDataSource {
     suspend fun updateUserInfo(body: UpdateUserInfoRequest)
 
     suspend fun updatePreferences(body: UserInfoTestRequest)
+
+    suspend fun getUserProfile(): UserProfileResponse
 }

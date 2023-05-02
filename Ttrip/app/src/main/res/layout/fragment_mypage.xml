@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="userProfile"
+            type="org.sfy.ttrip.domain.entity.mypage.UserProfile" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +56,7 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="25dp"
+                android:circleImgUri="@{userProfile.profileImgPath}"
                 android:contentDescription="@string/image_profile_img"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_profile_background" />
@@ -78,6 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/sc_dream5"
+                    android:text="@{userProfile.nickname}"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +95,7 @@
                     android:layout_marginStart="5dp"
                     android:contentDescription="@string/image_certification_badge"
                     android:src="@drawable/ic_certification_badge"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/tv_profile_nickname"
                     app:layout_constraintStart_toEndOf="@id/tv_profile_nickname"
                     app:layout_constraintTop_toTopOf="@id/tv_profile_nickname" />
@@ -99,6 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/sc_dream4"
+                    android:text="@{String.format(`%s %s`, userProfile.age, userProfile.getGenderString(context))}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@id/tv_profile_nickname"
@@ -112,6 +119,7 @@
                 android:layout_marginEnd="10dp"
                 android:contentDescription="@string/image_profile_certificate"
                 android:src="@drawable/ic_profile_certificate"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/iv_edit_profile"
                 app:layout_constraintEnd_toStartOf="@id/iv_edit_profile"
                 app:layout_constraintTop_toTopOf="@id/iv_edit_profile" />
@@ -128,19 +136,20 @@
                 app:layout_constraintTop_toTopOf="@id/iv_profile_image" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/bg_rect_white_transparent80_radius10"
                 android:gravity="center"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="28dp"
+                android:text="@{userProfile.intro}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_profile_background"
+                app:layout_constraintStart_toStartOf="@id/iv_profile_background"
                 app:layout_constraintTop_toBottomOf="@id/iv_profile_image"
+                app:layout_constraintVertical_bias="0.0"
                 tools:text="천천히 대화하면서 하는 여행을 좋아해요!" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

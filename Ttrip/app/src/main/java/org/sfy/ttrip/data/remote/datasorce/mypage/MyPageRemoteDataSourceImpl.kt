@@ -15,4 +15,7 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
     override suspend fun updatePreferences(body: UserInfoTestRequest) {
         myPageApiService.updatePreferences(body)
     }
+
+    override suspend fun getUserProfile(): UserProfileResponse =
+        myPageApiService.getUserProfile().data!!
 }

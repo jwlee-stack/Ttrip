@@ -1,5 +1,6 @@
 package org.sfy.ttrip.presentation.mypage
 
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
@@ -9,9 +10,12 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
 
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
+
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         initListener()
+        setUserProfile()
     }
 
     private fun initListener() {
@@ -23,5 +27,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 navigate(MyPageFragmentDirections.actionMyPageFragmentToPreferenceTestAgainFragment())
             }
         }
+    }
+
+    private fun setUserProfile() {
+        myPageViewModel.userProfile.observe(viewLifecycleOwner) { response ->
+            response?.let { binding.userProfile = it }
+        }
+        myPageViewModel.getUserProfile()
     }
 }
