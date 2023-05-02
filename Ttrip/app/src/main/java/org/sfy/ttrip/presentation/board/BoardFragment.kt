@@ -29,6 +29,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
                 if (etSearchBoard.visibility == View.INVISIBLE) {
                     etSearchBoard.visibility = View.VISIBLE
                 } else {
+                    viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
                     etSearchBoard.visibility = View.INVISIBLE
                 }
             }
