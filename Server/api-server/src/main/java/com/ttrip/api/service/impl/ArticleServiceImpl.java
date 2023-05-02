@@ -45,18 +45,18 @@ public class ArticleServiceImpl implements ArticleService {
         }
         if (condition == 0) {
 //            전체조회
-            articleList = articleRepository.findAllByOrderByEndDateAsc();
+            articleList = articleRepository.findAllByOrderByCreatedAtDesc();
         } else if (condition == 1) {
             if (city != null) {
 //                도시로 조회
-                articleList = articleRepository.findByCityOrderByEndDateAsc(city);
+                articleList = articleRepository.findByCityOrderByCreatedAtDesc(city);
             } else {
 //                나라로 조회
-                articleList = articleRepository.findByNationOrderByEndDateAsc(nation);
+                articleList = articleRepository.findByNationOrderByCreatedAtDesc(nation);
             }
         } else if (condition == 2) {
 //            keyword로 조회
-            articleList = articleRepository.findByTitleOrContentContainingOrderByEndDateAsc(keyword, keyword);
+            articleList = articleRepository.findByTitleOrContentContainingOrderByCreatedAtDesc(keyword, keyword);
         } else {
             throw new BadRequestException(ErrorMessageEnum.UNEXPECT_VALUE.getMessage());
         }
