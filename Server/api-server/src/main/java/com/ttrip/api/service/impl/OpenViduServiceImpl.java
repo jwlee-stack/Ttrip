@@ -26,7 +26,7 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class OpenViduServiceImpl implements OpenViduService {
     private static final Logger logger = LogManager.getLogger(OpenViduServiceImpl.class);
-    OpenViduRedisDao openViduRedisDao;
+    private final OpenViduRedisDao openViduRedisDao;
 
     private OpenVidu openVidu;
 
