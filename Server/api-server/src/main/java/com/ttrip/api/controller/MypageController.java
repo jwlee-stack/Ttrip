@@ -35,6 +35,16 @@ public class MypageController {
     }
 
     @ApiResponses({
+            @ApiResponse(code = 200, message = "내 정보 조회 성공"),
+            @ApiResponse(code = 400, message = "내 정보 조회 실패")
+    })
+    @ApiOperation(value = "내 정보 조회")
+    @GetMapping("/view/myInfo")
+    public DataResDto<?> viewMyInfo(@AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.viewMemberInfo(memberDetails.getMember().getNickname());
+    }
+
+    @ApiResponses({
             @ApiResponse(code = 200, message = "회원 정보 변경 성공"),
             @ApiResponse(code = 400, message = "회원 정보 변경 실패")
     })

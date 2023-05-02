@@ -1,6 +1,5 @@
 package com.ttrip.api.dto.memberDto.memberResDto;
 
-import com.ttrip.core.customEnum.Gender;
 import com.ttrip.core.entity.member.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,10 +22,12 @@ public class MemberResDto {
     private String profileImgPath;
     @ApiModelProperty(value = "마커 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
     private String markerImgPath;
+    @ApiModelProperty(value = "배경 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
+    private String backgroundImgPath;
     @ApiModelProperty(value = "fcm 토큰", example = "asdfaf79797asdfaf...")
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
-    private Gender gender;
+    private String gender;
     @ApiModelProperty(value = "나이", example = "23")
     private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
@@ -41,8 +42,9 @@ public class MemberResDto {
                 .intro(member.getIntro())
                 .profileImgPath(member.getProfileImgPath())
                 .markerImgPath(member.getMarkerImgPath())
+                .backgroundImgPath(member.getBackgroundImgPath())
                 .fcmToken(member.getFcmToken())
-                .gender(member.getGender())
+                .gender(member.getGender().toString())
                 .age(member.getAge())
                 .shareLocation(member.getShareLocation())
                 .build();
