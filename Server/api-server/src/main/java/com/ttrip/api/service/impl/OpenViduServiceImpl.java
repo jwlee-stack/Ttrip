@@ -14,6 +14,7 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.OpenViduRole;
 import io.openvidu.java.client.Session;
+import io.openvidu.java.client.SessionProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -99,9 +100,13 @@ public class OpenViduServiceImpl implements OpenViduService {
      */
     private String createOpenViduToken(String sessionId, String memberUuid) throws OpenViduJavaClientException, OpenViduHttpException {
         Session session = openVidu.getActiveSession(sessionId);
+        if(session == null) {
+            SessionProperties properties = new SessionProperties.Builder().customSessionId(sessionId).build();
+            session = openVidu.createSession(properties);
+        }
         ConnectionProperties properties = new ConnectionProperties.Builder()
                 .type(ConnectionType.WEBRTC)
-                .role(OpenViduRole.SUBSCRIBER)
+                .role(OpenViduRole.PUBLISHER)
                 .data("{\"memberUuid\": \"" + memberUuid + "\"}")
                 .build();
         // ex) wss://localhost:4443?sessionId=ses_Ogize1yQIj&token=tok_A1c0pNsLJFwVJTeb
