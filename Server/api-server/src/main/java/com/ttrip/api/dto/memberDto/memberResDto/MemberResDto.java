@@ -22,6 +22,8 @@ public class MemberResDto {
     private String profileImgPath;
     @ApiModelProperty(value = "마커 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
     private String markerImgPath;
+    @ApiModelProperty(value = "배경 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
+    private String backgroundImgPath;
     @ApiModelProperty(value = "fcm 토큰", example = "asdfaf79797asdfaf...")
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
@@ -40,6 +42,7 @@ public class MemberResDto {
                 .intro(member.getIntro())
                 .profileImgPath(member.getProfileImgPath())
                 .markerImgPath(member.getMarkerImgPath())
+                .backgroundImgPath(member.getBackgroundImgPath())
                 .fcmToken(member.getFcmToken())
                 .gender(member.getGender().toString())
                 .age(member.getAge())
