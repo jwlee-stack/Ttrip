@@ -223,7 +223,7 @@ class SignUpInfoContentFragment :
     private fun setTextWatcher() {
         binding.etUserInfoNickName.addTextChangedListener {
             userInfoViewModel.nickname.value = binding.etUserInfoNickName.text.toString()
-            userInfoViewModel.returnDuplicationTrue()
+            userInfoViewModel.changeDuplicationTrue()
         }
     }
 
