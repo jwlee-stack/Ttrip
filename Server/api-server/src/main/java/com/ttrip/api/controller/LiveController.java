@@ -26,10 +26,11 @@ public class LiveController {
 
     @GetMapping("/{city}/{lng}/{lat}")
     public DataResDto<?> getMemberInfoInCity(
+            @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable("city") String city,
             @PathVariable("lng") double lng,
             @PathVariable("lat") double lat)
     {
-        return liveService.getMembersInCity(city, lng, lat);
+        return liveService.getMembersInCity(memberDetails.getMember(), city, lng, lat);
     }
 }
