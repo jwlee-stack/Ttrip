@@ -57,7 +57,7 @@ class UserInfoTestListAdapter(
                     )
 
                 for (i in 0..4) {
-                    if (data.record != 0 && data.record - 1 == i) {
+                    if (data.score != 0 && data.score - 1 == i) {
                         checkData[i].setImageResource(R.drawable.ic_circle_check_test_check)
                     } else {
                         checkData[i].setImageResource(R.drawable.ic_circle_check_test)
@@ -67,7 +67,7 @@ class UserInfoTestListAdapter(
                 for (i in 0..4) {
                     checkData[i].setOnClickListener {
                         checkData[i].setImageResource(R.drawable.ic_circle_check_test_check)
-                        onUserTestClicked(data.loc, i + 1)
+                        onUserTestClicked(data.index, i + 1)
                         for (j in 0..4) {
                             if (i != j) {
                                 checkData[j].setImageResource(R.drawable.ic_circle_check_test)

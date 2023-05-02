@@ -16,14 +16,14 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
-import org.sfy.ttrip.domain.usecase.user.PatchUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
-    private val patchUserInfoUseCase: PatchUserInfoUseCase
+    private val postUserInfoUseCase: PostUserInfoUseCase
 ) : ViewModel() {
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(null)
@@ -86,7 +86,7 @@ class UserInfoViewModel @Inject constructor(
 
     fun patchUserInfo() =
         viewModelScope.launch {
-            patchUserInfoUseCase(
+            postUserInfoUseCase(
                 nickname.value!!,
                 userIntro.value!!,
                 userSex.value!!,

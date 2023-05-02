@@ -228,7 +228,7 @@ class SignUpInfoContentFragment :
     }
 
     private fun onUserTestClicked(position: Int, record: Int) {
-        testList[position].record = record
+        testList[position].score = record
         userInfoTestListAdapter.setTestInfo(testList)
         userInfoViewModel.checkSurvey(position, record)
     }
