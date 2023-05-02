@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: local # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
+    active: prod # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
 
   hikari:
     connectionTimeout : 30000
