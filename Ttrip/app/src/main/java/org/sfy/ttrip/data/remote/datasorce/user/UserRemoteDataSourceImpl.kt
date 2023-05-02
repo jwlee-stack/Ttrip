@@ -11,7 +11,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
     private val userApiService: UserApiService
 ) : UserRemoteDataSource {
 
-    override suspend fun patchUserInfo(
+    override suspend fun postUserInfo(
         nickName: String,
         intro: String,
         gender: String,
@@ -31,4 +31,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun checkDuplication(nickName: String): CheckDuplicationResponse =
         userApiService.checkDuplication(nickName).data!!
+
+    override suspend fun postUserInfoTest(body: UserInfoTestRequest) {
+        userApiService.patchUserInfoTest(body)
+    }
 }

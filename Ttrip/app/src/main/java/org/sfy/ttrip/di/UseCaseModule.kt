@@ -11,7 +11,7 @@ import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
-import org.sfy.ttrip.domain.usecase.user.PatchUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -40,6 +40,6 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun providePatchUserInfoUseCase(userRepository: UserRepository): PatchUserInfoUseCase =
-        PatchUserInfoUseCase(userRepository)
+    fun providePostUserInfoUseCase(userRepository: UserRepository): PostUserInfoUseCase =
+        PostUserInfoUseCase(userRepository)
 }

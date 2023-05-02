@@ -4,7 +4,7 @@ import okhttp3.MultipartBody
 
 interface UserRemoteDataSource {
 
-    suspend fun patchUserInfo(
+    suspend fun postUserInfo(
         nickName: String,
         intro: String,
         gender: String,
@@ -15,4 +15,6 @@ interface UserRemoteDataSource {
     )
 
     suspend fun checkDuplication(nickName: String): CheckDuplicationResponse
+
+    suspend fun postUserInfoTest(body: UserInfoTestRequest)
 }
