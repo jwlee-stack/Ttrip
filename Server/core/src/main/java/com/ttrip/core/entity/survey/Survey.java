@@ -3,15 +3,15 @@ package com.ttrip.core.entity.survey;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ttrip.core.entity.BaseEntity;
 import com.ttrip.core.entity.member.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Survey extends BaseEntity {
     @Id
@@ -37,7 +37,7 @@ public class Survey extends BaseEntity {
     @Column(columnDefinition = "TINYINT")
     private int preferShoppingThanTour;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn
     @JsonBackReference
     private Member member;
 }
