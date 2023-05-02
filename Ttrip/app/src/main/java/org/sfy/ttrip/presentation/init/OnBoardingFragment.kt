@@ -3,6 +3,7 @@ package org.sfy.ttrip.presentation.init
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentOnboardingBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -11,6 +12,7 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.fragment_onboarding) {
 
     override fun initView() {
+        ApplicationClass.preferences.clearPreferences()
         initBanner()
     }
 
