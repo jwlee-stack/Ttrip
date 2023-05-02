@@ -29,7 +29,7 @@ public class DetailResDto {
         private String city;
         @ApiModelProperty(value = "여행 시작 예정일", example = "2023-04-27T14:14:25.500")
         private LocalDate startDate;
-        @ApiModelProperty(value = "여행 막마 예정일", example = "2023-04-27T14:14:25.500")
+        @ApiModelProperty(value = "여행 마감 예정일", example = "2023-04-27T14:14:25.500")
         private LocalDate endDate;
         @ApiModelProperty(value = "글 등록시간", example = "2023-04-27T14:14:25.500")
         private LocalDateTime createdAt;
@@ -37,5 +37,9 @@ public class DetailResDto {
         private char status;
         @ApiModelProperty(value = "내 작성글이면 true인 boolean", example = "true")
         private Boolean isMine;
+        @ApiModelProperty(value = "지원여부", example = "true")
+        private Boolean isApplied;
+        @ApiModelProperty(value = "매칭 유사도", example = "78.5")
+        private float similarity;
 
 }
