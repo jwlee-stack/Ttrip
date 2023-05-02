@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ApplyArticleRepository extends JpaRepository <ApplyArticle, Integer> {
     List<ApplyArticle> findByArticle(Article article);
     Optional<ApplyArticle> findByArticleAndMember(Article article, Member member);
+    Boolean existsByArticleAndMember(Article article, Member member);
 }
