@@ -29,7 +29,7 @@ public class MemberUpdateReqDto {
     @ApiModelProperty(value = "변경할 성별", notes="MALE/FEMALE", example = "MALE")
     private String gender;
     @ApiModelProperty(value = "변경할 나이", notes="String", example = "23")
-    private Integer age;
+    private String age;
 
     public static ProfileUpdateReqDto toProfileUpdateReq(MemberUpdateReqDto memberUpdateReqDto)
     {

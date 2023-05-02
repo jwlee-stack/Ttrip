@@ -15,7 +15,7 @@ public class InfoUpdateReqDto {
     @ApiModelProperty(value = "변경할 닉네임")
     private String nickname;
     @ApiModelProperty(value = "변경할 나이", notes="Integer")
-    private Integer age;
+    private String age;
     @ApiModelProperty(value = "변경할 성별")
     private String gender;
     @ApiModelProperty(value = "변경할 소개글")

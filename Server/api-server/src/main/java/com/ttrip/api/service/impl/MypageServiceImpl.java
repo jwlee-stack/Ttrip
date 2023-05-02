@@ -63,7 +63,7 @@ public class MypageServiceImpl implements MypageService {
         //닉네임, 성별, 나이, 인트로 변경//
         member.setNickname(infoUpdateReqDto.getNickname());
         member.setGender(Gender.valueOf(infoUpdateReqDto.getGender()));
-        member.setAge(infoUpdateReqDto.getAge());
+        member.setAge(Integer.parseInt(infoUpdateReqDto.getAge()));
         member.setIntro(infoUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : infoUpdateReqDto.getIntro());
 
         memberRepository.save(member);
