@@ -28,6 +28,7 @@ import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.core.repository.survey.SurveyRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -38,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -54,6 +56,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> signup(MemberSignupReqDto memberSignupReqDto) {
+        log.info("멤버 회원 가입 요청: {}",memberSignupReqDto.toString());
         //이미 가입한 전화번호?
         if (memberRepository.existsByPhoneNumber(memberSignupReqDto.getPhoneNumber()))
             //이미 가입한 유저입니다.
@@ -61,7 +64,8 @@ public class MemberServiceImpl implements MemberService {
 
         //멤버 생성
         Member member = memberSignupReqDto.toMember(passwordEncoder);
-
+        log.info("멤버 생성: {}",member);
+        log.info("응답값으로 변환: {}",MemberResDto.toBuild(member).toString());
         //DB에 저장
         try {
             memberRepository.save(member);
@@ -169,7 +173,7 @@ public class MemberServiceImpl implements MemberService {
         ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
         mypageService.updateProfileImg(profileUpdateReqDto, memberDetails);
 
-        //닉네임, 성별, 생일, 인트로 변경//
+        //닉네임, 성별, 나이, 인트로 변경//
         InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
         mypageService.updateMember(infoUpdateReqDto,memberDetails);
 
@@ -199,7 +203,11 @@ public class MemberServiceImpl implements MemberService {
     public DataResDto<?> updateSurvey(SurveyReqDto surveyReqDto, MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
 
-        Survey survey = surveyRepository.findBySurveyId(member.getMemberId()).get();
+        Survey survey;
+        if(!surveyRepository.existsByMember(member))
+            survey=Survey.builder().member(member).build();
+        else
+            survey = surveyRepository.findByMember(member).get();
         survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity());
         survey.setPreferPlan(surveyReqDto.getPreferPlan());
         survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight());

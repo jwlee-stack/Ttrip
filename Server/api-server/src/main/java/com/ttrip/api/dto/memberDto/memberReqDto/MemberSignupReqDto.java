@@ -1,5 +1,6 @@
 package com.ttrip.api.dto.memberDto.memberReqDto;
 
+import com.ttrip.core.customEnum.Gender;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.customEnum.Authority;
 import io.swagger.annotations.ApiModel;
@@ -7,10 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
+@ToString
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +31,7 @@ public class MemberSignupReqDto {
                 .phoneNumber(phoneNumber)
                 .password((passwordEncoder.encode(password)))
                 .authority(Authority.ROLE_USER)
+                .gender(Gender.MALE)
                 .shareLocation(false)
                 .build();
     }
