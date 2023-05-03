@@ -176,12 +176,12 @@ class BoardDetailFragment :
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
 
-        viewModel.boardCommentListData.observe(this@BoardDetailFragment){ response ->
+        viewModel.boardCommentListData.observe(this@BoardDetailFragment) { response ->
             response?.let { boardCommentListAdapter.setBoardComment(it) }
         }
     }
 
-    private fun selectComment(boardId: Int) {
+    private fun selectComment(nickName: String) {
 
     }
 }
