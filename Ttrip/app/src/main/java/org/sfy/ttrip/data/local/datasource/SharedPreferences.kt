@@ -14,6 +14,10 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("refreshToken", null)
         set(value) = prefs.edit().putString("refreshToken", value).apply()
 
+    var fcmToken: String?
+        get() = prefs.getString("fcmToken", null)
+        set(value) = prefs.edit().putString("fcmToken", value).apply()
+
     var userId: String?
         get() = prefs.getString("userId", null)
         set(value) = prefs.edit().putString("userId", value).apply()
