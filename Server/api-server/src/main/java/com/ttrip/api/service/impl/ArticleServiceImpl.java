@@ -103,6 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
             DetailResDto searchDetailDto = DetailResDto.builder()
                     .articleId(articleId)
                     .authorName(article.getMember().getNickname())
+                    .imgPath(article.getMember().getProfileImgPath())
                     .title(article.getTitle())
                     .content(article.getContent())
                     .nation(article.getNation())
