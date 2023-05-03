@@ -11,6 +11,7 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.board.BoardDetail
 import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
+import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
 import javax.inject.Inject
@@ -19,7 +20,8 @@ import javax.inject.Inject
 class BoardViewModel @Inject constructor(
     private val getBoardBriefUseCase: GetBoardBriefUseCase,
     private val getBoardDetailUseCase: GetBoardDetailUseCase,
-    private val deleteBoardUseCase: DeleteBoardUseCase
+    private val deleteBoardUseCase: DeleteBoardUseCase,
+    private val finishBoardUseCase: FinishBoardUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> =
@@ -57,6 +59,12 @@ class BoardViewModel @Inject constructor(
     fun deleteBoard(boardId: Int) {
         viewModelScope.launch {
             deleteBoardUseCase.invoke(boardId)
+        }
+    }
+
+    fun finishBoard(boardId: Int){
+        viewModelScope.launch {
+            finishBoardUseCase.invoke(boardId)
         }
     }
 }

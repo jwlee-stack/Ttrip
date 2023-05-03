@@ -23,7 +23,7 @@ interface BoardApiService {
     suspend fun getBoardDetail(@Path("articleId") articleId: Int): BaseResponse<BoardDetailResponse>
 
     @POST("/api/articles/{articleId}/end")
-    suspend fun endBoard(@Path("articleId") articleId: Int)
+    suspend fun finishBoard(@Path("articleId") articleId: Int)
 
     @DELETE("/api/articles/{articleId}")
     suspend fun deleteBoard(@Path("articleId") articleId: Int)

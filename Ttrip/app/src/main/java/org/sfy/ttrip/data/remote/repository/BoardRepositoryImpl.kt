@@ -52,4 +52,8 @@ class BoardRepositoryImpl @Inject constructor(
     override suspend fun deleteBoard(boardId: Int) {
         boardRemoteDataSource.deleteBoard(boardId)
     }
+
+    override suspend fun finishBoard(boardId: Int) {
+        boardRemoteDataSource.finishBoard(boardId)
+    }
 }

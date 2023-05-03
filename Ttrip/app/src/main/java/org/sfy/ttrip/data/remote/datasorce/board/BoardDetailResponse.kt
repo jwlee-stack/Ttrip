@@ -10,7 +10,7 @@ data class BoardDetailResponse(
     @SerializedName("authorName")
     val authorName: String,
     @SerializedName("imgPath")
-    val imgPath: String,
+    val imgPath: String?,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("title")

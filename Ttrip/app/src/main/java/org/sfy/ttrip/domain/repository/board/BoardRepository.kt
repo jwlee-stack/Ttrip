@@ -5,7 +5,6 @@ import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.board.BoardDetail
 import java.time.LocalDateTime
 
-
 interface BoardRepository {
 
     suspend fun postBoard(
@@ -26,4 +25,6 @@ interface BoardRepository {
     suspend fun getBoardDetail(boardId: Int): Resource<BoardDetail>
 
     suspend fun deleteBoard(boardId: Int)
+
+    suspend fun finishBoard(boardId: Int)
 }

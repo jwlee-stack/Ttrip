@@ -17,7 +17,11 @@ class BoardRemoteDataSourceImpl @Inject constructor(
     override suspend fun getBoardDetail(boardId: Int): BoardDetailResponse =
         boardApiService.getBoardDetail(boardId).data!!
 
-    override suspend fun deleteBoard(BoardId: Int) {
-        boardApiService.deleteBoard(BoardId)
+    override suspend fun deleteBoard(boardId: Int) {
+        boardApiService.deleteBoard(boardId)
+    }
+
+    override suspend fun finishBoard(boardId: Int) {
+        boardApiService.finishBoard(boardId)
     }
 }

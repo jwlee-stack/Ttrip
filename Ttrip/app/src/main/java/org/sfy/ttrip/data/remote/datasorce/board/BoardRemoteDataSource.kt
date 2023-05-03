@@ -9,5 +9,7 @@ interface BoardRemoteDataSource {
 
     suspend fun getBoardDetail(boardId: Int): BoardDetailResponse
 
-    suspend fun deleteBoard(BoardId: Int)
+    suspend fun deleteBoard(boardId: Int)
+
+    suspend fun finishBoard(boardId: Int)
 }

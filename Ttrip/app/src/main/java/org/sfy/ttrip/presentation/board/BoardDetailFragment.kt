@@ -7,13 +7,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
-import org.sfy.ttrip.common.util.BindingAdapters.setProfileImgString
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
-    DeleteBoardDialogListener {
+    BoardDialogListener {
 
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
@@ -34,10 +33,20 @@ class BoardDetailFragment :
         popBackStack()
     }
 
+    override fun finishBoard(boardId: Int) {
+        viewModel.finishBoard(boardId)
+        popBackStack()
+    }
+
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
-                // 모집 종료 예정
+                BoardDialog(
+                    requireActivity(),
+                    this@BoardDetailFragment,
+                    boardDetail!!.articleId,
+                    false
+                ).show()
             }
 
             tvPostBoardComment.setOnClickListener {
@@ -45,10 +54,11 @@ class BoardDetailFragment :
             }
 
             ivDeleteOption.setOnClickListener {
-                DeleteBoardDialog(
+                BoardDialog(
                     requireActivity(),
                     this@BoardDetailFragment,
-                    boardDetail!!.articleId
+                    boardDetail!!.articleId,
+                    true
                 ).show()
             }
 
@@ -63,10 +73,10 @@ class BoardDetailFragment :
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
-                ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                //ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
 
                 // 본인 게시물
-                if (it.isMine) {
+                if (it!!.isMine) {
                     tvPostBoardComment.visibility = View.GONE
                     tvFinishBoard.visibility = View.VISIBLE
 
@@ -74,7 +84,11 @@ class BoardDetailFragment :
                     ivArrowBoardDetailUserDetail.visibility = View.GONE
                     ivDeleteOption.visibility = View.VISIBLE
 
-                    changeVisibility(tvFinishBoard, it.status.toString() == "T")
+                    if (it.status.toString() == "T") {
+                        changeVisibility(tvFinishBoard, true)
+                    } else {
+                        changeVisibility(tvFinishBoard, false)
+                    }
                 } else {
                     // 타인 게시물
                     tvPostBoardComment.visibility = View.VISIBLE
