@@ -70,7 +70,6 @@ class BoardListAdapter(
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_blue)
                 }
 
-                // "2023-05-02T09:28:21"와 같은 문자열로부터 LocalDateTime 객체 생성
                 val dateString = data.createdAt
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
                 val dateTime = LocalDateTime.parse(dateString, formatter)

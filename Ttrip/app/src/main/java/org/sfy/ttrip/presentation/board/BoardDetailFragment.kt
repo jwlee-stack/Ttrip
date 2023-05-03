@@ -25,8 +25,13 @@ class BoardDetailFragment :
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
-                showToast("모집 끝!")
+                // 모집 종료 예정
             }
+
+            tvPostBoardComment.setOnClickListener {
+                // 신청 예정
+            }
+
             ivBackToBoard.setOnClickListener {
                 popBackStack()
                 (activity as MainActivity).hideBottomNavigation(false)
@@ -92,7 +97,12 @@ class BoardDetailFragment :
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.limerick))
                         setBackgroundResource(R.drawable.bg_rect_limerick_twilight_blue_radius10_stroke1)
                     } else {
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.medium_orchid))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.medium_orchid
+                            )
+                        )
                         setBackgroundResource(R.drawable.bg_rect_wisteria_white_lilac_radius10_stroke1)
                     }
                     text = "${it.similarity}%"

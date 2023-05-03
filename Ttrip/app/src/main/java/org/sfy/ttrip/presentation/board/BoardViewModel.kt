@@ -44,7 +44,6 @@ class BoardViewModel @Inject constructor(
             when (val value = getBoardDetailUseCase(boardId)) {
                 is Resource.Success<BoardDetail> -> {
                     _boardData.value = value.data
-                    Log.d("tlqkf", "getBoardDetail: ${boardData.value}")
                 }
                 is Resource.Error ->{
                     Log.e("getBoardDetail", "getBoardDetail: ${value.errorMessage}")
