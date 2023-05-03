@@ -6,6 +6,7 @@ import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
 import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
 import org.sfy.ttrip.domain.entity.board.BoardBrief
+import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.entity.board.BoardDetail
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import java.time.LocalDateTime
@@ -56,4 +57,9 @@ class BoardRepositoryImpl @Inject constructor(
     override suspend fun finishBoard(boardId: Int) {
         boardRemoteDataSource.finishBoard(boardId)
     }
+
+    override suspend fun getBoardComment(boardId: Int): Resource<List<BoardComment>> =
+        wrapToResource {
+            boardRemoteDataSource.getBoardComment(boardId).map { it.toDomainModel() }
+        }
 }
