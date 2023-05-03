@@ -5,6 +5,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
@@ -16,11 +18,15 @@ class BoardDetailFragment :
 
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
+    private val boardCommentListAdapter by lazy {
+        BoardCommentListAdapter(this::selectComment, requireContext())
+    }
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         getData()
         initListener()
+        initRecyclerView()
     }
 
     override fun onDestroy() {
@@ -103,11 +109,13 @@ class BoardDetailFragment :
                         // 이미 신청한 경우
                         if (it.isApplied) {
                             changeVisibility(tvPostBoardComment, false)
+                            tvPostBoardComment.text = "신청 완료"
                         } else {
-                            changeVisibility(tvPostBoardComment, it.status.toString() == "T")
+                            changeVisibility(tvPostBoardComment, true)
                         }
                     } else {
                         changeVisibility(tvPostBoardComment, false)
+                        tvPostBoardComment.text = "모집 완료"
                     }
                 }
 
@@ -159,5 +167,21 @@ class BoardDetailFragment :
                 }
             }
         }
+    }
+
+    private fun initRecyclerView() {
+        viewModel.getBoardComment(args.boardId)
+        binding.rvBoardDetailComment.apply {
+            adapter = boardCommentListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+
+        viewModel.boardCommentListData.observe(this@BoardDetailFragment){ response ->
+            response?.let { boardCommentListAdapter.setBoardComment(it) }
+        }
+    }
+
+    private fun selectComment(boardId: Int) {
+
     }
 }
