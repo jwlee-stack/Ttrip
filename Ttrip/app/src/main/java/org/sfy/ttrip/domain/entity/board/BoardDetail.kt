@@ -12,5 +12,7 @@ data class BoardDetail(
     val startDate: String,
     val endDate: String,
     val status: Char,
-    val isMine: Boolean
+    val isMine: Boolean,
+    val isApplied: Boolean,
+    val similarity: Int
 )

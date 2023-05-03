@@ -2,6 +2,7 @@ package org.sfy.ttrip.domain.repository.board
 
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
+import org.sfy.ttrip.domain.entity.board.BoardDetail
 import java.time.LocalDateTime
 
 
@@ -21,4 +22,6 @@ interface BoardRepository {
         city: String,
         keyword: String
     ): Resource<List<BoardBrief>>
+
+    suspend fun getBoardDetail(boardId: Int): Resource<BoardDetail>
 }

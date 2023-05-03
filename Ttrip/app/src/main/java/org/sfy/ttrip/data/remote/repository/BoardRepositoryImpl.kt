@@ -6,6 +6,7 @@ import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
 import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
 import org.sfy.ttrip.domain.entity.board.BoardBrief
+import org.sfy.ttrip.domain.entity.board.BoardDetail
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -41,5 +42,10 @@ class BoardRepositoryImpl @Inject constructor(
         wrapToResource {
             boardRemoteDataSource.getBoardList(SearchBoardRequest(city, condition, keyword, nation))
                 .map { it.toDomainModel() }
+        }
+
+    override suspend fun getBoardDetail(boardId: Int): Resource<BoardDetail> =
+        wrapToResource {
+            boardRemoteDataSource.getBoardDetail(boardId).toDomainModel()
         }
 }
