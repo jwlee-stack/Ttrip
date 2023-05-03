@@ -9,7 +9,8 @@ import org.sfy.ttrip.databinding.ItemLiveInfoBinding
 import org.sfy.ttrip.domain.entity.live.LiveUser
 
 class LiveUserAdapter(
-    private val onItemClicked: (songId: String) -> Unit
+    private val onItemClicked: (userId: String) -> Unit,
+    private val onCallBtnClicked: (userId: String) -> Unit
 ) : RecyclerView.Adapter<LiveUserAdapter.ViewHolder>() {
 
     private var items: List<LiveUser> = listOf()
@@ -19,7 +20,7 @@ class LiveUserAdapter(
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context), R.layout.item_live_info, parent, false
         )
-        return ViewHolder(binding, onItemClicked)
+        return ViewHolder(binding, onItemClicked, onCallBtnClicked)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,13 +31,17 @@ class LiveUserAdapter(
 
     class ViewHolder(
         private val binding: ItemLiveInfoBinding,
-        private val onItemClicked: (songId: String) -> Unit
+        private val onItemClicked: (userId: String) -> Unit,
+        private val onCallBtnClicked: (userId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: LiveUser) {
             binding.apply {
                 user = data
                 root.setOnClickListener {
                     onItemClicked(data.memberUuid)
+                }
+                ivDetailInfoCallState.setOnClickListener {
+                    onCallBtnClicked(data.memberUuid)
                 }
             }
         }
