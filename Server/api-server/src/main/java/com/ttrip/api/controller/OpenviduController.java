@@ -10,9 +10,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "Openvidu 관련 API")
 @RestController
@@ -41,5 +43,16 @@ public class OpenviduController {
     public DataResDto<?> joinSession(@RequestBody(required = false) SessionJoinReqDto sessionJoinReqDto)
             throws OpenViduJavaClientException, OpenViduHttpException {
         return openViduService.joinSession(sessionJoinReqDto);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "세션 퇴장 성공 시 응답"),
+            @ApiResponse(code = 401, message = "인증 실패")
+    })
+    @ApiOperation(value = "세션 퇴장 API")
+    @DeleteMapping
+    public DataResDto<?> deleteMember(@RequestBody(required = false) SessionJoinReqDto sessionJoinReqDto)
+            throws OpenViduJavaClientException, OpenViduHttpException {
+        return openViduService.deleteMember(sessionJoinReqDto);
     }
 }

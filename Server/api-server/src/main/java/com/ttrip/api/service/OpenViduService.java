@@ -8,4 +8,5 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 public interface OpenViduService {
     DataResDto<?> createSession() throws OpenViduJavaClientException, OpenViduHttpException;
     DataResDto<?> joinSession(SessionJoinReqDto sessionJoinReqDto) throws OpenViduJavaClientException, OpenViduHttpException;
+    DataResDto<?> deleteMember(SessionJoinReqDto sessionJoinReqDto) throws OpenViduJavaClientException, OpenViduHttpException;
 }

@@ -93,6 +93,21 @@ public class OpenViduServiceImpl implements OpenViduService {
     }
 
     /**
+     * 세션을 나갑니다.
+     * @param sessionJoinReqDto : (sessionId, nickname)
+     * @return : 세션을 정상적으로 나갔다면 true, 아니라면 false를 반환합니다.
+     */
+    @Override
+    public DataResDto<?> deleteMember(SessionJoinReqDto sessionJoinReqDto) throws OpenViduJavaClientException, OpenViduHttpException {
+        boolean status = openViduRedisDao.deleteMember(sessionJoinReqDto.getSessionId(), sessionJoinReqDto.getMemberUuid());
+
+        return DataResDto.builder()
+                .message("세션을 나갔습니다.")
+                .data(status)
+                .build();
+    }
+
+    /**
      * 토큰을 발급합니다.
      * @param sessionId : OpenVidu SessionId
      * @param memberUuid : 사용자 uuid
