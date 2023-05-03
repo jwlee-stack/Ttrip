@@ -171,7 +171,7 @@ public class MemberServiceImpl implements MemberService {
 
         //이미지 변경//
         ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
-        mypageService.updateProfileImg(profileUpdateReqDto, memberDetails);
+        mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
 
         //닉네임, 성별, 나이, 인트로 변경//
         InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
