@@ -20,7 +20,7 @@ interface BoardApiService {
     suspend fun getBoardList(@Body body: SearchBoardRequest): BaseResponse<List<BoardBriefResponse>>
 
     @GET("/api/articles/{articleId}")
-    suspend fun getBoardDetail(@Path("articleId") articleId: Int): BoardDetailResponse
+    suspend fun getBoardDetail(@Path("articleId") articleId: Int): BaseResponse<BoardDetailResponse>
 
     @POST("/api/articles/{articleId}/end")
     suspend fun endBoard(@Path("articleId") articleId: Int)

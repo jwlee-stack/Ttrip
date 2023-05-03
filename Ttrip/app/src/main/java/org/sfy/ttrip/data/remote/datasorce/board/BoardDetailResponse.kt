@@ -9,8 +9,8 @@ data class BoardDetailResponse(
     val articleId: Int,
     @SerializedName("authorName")
     val authorName: String,
-    @SerializedName("createdDate")
-    val createdDate: String,
+    @SerializedName("createdAt")
+    val createdAt: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")
@@ -26,13 +26,17 @@ data class BoardDetailResponse(
     @SerializedName("status")
     val status: Char,
     @SerializedName("isMine")
-    val isMine: Boolean
+    val isMine: Boolean,
+    @SerializedName("isApplied")
+    val isApplied: Boolean,
+    @SerializedName("similarity")
+    val similarity: Int
 ) : DataToDomainMapper<BoardDetail> {
     override fun toDomainModel(): BoardDetail =
         BoardDetail(
             articleId,
             authorName,
-            createdDate,
+            createdAt,
             title,
             content,
             nation,
@@ -40,6 +44,8 @@ data class BoardDetailResponse(
             startDate,
             endDate,
             status,
-            isMine
+            isMine,
+            isApplied,
+            similarity
         )
 }

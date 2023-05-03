@@ -46,6 +46,9 @@ class BoardListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: BoardBrief) {
             binding.apply {
+                root.setOnClickListener {
+                    onBoardItemClicked(data.articleId)
+                }
 
                 if (data.dueDay <= 3) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
@@ -66,7 +69,6 @@ class BoardListAdapter(
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.royal_blue))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_blue)
                 }
-
 
                 // "2023-05-02T09:28:21"와 같은 문자열로부터 LocalDateTime 객체 생성
                 val dateString = data.createdAt
