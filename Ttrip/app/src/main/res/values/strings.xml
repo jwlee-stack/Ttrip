@@ -139,6 +139,8 @@
     <string name="image_go_to_profile_detail">image_go_to_profile_detail</string>
     <string name="image_board_line">image_board_line</string>
     <string name="content_delete_board">게시글을 삭제하겠습니까?</string>
+    <string name="content_finish_board">모집 종료</string>
+    <string name="content_delete_my_board">content_delete_my_board</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
