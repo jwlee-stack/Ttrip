@@ -141,6 +141,7 @@ class BoardDetailFragment :
             }
         }
         viewModel.getBoardDetail(args.boardId)
+        viewModel.getBoardComment(args.boardId)
     }
 
     private fun changeVisibility(textView: TextView, boolean: Boolean) {
