@@ -54,6 +54,10 @@ subprojects {
         runtimeOnly 'com.h2database:h2'
         testImplementation 'com.h2database:h2'
 
+        //FCM
+        implementation 'com.google.firebase:firebase-admin:6.8.1'
+        implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
+
         configurations {
             all {
                 exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
