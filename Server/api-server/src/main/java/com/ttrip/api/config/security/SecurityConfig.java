@@ -30,6 +30,7 @@ public class SecurityConfig {
             "/ws/live/**/**",
             "/ws/chat/**/**/**",
             "/v2/api-docs",
+            "/images/**/**",
             "/v3/api-docs",
             "/swagger/**",
             "/swagger-ui/**",
