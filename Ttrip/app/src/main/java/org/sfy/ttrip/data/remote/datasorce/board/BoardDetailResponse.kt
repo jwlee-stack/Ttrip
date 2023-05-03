@@ -9,6 +9,8 @@ data class BoardDetailResponse(
     val articleId: Int,
     @SerializedName("authorName")
     val authorName: String,
+    @SerializedName("imgPath")
+    val imgPath: String,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("title")
@@ -36,6 +38,7 @@ data class BoardDetailResponse(
         BoardDetail(
             articleId,
             authorName,
+            imgPath,
             createdAt,
             title,
             content,

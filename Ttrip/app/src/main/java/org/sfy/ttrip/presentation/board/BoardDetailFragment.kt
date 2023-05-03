@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImgString
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
@@ -48,6 +49,11 @@ class BoardDetailFragment :
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
+
+                //ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                ivBoardDetailUserProfile.setProfileImgString("/var/lib/images/profileImg/1f894fc0-2da2-4ac1-bc8c-481585877932_CB_attack.png")
+
+
                 // 본인 게시물
                 if (it!!.isMine) {
                     tvPostBoardComment.visibility = View.GONE

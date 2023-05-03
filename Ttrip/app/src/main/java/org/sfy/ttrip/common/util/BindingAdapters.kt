@@ -39,4 +39,15 @@ object BindingAdapters {
             .circleCrop()
             .into(this)
     }
+
+    @JvmStatic
+    @BindingAdapter("android:profileImgString")
+    fun ImageView.setProfileImgString(imgUri: String?) {
+        Glide.with(this.context)
+            .load("http://k8d104.p.ssafy.io:8081$imgUri")
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
+            .circleCrop()
+            .into(this)
+    }
 }

@@ -4,6 +4,7 @@ package org.sfy.ttrip.domain.entity.board
 data class BoardDetail(
     val articleId: Int,
     val authorName: String,
+    val imgPath: String,
     val createdDate: String,
     val title: String,
     val content: String,
