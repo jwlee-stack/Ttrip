@@ -13,4 +13,7 @@ class LiveRemoteDataSourceImpl @Inject constructor(
         lat: Double
     ): List<LiveUserResponse?> =
         liveApiService.getLiveUsers(city, lng, lat).data!!
+
+    override suspend fun createSession(): SessionResponse =
+        liveApiService.createSession().data!!
 }
