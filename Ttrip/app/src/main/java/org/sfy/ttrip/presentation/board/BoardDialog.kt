@@ -8,10 +8,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import org.sfy.ttrip.databinding.DialogDeleteBoardBinding
 
-class DeleteBoardDialog(
+class BoardDialog(
     val activity: Activity,
-    private val listener: DeleteBoardDialogListener,
-    private val boardId: Int
+    private val listener: BoardDialogListener,
+    private val boardId: Int,
+    private val boolean: Boolean
 ) : Dialog(activity) {
 
     private lateinit var binding: DialogDeleteBoardBinding
@@ -29,13 +30,26 @@ class DeleteBoardDialog(
         setCancelable(true)
 
         binding.apply {
-            tvCancel.setOnClickListener {
-                dismiss()
-            }
+            if (boolean) {
+                tvBoardDetailDialog.text = "게시글을 삭제하시겠습니까?"
+                tvCancel.setOnClickListener {
+                    dismiss()
+                }
 
-            tvConfirm.setOnClickListener {
-                listener.deleteBoard(boardId)
-                dismiss()
+                tvConfirm.setOnClickListener {
+                    listener.deleteBoard(boardId)
+                    dismiss()
+                }
+            } else {
+                tvBoardDetailDialog.text = "게시글 모집을 종료하시겠습니까?"
+                tvCancel.setOnClickListener {
+                    dismiss()
+                }
+
+                tvConfirm.setOnClickListener {
+                    listener.finishBoard(boardId)
+                    dismiss()
+                }
             }
         }
     }

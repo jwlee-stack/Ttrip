@@ -1,5 +1,6 @@
 package org.sfy.ttrip.presentation.board
 
-interface DeleteBoardDialogListener {
+interface BoardDialogListener {
     fun deleteBoard(boardId: Int)
+    fun finishBoard(boardId: Int)
 }

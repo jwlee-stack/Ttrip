@@ -12,6 +12,7 @@ import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
+import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
@@ -74,4 +75,9 @@ object UseCaseModule {
     @Provides
     fun provideDeleteBoardUseCase(boardRepository: BoardRepository): DeleteBoardUseCase =
         DeleteBoardUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun provideFinishBoardUseCase(boardRepository: BoardRepository): FinishBoardUseCase =
+        FinishBoardUseCase(boardRepository)
 }
