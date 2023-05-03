@@ -1,31 +1,42 @@
 package org.sfy.ttrip.presentation.live
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.sfy.ttrip.domain.entity.live.LiveUser
-import javax.inject.Inject
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okio.ByteString
 import org.json.JSONObject
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.live.LiveUser
+import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
+import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import javax.inject.Inject
 
 @HiltViewModel
 class LiveViewModel @Inject constructor(
-    private val getLiveUsersUseCase: GetLiveUsersUseCase
+    private val getLiveUsersUseCase: GetLiveUsersUseCase,
+    private val createSessionUseCase: CreateSessionUseCase,
+    private val getCallTokenUseCase: GetCallTokenUseCase
 ) : ViewModel() {
 
     private val _liveUserList = MutableLiveData<List<LiveUser?>?>()
     val liveUserList: LiveData<List<LiveUser?>?> = _liveUserList
+
+    private val _sessionId = MutableLiveData<String>()
+    val sessionId: LiveData<String> = _sessionId
+
+    private val _openViduToken = MutableLiveData<String>()
+    val openViduToken: LiveData<String> = _openViduToken
 
     private val client = OkHttpClient()
 
@@ -54,6 +65,32 @@ class LiveViewModel @Inject constructor(
             _liveUserList.postValue(currentList)
         }
     }
+
+    suspend fun createCallingSession() = viewModelScope.async {
+        when (val value = createSessionUseCase()) {
+            is Resource.Success -> {
+                _sessionId.value = value.data.sessionId
+                return@async _sessionId.value
+            }
+            is Resource.Error -> {
+                Log.d("createCallingSession", "createCallingSession: ${value.errorMessage}")
+                return@async 0
+            }
+        }
+    }.await()
+
+    suspend fun getCallToken(sessionId: String, memberUuid: String) = viewModelScope.async {
+        when (val value = getCallTokenUseCase(sessionId, memberUuid)) {
+            is Resource.Success -> {
+                _openViduToken.value = value.data.openViduToken
+                return@async _openViduToken.value
+            }
+            is Resource.Error -> {
+                Log.d("getCallToken", "getCallToken: ${value.errorMessage}")
+                return@async 0
+            }
+        }
+    }.await()
 
     fun connectSocket(city: String, memberId: String) {
         val request = Request.Builder()

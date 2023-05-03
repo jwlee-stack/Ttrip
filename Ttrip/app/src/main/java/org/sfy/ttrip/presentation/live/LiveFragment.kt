@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -21,12 +22,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.VisibleRegion
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.init.AuthViewModel
-import java.util.Locale
+import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -43,7 +45,12 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     private val authViewModel by activityViewModels<AuthViewModel>()
     private val liveViewModel by viewModels<LiveViewModel>()
-    private val liveUserAdapter by lazy { LiveUserAdapter(this::getLiveUser) }
+    private val liveUserAdapter by lazy {
+        LiveUserAdapter(
+            this::getLiveUser,
+            this::callToOtherUser
+        )
+    }
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -63,6 +70,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         initListener()
         requestLocationPermission()
         getFilteredList()
+        getOpenViduToken()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -316,6 +324,27 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         val d = standard * c
         return d * 1000 // m
+    }
+
+    private fun callToOtherUser(memberId: String) {
+        lifecycleScope.launch {
+            val async = liveViewModel.createCallingSession()
+            liveViewModel.getCallToken(
+                async.toString(),
+                ApplicationClass.preferences.userId.toString()
+            )
+        }
+    }
+
+    private fun getOpenViduToken() {
+        liveViewModel.sessionId.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                val value = liveViewModel.getCallToken(
+                    it,
+                    ApplicationClass.preferences.userId.toString()
+                )
+            }
+        }
     }
 
     private fun getLiveUser(memberUuid: String) {}
