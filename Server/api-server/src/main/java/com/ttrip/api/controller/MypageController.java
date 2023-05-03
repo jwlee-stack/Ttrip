@@ -58,10 +58,10 @@ public class MypageController {
             @ApiResponse(code = 200, message = "프로필 사진 변경 성공"),
             @ApiResponse(code = 400, message = "프로필 사진 변경 실패")
     })
-    @ApiOperation(value = "프로필 사진 변경")
+    @ApiOperation(value = "프로필&마커 사진 변경")
     @PatchMapping("/update/profile")
-    public DataResDto<?> updateProfileImg(@ModelAttribute ProfileUpdateReqDto profileUpdateReqDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-        return mypageService.updateProfileImg(profileUpdateReqDto, memberDetails);
+    public DataResDto<?> updateProfileAndMarkerImg(@ModelAttribute ProfileUpdateReqDto profileUpdateReqDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
     }
 
     @ApiResponses({

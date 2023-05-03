@@ -15,13 +15,13 @@ import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,6 @@ public class MypageServiceImpl implements MypageService {
         List<Article> myArticleList = articleRepository.findAllByMember(member);
         List<SearchResDto> searchResultDtoList = new ArrayList<>();
 
-        //코드 중복으로 노란 밑줄 생기는데, toBuild로 묶으면 어떨까요?
         for (Article article : myArticleList) {
             searchResultDtoList.add(SearchResDto.toBuild(article));
         }
@@ -74,21 +73,13 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public DataResDto<?> updateProfileImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails) {
+    public DataResDto<?> updateProfileAndMarkerImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
 
-        try
-        {
-            member.setProfileImgPath(changeImg(member, profileUpdateReqDto.getProfileImg(), "profileImg"));
-            member.setMarkerImgPath(changeImg(member, profileUpdateReqDto.getMarkerImg(), "markerImg"));
-            if(!member.getNickname().isEmpty())
-                memberRepository.save(member);
-        }
-        catch(Exception e)
-        {
-            throw new RuntimeException("프로필 사진 변경을 실패했습니다.");
-        }
+        member= ImageUtil.updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
+        member=ImageUtil.updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
 
+        memberRepository.save(member);
         return DataResDto.builder()
                 .message("프로필 사진이 업데이트되었습니다.")
                 .data(ProfileUpdateResDto.toBuild(member))
@@ -99,9 +90,30 @@ public class MypageServiceImpl implements MypageService {
     public DataResDto<?> updateBackgroundImg(BackgroundUpdateReqDto backgroundUpdateReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
 
+        MultipartFile backgroundImg=backgroundUpdateReqDto.getBackgroundImg();
+
+        //기존 이미지 삭제
+        File rmImg;
+        if(member.getBackgroundImgPath()!=null) {
+            rmImg = new File(member.getBackgroundImgPath());
+            member.setProfileImgPath(ImageUtil.removeImg(rmImg));
+        }
+
+        //입력된 사진 없음
+        if(backgroundImg.isEmpty())
+        {
+            memberRepository.save(member);
+            return DataResDto.builder()
+                    .message("등록된 사진이 없습니다.")
+                    .data(BackgroundUpdateResDto.toBuild(member))
+                    .build();
+        }
+
+        ImageUtil.checkImageType(backgroundImg);
+
         try
         {
-            member.setBackgroundImgPath(changeImg(member, backgroundUpdateReqDto.getBackgroundImg(), "backgroundImg"));
+            member.setBackgroundImgPath(ImageUtil.saveImg(member, backgroundImg, "backgroundImg"));
             memberRepository.save(member);
         }
         catch(Exception e)
@@ -115,29 +127,5 @@ public class MypageServiceImpl implements MypageService {
                 .build();
     }
 
-    public String changeImg(Member member, MultipartFile img, String folder) throws IOException {
-        //이미지 변경//
-        String path = System.getProperty("user.dir") + File.separator + folder + File.separator; //공통 경로
-        String customImgPath = path + member.getMemberUuid() + ".png"; //변경 이미지 경로
-        String defaultImgPath = path + "default.png"; //디폴트 이미지 경로
-        File profileImg = new File(customImgPath); //파일 객체 생성
 
-        log.info("공통 경로: {}",path);
-        log.info("기본 이미지 경로: {}",defaultImgPath);
-        log.info("변경 이미지 경로: {}",customImgPath);
-        log.info("이미지 파일: {}",img);
-
-        //사용자가 이미지를 설정했는지?
-        if (!img.isEmpty()) //이미지 설정함
-        {
-            profileImg.mkdirs();
-            img.transferTo(profileImg); //이미지 저장
-        }
-        else //이미지 설정 안 함
-        {
-            profileImg.delete();//기존 이미지 삭제
-            customImgPath = defaultImgPath; //디폴트 이미지로 변경
-        }
-        return customImgPath;
-    }
 }
