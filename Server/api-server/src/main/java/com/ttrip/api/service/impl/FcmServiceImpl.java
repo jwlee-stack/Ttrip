@@ -132,7 +132,7 @@ public class FcmServiceImpl implements FcmService {
                         .build());
 
                 logger.info("live 매칭 요청 수락!");
-            }else{
+            } else {
                 logger.info("live 매칭 요청 거절!");
             }
 

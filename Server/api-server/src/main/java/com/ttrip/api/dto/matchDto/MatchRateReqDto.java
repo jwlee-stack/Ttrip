@@ -1,13 +1,9 @@
 package com.ttrip.api.dto.matchDto;
 
-import com.ttrip.core.entity.matchHistory.MatchHistory;
-import com.ttrip.core.entity.member.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Data
 @Builder
