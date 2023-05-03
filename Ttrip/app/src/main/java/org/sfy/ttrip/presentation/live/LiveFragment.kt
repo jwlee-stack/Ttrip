@@ -70,6 +70,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         initListener()
         requestLocationPermission()
         getFilteredList()
+        getOpenViduToken()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -328,8 +329,22 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private fun callToOtherUser(memberId: String) {
         lifecycleScope.launch {
             val async = liveViewModel.createCallingSession()
+            liveViewModel.getCallToken(
+                async.toString(),
+                ApplicationClass.preferences.userId.toString()
+            )
         }
+    }
 
+    private fun getOpenViduToken() {
+        liveViewModel.sessionId.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                val value = liveViewModel.getCallToken(
+                    it,
+                    ApplicationClass.preferences.userId.toString()
+                )
+            }
+        }
     }
 
     private fun getLiveUser(memberUuid: String) {}

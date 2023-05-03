@@ -10,6 +10,7 @@ import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
+import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
@@ -49,4 +50,9 @@ object UseCaseModule {
     @Provides
     fun providePostUserInfoUseCase(userRepository: UserRepository): PostUserInfoUseCase =
         PostUserInfoUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCallTokenUseCase(liveRepository: LiveRepository): GetCallTokenUseCase =
+        GetCallTokenUseCase(liveRepository)
 }
