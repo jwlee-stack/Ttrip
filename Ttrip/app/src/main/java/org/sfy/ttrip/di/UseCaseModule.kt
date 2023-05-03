@@ -5,11 +5,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
+import org.sfy.ttrip.domain.repository.board.BoardRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
+import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
+import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
@@ -49,4 +52,14 @@ object UseCaseModule {
     @Provides
     fun providePostUserInfoUseCase(userRepository: UserRepository): PostUserInfoUseCase =
         PostUserInfoUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetBoardBriefUseCase(boardRepository: BoardRepository): GetBoardBriefUseCase =
+        GetBoardBriefUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetBoardDetailUseCase(boardRepository: BoardRepository): GetBoardDetailUseCase =
+        GetBoardDetailUseCase(boardRepository)
 }
