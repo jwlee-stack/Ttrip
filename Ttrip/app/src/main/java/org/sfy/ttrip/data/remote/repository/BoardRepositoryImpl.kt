@@ -48,4 +48,8 @@ class BoardRepositoryImpl @Inject constructor(
         wrapToResource {
             boardRemoteDataSource.getBoardDetail(boardId).toDomainModel()
         }
+
+    override suspend fun deleteBoard(boardId: Int) {
+        boardRemoteDataSource.deleteBoard(boardId)
+    }
 }

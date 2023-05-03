@@ -1,6 +1,5 @@
 package org.sfy.ttrip.domain.entity.board
 
-
 data class BoardDetail(
     val articleId: Int,
     val authorName: String,

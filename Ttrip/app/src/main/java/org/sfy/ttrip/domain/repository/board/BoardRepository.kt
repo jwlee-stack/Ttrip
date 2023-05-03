@@ -24,4 +24,6 @@ interface BoardRepository {
     ): Resource<List<BoardBrief>>
 
     suspend fun getBoardDetail(boardId: Int): Resource<BoardDetail>
+
+    suspend fun deleteBoard(boardId: Int)
 }

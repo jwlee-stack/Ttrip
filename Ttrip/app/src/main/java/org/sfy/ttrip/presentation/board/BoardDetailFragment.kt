@@ -23,6 +23,11 @@ class BoardDetailFragment :
         initListener()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).hideBottomNavigation(false)
+    }
+
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
@@ -33,6 +38,10 @@ class BoardDetailFragment :
                 // 신청 예정
             }
 
+            ivDeleteOption.setOnClickListener {
+
+            }
+
             ivBackToBoard.setOnClickListener {
                 popBackStack()
                 (activity as MainActivity).hideBottomNavigation(false)
@@ -40,22 +49,14 @@ class BoardDetailFragment :
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as MainActivity).hideBottomNavigation(false)
-    }
-
     private fun getData() {
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
-
-                //ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
-                ivBoardDetailUserProfile.setProfileImgString("/var/lib/images/profileImg/1f894fc0-2da2-4ac1-bc8c-481585877932_CB_attack.png")
-
+                ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
 
                 // 본인 게시물
-                if (it!!.isMine) {
+                if (it.isMine) {
                     tvPostBoardComment.visibility = View.GONE
                     tvFinishBoard.visibility = View.VISIBLE
 
