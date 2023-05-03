@@ -77,6 +77,7 @@ google-maps-directions = { module = "com.google.maps:google-maps-services", vers
 stomp-protocol = { module = "com.github.NaikSoftware:StompProtocolAndroid", version.ref = "stomp" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",
