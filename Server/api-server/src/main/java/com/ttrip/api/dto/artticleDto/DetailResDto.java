@@ -19,6 +19,8 @@ public class DetailResDto {
         private Integer articleId;
         @ApiModelProperty(value = "게시글 작성자", example = "김싸피")
         private String authorName;
+        @ApiModelProperty(value = "게시글 작성자 프로필사진", example = "...jpg")
+        private String imgPath;
         @ApiModelProperty(value = "게시글 제목", example = "방콕 갈사람")
         private String title;
         @ApiModelProperty(value = "게시글 내용", example = "제곧내")
