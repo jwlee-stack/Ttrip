@@ -49,6 +49,7 @@ services:
     networks:
       ttrip_bridge:
         ipv4_address: 172.35.0.11
+
   batch-server:
     build: ./batch-server
     environment:
@@ -92,6 +93,23 @@ services:
       ttrip_bridge:
         ipv4_address: 172.35.0.13
 
+  flask-server:
+    container_name: flask-server
+    hostname: flask-server
+    image: my-flask:latest
+    build: ./flask-server
+    command: python app.py
+    restart: unless-stopped
+    env_file:
+      - ./flask-server/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - flask-data:/app
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.14
+
   mongo-db:
     image: mongo:4.4.3
     container_name: mongo-db
@@ -99,10 +117,10 @@ services:
     networks:
       ttrip_bridge:
         ipv4_address: 172.35.0.15
-    restart: always
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=ttrip1014! #local 도커환경에서는 root로 설정하세요.
+      - MONGO_INITDB_ROOT_PASSWORD=ttrip104! #local 도커환경에서는 root로 설정하세요.
     ports:
       - 27017:27017
     command: [ "--bind_ip", "0.0.0.0" ]
