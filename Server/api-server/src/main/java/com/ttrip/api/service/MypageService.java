@@ -9,6 +9,6 @@ import com.ttrip.api.service.impl.MemberDetails;
 public interface MypageService {
     DataResDto<?> viewMyArticles(MemberDetails memberDetails);
     DataResDto<?> updateMember(InfoUpdateReqDto infoUpdateReqDto,MemberDetails memberDetails);
-    DataResDto<?> updateProfileImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails);
+    DataResDto<?> updateProfileAndMarkerImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails);
     DataResDto<?> updateBackgroundImg(BackgroundUpdateReqDto backGroundUpdateReqDto, MemberDetails memberDetails);
 }
