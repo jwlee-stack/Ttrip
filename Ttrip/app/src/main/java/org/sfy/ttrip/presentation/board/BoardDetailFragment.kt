@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -16,6 +17,7 @@ class BoardDetailFragment :
     private val viewModel by activityViewModels<BoardViewModel>()
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(true)
         getData()
         initListener()
     }
@@ -27,8 +29,14 @@ class BoardDetailFragment :
             }
             ivBackToBoard.setOnClickListener {
                 popBackStack()
+                (activity as MainActivity).hideBottomNavigation(false)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).hideBottomNavigation(false)
     }
 
     private fun getData() {
