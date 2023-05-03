@@ -12,7 +12,8 @@ import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 class BoardDetailFragment :
-    BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail) {
+    BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
+    DeleteBoardDialogListener {
 
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
@@ -28,6 +29,11 @@ class BoardDetailFragment :
         (activity as MainActivity).hideBottomNavigation(false)
     }
 
+    override fun deleteBoard(boardId: Int) {
+        viewModel.deleteBoard(boardId)
+        popBackStack()
+    }
+
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
@@ -39,7 +45,11 @@ class BoardDetailFragment :
             }
 
             ivDeleteOption.setOnClickListener {
-
+                DeleteBoardDialog(
+                    requireActivity(),
+                    this@BoardDetailFragment,
+                    boardDetail!!.articleId
+                ).show()
             }
 
             ivBackToBoard.setOnClickListener {
