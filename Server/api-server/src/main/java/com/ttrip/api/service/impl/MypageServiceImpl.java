@@ -31,7 +31,7 @@ import java.util.List;
 public class MypageServiceImpl implements MypageService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
-
+    private final ImageUtil imageUtil;
     @Override
     public DataResDto<?> viewMyArticles(MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
@@ -76,8 +76,8 @@ public class MypageServiceImpl implements MypageService {
     public DataResDto<?> updateProfileAndMarkerImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
 
-        member= ImageUtil.updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
-        member=ImageUtil.updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
+        member= imageUtil.updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
+        member=imageUtil.updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
 
         memberRepository.save(member);
         return DataResDto.builder()
@@ -96,7 +96,7 @@ public class MypageServiceImpl implements MypageService {
         File rmImg;
         if(member.getBackgroundImgPath()!=null) {
             rmImg = new File(member.getBackgroundImgPath());
-            member.setProfileImgPath(ImageUtil.removeImg(rmImg));
+            member.setProfileImgPath(imageUtil.removeImg(rmImg));
         }
 
         //입력된 사진 없음
@@ -109,11 +109,11 @@ public class MypageServiceImpl implements MypageService {
                     .build();
         }
 
-        ImageUtil.checkImageType(backgroundImg);
+        imageUtil.checkImageType(backgroundImg);
 
         try
         {
-            member.setBackgroundImgPath(ImageUtil.saveImg(member, backgroundImg, "backgroundImg"));
+            member.setBackgroundImgPath(imageUtil.saveImg(member, backgroundImg, "backgroundImg"));
             memberRepository.save(member);
         }
         catch(Exception e)
