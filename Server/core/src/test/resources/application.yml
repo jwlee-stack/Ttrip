@@ -36,7 +36,7 @@ spring:
           preferred_uuid_jdbc_type: CHAR
     #    show_sql: true #show sql
     defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
 
   sql:
     init:
