@@ -12,7 +12,7 @@ import org.sfy.ttrip.databinding.ListItemBoardContentBinding
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 class BoardListAdapter(
     private val onBoardItemClicked: (boardId: Int) -> Unit,

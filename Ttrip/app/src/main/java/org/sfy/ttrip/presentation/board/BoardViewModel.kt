@@ -45,7 +45,7 @@ class BoardViewModel @Inject constructor(
                 is Resource.Success<BoardDetail> -> {
                     _boardData.value = value.data
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     Log.e("getBoardDetail", "getBoardDetail: ${value.errorMessage}")
                 }
             }
