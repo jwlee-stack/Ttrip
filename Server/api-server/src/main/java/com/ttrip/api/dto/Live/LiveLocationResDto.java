@@ -18,13 +18,13 @@ public class LiveLocationResDto {
     private String memberUuid;
     private double latitude;
     private double longitude;
-    private double matchingRate;
+    private int matchingRate;
     private String profileImgPath;
     private String markerImgPath;
     private double distanceFromMe;
 
     @Builder
-    public LiveLocationResDto(LivePayloadDto payload, double matchingRate, double otherLatitude, double otherLongitude) {
+    public LiveLocationResDto(LivePayloadDto payload, int matchingRate, double otherLatitude, double otherLongitude) {
         this.nickname = payload.getNickname();
         this.gender = payload.getGender();
         this.age = payload.getAge();
@@ -40,7 +40,7 @@ public class LiveLocationResDto {
                         getDistance(payload.getLatitude(), payload.getLongitude(), otherLatitude, otherLongitude);
     }
     public LiveLocationResDto(Member other, Double memberLat, Double memberLng,
-                              double matchingRate, LiveAllLocationsDto otherLocation) {
+                              int matchingRate, LiveAllLocationsDto otherLocation) {
         this.nickname = other.getNickname();
         this.gender = Objects.isNull(other.getGender()) ? "null" : other.getGender().toString();
         this.age = Objects.isNull(other.getAge()) ? "null" : other.getAge().toString();
