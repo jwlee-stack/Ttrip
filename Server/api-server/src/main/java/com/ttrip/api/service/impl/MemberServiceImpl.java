@@ -213,15 +213,15 @@ public class MemberServiceImpl implements MemberService {
             survey=Survey.builder().member(member).build();
         else
             survey = surveyRepository.findByMember(member).get();
-        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity());
-        survey.setPreferPlan(surveyReqDto.getPreferPlan());
-        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight());
-        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort());
-        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood());
-        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic());
-        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget());
-        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule());
-        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour());
+        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity()/5f);
+        survey.setPreferPlan(surveyReqDto.getPreferPlan()/5f);
+        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight()/5f);
+        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort()/5f);
+        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood()/5f);
+        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic()/5f);
+        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget()/5f);
+        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule()/5f);
+        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour()/5f);
         surveyRepository.save(survey);
 
         return DataResDto.builder()
