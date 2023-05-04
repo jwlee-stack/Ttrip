@@ -84,6 +84,7 @@ class MyPageViewModel @Inject constructor(
     fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
         viewModelScope.launch {
             updateUserInfoUseCase(age, gender, intro, nickname)
+            getUserProfile()
         }
     }
 
@@ -137,7 +138,7 @@ class MyPageViewModel @Inject constructor(
         viewModelScope.launch {
             when (val value = updateBackgroundImgUseCase(backgroundFileMultiPart)) {
                 is Resource.Success<BackgroundImg> -> {
-                    Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.data}")
+                    getUserProfile()
                 }
                 is Resource.Error -> {
                     Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.errorMessage}")

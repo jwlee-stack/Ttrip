@@ -6,17 +6,12 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentMypageBinding
@@ -60,15 +55,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         initListener()
         setUserProfile()
         observeImg()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("onResume", "onResume: ")
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(300)
-            myPageViewModel.getUserProfile()
-        }
     }
 
     override fun onConfirmButtonClicked() {
