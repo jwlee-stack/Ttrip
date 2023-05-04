@@ -3,6 +3,7 @@ package org.sfy.ttrip.data.remote.repository
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSource
+import org.sfy.ttrip.data.remote.datasorce.board.CommentRequest
 import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
 import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
 import org.sfy.ttrip.domain.entity.board.BoardBrief
@@ -62,4 +63,8 @@ class BoardRepositoryImpl @Inject constructor(
         wrapToResource {
             boardRemoteDataSource.getBoardComment(boardId).map { it.toDomainModel() }
         }
+
+    override suspend fun postComment(boardId: Int, comment: String) {
+        boardRemoteDataSource.postComment(CommentRequest(boardId, comment))
+    }
 }

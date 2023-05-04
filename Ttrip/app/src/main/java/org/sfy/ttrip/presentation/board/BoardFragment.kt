@@ -50,7 +50,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         }
     }
 
-    private fun selectBoard(boardId: Int) {
-        navigate(BoardFragmentDirections.actionBoardFragmentToBoardDetailFragment(boardId))
+    private fun selectBoard(boardId: Int, dDay: Int) {
+        navigate(BoardFragmentDirections.actionBoardFragmentToBoardDetailFragment(boardId, dDay))
     }
 }

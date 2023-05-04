@@ -14,7 +14,8 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
-    BoardDialogListener {
+    BoardDialogListener,
+    CommentDialogListener {
 
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
@@ -44,6 +45,12 @@ class BoardDetailFragment :
         popBackStack()
     }
 
+    override fun addComment(boardId: Int, content: String?) {
+        if (content == "") showToast("내용을 입력하세요!")
+        else viewModel.postComment(boardId, content)
+        //viewModel.
+    }
+
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
@@ -56,7 +63,11 @@ class BoardDetailFragment :
             }
 
             tvPostBoardComment.setOnClickListener {
-                // 신청 예정
+                CommentDialog(
+                    requireActivity(),
+                    this@BoardDetailFragment,
+                    boardDetail!!.articleId,
+                ).show()
             }
 
             ivDeleteOption.setOnClickListener {
@@ -112,6 +123,7 @@ class BoardDetailFragment :
                             tvPostBoardComment.text = "신청 완료"
                         } else {
                             changeVisibility(tvPostBoardComment, true)
+                            tvPostBoardComment.text = "신청 하기"
                         }
                     } else {
                         changeVisibility(tvPostBoardComment, false)
@@ -150,6 +162,16 @@ class BoardDetailFragment :
         }
         viewModel.getBoardDetail(args.boardId)
         viewModel.getBoardComment(args.boardId)
+
+        binding.apply {
+            if (args.dDay <= 3) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
+            } else if (args.dDay <= 10) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
+            } else {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_royal_blue_top_radius20)
+            }
+        }
     }
 
     private fun changeVisibility(textView: TextView, boolean: Boolean) {
