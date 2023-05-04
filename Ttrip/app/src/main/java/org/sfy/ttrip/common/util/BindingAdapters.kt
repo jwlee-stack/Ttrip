@@ -12,7 +12,7 @@ object BindingAdapters {
     @BindingAdapter("android:normalImgUri")
     fun ImageView.setNormalImg(imgUri: String?) {
         Glide.with(this.context)
-            .load(imgUri)
+            .load("http://k8d104.p.ssafy.io:8081/images$imgUri")
             .placeholder(R.drawable.bg_image_not_found)
             .error(R.drawable.bg_image_not_found)
             .into(this)
@@ -22,7 +22,7 @@ object BindingAdapters {
     @BindingAdapter("android:circleImgUri")
     fun ImageView.setProfileImg(imgUri: String?) {
         Glide.with(this.context)
-            .load(imgUri)
+            .load("http://k8d104.p.ssafy.io:8081/images$imgUri")
             .placeholder(R.drawable.ic_profile_default)
             .error(R.drawable.ic_profile_default)
             .circleCrop()
