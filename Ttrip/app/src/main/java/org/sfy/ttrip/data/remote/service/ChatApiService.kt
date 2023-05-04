@@ -1,10 +1,7 @@
 package org.sfy.ttrip.data.remote.service
 
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
-import org.sfy.ttrip.data.remote.datasorce.chat.ChatDetailResponse
-import org.sfy.ttrip.data.remote.datasorce.chat.ChatRoomResponse
-import org.sfy.ttrip.data.remote.datasorce.chat.CreateChatRequest
-import org.sfy.ttrip.data.remote.datasorce.chat.ExitChatRequest
+import org.sfy.ttrip.data.remote.datasorce.chat.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -23,4 +20,7 @@ interface ChatApiService {
 
     @POST("/api/chats")
     suspend fun createChatRoom(@Body body: CreateChatRequest)
+
+    @POST("/api/chats/match")
+    suspend fun chatMatch(@Body body: ChatMatchRequest): BaseResponse<Boolean>
 }

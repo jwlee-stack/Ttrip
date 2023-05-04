@@ -9,4 +9,6 @@ interface ChatRemoteDataSource {
     suspend fun getChatDetail(chatId: Int): List<ChatDetailResponse>
 
     suspend fun createChatRoom(body: CreateChatRequest)
+
+    suspend fun chatMatch(body: ChatMatchRequest): Boolean
 }

@@ -2,6 +2,7 @@ package org.sfy.ttrip.data.remote.repository
 
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.data.remote.datasorce.chat.ChatMatchRequest
 import org.sfy.ttrip.data.remote.datasorce.chat.ChatRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.chat.CreateChatRequest
 import org.sfy.ttrip.data.remote.datasorce.chat.ExitChatRequest
@@ -26,4 +27,7 @@ class ChatRepositoryImpl @Inject constructor(
 
     override suspend fun createChatRoom(articleId: Int, opponentUserUuid: String) =
         chatRemoteDataSource.createChatRoom(CreateChatRequest(articleId, opponentUserUuid))
+
+    override suspend fun chatMatch(articleId: Int, opponentUserUuid: String): Boolean =
+        chatRemoteDataSource.chatMatch(ChatMatchRequest(articleId, opponentUserUuid))
 }

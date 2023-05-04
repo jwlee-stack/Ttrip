@@ -18,4 +18,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun createChatRoom(body: CreateChatRequest) =
         chatApiService.createChatRoom(body)
+
+    override suspend fun chatMatch(body: ChatMatchRequest): Boolean =
+        chatApiService.chatMatch(body).data!!
 }
