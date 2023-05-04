@@ -98,8 +98,6 @@ class UserInfoViewModel @Inject constructor(
                 _userAge.value!!,
                 ""
             )
-
-            Log.d("123123", "postUserInfo: ${_nickname.value} ${_userIntro.value} ${_userSex.value} ${_userAge.value} ${profileImgMultiPart}")
         }
 
     fun changeDuplicationTrue() {
