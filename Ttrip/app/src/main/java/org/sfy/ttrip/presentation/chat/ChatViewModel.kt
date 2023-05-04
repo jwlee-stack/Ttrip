@@ -8,19 +8,25 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.chat.ChatDetail
 import org.sfy.ttrip.domain.entity.chat.ChatRoom
 import org.sfy.ttrip.domain.usecase.chat.ExitChatRoomUseCase
+import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val getChatRoomsUseCase: GetChatRoomsUseCase,
-    private val exitChatRoomUseCase: ExitChatRoomUseCase
+    private val exitChatRoomUseCase: ExitChatRoomUseCase,
+    private val getChatDetailUseCase: GetChatDetailUseCase
 ) : ViewModel() {
 
     private val _chatRooms: MutableLiveData<List<ChatRoom>?> = MutableLiveData()
     val chatRooms: LiveData<List<ChatRoom>?> = _chatRooms
+
+    private val _chatDetail: MutableLiveData<List<ChatDetail>?> = MutableLiveData()
+    val chatDetail: LiveData<List<ChatDetail>?> = _chatDetail
 
     fun getChatRooms() {
         viewModelScope.launch {
@@ -37,5 +43,18 @@ class ChatViewModel @Inject constructor(
 
     fun exitChatRoom(chatId: Int) {
         viewModelScope.launch { exitChatRoomUseCase(chatId) }
+    }
+
+    fun getChatDetail(chatId: Int) {
+        viewModelScope.launch {
+            when (val value = getChatDetailUseCase(chatId)) {
+                is Resource.Success -> {
+                    _chatDetail.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.d("getChatDetail", "getChatDetail: ${value.errorMessage}")
+                }
+            }
+        }
     }
 }

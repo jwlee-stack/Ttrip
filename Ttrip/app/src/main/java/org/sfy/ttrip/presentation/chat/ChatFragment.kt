@@ -34,6 +34,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat){
     }
 
     private fun getChatDetail(chatId: Int) {
-
+        navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment(chatId))
     }
 }

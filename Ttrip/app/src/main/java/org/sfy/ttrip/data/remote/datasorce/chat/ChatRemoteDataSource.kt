@@ -5,4 +5,6 @@ interface ChatRemoteDataSource {
     suspend fun getChatRooms(): List<ChatRoomResponse>
 
     suspend fun exitChatRoom(body: ExitChatRequest): Boolean
+
+    suspend fun getChatDetail(chatId: Int): List<ChatDetailResponse>
 }

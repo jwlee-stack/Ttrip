@@ -12,4 +12,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun exitChatRoom(body: ExitChatRequest): Boolean =
         chatApiService.exitChatRoom(body).data!!
+
+    override suspend fun getChatDetail(chatId: Int): List<ChatDetailResponse> =
+        chatApiService.getChatDetail(chatId).data!!
 }
