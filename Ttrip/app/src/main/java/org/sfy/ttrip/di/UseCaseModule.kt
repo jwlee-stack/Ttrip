@@ -82,4 +82,9 @@ object UseCaseModule {
     @Provides
     fun provideGetBoardCommentUseCase(boardRepository: BoardRepository): GetBoardCommentUseCase =
         GetBoardCommentUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun providePostCommentUseCase(boardRepository: BoardRepository): PostCommentUseCase =
+        PostCommentUseCase(boardRepository)
 }

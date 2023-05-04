@@ -27,4 +27,7 @@ interface BoardApiService {
 
     @GET("/api/articles/{articleId}/applyArticle/")
     suspend fun getBoardComment(@Path("articleId") articleId: Int): BaseResponse<List<BoardCommentResponse>>
+
+    @POST("/api/articles/newApply")
+    suspend fun postComment(@Body body: CommentRequest)
 }

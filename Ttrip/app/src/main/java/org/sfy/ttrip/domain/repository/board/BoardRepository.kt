@@ -30,4 +30,6 @@ interface BoardRepository {
     suspend fun finishBoard(boardId: Int)
 
     suspend fun getBoardComment(boardId: Int): Resource<List<BoardComment>>
+
+    suspend fun postComment(boardId: Int, comment: String)
 }

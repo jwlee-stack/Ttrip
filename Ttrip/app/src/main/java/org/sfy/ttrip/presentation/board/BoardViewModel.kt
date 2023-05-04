@@ -20,7 +20,8 @@ class BoardViewModel @Inject constructor(
     private val getBoardDetailUseCase: GetBoardDetailUseCase,
     private val deleteBoardUseCase: DeleteBoardUseCase,
     private val finishBoardUseCase: FinishBoardUseCase,
-    private val getBoardCommentUseCase: GetBoardCommentUseCase
+    private val getBoardCommentUseCase: GetBoardCommentUseCase,
+    private val postCommentUseCase: PostCommentUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
@@ -60,15 +61,16 @@ class BoardViewModel @Inject constructor(
     fun getBoardComment(boardId: Int) {
         viewModelScope.launch {
             when (val value = getBoardCommentUseCase(boardId)) {
-                is Resource.Success<List<BoardComment>> ->{
+                is Resource.Success<List<BoardComment>> -> {
                     _boardCommentListData.value = value.data
                 }
-                is Resource.Error ->{
+                is Resource.Error -> {
                     Log.e("getBoardComment", "getBoardComment: ${value.errorMessage}")
                 }
             }
         }
     }
+
     fun deleteBoard(boardId: Int) {
         viewModelScope.launch {
             deleteBoardUseCase.invoke(boardId)
@@ -78,6 +80,12 @@ class BoardViewModel @Inject constructor(
     fun finishBoard(boardId: Int) {
         viewModelScope.launch {
             finishBoardUseCase.invoke(boardId)
+        }
+    }
+
+    fun postComment(boardId: Int, content: String?) {
+        viewModelScope.launch {
+            postCommentUseCase.invoke(boardId, content!!)
         }
     }
 }

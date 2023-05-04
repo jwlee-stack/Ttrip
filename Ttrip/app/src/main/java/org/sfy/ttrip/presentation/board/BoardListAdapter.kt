@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class BoardListAdapter(
-    private val onBoardItemClicked: (boardId: Int) -> Unit,
+    private val onBoardItemClicked: (boardId: Int, dDay: Int) -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<BoardListAdapter.BoardListViewHolder>() {
 
@@ -41,13 +41,13 @@ class BoardListAdapter(
 
     class BoardListViewHolder(
         val binding: ListItemBoardContentBinding,
-        private val onBoardItemClicked: (boardId: Int) -> Unit,
+        private val onBoardItemClicked: (boardId: Int, dDay: Int) -> Unit,
         val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: BoardBrief) {
             binding.apply {
                 root.setOnClickListener {
-                    onBoardItemClicked(data.articleId)
+                    onBoardItemClicked(data.articleId, data.dueDay.toInt())
                 }
 
                 if (data.dueDay <= 3) {
