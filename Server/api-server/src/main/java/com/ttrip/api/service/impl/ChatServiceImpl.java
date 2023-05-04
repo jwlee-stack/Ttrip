@@ -101,11 +101,13 @@ public class ChatServiceImpl implements ChatService {
             MatchHistory matchHistory = new MatchHistory().builder()
                     .evaluator(member)
                     .evaluated(opponent)
+                    .article(article)
                     .build();
             matchHistoryRepository.save(matchHistory);
             MatchHistory matchHistory2 = new MatchHistory().builder()
                     .evaluator(opponent)
                     .evaluated(member)
+                    .article(article)
                     .build();
             matchHistoryRepository.save(matchHistory2);
             return DataResDto.builder().data(true).message("매칭에 성공했습니다.").build();

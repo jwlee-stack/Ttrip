@@ -23,6 +23,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,13 +72,52 @@ public class FcmServiceImpl implements FcmService {
         return DataResDto.builder().message("FCM 메세지 발송성공했습니다.").data(true).build();
     }
 
+    //추후에 batch로 옮길 예정
+    @Override
+    public void rate() throws IOException {
+        // 평가하지 않았지만 게시글정보가 있으면 -> 라이브에서 매칭한게 아닌 매칭기록만
+        List<MatchHistory> matchHistoryList = matchHistoryRepository.findByRateIsNullAndArticleIsNotNull();
+        for (MatchHistory matchHistory : matchHistoryList) {
+            //마감일로 하루 지났는데도 평가안됬으면
+            if (ChronoUnit.DAYS.between(matchHistory.getArticle().getEndDate(), LocalDate.now()) > 0) {
+                sendMessageTo(matchHistory.getEvaluator(), FcmMessageReqDto.builder()
+                        .type(4)
+                        .targetUuid(matchHistory.getEvaluator().getMemberUuid())
+                        .extraId(matchHistory.getMatchHistoryId().toString())
+                        .extraData(" ")
+                        .build());
+            }
+        }
+        logger.info("fcm 발송 성공: {}개 발송 요청", matchHistoryList.size());
+    }
+
+    @Override
+    public void liveRate() throws IOException {
+        // 평가하지 않았지만 게시글정보가 있으면 -> 라이브에서 매칭한게 아닌 매칭기록만
+        List<MatchHistory> matchHistoryList = matchHistoryRepository.findByRateIsNullAndArticleIsNull();
+        for (MatchHistory matchHistory : matchHistoryList) {
+            //마감일로 하루 지났는데도 평가안됬으면
+            System.out.println(ChronoUnit.HOURS.between(matchHistory.getCreatedAt(), LocalDateTime.now()) % 24);
+            if (ChronoUnit.HOURS.between(matchHistory.getCreatedAt(), LocalDateTime.now()) % 24 == 0) {
+                sendMessageTo(matchHistory.getEvaluator(), FcmMessageReqDto.builder()
+                        .type(4)
+                        .targetUuid(matchHistory.getEvaluator().getMemberUuid())
+                        .extraId(matchHistory.getMatchHistoryId().toString())
+                        .extraData(" ")
+                        .build());
+            }
+        }
+        logger.info("fcm 발송 성공: {}개 발송 요청", matchHistoryList.size());
+    }
+
     //FCM 메세지를 만들어요 0: Live매칭 요청  1: 매칭요청 결과 2:article 3: Chat 4:매칭 평가 type으로 나눠서 사용
     private String makeMessage(Member member, FcmMessageReqDto fcmMessageReqDto) throws JsonParseException, JsonProcessingException {
         Member targetMember = memberRepository.findByMemberUuid(fcmMessageReqDto.getTargetUuid())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         String targetToken = targetMember.getFcmToken();
+        //토큰이 있는지 확인
         if (targetToken == null) {
-            // 타켓 유저가 접속하지 않았다면 안보내요
+            new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
         }
 
         //string, string 말고 다른 타입도 되나요?
@@ -156,7 +198,7 @@ public class FcmServiceImpl implements FcmService {
                             )
                             .data(data).build())
                     .validate_only(false).build();
-            logger.info(member.getNickname() + "님의 게시글에 매칭 요청이 도착했어요!");
+            logger.info(targetMember.getNickname() + "님의 게시글에 매칭 요청이 도착했어요!");
 
             return objectMapper.writeValueAsString(fcmMessage);
 

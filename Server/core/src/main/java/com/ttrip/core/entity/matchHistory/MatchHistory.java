@@ -27,4 +27,8 @@ public class MatchHistory extends BaseEntity{
     @ManyToOne
     @JsonManagedReference
     private Member evaluated;
+    @OneToOne
+    @JsonManagedReference
+    private Article article;
+    //예행 마감 예정일 다음날에 매칭 평가 fcm발송하기 위해서 추가
 }
