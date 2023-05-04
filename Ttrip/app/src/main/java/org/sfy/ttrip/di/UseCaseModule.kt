@@ -23,6 +23,7 @@ import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
@@ -128,4 +129,9 @@ object UseCaseModule {
     @Provides
     fun provideCreateChatRoomUseCase(chatRepository: ChatRepository): CreateChatRoomUseCase =
         CreateChatRoomUseCase(chatRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfileUseCase(myPageRepository: MyPageRepository): GetUserProfileUseCase =
+        GetUserProfileUseCase(myPageRepository)
 }
