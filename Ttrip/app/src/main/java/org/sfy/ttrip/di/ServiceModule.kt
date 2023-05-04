@@ -6,11 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.AuthInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
-import org.sfy.ttrip.data.remote.service.AuthApiService
-import org.sfy.ttrip.data.remote.service.BoardApiService
-import org.sfy.ttrip.data.remote.service.LiveApiService
-import org.sfy.ttrip.data.remote.service.MyPageApiService
-import org.sfy.ttrip.data.remote.service.UserApiService
+import org.sfy.ttrip.data.remote.service.*
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -52,4 +48,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): BoardApiService =
         retrofit.create(BoardApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChatApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): ChatApiService =
+        retrofit.create(ChatApiService::class.java)
 }
