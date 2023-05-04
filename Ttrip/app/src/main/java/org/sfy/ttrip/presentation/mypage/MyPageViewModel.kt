@@ -84,7 +84,6 @@ class MyPageViewModel @Inject constructor(
     fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
         viewModelScope.launch {
             updateUserInfoUseCase(age, gender, intro, nickname)
-            getUserProfile()
         }
     }
 
@@ -159,6 +158,7 @@ class MyPageViewModel @Inject constructor(
     fun updateProfileImg() {
         viewModelScope.launch {
             updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
+            getUserProfile()
         }
     }
 
