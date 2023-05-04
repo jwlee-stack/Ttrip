@@ -14,6 +14,7 @@ import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
@@ -99,4 +100,9 @@ object UseCaseModule {
     @Provides
     fun providePostCommentUseCase(boardRepository: BoardRepository): PostCommentUseCase =
         PostCommentUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfileUseCase(myPageRepository: MyPageRepository): GetUserProfileUseCase =
+        GetUserProfileUseCase(myPageRepository)
 }
