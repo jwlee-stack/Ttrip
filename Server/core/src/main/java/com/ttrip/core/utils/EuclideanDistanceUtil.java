@@ -11,8 +11,8 @@ import java.util.Objects;
 
 @Component
 public class EuclideanDistanceUtil {
-    private final DistanceMeasure euclideanDistance;
-    private static final double  MAX_DISTANCE = 2.262741691367582; // 9개 항목 전체 일치할 경우
+    public final DistanceMeasure euclideanDistance;
+    private static final double  MAX_DISTANCE = 2.4; // 9개 항목 전체 일치할 경우
     private static final int  DEFAULT_RATE = 0;
 
     public EuclideanDistanceUtil() {
