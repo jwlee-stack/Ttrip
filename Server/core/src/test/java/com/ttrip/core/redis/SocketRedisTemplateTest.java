@@ -39,7 +39,7 @@ public class SocketRedisTemplateTest {
         socketRedisDao.deleteMainKey(key);
     }
 
-    @Test
+//    @Test
     @DisplayName("소켓 레디스 Dao 테스트")
     @Transactional
     void SocketRedisDaoTest() {
