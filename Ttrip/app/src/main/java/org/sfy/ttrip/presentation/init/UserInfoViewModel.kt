@@ -47,6 +47,7 @@ class UserInfoViewModel @Inject constructor(
     val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private var profileImgMultiPart: MultipartBody.Part? = null
+    private var markerImgMultiPart: MultipartBody.Part? = null
 
     private val _userTest: MutableLiveData<UserTest> =
         MutableLiveData(UserTest(0, 0, 0, 0, 0, 0, 0, 0, 0))
@@ -93,10 +94,12 @@ class UserInfoViewModel @Inject constructor(
                 _userIntro.value!!,
                 _userSex.value!!,
                 profileImgMultiPart,
-                profileImgMultiPart,
+                markerImgMultiPart,
                 _userAge.value!!,
                 ""
             )
+
+            Log.d("123123", "postUserInfo: ${_nickname.value} ${_userIntro.value} ${_userSex.value} ${_userAge.value} ${profileImgMultiPart}")
         }
 
     fun changeDuplicationTrue() {
@@ -121,6 +124,8 @@ class UserInfoViewModel @Inject constructor(
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileImgMultiPart =
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+            markerImgMultiPart =
+                MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
         }
     }
 }

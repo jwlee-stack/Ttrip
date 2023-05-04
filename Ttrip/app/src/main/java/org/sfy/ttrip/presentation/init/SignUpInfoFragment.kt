@@ -1,9 +1,11 @@
 package org.sfy.ttrip.presentation.init
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentSignUpInfoBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -93,6 +95,10 @@ class SignUpInfoFragment :
                                                 postUserInfo()
                                                 postUserInfoTest()
                                             }
+                                            showToast("수고하셨습니다.")
+                                            val intent =
+                                                Intent(requireContext(), MainActivity::class.java)
+                                            startActivity(intent)
                                         }
                                     }
                                 } else {

@@ -12,8 +12,8 @@ interface UserApiService {
     @PATCH("/api/members/setInfo")
     suspend fun patchUserInfo(
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Part profileFile: MultipartBody.Part?,
-        @Part markerFile: MultipartBody.Part?
+        @Part profileImg: MultipartBody.Part?,
+        @Part markerImg: MultipartBody.Part?
     )
 
     @GET("/api/members/{nickname}/exists")
