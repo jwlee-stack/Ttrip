@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
 import org.sfy.ttrip.domain.repository.board.BoardRepository
+import org.sfy.ttrip.domain.repository.chat.ChatRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
@@ -15,6 +16,7 @@ import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
+import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
@@ -92,4 +94,9 @@ object UseCaseModule {
     @Provides
     fun provideUpdateProfileImgUseCase(myPageRepository: MyPageRepository): UpdateProfileImgUseCase =
         UpdateProfileImgUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetChatRoomsUseCase(chatRepository: ChatRepository): GetChatRoomsUseCase =
+        GetChatRoomsUseCase(chatRepository)
 }
