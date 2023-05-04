@@ -1,10 +1,12 @@
 package org.sfy.ttrip.data.remote.repository
 
+import okhttp3.MultipartBody
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.mypage.MyPageRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.mypage.UpdateUserInfoRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
+import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import javax.inject.Inject
@@ -49,4 +51,9 @@ class MyPageRepositoryImpl @Inject constructor(
 
     override suspend fun logout() =
         myPageRemoteDataSource.logout()
+
+    override suspend fun updateBackgroundImg(backgroundImg: MultipartBody.Part?): Resource<BackgroundImg> =
+        wrapToResource {
+            myPageRemoteDataSource.updateBackgroundImg(backgroundImg).toDomainModel()
+        }
 }

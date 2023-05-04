@@ -1,5 +1,6 @@
 package org.sfy.ttrip.presentation.mypage
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,15 +9,17 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
+import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.entity.user.UserTest
-import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
-import org.sfy.ttrip.domain.usecase.mypage.LogoutUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.mypage.*
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +28,8 @@ class MyPageViewModel @Inject constructor(
     private val updatePreferencesUseCase: UpdatePreferencesUseCase,
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase
 ) : ViewModel() {
 
     private val _userTest: MutableLiveData<UserTest> =
@@ -49,6 +53,11 @@ class MyPageViewModel @Inject constructor(
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(false)
     val isDuplicate: MutableLiveData<Boolean?> = _isDuplicate
+
+    private val _backgroundImg: MutableLiveData<Uri?> = MutableLiveData()
+    val backgroundImg: MutableLiveData<Uri?> = _backgroundImg
+
+    private var backgroundFileMultiPart: MultipartBody.Part? = null
 
     suspend fun checkDuplication() =
         viewModelScope.async {
@@ -113,6 +122,28 @@ class MyPageViewModel @Inject constructor(
                 preferShoppingThanTour,
                 preferTightSchedule
             )
+        }
+    }
+
+    fun updateBackgroundImg() {
+        viewModelScope.launch {
+            when (val value = updateBackgroundImgUseCase(backgroundFileMultiPart)) {
+                is Resource.Success<BackgroundImg> -> {
+                    Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.data}")
+                }
+                is Resource.Error -> {
+                    Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.errorMessage}")
+                }
+            }
+        }
+    }
+
+    fun setBackgroundFile(uri: Uri, file: File) {
+        viewModelScope.launch {
+            _backgroundImg.value = uri
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            backgroundFileMultiPart =
+                MultipartBody.Part.createFormData("backgroundImg", file.name, requestFile)
         }
     }
 

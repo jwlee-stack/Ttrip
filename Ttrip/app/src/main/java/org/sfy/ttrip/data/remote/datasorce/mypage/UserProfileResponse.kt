@@ -15,6 +15,8 @@ data class UserProfileResponse(
     val profileImgPath: String?,
     @SerializedName("markerImgPath")
     val markerImgPath: String?,
+    @SerializedName("backgroundImgPath")
+    val backgroundImgPath: String?,
     @SerializedName("intro")
     val intro: String?,
     @SerializedName("gender")
@@ -33,6 +35,7 @@ data class UserProfileResponse(
             nickname,
             profileImgPath,
             markerImgPath,
+            backgroundImgPath,
             intro,
             gender,
             age,

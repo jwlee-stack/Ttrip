@@ -9,6 +9,7 @@ data class UserProfile(
     val nickname: String?,
     val profileImgPath: String?,
     val markerImgPath: String?,
+    val backgroundImgPath: String?,
     val intro: String?,
     val gender: String?,
     val age: String?,
