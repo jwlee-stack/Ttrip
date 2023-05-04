@@ -37,7 +37,7 @@
                 android:clipToOutline="true"
                 android:contentDescription="@string/image_profile_background"
                 android:normalImgUri="@{userProfile.backgroundImgPath}"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bg_rect_lochmara_alice_blue1_radius20_stroke1"
                 tools:targetApi="s" />

@@ -56,4 +56,9 @@ class MyPageRepositoryImpl @Inject constructor(
         wrapToResource {
             myPageRemoteDataSource.updateBackgroundImg(backgroundImg).toDomainModel()
         }
+
+    override suspend fun updateProfileImg(
+        markerImg: MultipartBody.Part?,
+        profileImg: MultipartBody.Part?
+    ) = myPageRemoteDataSource.updateProfileImg(markerImg, profileImg)
 }

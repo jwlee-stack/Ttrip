@@ -11,11 +11,15 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("android:normalImgUri")
     fun ImageView.setNormalImg(imgUri: String?) {
-        Glide.with(this.context)
-            .load("http://k8d104.p.ssafy.io:8081/images$imgUri")
-            .placeholder(R.drawable.bg_image_not_found)
-            .error(R.drawable.bg_image_not_found)
-            .into(this)
+        if (imgUri == null) {
+            this.setImageResource(R.drawable.bg_image_not_found) // 기본 이미지로 설정
+        } else {
+            Glide.with(this.context)
+                .load("http://k8d104.p.ssafy.io:8081/images$imgUri")
+                .placeholder(R.drawable.bg_image_not_found)
+                .error(R.drawable.bg_image_not_found)
+                .into(this)
+        }
     }
 
     @JvmStatic

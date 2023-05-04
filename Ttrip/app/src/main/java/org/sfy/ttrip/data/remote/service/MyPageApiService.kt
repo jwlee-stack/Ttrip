@@ -27,4 +27,12 @@ interface MyPageApiService {
     suspend fun updateBackgroundImg(
         @Part backgroundImg: MultipartBody.Part?
     ): BaseResponse<BackgroundImgResponse>
+
+
+    @Multipart
+    @PATCH("/api/mypage/update/profile")
+    suspend fun updateProfileImg(
+        @Part markerImg: MultipartBody.Part?,
+        @Part profileImg: MultipartBody.Part?
+    )
 }

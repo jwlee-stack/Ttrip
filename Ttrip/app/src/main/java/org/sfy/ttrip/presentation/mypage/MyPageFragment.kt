@@ -42,18 +42,24 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             }
         }
     }
+    private val fromProfileActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        result.data?.let {
+            if (it.data != null) {
+                myPageViewModel.setProfileFile(
+                    it.data as Uri,
+                    File(absolutelyPath(it.data, requireContext()))
+                )
+            }
+        }
+    }
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(false)
         initListener()
         setUserProfile()
-        binding.ivProfileBackground.setOnClickListener {
-            setBackgroundView()
-            showToast("등록되었습니다.")
-        }
-        myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
-            myPageViewModel.updateBackgroundImg()
-        }
+        observeImg()
     }
 
     override fun onResume() {
@@ -62,7 +68,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         CoroutineScope(Dispatchers.Main).launch {
             delay(300)
             myPageViewModel.getUserProfile()
-            showToast("배경사진이 변경되었습니다!")
         }
     }
 
@@ -71,6 +76,36 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         val intent = Intent(activity, InitActivity::class.java)
         startActivity(intent)
         showToast("로그아웃되었습니다.")
+    }
+
+    private fun initListener() {
+        binding.apply {
+            ivEditProfile.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+            }
+            tvTestAgain.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToPreferenceTestAgainFragment())
+            }
+            ivProfileBackground.setOnClickListener {
+                setBackgroundView()
+            }
+            ivProfileImage.setOnClickListener {
+                setProfileView()
+            }
+        }
+        binding.tvLogout.setOnClickListener {
+            val dialog = LogoutDialog(requireContext(), this)
+            dialog.show()
+        }
+    }
+
+    private fun observeImg() {
+        myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
+            myPageViewModel.updateBackgroundImg()
+        }
+        myPageViewModel.profileImg.observe(viewLifecycleOwner) {
+            myPageViewModel.updateProfileImg()
+        }
     }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
@@ -106,25 +141,32 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
     }
 
-    private fun initListener() {
-        binding.apply {
-            ivEditProfile.setOnClickListener {
-                navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+    private fun setProfileView() {
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) -> {
+                fromProfileActivityLauncher.launch(
+                    Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    )
+                )
             }
-            tvTestAgain.setOnClickListener {
-                navigate(MyPageFragmentDirections.actionMyPageFragmentToPreferenceTestAgainFragment())
+            else -> {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    REQUEST_READ_STORAGE_PERMISSION
+                )
             }
-        }
-        binding.tvLogout.setOnClickListener {
-            val dialog = LogoutDialog(requireContext(), this)
-            dialog.show()
         }
     }
 
     private fun setUserProfile() {
         myPageViewModel.userProfile.observe(viewLifecycleOwner) { response ->
             response?.let {
-                Log.d("엥", "setUserProfile: ${response.backgroundImgPath.toString()}")
                 binding.userProfile = it
                 myPageViewModel.postNickname(it.nickname)
                 myPageViewModel.postAge(it.age.toString())

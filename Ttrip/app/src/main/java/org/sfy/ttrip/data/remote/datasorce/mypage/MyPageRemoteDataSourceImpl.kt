@@ -25,4 +25,11 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun updateBackgroundImg(backgroundImg: MultipartBody.Part?): BackgroundImgResponse =
         myPageApiService.updateBackgroundImg(backgroundImg).data!!
+
+    override suspend fun updateProfileImg(
+        markerImg: MultipartBody.Part?,
+        profileImg: MultipartBody.Part?
+    ) {
+        myPageApiService.updateProfileImg(markerImg, profileImg)
+    }
 }

@@ -29,7 +29,8 @@ class MyPageViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase
+    private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase,
+    private val updateProfileImgUseCase: UpdateProfileImgUseCase
 ) : ViewModel() {
 
     private val _userTest: MutableLiveData<UserTest> =
@@ -58,6 +59,13 @@ class MyPageViewModel @Inject constructor(
     val backgroundImg: MutableLiveData<Uri?> = _backgroundImg
 
     private var backgroundFileMultiPart: MultipartBody.Part? = null
+
+    private val _profileImg: MutableLiveData<Uri?> = MutableLiveData()
+    val profileImg: MutableLiveData<Uri?> = _profileImg
+
+    private var profileFileMultiPart: MultipartBody.Part? = null
+
+    private var markerFileMultiPart: MultipartBody.Part? = null
 
     suspend fun checkDuplication() =
         viewModelScope.async {
@@ -144,6 +152,23 @@ class MyPageViewModel @Inject constructor(
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             backgroundFileMultiPart =
                 MultipartBody.Part.createFormData("backgroundImg", file.name, requestFile)
+        }
+    }
+
+    fun updateProfileImg() {
+        viewModelScope.launch {
+            updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
+        }
+    }
+
+    fun setProfileFile(uri: Uri, file: File) {
+        viewModelScope.launch {
+            _profileImg.value = uri
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            profileFileMultiPart =
+                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+            markerFileMultiPart =
+                MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
         }
     }
 

@@ -16,4 +16,9 @@ interface MyPageRemoteDataSource {
     suspend fun updateBackgroundImg(
         backgroundImg: MultipartBody.Part?
     ): BackgroundImgResponse
+
+    suspend fun updateProfileImg(
+        markerImg: MultipartBody.Part?,
+        profileImg: MultipartBody.Part?
+    )
 }

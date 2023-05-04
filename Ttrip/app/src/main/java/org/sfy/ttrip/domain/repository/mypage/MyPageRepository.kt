@@ -28,4 +28,9 @@ interface MyPageRepository {
     suspend fun updateBackgroundImg(
         backgroundImg: MultipartBody.Part?
     ): Resource<BackgroundImg>
+
+    suspend fun updateProfileImg(
+        markerImg: MultipartBody.Part?,
+        profileImg: MultipartBody.Part?
+    )
 }
