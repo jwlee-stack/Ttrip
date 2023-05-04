@@ -1,13 +1,12 @@
 package org.sfy.ttrip.data.remote.service
 
+import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
+import org.sfy.ttrip.data.remote.datasorce.mypage.BackgroundImgResponse
 import org.sfy.ttrip.data.remote.datasorce.mypage.UpdateUserInfoRequest
 import org.sfy.ttrip.data.remote.datasorce.mypage.UserProfileResponse
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
+import retrofit2.http.*
 
 interface MyPageApiService {
 
@@ -22,4 +21,18 @@ interface MyPageApiService {
 
     @DELETE("/api/members/logout")
     suspend fun logout()
+
+    @Multipart
+    @PATCH("/api/mypage/update/background")
+    suspend fun updateBackgroundImg(
+        @Part backgroundImg: MultipartBody.Part?
+    ): BaseResponse<BackgroundImgResponse>
+
+
+    @Multipart
+    @PATCH("/api/mypage/update/profile")
+    suspend fun updateProfileImg(
+        @Part markerImg: MultipartBody.Part?,
+        @Part profileImg: MultipartBody.Part?
+    )
 }

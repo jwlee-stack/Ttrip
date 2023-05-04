@@ -17,6 +17,8 @@ import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
+import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
 import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
@@ -80,4 +82,14 @@ object UseCaseModule {
     @Provides
     fun provideFinishBoardUseCase(boardRepository: BoardRepository): FinishBoardUseCase =
         FinishBoardUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun provideUpdateBackgroundImgUseCase(myPageRepository: MyPageRepository): UpdateBackgroundImgUseCase =
+        UpdateBackgroundImgUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideUpdateProfileImgUseCase(myPageRepository: MyPageRepository): UpdateProfileImgUseCase =
+        UpdateProfileImgUseCase(myPageRepository)
 }

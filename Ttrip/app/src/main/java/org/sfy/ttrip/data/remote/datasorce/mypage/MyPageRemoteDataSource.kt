@@ -1,5 +1,6 @@
 package org.sfy.ttrip.data.remote.datasorce.mypage
 
+import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
 
 interface MyPageRemoteDataSource {
@@ -11,4 +12,13 @@ interface MyPageRemoteDataSource {
     suspend fun getUserProfile(): UserProfileResponse
 
     suspend fun logout()
+
+    suspend fun updateBackgroundImg(
+        backgroundImg: MultipartBody.Part?
+    ): BackgroundImgResponse
+
+    suspend fun updateProfileImg(
+        markerImg: MultipartBody.Part?,
+        profileImg: MultipartBody.Part?
+    )
 }
