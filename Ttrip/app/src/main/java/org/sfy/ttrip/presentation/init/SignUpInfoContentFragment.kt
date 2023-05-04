@@ -124,12 +124,12 @@ class SignUpInfoContentFragment :
                     changeVisibility(1, contentData)
                 }
                 2 -> {
-                    if (userInfoViewModel.userSex.value == "여성") {
+                    if (userInfoViewModel.userSex.value == "FEMALE") {
                         binding.apply {
                             tvUserInfoSexMale.setBackgroundResource(R.drawable.bg_rect_whisper_radius20)
                             tvUserInfoSexFemale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius20)
                         }
-                    } else if (userInfoViewModel.userSex.value == "남성") {
+                    } else if (userInfoViewModel.userSex.value == "MALE") {
                         binding.apply {
                             tvUserInfoSexMale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius20)
                             tvUserInfoSexFemale.setBackgroundResource(R.drawable.bg_rect_whisper_radius20)
@@ -199,13 +199,13 @@ class SignUpInfoContentFragment :
             tvUserInfoSexMale.setOnClickListener {
                 tvUserInfoSexMale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius20)
                 tvUserInfoSexFemale.setBackgroundResource(R.drawable.bg_rect_whisper_radius20)
-                userInfoViewModel.postSex("남성")
+                userInfoViewModel.postSex("MALE")
             }
 
             tvUserInfoSexFemale.setOnClickListener {
                 tvUserInfoSexMale.setBackgroundResource(R.drawable.bg_rect_whisper_radius20)
                 tvUserInfoSexFemale.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius20)
-                userInfoViewModel.postSex("여성")
+                userInfoViewModel.postSex("FEMALE")
             }
 
             clUserInfoProfilePhoto.setOnClickListener { setAlbumView() }
