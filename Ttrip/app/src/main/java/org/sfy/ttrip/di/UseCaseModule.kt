@@ -94,4 +94,9 @@ object UseCaseModule {
     @Provides
     fun provideUpdateProfileImgUseCase(myPageRepository: MyPageRepository): UpdateProfileImgUseCase =
         UpdateProfileImgUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun providePostCommentUseCase(boardRepository: BoardRepository): PostCommentUseCase =
+        PostCommentUseCase(boardRepository)
 }
