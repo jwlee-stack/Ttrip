@@ -14,56 +14,12 @@ import java.nio.file.Paths;
 @Component
 public class ImageUtil {
     private final String parentPath;
-    public ImageUtil(@Value("${custom.path.upload-images}")String parentPath)
-    {
-        this.parentPath=parentPath;
+
+    public ImageUtil(@Value("${custom.path.upload-images}") String parentPath) {
+        this.parentPath = parentPath;
     }
 
-    //프로필 사진 업데이트//
-    public Member updateProfileImg(MultipartFile profileImg, Member member) {
-        log.info("프로필 사진:{}", profileImg);
 
-        //기존 이미지 삭제
-        File rmImg;
-        if(member.getProfileImgPath()!=null) {
-            rmImg = new File(member.getProfileImgPath());
-            member.setProfileImgPath(removeImg(rmImg));
-        }
-
-        //넘어온 파일이 이미지인지?
-        checkImageType(profileImg);
-        try {
-            //프로필 사진 저장
-            member.setProfileImgPath(saveImg(member, profileImg, "profileImg"));
-        } catch (Exception e) {
-            throw new RuntimeException("프로필 사진 변경을 실패했습니다.");
-        }
-
-        return member;
-    }
-
-    //마커 사진 업데이트//
-    public Member updateMarkerImg(MultipartFile markerImg, Member member) {
-        log.info("마커 사진:{}", markerImg);
-
-        //기존 이미지 삭제
-        File rmImg;
-        if(member.getMarkerImgPath()!=null) {
-            rmImg = new File(member.getMarkerImgPath());
-            member.setMarkerImgPath(removeImg(rmImg));
-        }
-
-        //넘어온 파일이 이미지인지?
-        checkImageType(markerImg);
-        try {
-            //마커 사진 저장
-            member.setMarkerImgPath(saveImg(member, markerImg, "markerImg"));
-        } catch (Exception e) {
-            throw new RuntimeException("마커 사진 변경을 실패했습니다.");
-        }
-
-        return member;
-    }
 
     //기존 사진 삭제//
     public String removeImg(File rmImg) {
@@ -94,8 +50,6 @@ public class ImageUtil {
 
         String uploadFileName = member.getMemberUuid().toString() + "_" + fileName;
         String childPath = File.separator + folder + File.separator + uploadFileName;
-        //String fullPath = parentPath + childPath;
-        //String defaultImgPath=parentPath+File.separator + folder + File.separator+"default.png";
 
         try {
             if (!dir.exists()) {
@@ -108,7 +62,7 @@ public class ImageUtil {
         //파일 객체 생성//
         File saveFile;
         try {
-            saveFile = new File(parentPath,childPath);
+            saveFile = new File(parentPath, childPath);
         } catch (NullPointerException e) {
             throw new NullPointerException("child 파일 생성 불가");
         }
@@ -116,10 +70,8 @@ public class ImageUtil {
         //이미지 저장//
         log.info("originalFileName : " + img.getOriginalFilename());
         log.info("saveFile : " + saveFile);
-        System.out.println("here it is : " + Paths.get(parentPath+childPath).toAbsolutePath().toString());
+        System.out.println("here it is : " + Paths.get(parentPath + childPath).toAbsolutePath().toString());
         try {
-//            Path path = Paths.get(parentPath+childPath).toAbsolutePath();
-//            img.transferTo(path.toFile());
             img.transferTo(saveFile);
         } catch (IOException e) {
             log.info("IOException : 이미지 저장 과정에서 에러가 발생했습니다.");

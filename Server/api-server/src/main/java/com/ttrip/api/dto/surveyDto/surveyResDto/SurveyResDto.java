@@ -7,15 +7,15 @@ import lombok.Data;
 @Data
 @Builder
 public class SurveyResDto {
-    private int preferNatureThanCity;
-    private int preferPlan;
-    private int preferDirectFlight;
-    private int preferCheapHotelThanComfort;
-    private int preferGoodFood;
-    private int preferCheapTraffic;
-    private int preferPersonalBudget;
-    private int preferTightSchedule;
-    private int preferShoppingThanTour;
+    private float preferNatureThanCity;
+    private float preferPlan;
+    private float preferDirectFlight;
+    private float preferCheapHotelThanComfort;
+    private float preferGoodFood;
+    private float preferCheapTraffic;
+    private float preferPersonalBudget;
+    private float preferTightSchedule;
+    private float preferShoppingThanTour;
 
     public static SurveyResDto toBuild(Survey survey)
     {

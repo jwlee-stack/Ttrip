@@ -18,7 +18,8 @@ public enum ErrorMessageEnum {
     MATCH_NOT_EXIST("존재하지 않는 매칭 이력입니다."),
     CHATMEMBER_NOT_EXIST("존재하지않는 채팅입니다."),
     ALREADY_CALLING("이미 통화중인 상대입니다."),
-    FAILD_TO_TOKEN("토큰 발급에 실패하였습니다.");
+    FAILD_TO_TOKEN("토큰 발급에 실패하였습니다."),
+    SURVEY_REQUIRED("여행 취향 설문 조사를 진행해 주세요");
     private String message;
 
     ErrorMessageEnum(String message) {

@@ -66,6 +66,8 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl:1.2'
 
+    // EuclideanDistance
+    implementation 'org.apache.commons:commons-math3:3.6.1'
 }
 
 test {
