@@ -16,6 +16,7 @@ import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
+import org.sfy.ttrip.domain.usecase.chat.ExitChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
@@ -99,4 +100,9 @@ object UseCaseModule {
     @Provides
     fun provideGetChatRoomsUseCase(chatRepository: ChatRepository): GetChatRoomsUseCase =
         GetChatRoomsUseCase(chatRepository)
+
+    @Singleton
+    @Provides
+    fun provideExitChatRoomUseCase(chatRepository: ChatRepository): ExitChatRoomUseCase =
+        ExitChatRoomUseCase(chatRepository)
 }
