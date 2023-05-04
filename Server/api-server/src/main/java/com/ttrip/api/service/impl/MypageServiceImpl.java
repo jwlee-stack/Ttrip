@@ -72,12 +72,13 @@ public class MypageServiceImpl implements MypageService {
                 .build();
     }
 
+    //프로필과 마커 이미지 업데이트//
     @Override
     public DataResDto<?> updateProfileAndMarkerImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
 
-        member= imageUtil.updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
-        member=imageUtil.updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
+        member= updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
+        member= updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
 
         memberRepository.save(member);
         return DataResDto.builder()
@@ -86,30 +87,82 @@ public class MypageServiceImpl implements MypageService {
                 .build();
     }
 
+    //프로필 사진 업데이트//
+    public Member updateProfileImg(MultipartFile profileImg, Member member) {
+        log.info("프로필 사진:{}", profileImg);
+
+        //입력된 사진 없음
+        if(profileImg.isEmpty())
+            throw new BadRequestException("프로필 사진이 입력되지 않았습니다.");
+
+        //넘어온 파일이 이미지인지?
+        imageUtil.checkImageType(profileImg);
+
+        //기존 이미지 삭제
+        File rmImg;
+        if (member.getProfileImgPath() != null) {
+            rmImg = new File(member.getProfileImgPath());
+            member.setProfileImgPath(imageUtil.removeImg(rmImg));
+        }
+
+
+        try {
+            //프로필 사진 저장
+            member.setProfileImgPath(imageUtil.saveImg(member, profileImg, "profileImg"));
+        } catch (Exception e) {
+            throw new RuntimeException("프로필 사진 변경을 실패했습니다.");
+        }
+
+        return member;
+    }
+
+    //마커 사진 업데이트//
+    public Member updateMarkerImg(MultipartFile markerImg, Member member) {
+        log.info("마커 사진:{}", markerImg);
+
+        //입력된 사진 없음
+        if(markerImg.isEmpty())
+            throw new BadRequestException("마커 사진이 입력되지 않았습니다.");
+
+        //넘어온 파일이 이미지인지?
+        imageUtil.checkImageType(markerImg);
+
+        //기존 이미지 삭제
+        File rmImg;
+        if (member.getMarkerImgPath() != null) {
+            rmImg = new File(member.getMarkerImgPath());
+            member.setMarkerImgPath(imageUtil.removeImg(rmImg));
+        }
+
+        try {
+            //마커 사진 저장
+            member.setMarkerImgPath(imageUtil.saveImg(member, markerImg, "markerImg"));
+        } catch (Exception e) {
+            throw new RuntimeException("마커 사진 변경을 실패했습니다.");
+        }
+
+        return member;
+    }
+
     @Override
     public DataResDto<?> updateBackgroundImg(BackgroundUpdateReqDto backgroundUpdateReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
 
         MultipartFile backgroundImg=backgroundUpdateReqDto.getBackgroundImg();
 
+        //입력된 사진 없음
+        if(backgroundImg.isEmpty())
+            throw new BadRequestException("배경 사진이 입력되지 않았습니다.");
+
+        //넘어온 파일이 이미지인지?
+        imageUtil.checkImageType(backgroundImg);
+
         //기존 이미지 삭제
         File rmImg;
         if(member.getBackgroundImgPath()!=null) {
             rmImg = new File(member.getBackgroundImgPath());
-            member.setProfileImgPath(imageUtil.removeImg(rmImg));
+            member.setBackgroundImgPath(imageUtil.removeImg(rmImg));
         }
-
-        //입력된 사진 없음
-        if(backgroundImg.isEmpty())
-        {
-            memberRepository.save(member);
-            return DataResDto.builder()
-                    .message("등록된 사진이 없습니다.")
-                    .data(BackgroundUpdateResDto.toBuild(member))
-                    .build();
-        }
-
-        imageUtil.checkImageType(backgroundImg);
 
         try
         {

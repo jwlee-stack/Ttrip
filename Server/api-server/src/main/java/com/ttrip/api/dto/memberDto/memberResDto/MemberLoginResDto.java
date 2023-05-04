@@ -23,10 +23,12 @@ public class MemberLoginResDto {
     private String nickname;
     @ApiModelProperty(value = "소개말", example = "함께 동행해요^^")
     private String intro;
-    @ApiModelProperty(value = "프로필 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\profileImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
+    @ApiModelProperty(value = "프로필 이미지 경로", notes="파일 이름은 멤버의 uuid_이미지명", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\profileImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
     private String profileImgPath;
-    @ApiModelProperty(value = "마커 이미지 경로", notes="파일 이름은 멤버의 uuid", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
+    @ApiModelProperty(value = "마커 이미지 경로", notes="파일 이름은 멤버의 uuid_이미지명", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
     private String markerImgPath;
+    @ApiModelProperty(value = "배경 이미지 경로", notes="파일 이름은 멤버의 uuid_이미지명", example = "C:\\ssafy\\LastProject\\S08P31D104\\Server\\markerImg\\d6cce70a-e19f-4103-83cf-c8d5a53d5f32.png")
+    private String backgroundImgPath;
     @ApiModelProperty(value = "fcm 토큰", example = "asdfaf79797asdfaf...")
     private String fcmToken;
     @ApiModelProperty(value = "성별", example = "MALE")
@@ -47,6 +49,7 @@ public class MemberLoginResDto {
                 .intro(member.getIntro())
                 .profileImgPath(member.getProfileImgPath())
                 .markerImgPath(member.getMarkerImgPath())
+                .backgroundImgPath(member.getBackgroundImgPath())
                 .fcmToken(member.getFcmToken())
                 .gender(member.getGender().toString())
                 .age(member.getAge())
