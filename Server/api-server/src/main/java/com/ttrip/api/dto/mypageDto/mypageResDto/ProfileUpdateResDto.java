@@ -24,6 +24,4 @@ public class ProfileUpdateResDto {
                 .markerImgPath(member.getMarkerImgPath())
                 .build();
     }
-
-
 }
