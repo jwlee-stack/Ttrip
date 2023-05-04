@@ -106,6 +106,11 @@ object UseCaseModule {
 
     @Singleton
     @Provides
+    fun providePostCommentUseCase(boardRepository: BoardRepository): PostCommentUseCase =
+        PostCommentUseCase(boardRepository)
+
+    @Singleton
+    @Provides
     fun provideGetChatRoomsUseCase(chatRepository: ChatRepository): GetChatRoomsUseCase =
         GetChatRoomsUseCase(chatRepository)
 
