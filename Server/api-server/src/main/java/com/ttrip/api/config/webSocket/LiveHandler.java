@@ -87,6 +87,17 @@ public class LiveHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+        Map<String, String> vars = getPathVariable(session);
+        liveRedisDao.deleteMemberLocationInCity(vars.get("city"), vars.get("memberUuid"));
+        clients.remove(vars.get("memberUuid"));
+        LivePayloadDto payload = LivePayloadDto.builder()
+                .city(vars.get("city"))
+                .memberUuid(vars.get("memberUuid"))
+                .latitude(DELETE)
+                .longitude(DELETE)
+                .build();
+        sendMessageToSessionInCity(payload);
+        logger.info(String.format("********** LiveService : %s is disconnected by unexpected session failure. **********", vars.get("memberUuid")));
         super.handleTransportError(session, exception);
     }
 
