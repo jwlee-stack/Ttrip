@@ -16,6 +16,7 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
+import org.sfy.ttrip.domain.usecase.user.PostUserInfoTestUseCase
 import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
 import java.io.File
 import javax.inject.Inject
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
-    private val postUserInfoUseCase: PostUserInfoUseCase
+    private val postUserInfoUseCase: PostUserInfoUseCase,
+    private val postUserInfoTestUseCase: PostUserInfoTestUseCase
 ) : ViewModel() {
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(null)
@@ -45,6 +47,7 @@ class UserInfoViewModel @Inject constructor(
     val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private var profileImgMultiPart: MultipartBody.Part? = null
+    private var markerImgMultiPart: MultipartBody.Part? = null
 
     private val _userTest: MutableLiveData<UserTest> =
         MutableLiveData(UserTest(0, 0, 0, 0, 0, 0, 0, 0, 0))
@@ -80,24 +83,24 @@ class UserInfoViewModel @Inject constructor(
         _userTest.value = userTest
     }
 
-    fun patchUserInfoTest() = viewModelScope.launch {
-
+    fun postUserInfoTest() = viewModelScope.launch {
+        postUserInfoTestUseCase(_userTest.value!!)
     }
 
-    fun patchUserInfo() =
+    fun postUserInfo() =
         viewModelScope.launch {
             postUserInfoUseCase(
-                nickname.value!!,
-                userIntro.value!!,
-                userSex.value!!,
+                _nickname.value!!,
+                _userIntro.value!!,
+                _userSex.value!!,
                 profileImgMultiPart,
-                profileImgMultiPart,
-                userAge.value!!,
+                markerImgMultiPart,
+                _userAge.value!!,
                 ""
             )
         }
 
-    fun returnDuplicationTrue() {
+    fun changeDuplicationTrue() {
         _isDuplicate.value = true
     }
 
@@ -119,6 +122,8 @@ class UserInfoViewModel @Inject constructor(
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileImgMultiPart =
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+            markerImgMultiPart =
+                MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
         }
     }
 }
