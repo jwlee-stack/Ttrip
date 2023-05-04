@@ -12,9 +12,9 @@ object BindingAdapters {
     @BindingAdapter("android:normalImgUri")
     fun ImageView.setNormalImg(imgUri: String?) {
         Glide.with(this.context)
-            .load(imgUri)
-            .placeholder(R.drawable.ic_profile_default)
-            .error(R.drawable.ic_profile_default)
+            .load("http://k8d104.p.ssafy.io:8081/images$imgUri")
+            .placeholder(R.drawable.bg_image_not_found)
+            .error(R.drawable.bg_image_not_found)
             .into(this)
     }
 
