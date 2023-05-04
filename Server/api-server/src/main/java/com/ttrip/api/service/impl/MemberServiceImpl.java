@@ -23,6 +23,7 @@ import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.blacklist.BlacklistRepository;
+import com.ttrip.core.repository.liveRedisDao.LiveRedisDao;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.core.repository.survey.SurveyRepository;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -52,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
     private final SurveyRepository surveyRepository;
     private final BlacklistRepository blacklistRepository;
     private final MypageService mypageService;
+    private final LiveRedisDao liveRedisDao;
 
     @Override
     @Transactional
@@ -99,11 +102,13 @@ public class MemberServiceImpl implements MemberService {
                 .key(member.getMemberUuid().toString()) //rt_key=uuid
                 .value(tokenDto.getRefreshToken()) //rt_value=refresh token
                 .build();
-
         refreshTokenRepository.save(refreshToken);
 
-        // 5. 멤버(회원가입), 리프래시 토큰 반환
+        // 5. 유저 설문 정보 캐싱
+        if (Objects.isNull(liveRedisDao.getSurveyCache(member.getMemberUuid().toString())))
+            liveRedisDao.saveSurveyCache(member.getMemberUuid().toString(), member.getSurvey().toVector());
 
+        // 6. 멤버(회원가입), 리프래시 토큰 반환
         return DataResDto.builder()
                 .message("토큰 생성 완료")
                 .data(MemberLoginResDto.toBuild(member, tokenDto))
@@ -208,15 +213,15 @@ public class MemberServiceImpl implements MemberService {
             survey=Survey.builder().member(member).build();
         else
             survey = surveyRepository.findByMember(member).get();
-        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity());
-        survey.setPreferPlan(surveyReqDto.getPreferPlan());
-        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight());
-        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort());
-        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood());
-        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic());
-        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget());
-        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule());
-        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour());
+        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity()/5f);
+        survey.setPreferPlan(surveyReqDto.getPreferPlan()/5f);
+        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight()/5f);
+        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort()/5f);
+        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood()/5f);
+        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic()/5f);
+        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget()/5f);
+        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule()/5f);
+        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour()/5f);
         surveyRepository.save(survey);
 
         return DataResDto.builder()

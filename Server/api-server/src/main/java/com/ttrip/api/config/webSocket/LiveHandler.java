@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.ttrip.api.dto.Live.LiveLocationResDto;
 import com.ttrip.api.dto.Live.LivePayloadDto;
 import com.ttrip.core.dto.live.LiveAllLocationsDto;
+import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.liveRedisDao.LiveRedisDao;
+import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.utils.ErrorMessageEnum;
+import com.ttrip.core.utils.EuclideanDistanceUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -13,10 +17,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -26,10 +27,16 @@ public class LiveHandler extends TextWebSocketHandler {
             new ConcurrentHashMap<>();
     private final Logger logger = LogManager.getLogger(LiveHandler.class);
     private final LiveRedisDao liveRedisDao;
+    private final MemberRepository memberRepository;
+    private final EuclideanDistanceUtil rateUtil;
     private final static double DELETE = -1;
 
-    public LiveHandler(LiveRedisDao liveRedisDao) {
+    public LiveHandler(LiveRedisDao liveRedisDao,
+                       MemberRepository memberRepository,
+                       EuclideanDistanceUtil rateUtil) {
         this.liveRedisDao = liveRedisDao;
+        this.memberRepository = memberRepository;
+        this.rateUtil = rateUtil;
     }
 
     // connection established
@@ -37,6 +44,12 @@ public class LiveHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Map<String, String> vars = getPathVariable(session);
         logger.info(String.format("********** LiveService : %s is connected **********", vars.get("memberUuid")));
+        // survey cache
+        if (Objects.isNull(liveRedisDao.getSurveyCache(vars.get("memberUuid")))){
+            Member member = memberRepository.findByMemberUuid(UUID.fromString(vars.get("memberUuid")))
+                    .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            liveRedisDao.saveSurveyCache(vars.get("memberUuid"), member.getSurvey().toVector());
+        }
         clients.put(vars.get("memberUuid"), session);
     }
 
@@ -44,7 +57,7 @@ public class LiveHandler extends TextWebSocketHandler {
      * 본인 위치 변경 시 도시 내에 유저에게 본인 위치 정보를 제공합니다.
      *
      * @param session : 위치 변경된 유저의 session
-     * @param message : memberUuid, 위도, 경도, 도시 이름이 입력된 string message
+     * @param message : nickname, gender, age, city, memberUuid, latitude, longitude, profileImgPath, markerImgPath 입력된 string message
      * @throws Exception : Unexpected Exception
      */
     @Override
@@ -87,22 +100,38 @@ public class LiveHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+        Map<String, String> vars = getPathVariable(session);
+        liveRedisDao.deleteMemberLocationInCity(vars.get("city"), vars.get("memberUuid"));
+        clients.remove(vars.get("memberUuid"));
+        LivePayloadDto payload = LivePayloadDto.builder()
+                .city(vars.get("city"))
+                .memberUuid(vars.get("memberUuid"))
+                .latitude(DELETE)
+                .longitude(DELETE)
+                .build();
+        sendMessageToSessionInCity(payload);
+        logger.info(String.format("********** LiveService : %s is disconnected by unexpected session failure. **********", vars.get("memberUuid")));
         super.handleTransportError(session, exception);
     }
 
     private void sendMessageToSessionInCity(LivePayloadDto payload) throws Exception {
         // 1. 유저가 위치한 도시에 존재하는 다른 유저의 id, longitude, latitude 목록 조회
         List<LiveAllLocationsDto> allLocationsInCity = liveRedisDao.getAllLocationsInCity(payload.getCity());
-        // 2. 도시에 속한 유저들에게 변경 정보 전송(변경된 유저 아이디, 위치, 거리)
+        // 2. sender survey 정보
+        double[] senderVector = liveRedisDao.getSurveyCache(payload.getMemberUuid());
+        double[] receiverVector;
+        // 3. 도시에 속한 유저들에게 변경 정보 전송(변경된 유저 아이디, 위치, 거리)
         for (LiveAllLocationsDto otherInfo : allLocationsInCity) {
             if (Objects.equals(otherInfo.getMemberUuid(), payload.getMemberUuid())) continue;
             WebSocketSession memberSession = clients.get(otherInfo.getMemberUuid());
+            receiverVector = liveRedisDao.getSurveyCache(otherInfo.getMemberUuid());
             if (!Objects.isNull(memberSession) && memberSession.isOpen())
                 memberSession.sendMessage(
                         new TextMessage(
                                 new Gson().toJson(
                                         LiveLocationResDto.builder()
                                                 .payload(payload)
+                                                .matchingRate(rateUtil.getMatchingRateByVectors(senderVector, receiverVector))
                                                 .otherLatitude(otherInfo.getLatitude())
                                                 .otherLongitude(otherInfo.getLongitude())
                                                 .build()))

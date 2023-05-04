@@ -6,6 +6,8 @@ import com.ttrip.core.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -19,25 +21,39 @@ public class Survey extends BaseEntity {
     @Column(name="id",nullable = false)
     private int surveyId;
     @Column(columnDefinition = "TINYINT")
-    private int preferNatureThanCity;
+    private float preferNatureThanCity;
     @Column(columnDefinition = "TINYINT")
-    private int preferPlan;
+    private float preferPlan;
     @Column(columnDefinition = "TINYINT")
-    private int preferDirectFlight;
+    private float preferDirectFlight;
     @Column(columnDefinition = "TINYINT")
-    private int preferCheapHotelThanComfort;
+    private float preferCheapHotelThanComfort;
     @Column(columnDefinition = "TINYINT")
-    private int preferGoodFood;
+    private float preferGoodFood;
     @Column(columnDefinition = "TINYINT")
-    private int preferCheapTraffic;
+    private float preferCheapTraffic;
     @Column(columnDefinition = "TINYINT")
-    private int preferPersonalBudget;
+    private float preferPersonalBudget;
     @Column(columnDefinition = "TINYINT")
-    private int preferTightSchedule;
+    private float preferTightSchedule;
     @Column(columnDefinition = "TINYINT")
-    private int preferShoppingThanTour;
+    private float preferShoppingThanTour;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
     @JsonBackReference
     private Member member;
+
+    public double[] toVector(){
+        double[] vector = new double[9];
+        vector[0] = this.getPreferNatureThanCity();
+        vector[1] = this.getPreferPlan();
+        vector[2] = this.getPreferDirectFlight();
+        vector[3] = this.getPreferCheapHotelThanComfort();
+        vector[4] = this.getPreferGoodFood();
+        vector[5] = this.getPreferCheapTraffic();
+        vector[6] = this.getPreferPersonalBudget();
+        vector[7] = this.getPreferTightSchedule();
+        vector[8] = this.getPreferShoppingThanTour();
+        return vector;
+    }
 }
