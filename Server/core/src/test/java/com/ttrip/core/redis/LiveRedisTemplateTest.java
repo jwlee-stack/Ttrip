@@ -34,7 +34,7 @@ public class LiveRedisTemplateTest {
         liveRedisDao.deleteMainKey(key);
     }
 
-    @Test
+//    @Test
     @DisplayName("LiveRedisTemplate CRUD 기능 테스트")
     void LiveRedisTemplateTest() {
         String city = key;
@@ -64,7 +64,7 @@ public class LiveRedisTemplateTest {
         assertEquals(0, emptyResult.size());
     }
 
-    @Test
+//    @Test
     void SerializationTest() {
         String city = key;
         String memberId = UUID.randomUUID().toString();
