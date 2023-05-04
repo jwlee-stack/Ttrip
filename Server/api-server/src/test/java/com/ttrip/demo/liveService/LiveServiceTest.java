@@ -39,7 +39,7 @@ public class LiveServiceTest {
         liveRedisDao.deleteMainKey(key);
     }
 
-//    @Test
+    @Test
     @DisplayName("live 통신 초기 유저 정보 조회 테스트")
     void LocationInitializationTest(){
         String city = key;
