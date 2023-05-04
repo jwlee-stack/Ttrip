@@ -14,7 +14,7 @@ data class BoardCommentResponse(
     @SerializedName("requestContent")
     val requestContent: String,
     @SerializedName("imgPath")
-    val imgPath: String,
+    val imgPath: String?,
     @SerializedName("similarity")
     val similarity: Float
 ) : DataToDomainMapper<BoardComment> {

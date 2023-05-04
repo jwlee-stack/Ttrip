@@ -59,10 +59,6 @@ class BoardCommentListAdapter(
                         onBoardCommentItemClicked(data.applicantNickname)
                     }
                     tvBoardDetailCommentUserPercent.visibility = View.VISIBLE
-                } else {
-                    clBoardDetailCommentItem.setBackgroundResource(R.drawable.bg_rect_gainsboro_white_radius10_stroke1)
-                    tvBoardDetailCommentUserPercent.visibility = View.GONE
-                    tvBoardDetailCommentUserPercent.text = data.similarity.toInt().toString()
 
                     if (data.similarity <= 50) {
                         clBoardDetailCommentItem.setBackgroundResource(R.drawable.bg_rect_lochmara_white_radius10_stroke1)
@@ -92,6 +88,10 @@ class BoardCommentListAdapter(
                         )
                         tvBoardDetailCommentUserPercent.setBackgroundResource(R.drawable.bg_rect_medium_orchid_white_lilac_radius10_stroke1)
                     }
+                } else {
+                    clBoardDetailCommentItem.setBackgroundResource(R.drawable.bg_rect_gainsboro_white_radius10_stroke1)
+                    tvBoardDetailCommentUserPercent.visibility = View.INVISIBLE
+                    tvBoardDetailCommentUserPercent.text = data.similarity.toInt().toString()
                 }
             }
         }

@@ -13,8 +13,8 @@ object BindingAdapters {
     fun ImageView.setNormalImg(imgUri: String?) {
         Glide.with(this.context)
             .load(imgUri)
-            .placeholder(R.drawable.bg_image_not_found)
-            .error(R.drawable.bg_image_not_found)
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
             .into(this)
     }
 
