@@ -105,8 +105,8 @@ public class MemberServiceImpl implements MemberService {
         refreshTokenRepository.save(refreshToken);
 
         // 5. 유저 설문 정보 캐싱
-        if (Objects.isNull(liveRedisDao.getSurveyCache(member.getMemberUuid().toString())))
-            liveRedisDao.saveSurveyCache(member.getMemberUuid().toString(), member.getSurvey().toVector());
+//        if (Objects.isNull(liveRedisDao.getSurveyCache(member.getMemberUuid().toString())))
+//            liveRedisDao.saveSurveyCache(member.getMemberUuid().toString(), member.getSurvey().toVector());
 
         // 6. 멤버(회원가입), 리프래시 토큰 반환
         return DataResDto.builder()
