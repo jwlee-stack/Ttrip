@@ -5,6 +5,6 @@ data class BoardComment(
     val applicantUuid: String,
     val applicantNickname: String,
     val requestContent: String,
-    val imgPath: String,
+    val imgPath: String?,
     val similarity: Float
 )
