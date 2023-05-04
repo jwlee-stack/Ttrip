@@ -119,6 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .isMine(member.equals(article.getMember()))
                     .isApplied(applyArticleRepository.existsByArticleAndMember(article, member))
                     .similarity(100.0f)  //임의로 넣었어요
+                    .searchApplyResDtoList(searchApply(article, member.getMemberUuid()))
                     .build();
 
             return DataResDto.builder().message("게시글 목록이 조회되었습니다.").data(searchDetailDto).build();
@@ -175,50 +176,39 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    @Override
-    public DataResDto<?> searchApply(Integer articleId, UUID memberUuid) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
+    private List<SearchApplyResDto> searchApply(Article article, UUID memberUuid) {
         List<SearchApplyResDto> searchApplyResDtoList = new ArrayList<>();
         // 내 게시긇이면 다른사람 매칭신청을 다볼수있다
         if (article.getMember().getMemberUuid().equals(memberUuid)) {
-
-            try {
-                for (ApplyArticle applyArticle : applyArticleRepository.findByArticle(article)) {
-                    SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
-                            .applyId(applyArticle.getApplyArticleId())
-                            .applicantNickname(applyArticle.getMember().getNickname())
-                            .applicantUuid(applyArticle.getMember().getMemberUuid())
-                            .requestContent(applyArticle.getRequestContent())
-                            .imgPath(applyArticle.getMember().getProfileImgPath())
-                            .similarity(100.0f)  //임의로 넣었어요2
-                            .build();
-                    searchApplyResDtoList.add(searchApplyResDto);
-                }
-                return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
-            } catch (Exception e) {
-                throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
+            for (ApplyArticle applyArticle : applyArticleRepository.findByArticle(article)) {
+                SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
+                        .applyId(applyArticle.getApplyArticleId())
+                        .applicantNickname(applyArticle.getMember().getNickname())
+                        .applicantUuid(applyArticle.getMember().getMemberUuid())
+                        .requestContent(applyArticle.getRequestContent())
+                        .imgPath(applyArticle.getMember().getProfileImgPath())
+                        .similarity(100.0f)  //임의로 넣었어요2
+                        .build();
+                searchApplyResDtoList.add(searchApplyResDto);
             }
+            return searchApplyResDtoList;
         } else {
 //            내 게시글이 아닌경우 내 매칭 신청글만 볼수있음!
-            try {
-                Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-                Optional<ApplyArticle> optionalApplyArticle = applyArticleRepository.findByArticleAndMember(article, member);
-                if (optionalApplyArticle.isPresent()) {
-                    ApplyArticle applyArticle = optionalApplyArticle.get();
-                    SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
-                            .applyId(applyArticle.getApplyArticleId())
-                            .applicantNickname(applyArticle.getMember().getNickname())
-                            .applicantUuid(applyArticle.getMember().getMemberUuid())
-                            .requestContent(applyArticle.getRequestContent())
-                            .imgPath(applyArticle.getMember().getProfileImgPath())
-                            .similarity(100.0f) //임의로 넣었어요3
-                            .build();
-                    searchApplyResDtoList.add(searchApplyResDto);
-                }
-                return DataResDto.builder().message("신청한 유저 목록이 조회되었습니다.").data(searchApplyResDtoList).build();
-            } catch (Exception e) {
-                throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
+            Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            Optional<ApplyArticle> optionalApplyArticle = applyArticleRepository.findByArticleAndMember(article, member);
+            if (optionalApplyArticle.isPresent()) {
+                ApplyArticle applyArticle = optionalApplyArticle.get();
+                SearchApplyResDto searchApplyResDto = SearchApplyResDto.builder()
+                        .applyId(applyArticle.getApplyArticleId())
+                        .applicantNickname(applyArticle.getMember().getNickname())
+                        .applicantUuid(applyArticle.getMember().getMemberUuid())
+                        .requestContent(applyArticle.getRequestContent())
+                        .imgPath(applyArticle.getMember().getProfileImgPath())
+                        .similarity(100.0f) //임의로 넣었어요3
+                        .build();
+                searchApplyResDtoList.add(searchApplyResDto);
             }
+            return searchApplyResDtoList;
         }
     }
 
