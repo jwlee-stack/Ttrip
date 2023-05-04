@@ -27,4 +27,8 @@ class BoardRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getBoardComment(boardId: Int): List<BoardCommentResponse> =
         boardApiService.getBoardComment(boardId).data!!
+
+    override suspend fun postComment(body: CommentRequest) {
+        boardApiService.postComment(body)
+    }
 }

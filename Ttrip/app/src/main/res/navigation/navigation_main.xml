@@ -23,6 +23,9 @@
         <argument
             android:name="boardId"
             app:argType="integer" />
+        <argument
+            android:name="d_day"
+            app:argType="integer" />
     </fragment>
 
     <fragment
