@@ -11,4 +11,6 @@ interface ChatRepository {
     suspend fun exitChatRoom(chatId: Int): Boolean
 
     suspend fun getChatDetail(chatId: Int): Resource<List<ChatDetail>>
+
+    suspend fun createChatRoom(articleId: Int, opponentUserUuid: String)
 }

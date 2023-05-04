@@ -3,6 +3,7 @@ package org.sfy.ttrip.data.remote.service
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
 import org.sfy.ttrip.data.remote.datasorce.chat.ChatDetailResponse
 import org.sfy.ttrip.data.remote.datasorce.chat.ChatRoomResponse
+import org.sfy.ttrip.data.remote.datasorce.chat.CreateChatRequest
 import org.sfy.ttrip.data.remote.datasorce.chat.ExitChatRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,4 +20,7 @@ interface ChatApiService {
 
     @GET("/api/chats/{chatId}")
     suspend fun getChatDetail(@Part chatId: Int): BaseResponse<List<ChatDetailResponse>>
+
+    @POST("/api/chats")
+    suspend fun createChatRoom(@Body body: CreateChatRequest)
 }
