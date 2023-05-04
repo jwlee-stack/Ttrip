@@ -66,7 +66,6 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginHorizontal="15dp"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_post_board_comment"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +80,7 @@
                         android:id="@+id/cl_board_detail_user"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginVertical="20dp"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -160,7 +160,8 @@
                     <ImageView
                         android:id="@+id/iv_board_detail_ticket_line1"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
+                        android:layout_height="4dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/image_board_line"
                         android:layerType="software"
@@ -171,6 +172,7 @@
                         android:id="@+id/ll_board_detail_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="20dp"
                         android:gravity="center|left"
                         android:orientation="vertical"
@@ -219,24 +221,86 @@
                             tools:text="태국-방콕" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
+                    <ImageView
+                        android:id="@+id/iv_upper_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="20dp"
+                        android:contentDescription="@string/image_dash_line"
+                        android:layerType="software"
+                        android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
+                    <ImageView
+                        android:id="@+id/iv_board_detail_line1_left"
+                        android:layout_width="9dp"
+                        android:layout_height="14dp"
+                        android:layout_marginTop="15dp"
+                        android:contentDescription="@string/image_ticket_dash_line"
+                        android:src="@drawable/ic_ticket_dash_line_point_left"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
+                    <ImageView
+                        android:id="@+id/iv_board_detail_line1_right"
+                        android:layout_width="9dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="14dp"
+                        android:contentDescription="@string/image_ticket_dash_line"
+                        android:src="@drawable/ic_ticket_dash_line_point_right"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
                     <TextView
                         android:id="@+id/tv_board_detail_content"
                         android:layout_width="0dp"
                         android:layout_height="140dp"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
                         android:gravity="top"
                         android:padding="20dp"
                         android:text="@{boardDetail.content}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date"
+                        app:layout_constraintTop_toBottomOf="@id/iv_upper_line"
                         tools:text="안녕하세요! 이번 주말에 방콕 여행 가는데 같이 카오산로드에서 술 한잔 하실 분 구합니다!" />
+
+                    <ImageView
+                        android:id="@+id/iv_under_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="20dp"
+                        android:contentDescription="@string/image_dash_line"
+                        android:layerType="software"
+                        android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+                        app:layout_constraintTop_toBottomOf="@id/tv_board_detail_content" />
+
+                    <ImageView
+                        android:id="@+id/iv_board_detail_line2_left"
+                        android:layout_width="9dp"
+                        android:layout_height="14dp"
+                        android:layout_marginTop="15dp"
+                        android:contentDescription="@string/image_ticket_dash_line"
+                        android:src="@drawable/ic_ticket_dash_line_point_left"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_board_detail_content" />
+
+                    <ImageView
+                        android:id="@+id/iv_board_detail_line2_right"
+                        android:layout_width="9dp"
+                        android:layout_height="14dp"
+                        android:layout_marginTop="15dp"
+                        android:contentDescription="@string/image_ticket_dash_line"
+                        android:src="@drawable/ic_ticket_dash_line_point_right"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_board_detail_content" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_board_detail_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="40dp"
                         android:orientation="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -278,83 +342,5 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/iv_board_detail_line1_right"
-            android:layout_width="18dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginBottom="170dp"
-            android:contentDescription="@string/image_ticket_dash_line"
-            android:src="@drawable/ic_ticket_dash_line_point"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line1" />
-
-        <ImageView
-            android:id="@+id/iv_board_detail_line1_left"
-            android:layout_width="18dp"
-            android:layout_height="14dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="170dp"
-            android:contentDescription="@string/image_ticket_dash_line"
-            android:src="@drawable/ic_ticket_dash_line_point"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line1" />
-
-        <ImageView
-            android:id="@+id/iv_board_detail_line2_right"
-            android:layout_width="18dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginBottom="170dp"
-            android:contentDescription="@string/image_ticket_dash_line"
-            android:src="@drawable/ic_ticket_dash_line_point"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line2" />
-
-        <ImageView
-            android:id="@+id/iv_board_detail_line2_left"
-            android:layout_width="18dp"
-            android:layout_height="14dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginBottom="170dp"
-            android:contentDescription="@string/image_ticket_dash_line"
-            android:src="@drawable/ic_ticket_dash_line_point"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gl_board_detail_dash_line2" />
-
-        <ImageView
-            android:id="@+id/iv_upper_line"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:contentDescription="@string/image_dash_line"
-            android:layerType="software"
-            android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
-            app:layout_constraintBottom_toBottomOf="@id/iv_board_detail_line1_left"
-            app:layout_constraintTop_toTopOf="@id/iv_board_detail_line1_left" />
-
-        <ImageView
-            android:id="@+id/iv_under_line"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:contentDescription="@string/image_dash_line"
-            android:layerType="software"
-            android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
-            app:layout_constraintBottom_toBottomOf="@id/iv_board_detail_line2_left"
-            app:layout_constraintTop_toTopOf="@id/iv_board_detail_line2_left" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_board_detail_dash_line1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_board_detail_dash_line2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
