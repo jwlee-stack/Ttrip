@@ -13,7 +13,7 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override suspend fun requestSignUp(phoneNumber: String, password: String) {
-        authRemoteDataSource.requestSignUp(AuthRequest(phoneNumber, phoneNumber))
+        authRemoteDataSource.requestSignUp(AuthRequest(phoneNumber, password))
     }
 
     override suspend fun requestLogin(phoneNumber: String, password: String): Resource<Auth> =

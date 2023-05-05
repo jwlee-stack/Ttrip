@@ -5,7 +5,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.FragmentChatDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
@@ -17,7 +19,9 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
     private val chatDetailAdapter by lazy { ChatDetailAdapter() }
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(true)
         initRecyclerView()
+        setChatInfo()
         setChatRoom(args.chatId)
     }
 
@@ -25,6 +29,14 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         binding.rvChat.apply {
             adapter = chatDetailAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun setChatInfo() {
+        binding.apply {
+            ivOtherProfile.setProfileImg(args.imagePath)
+            tvOtherNickname.text = args.nickname
+            tvPostContent.text = args.articleTitle
         }
     }
 
