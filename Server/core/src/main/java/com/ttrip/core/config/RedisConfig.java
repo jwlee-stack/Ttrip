@@ -19,8 +19,8 @@ public class RedisConfig {
     private String redisPort;
     @Value("${spring.redis.host}")
     private String redisHost;
-//    @Value("${spring.redis.password}")
-    private final String password = "ttrip104!";
+    @Value("${spring.redis.password}")
+    private String password;
 
     @Bean
     @Primary
@@ -73,14 +73,14 @@ public class RedisConfig {
         return openviduRedisTemplate;
     }
 
-//    @Bean(name = "surveyRedisTemplate")
-//    public RedisTemplate<String, Object> surveyRedisTemplate(){
-//        RedisTemplate<String, Object> surveyRedisTemplate = new RedisTemplate<>();
-//        surveyRedisTemplate.setKeySerializer(new StringRedisSerializer());
-//        surveyRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-//        surveyRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
-//        surveyRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-//        surveyRedisTemplate.setConnectionFactory(redisConnectionFactory());
-//        return surveyRedisTemplate;
-//    }
+    @Bean(name = "surveyRedisTemplate")
+    public RedisTemplate<String, Object> surveyRedisTemplate(){
+        RedisTemplate<String, Object> surveyRedisTemplate = new RedisTemplate<>();
+        surveyRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        surveyRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        surveyRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        surveyRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        surveyRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return surveyRedisTemplate;
+    }
 }
