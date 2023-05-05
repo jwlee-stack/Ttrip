@@ -5,7 +5,7 @@ import org.sfy.ttrip.data.remote.datasorce.chat.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ChatApiService {
 
@@ -16,7 +16,7 @@ interface ChatApiService {
     suspend fun exitChatRoom(@Body body: ExitChatRequest): BaseResponse<Boolean>
 
     @GET("/api/chats/{chatId}")
-    suspend fun getChatDetail(@Part chatId: Int): BaseResponse<List<ChatDetailResponse>>
+    suspend fun getChatDetail(@Path("chatId") chatId: Int): BaseResponse<List<ChatDetailResponse>>
 
     @POST("/api/chats")
     suspend fun createChatRoom(@Body body: CreateChatRequest)
