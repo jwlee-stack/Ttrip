@@ -17,7 +17,8 @@ class ChatRoomAdapter(
         articleTitle: String,
         nickname: String,
         articleId: Int
-    ) -> Unit
+    ) -> Unit,
+    private val onChatRoomLongClicked: (chatId: Int) -> Unit
 ) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
 
     private var items: List<ChatRoom> = listOf()
@@ -30,7 +31,7 @@ class ChatRoomAdapter(
             parent,
             false
         )
-        return ChatRoomViewHolder(binding, onChatRoomClicked)
+        return ChatRoomViewHolder(binding, onChatRoomClicked, onChatRoomLongClicked)
     }
 
     override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
@@ -48,7 +49,8 @@ class ChatRoomAdapter(
             articleTitle: String,
             nickname: String,
             articleId: Int
-        ) -> Unit
+        ) -> Unit,
+        private val onChatRoomLongClicked: (chatId: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ChatRoom) {
             binding.apply {
@@ -63,6 +65,10 @@ class ChatRoomAdapter(
                         data.otherNickname,
                         data.articleId
                     )
+                }
+                root.setOnLongClickListener {
+                    onChatRoomLongClicked(data.chatId)
+                    true
                 }
             }
         }
