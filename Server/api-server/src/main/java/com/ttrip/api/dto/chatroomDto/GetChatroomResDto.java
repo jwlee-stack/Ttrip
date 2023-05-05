@@ -17,8 +17,8 @@ public class GetChatroomResDto {
     private String nickname;
     @ApiModelProperty(value = "상대 프로필주소", notes = "상대가 나갔으면 알수없음")
     private String imagePath;
-    @ApiModelProperty(value = "상대의 uuid", example = "")
-    private UUID memberUuid;
+    @ApiModelProperty(value = "상대의 uuid")
+    private String memberUuid;
     @ApiModelProperty(value = "마지막 메세지", example = "그럼 거기서 봐요")
     private String lastMessage;
     @ApiModelProperty(value = "챗룸 id", example = "51")

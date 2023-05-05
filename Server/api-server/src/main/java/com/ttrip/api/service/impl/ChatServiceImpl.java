@@ -55,7 +55,7 @@ public class ChatServiceImpl implements ChatService {
             GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
                     .chatroomId(chatMember.getChatroom().getChatRoomId())
                     .nickname(opponent.getNickname())
-                    .memberUuid(opponent.getMemberUuid())
+                    .memberUuid(opponent.getMemberUuid().toString())
                     .lastMessage(lastMessage.getText())
                     .updatedAt(lastMessage.getCreatedAt())
                     .imagePath(opponent.getProfileImgPath())
@@ -101,11 +101,13 @@ public class ChatServiceImpl implements ChatService {
             MatchHistory matchHistory = new MatchHistory().builder()
                     .evaluator(member)
                     .evaluated(opponent)
+                    .article(article)
                     .build();
             matchHistoryRepository.save(matchHistory);
             MatchHistory matchHistory2 = new MatchHistory().builder()
                     .evaluator(opponent)
                     .evaluated(member)
+                    .article(article)
                     .build();
             matchHistoryRepository.save(matchHistory2);
             return DataResDto.builder().data(true).message("매칭에 성공했습니다.").build();
@@ -131,7 +133,7 @@ public class ChatServiceImpl implements ChatService {
                 GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
                         .chatroomId(optionalChatroom.get().getChatRoomId())
                         .nickname(opponentUser.getNickname())
-                        .memberUuid(opponentUser.getMemberUuid())
+                        .memberUuid(opponentUser.getMemberUuid().toString())
                         .imagePath(opponentUser.getProfileImgPath())
                         .updatedAt(lastChatMessage.getCreatedAt())
                         .lastMessage(lastChatMessage.getText())
@@ -170,7 +172,7 @@ public class ChatServiceImpl implements ChatService {
         GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
                 .chatroomId(chatroom.getChatRoomId())
                 .nickname(opponentUser.getNickname())
-                .memberUuid(opponentUser.getMemberUuid())
+                .memberUuid(opponentUser.getMemberUuid().toString())
                 .imagePath(opponentUser.getProfileImgPath())
                 .updatedAt(LocalDateTime.now())
                 .lastMessage("여만추를 원하는 당신에게 선물 ~")

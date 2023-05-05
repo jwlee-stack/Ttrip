@@ -8,4 +8,6 @@ import java.io.IOException;
 
 public interface FcmService {
     DataResDto<?> sendMessageTo(Member member, FcmMessageReqDto fcmMessageReqDto)  throws IOException;
+    void rate() throws IOException;
+    void liveRate() throws IOException;
 }

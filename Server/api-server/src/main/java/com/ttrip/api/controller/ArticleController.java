@@ -68,15 +68,6 @@ public class ArticleController {
         return articleService.newApply(applyReqDto, memberDetails.getMember().getMemberUuid());
     }
     @ApiResponses({
-            @ApiResponse(code = 200, message = "신청한 유저 목록이 조회되었습니다"),
-            @ApiResponse(code = 400, message = "신청한 유저 목록이 조회 실패")
-    })
-    @ApiOperation(value = "게시글 상세 조회 API", httpMethod = "GET")
-    @GetMapping("/{articleId}/applyArticle/")
-    public DataResDto<?> searchApply(@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable("articleId") Integer articleId) {
-        return articleService.searchApply(articleId, memberDetails.getMember().getMemberUuid());
-    }
-    @ApiResponses({
             @ApiResponse(code = 200, message = "모집이 종료되었습니다."),
             @ApiResponse(code = 400, message = "모집 종료 실패")
     })
