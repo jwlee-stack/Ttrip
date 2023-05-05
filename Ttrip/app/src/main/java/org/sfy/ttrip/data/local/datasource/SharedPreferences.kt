@@ -22,6 +22,26 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("userId", null)
         set(value) = prefs.edit().putString("userId", value).apply()
 
+    var nickname: String?
+        get() = prefs.getString("nickname", null)
+        set(value) = prefs.edit().putString("nickname", value).apply()
+
+    var gender: String?
+        get() = prefs.getString("gender", null)
+        set(value) = prefs.edit().putString("gender", value).apply()
+
+    var age: Int?
+        get() = prefs.getInt("age", 0)
+        set(value) = prefs.edit().putInt("age", value!!).apply()
+
+    var profileImgPath: String?
+        get() = prefs.getString("profileImgPath", null)
+        set(value) = prefs.edit().putString("profileImgPath", value).apply()
+
+    var markerImgPath: String?
+        get() = prefs.getString("markerImgPath", null)
+        set(value) = prefs.edit().putString("markerImgPath", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }

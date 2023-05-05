@@ -1,7 +1,5 @@
 package org.sfy.ttrip.domain.entity.auth
 
-import java.time.LocalDate
-
 data class Auth (
     val uuid: String,
     val phoneNumber: String,
@@ -11,7 +9,7 @@ data class Auth (
     val markerImgPath: String?,
     val fcmToken: String?,
     val gender: String?,
-    val birthday: LocalDate?,
+    val age: Int?,
     val shareLocation: Boolean,
     val token: Token
 )

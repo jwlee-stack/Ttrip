@@ -3,7 +3,6 @@ package org.sfy.ttrip.data.remote.datasorce.auth
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
 import org.sfy.ttrip.domain.entity.auth.Auth
-import java.time.LocalDate
 
 data class AuthResponse(
     @SerializedName("uuid")
@@ -22,8 +21,8 @@ data class AuthResponse(
     val fcmToken: String?,
     @SerializedName("gender")
     val gender: String?,
-    @SerializedName("birthday")
-    val birthday: LocalDate?,
+    @SerializedName("age")
+    val age: Int?,
     @SerializedName("shareLocation")
     val shareLocation: Boolean,
     @SerializedName("tokenDto")
@@ -39,7 +38,7 @@ data class AuthResponse(
             markerImgPath,
             fcmToken,
             gender,
-            birthday,
+            age,
             shareLocation,
             tokenResponse.toDomainModel()
         )
