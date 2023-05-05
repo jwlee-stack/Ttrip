@@ -21,7 +21,8 @@ class BoardViewModel @Inject constructor(
     private val deleteBoardUseCase: DeleteBoardUseCase,
     private val finishBoardUseCase: FinishBoardUseCase,
     private val getBoardCommentUseCase: GetBoardCommentUseCase,
-    private val postCommentUseCase: PostCommentUseCase
+    private val postCommentUseCase: PostCommentUseCase,
+    private val postBoardUseCase: PostBoardUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
@@ -39,11 +40,11 @@ class BoardViewModel @Inject constructor(
     private val _postBoardContent: MutableLiveData<String?> = MutableLiveData(null)
     val postBoardContent: MutableLiveData<String?> = _postBoardContent
 
-    private val _postStartDate: MutableLiveData<String?> = MutableLiveData(null)
-    val postStartDate: MutableLiveData<String?> = _postStartDate
+    private val _postStartDate: MutableLiveData<String> = MutableLiveData(null)
+    val postStartDate: MutableLiveData<String> = _postStartDate
 
-    private val _postEndDate: MutableLiveData<String?> = MutableLiveData(null)
-    val postEndDate: MutableLiveData<String?> = _postEndDate
+    private val _postEndDate: MutableLiveData<String> = MutableLiveData(null)
+    val postEndDate: MutableLiveData<String> = _postEndDate
 
     fun getBoards(condition: Int, nation: String, city: String, keyword: String) =
         viewModelScope.launch {
@@ -83,6 +84,19 @@ class BoardViewModel @Inject constructor(
         }
     }
 
+    fun postBoard() {
+        viewModelScope.launch {
+            postBoardUseCase(
+                "구미",
+                _postBoardContent.value!!,
+                _postEndDate.value!!,
+                "대한민국",
+                _postEndDate.value!!,
+                _postBoardTitle.value!!
+            )
+        }
+    }
+
     fun deleteBoard(boardId: Int) {
         viewModelScope.launch {
             deleteBoardUseCase.invoke(boardId)
@@ -110,10 +124,10 @@ class BoardViewModel @Inject constructor(
     }
 
     fun postStartDate(startDate: String?) {
-        _postStartDate.value = startDate
+        _postStartDate.value = startDate!!
     }
 
     fun postEndDate(endDate: String?) {
-        _postEndDate.value = endDate
+        _postEndDate.value = endDate!!
     }
 }
