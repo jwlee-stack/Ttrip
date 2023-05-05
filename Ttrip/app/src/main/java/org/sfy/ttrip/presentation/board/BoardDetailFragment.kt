@@ -91,10 +91,12 @@ class BoardDetailFragment :
             binding.apply {
                 boardDetail = it
                 ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
-                boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, it.isMine)
 
                 // 본인 게시물
                 if (it.isMine) {
+                    initRecyclerView()
+                    boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, true)
+
                     tvPostBoardComment.visibility = View.GONE
                     tvFinishBoard.visibility = View.VISIBLE
 
@@ -108,6 +110,8 @@ class BoardDetailFragment :
                         changeVisibility(tvFinishBoard, false)
                     }
                 } else {
+                    initRecyclerView()
+                    boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, false)
                     // 타인 게시물
                     tvPostBoardComment.visibility = View.VISIBLE
                     tvFinishBoard.visibility = View.GONE
