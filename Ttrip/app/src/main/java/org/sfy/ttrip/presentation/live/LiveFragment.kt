@@ -224,11 +224,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             ApplicationClass.preferences.userId.toString(),
                             liveViewModel.lat,
                             liveViewModel.lng,
-                            "nickname",
-                            "gender",
-                            "20대",
-                            "profilepath",
-                            "markerpath"
+                            ApplicationClass.preferences.nickname.toString(),
+                            ApplicationClass.preferences.gender.toString(),
+                            ApplicationClass.preferences.age.toString(),
+                            ApplicationClass.preferences.profileImgPath.toString(),
+                            ApplicationClass.preferences.markerImgPath.toString()
                         )
                     } else if (liveViewModel.cityOnLive.value != cityName) {
                         binding.switchLive.isChecked = false
