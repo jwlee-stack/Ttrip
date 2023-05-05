@@ -13,6 +13,7 @@ import com.ttrip.core.entity.chatmessage.ChatMessage;
 import com.ttrip.core.entity.chatroom.Chatroom;
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import com.ttrip.core.entity.member.Member;
+import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.chatMember.ChatMemberRepository;
 import com.ttrip.core.repository.chatMessage.ChatMessageRepository;
@@ -20,6 +21,7 @@ import com.ttrip.core.repository.chatroom.ChatroomRepoistory;
 import com.ttrip.core.repository.matchHistory.MatchHistoryRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
+import com.ttrip.core.utils.EuclideanDistanceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,7 @@ public class ChatServiceImpl implements ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
+    private final EuclideanDistanceUtil euclideanDistanceUtil;
 
     @Override
     public DataResDto<?> getChatroomList(Member member) {
@@ -61,6 +64,9 @@ public class ChatServiceImpl implements ChatService {
                     .imagePath(opponent.getProfileImgPath())
                     .articleId(chatMember.getChatroom().getArticle().getArticleId())
                     .articleTitle(chatMember.getChatroom().getArticle().getTitle())
+                    .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponent.getSurvey()))
+                    .status(chatMember.getChatroom().getArticle().getStatus())
+                    .isMatch(chatMember.getChatroom().getStatus() == 'F')
                     .build();
             chatroomList.add(getChatroomResDto);
 
@@ -91,8 +97,10 @@ public class ChatServiceImpl implements ChatService {
     public DataResDto<?> makeMatch(MakeMatchReqDto makeMatchREqDto, Member member) {
         Member opponent = memberRepository.findByMemberUuid(makeMatchREqDto.getOpponentUuid())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-        Article article = articleRepository.findByArticleId(makeMatchREqDto.getArticleId())
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
+        Chatroom chatroom = chatroomRepoistory.findByChatRoomId(makeMatchREqDto.getChatroomId())
+                .orElseThrow(()-> new NoSuchElementException(ErrorMessageEnum.CHATMEMBER_NOT_EXIST.getMessage()));
+        Article article = chatroom.getArticle();
+
         if (article.getStatus() == 'T') {
             //article status변경
             article.setStatus('F');
@@ -110,6 +118,10 @@ public class ChatServiceImpl implements ChatService {
                     .article(article)
                     .build();
             matchHistoryRepository.save(matchHistory2);
+            //chatroom의 매칭여부 변경
+            chatroom.setStatus('F');
+            chatroomRepoistory.save(chatroom);
+
             return DataResDto.builder().data(true).message("매칭에 성공했습니다.").build();
         } else {
             return DataResDto.builder().status(400).data(false).message("이미 매칭된 게시글입니다.").build();
@@ -139,6 +151,9 @@ public class ChatServiceImpl implements ChatService {
                         .lastMessage(lastChatMessage.getText())
                         .articleId(article.getArticleId())
                         .articleTitle(article.getTitle())
+                        .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponentUser.getSurvey()))
+                        .status(article.getStatus())
+                        .isMatch(optionalChatroom.get().getStatus() == 'F')
                         .build();
                 return DataResDto.builder().data(getChatroomResDto).message("채팅방을 생성했습니다.").build();
             } else {
@@ -178,6 +193,9 @@ public class ChatServiceImpl implements ChatService {
                 .lastMessage("여만추를 원하는 당신에게 선물 ~")
                 .articleId(article.getArticleId())
                 .articleTitle(article.getTitle())
+                .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponentUser.getSurvey()))
+                .status(article.getStatus())
+                .isMatch(false)
                 .build();
         return DataResDto.builder().data(getChatroomResDto).message("채팅방을 생성했습니다.").build();
     }

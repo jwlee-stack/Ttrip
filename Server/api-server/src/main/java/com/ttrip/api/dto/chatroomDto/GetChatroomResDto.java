@@ -19,6 +19,8 @@ public class GetChatroomResDto {
     private String imagePath;
     @ApiModelProperty(value = "상대의 uuid")
     private String memberUuid;
+    @ApiModelProperty(value = "매칭 유사도", example = "78")
+    private int similarity;
     @ApiModelProperty(value = "마지막 메세지", example = "그럼 거기서 봐요")
     private String lastMessage;
     @ApiModelProperty(value = "챗룸 id", example = "51")
@@ -29,4 +31,8 @@ public class GetChatroomResDto {
     private String articleTitle;
     @ApiModelProperty(value = "관련 article id", example = "1")
     private Integer articleId;
+    @ApiModelProperty(value = "관련 article status",notes = "T모집중, F모집 완료, D 삭제됨", example = "T")
+    private char status;
+    @ApiModelProperty(value = "매칭 여부", example = "true")
+    private Boolean isMatch;
 }
