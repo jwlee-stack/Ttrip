@@ -62,5 +62,4 @@ public class LiveRedisDao {
     public Set<String> getMemberUuidsInCity(String city){
         return liveHashOperations.keys(city);
     }
-
 }
