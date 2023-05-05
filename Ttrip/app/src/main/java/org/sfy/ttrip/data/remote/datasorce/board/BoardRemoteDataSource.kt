@@ -12,4 +12,8 @@ interface BoardRemoteDataSource {
     suspend fun deleteBoard(boardId: Int)
 
     suspend fun finishBoard(boardId: Int)
+
+    suspend fun getBoardComment(boardId: Int): List<BoardCommentResponse>
+
+    suspend fun postComment(body: CommentRequest)
 }

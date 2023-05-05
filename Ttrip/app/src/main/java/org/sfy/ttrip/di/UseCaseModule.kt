@@ -12,6 +12,7 @@ import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
+import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
 import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
@@ -20,8 +21,11 @@ import org.sfy.ttrip.domain.usecase.chat.CreateChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.ExitChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
+import org.sfy.ttrip.domain.usecase.board.*
+import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
@@ -90,6 +94,11 @@ object UseCaseModule {
 
     @Singleton
     @Provides
+    fun provideGetBoardCommentUseCase(boardRepository: BoardRepository): GetBoardCommentUseCase =
+        GetBoardCommentUseCase(boardRepository)
+
+    @Singleton
+    @Provides
     fun provideUpdateBackgroundImgUseCase(myPageRepository: MyPageRepository): UpdateBackgroundImgUseCase =
         UpdateBackgroundImgUseCase(myPageRepository)
 
@@ -97,6 +106,11 @@ object UseCaseModule {
     @Provides
     fun provideUpdateProfileImgUseCase(myPageRepository: MyPageRepository): UpdateProfileImgUseCase =
         UpdateProfileImgUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun providePostCommentUseCase(boardRepository: BoardRepository): PostCommentUseCase =
+        PostCommentUseCase(boardRepository)
 
     @Singleton
     @Provides
@@ -117,4 +131,9 @@ object UseCaseModule {
     @Provides
     fun provideCreateChatRoomUseCase(chatRepository: ChatRepository): CreateChatRoomUseCase =
         CreateChatRoomUseCase(chatRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfileUseCase(myPageRepository: MyPageRepository): GetUserProfileUseCase =
+        GetUserProfileUseCase(myPageRepository)
 }

@@ -5,22 +5,30 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImgString
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
-    BoardDialogListener {
+    BoardDialogListener,
+    CommentDialogListener {
 
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
+    private val boardCommentListAdapter by lazy {
+        BoardCommentListAdapter(this::selectComment, requireContext())
+    }
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         getData()
         initListener()
+        initRecyclerView()
     }
 
     override fun onDestroy() {
@@ -38,6 +46,11 @@ class BoardDetailFragment :
         popBackStack()
     }
 
+    override fun addComment(boardId: Int, content: String?) {
+        if (content == "") showToast("내용을 입력하세요!")
+        else viewModel.postComment(boardId, content)
+    }
+
     private fun initListener() {
         binding.apply {
             tvFinishBoard.setOnClickListener {
@@ -50,7 +63,11 @@ class BoardDetailFragment :
             }
 
             tvPostBoardComment.setOnClickListener {
-                // 신청 예정
+                CommentDialog(
+                    requireActivity(),
+                    this@BoardDetailFragment,
+                    boardDetail!!.articleId,
+                ).show()
             }
 
             ivDeleteOption.setOnClickListener {
@@ -73,10 +90,13 @@ class BoardDetailFragment :
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
-                //ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
 
                 // 본인 게시물
-                if (it!!.isMine) {
+                if (it.isMine) {
+                    initRecyclerView()
+                    boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, true)
+
                     tvPostBoardComment.visibility = View.GONE
                     tvFinishBoard.visibility = View.VISIBLE
 
@@ -90,6 +110,8 @@ class BoardDetailFragment :
                         changeVisibility(tvFinishBoard, false)
                     }
                 } else {
+                    initRecyclerView()
+                    boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, false)
                     // 타인 게시물
                     tvPostBoardComment.visibility = View.VISIBLE
                     tvFinishBoard.visibility = View.GONE
@@ -103,11 +125,14 @@ class BoardDetailFragment :
                         // 이미 신청한 경우
                         if (it.isApplied) {
                             changeVisibility(tvPostBoardComment, false)
+                            tvPostBoardComment.text = "신청 완료"
                         } else {
-                            changeVisibility(tvPostBoardComment, it.status.toString() == "T")
+                            changeVisibility(tvPostBoardComment, true)
+                            tvPostBoardComment.text = "신청 하기"
                         }
                     } else {
                         changeVisibility(tvPostBoardComment, false)
+                        tvPostBoardComment.text = "모집 완료"
                     }
                 }
 
@@ -141,6 +166,16 @@ class BoardDetailFragment :
             }
         }
         viewModel.getBoardDetail(args.boardId)
+
+        binding.apply {
+            if (args.dDay <= 3) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
+            } else if (args.dDay <= 10) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
+            } else {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_royal_blue_top_radius20)
+            }
+        }
     }
 
     private fun changeVisibility(textView: TextView, boolean: Boolean) {
@@ -158,5 +193,17 @@ class BoardDetailFragment :
                 }
             }
         }
+    }
+
+    private fun initRecyclerView() {
+        viewModel.getBoardComment(args.boardId)
+        binding.rvBoardDetailComment.apply {
+            adapter = boardCommentListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun selectComment(nickName: String) {
+
     }
 }

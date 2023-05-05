@@ -2,6 +2,7 @@ package org.sfy.ttrip.data.remote.datasorce.board
 
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
+import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.entity.board.BoardDetail
 
 data class BoardDetailResponse(
@@ -32,7 +33,9 @@ data class BoardDetailResponse(
     @SerializedName("isApplied")
     val isApplied: Boolean,
     @SerializedName("similarity")
-    val similarity: Int
+    val similarity: Int,
+    @SerializedName("searchApplyResDtoList")
+    val searchApplyResDtoList: List<BoardComment>
 ) : DataToDomainMapper<BoardDetail> {
     override fun toDomainModel(): BoardDetail =
         BoardDetail(
@@ -49,6 +52,7 @@ data class BoardDetailResponse(
             status,
             isMine,
             isApplied,
-            similarity
+            similarity,
+            searchApplyResDtoList
         )
 }

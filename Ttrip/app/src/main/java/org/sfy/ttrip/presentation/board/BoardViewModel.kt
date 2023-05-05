@@ -9,11 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
+import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.entity.board.BoardDetail
-import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
-import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
-import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
-import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
+import org.sfy.ttrip.domain.usecase.board.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,12 +19,16 @@ class BoardViewModel @Inject constructor(
     private val getBoardBriefUseCase: GetBoardBriefUseCase,
     private val getBoardDetailUseCase: GetBoardDetailUseCase,
     private val deleteBoardUseCase: DeleteBoardUseCase,
-    private val finishBoardUseCase: FinishBoardUseCase
+    private val finishBoardUseCase: FinishBoardUseCase,
+    private val getBoardCommentUseCase: GetBoardCommentUseCase,
+    private val postCommentUseCase: PostCommentUseCase
 ) : ViewModel() {
 
-    private val _boardListData: MutableLiveData<List<BoardBrief>?> =
-        MutableLiveData()
+    private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
     val boardListData: LiveData<List<BoardBrief>?> = _boardListData
+
+    private val _boardCommentListData: MutableLiveData<List<BoardComment>?> = MutableLiveData()
+    val boardCommentListData: LiveData<List<BoardComment>?> = _boardCommentListData
 
     private val _boardData: MutableLiveData<BoardDetail?> = MutableLiveData()
     val boardData: LiveData<BoardDetail?> = _boardData
@@ -56,15 +58,34 @@ class BoardViewModel @Inject constructor(
         }
     }
 
+    fun getBoardComment(boardId: Int) {
+        viewModelScope.launch {
+            when (val value = getBoardCommentUseCase(boardId)) {
+                is Resource.Success<List<BoardComment>> -> {
+                    _boardCommentListData.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getBoardComment", "getBoardComment: ${value.errorMessage}")
+                }
+            }
+        }
+    }
+
     fun deleteBoard(boardId: Int) {
         viewModelScope.launch {
             deleteBoardUseCase.invoke(boardId)
         }
     }
 
-    fun finishBoard(boardId: Int){
+    fun finishBoard(boardId: Int) {
         viewModelScope.launch {
             finishBoardUseCase.invoke(boardId)
+        }
+    }
+
+    fun postComment(boardId: Int, content: String?) {
+        viewModelScope.launch {
+            postCommentUseCase.invoke(boardId, content!!)
         }
     }
 }

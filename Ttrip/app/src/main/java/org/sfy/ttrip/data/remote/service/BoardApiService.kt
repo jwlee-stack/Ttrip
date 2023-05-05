@@ -1,10 +1,7 @@
 package org.sfy.ttrip.data.remote.service
 
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
-import org.sfy.ttrip.data.remote.datasorce.board.BoardBriefResponse
-import org.sfy.ttrip.data.remote.datasorce.board.BoardDetailResponse
-import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
-import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
+import org.sfy.ttrip.data.remote.datasorce.board.*
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -27,4 +24,10 @@ interface BoardApiService {
 
     @DELETE("/api/articles/{articleId}")
     suspend fun deleteBoard(@Path("articleId") articleId: Int)
+
+    @GET("/api/articles/{articleId}/applyArticle/")
+    suspend fun getBoardComment(@Path("articleId") articleId: Int): BaseResponse<List<BoardCommentResponse>>
+
+    @POST("/api/articles/newApply")
+    suspend fun postComment(@Body body: CommentRequest)
 }
