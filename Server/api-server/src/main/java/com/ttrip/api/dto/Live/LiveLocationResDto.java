@@ -50,7 +50,7 @@ public class LiveLocationResDto {
         this.matchingRate = matchingRate;
         this.profileImgPath = other.getProfileImgPath();
         this.markerImgPath = other.getMarkerImgPath();
-        this.distanceFromMe = getDistance(memberLat, memberLng, otherLocation.getLongitude(), otherLocation.getLatitude());
+        this.distanceFromMe = getDistance(memberLat, memberLng, otherLocation.getLatitude(), otherLocation.getLongitude());
     }
 
     /**
