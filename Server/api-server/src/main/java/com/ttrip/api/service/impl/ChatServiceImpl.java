@@ -153,7 +153,7 @@ public class ChatServiceImpl implements ChatService {
                         .articleTitle(article.getTitle())
                         .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponentUser.getSurvey()))
                         .status(article.getStatus())
-                        .isMatch(false)
+                        .isMatch(optionalChatroom.get().getStatus() == 'F')
                         .build();
                 return DataResDto.builder().data(getChatroomResDto).message("채팅방을 생성했습니다.").build();
             } else {
