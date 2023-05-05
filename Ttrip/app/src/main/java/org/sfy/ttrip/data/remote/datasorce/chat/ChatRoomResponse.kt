@@ -3,7 +3,6 @@ package org.sfy.ttrip.data.remote.datasorce.chat
 import com.google.gson.annotations.SerializedName
 import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
 import org.sfy.ttrip.domain.entity.chat.ChatRoom
-import java.time.LocalDateTime
 
 data class ChatRoomResponse(
     @SerializedName("imagePath")
@@ -11,14 +10,27 @@ data class ChatRoomResponse(
     @SerializedName("nickname")
     val otherNickname: String,
     @SerializedName("updatedAt")
-    val updatedAt: LocalDateTime,
+    val updatedAt: String,
     @SerializedName("lastMessage")
     val lastMessage: String,
-    @SerializedName("chatId")
+    @SerializedName("chatroomId")
     val chatId: Int,
-    @SerializedName("uuid")
-    val otherUuid: String
+    @SerializedName("memberUuid")
+    val otherUuid: String,
+    @SerializedName("articleTitle")
+    val articleTitle: String,
+    @SerializedName("articleId")
+    val articleId: Int
 ) : DataToDomainMapper<ChatRoom> {
     override fun toDomainModel(): ChatRoom =
-        ChatRoom(imagePath, otherNickname, updatedAt, lastMessage, chatId, otherUuid)
+        ChatRoom(
+            imagePath,
+            otherNickname,
+            updatedAt,
+            lastMessage,
+            chatId,
+            otherUuid,
+            articleTitle,
+            articleId
+        )
 }

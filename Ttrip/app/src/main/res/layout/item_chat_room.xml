@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="chat"
+            type="org.sfy.ttrip.domain.entity.chat.ChatRoom" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +25,7 @@
             android:id="@+id/iv_info_profile"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:profileImgString="@{chat.imagePath}"
             android:contentDescription="@string/image_info_profile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +47,7 @@
                 android:fontFamily="@font/sc_dream6"
                 android:textColor="@color/black"
                 android:textSize="14sp"
+                android:text="@{chat.otherNickname}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="림림" />
@@ -71,6 +75,7 @@
                 android:maxLines="1"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
+                android:text="@{chat.lastMessage}"
                 app:layout_constraintStart_toStartOf="@id/tv_info_nickname"
                 app:layout_constraintTop_toBottomOf="@id/tv_info_nickname"
                 tools:text="안녕하세요안녕하세요안녕하세요안녕하세요" />

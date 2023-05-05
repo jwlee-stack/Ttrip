@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.dateFormat
 import org.sfy.ttrip.databinding.ItemChatBinding
 import org.sfy.ttrip.domain.entity.chat.ChatDetail
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 class ChatDetailAdapter : RecyclerView.Adapter<ChatDetailAdapter.ChatDetailViewHolder>() {
 
@@ -36,22 +35,19 @@ class ChatDetailAdapter : RecyclerView.Adapter<ChatDetailAdapter.ChatDetailViewH
         private val binding: ItemChatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ChatDetail) {
-
-            val formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-
-            binding.apply {
-                if (data.isMine) {
-                    binding.apply {
-                        clOtherMessage.visibility = View.GONE
-                        tvMyMessage.text = data.content
-                        tvMyTime.text = data.createdDate.format(formatter)
-                    }
-                } else {
-                    binding.apply {
-                        clMyMessage.visibility = View.GONE
-                        tvOtherMessage.text = data.content
-                        tvOtherTime.text = data.createdDate.format(formatter)
-                    }
+            if (data.isMine) {
+                binding.apply {
+                    clOtherMessage.visibility = View.GONE
+                    clMyMessage.visibility = View.VISIBLE
+                    tvMyMessage.text = data.content
+                    tvMyTime.text = dateFormat(data.createdDate)
+                }
+            } else {
+                binding.apply {
+                    clMyMessage.visibility = View.GONE
+                    clOtherMessage.visibility = View.VISIBLE
+                    tvOtherMessage.text = data.content
+                    tvOtherTime.text = dateFormat(data.createdDate)
                 }
             }
         }

@@ -38,7 +38,7 @@
         android:id="@+id/chatFragment"
         android:name="org.sfy.ttrip.presentation.chat.ChatFragment"
         android:label="chatFragment"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_chat">
         <action
             android:id="@+id/action_chatFragment_to_chatDetailFragment"
             app:destination="@id/chatDetailFragment" />
@@ -85,6 +85,22 @@
         tools:layout="@layout/fragment_chat_detail">
         <argument
             android:name="chatId"
+            app:argType="integer" />
+        <argument
+            android:name="memberId"
+            app:argType="string" />
+        <argument
+            android:name="imagePath"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="articleTitle"
+            app:argType="string" />
+        <argument
+            android:name="nickname"
+            app:argType="string" />
+        <argument
+            android:name="articleId"
             app:argType="integer" />
     </fragment>
 </navigation>
