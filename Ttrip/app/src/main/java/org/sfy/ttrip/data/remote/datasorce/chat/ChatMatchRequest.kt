@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class ChatMatchRequest(
     @SerializedName("articleId")
     val articleId: Int,
-    @SerializedName("opponentUserUuid")
+    @SerializedName("opponentUuid")
     val opponentUserUuid: String
 )

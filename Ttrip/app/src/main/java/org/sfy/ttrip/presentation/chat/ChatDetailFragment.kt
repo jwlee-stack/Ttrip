@@ -1,5 +1,7 @@
 package org.sfy.ttrip.presentation.chat
 
+import android.annotation.SuppressLint
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +22,25 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
+        initListener()
         initRecyclerView()
         setChatInfo()
         setChatRoom(args.chatId)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun initListener() {
+        binding.apply {
+            clMatching.setOnClickListener {
+                chatViewModel.chatMatch(args.articleId, args.memberId)
+                it.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius40)
+                it.isEnabled = false
+                tvMatching.setTextColor(R.color.black)
+                tvMatching.text = "매칭완료"
+                ivMatching.visibility = View.GONE
+                showToast("매칭 요청되었습니다!")
+            }
+        }
     }
 
     private fun initRecyclerView() {

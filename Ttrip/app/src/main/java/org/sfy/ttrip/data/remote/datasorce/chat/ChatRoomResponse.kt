@@ -18,8 +18,19 @@ data class ChatRoomResponse(
     @SerializedName("memberUuid")
     val otherUuid: String,
     @SerializedName("articleTitle")
-    val articleTitle: String
+    val articleTitle: String,
+    @SerializedName("articleId")
+    val articleId: Int
 ) : DataToDomainMapper<ChatRoom> {
     override fun toDomainModel(): ChatRoom =
-        ChatRoom(imagePath, otherNickname, updatedAt, lastMessage, chatId, otherUuid, articleTitle)
+        ChatRoom(
+            imagePath,
+            otherNickname,
+            updatedAt,
+            lastMessage,
+            chatId,
+            otherUuid,
+            articleTitle,
+            articleId
+        )
 }

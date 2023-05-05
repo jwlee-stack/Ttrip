@@ -99,5 +99,8 @@
         <argument
             android:name="nickname"
             app:argType="string" />
+        <argument
+            android:name="articleId"
+            app:argType="integer" />
     </fragment>
 </navigation>
