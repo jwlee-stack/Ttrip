@@ -116,6 +116,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <DatePicker
+                android:id="@+id/dp_post_board_start_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
@@ -142,6 +143,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <DatePicker
+                android:id="@+id/dp_post_board_end_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
