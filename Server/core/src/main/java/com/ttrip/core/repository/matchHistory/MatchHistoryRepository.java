@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface MatchHistoryRepository extends JpaRepository<MatchHistory, Integer> {
     List<MatchHistory> findByEvaluator(Member evaluator);
     Optional<MatchHistory> findByMatchHistoryId(Integer matchHistoryId);
+    List<MatchHistory> findByRateIsNullAndArticleIsNotNull();
+    List<MatchHistory> findByRateIsNullAndArticleIsNull();
 }

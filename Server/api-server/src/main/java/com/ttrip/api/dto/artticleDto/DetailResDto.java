@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -43,5 +45,7 @@ public class DetailResDto {
         private Boolean isApplied;
         @ApiModelProperty(value = "매칭 유사도", example = "78.5")
         private float similarity;
+        @ApiModelProperty(value = "매칭 신청글 리스트")
+        private List<SearchApplyResDto> searchApplyResDtoList;
 
 }

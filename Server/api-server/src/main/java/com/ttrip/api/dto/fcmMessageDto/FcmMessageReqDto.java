@@ -2,6 +2,7 @@ package com.ttrip.api.dto.fcmMessageDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "FcmMessageReqDto", description = "fcm 요청 DTO")
 public class FcmMessageReqDto {
