@@ -40,7 +40,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
         memberId: String,
         imagePath: String?,
         articleTitle: String,
-        nickname: String
+        nickname: String,
+        articleId: Int
     ) {
         navigate(
             ChatFragmentDirections.actionChatFragmentToChatDetailFragment(
@@ -48,7 +49,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat) {
                 memberId,
                 imagePath,
                 articleTitle,
-                nickname
+                nickname,
+                articleId
             )
         )
     }

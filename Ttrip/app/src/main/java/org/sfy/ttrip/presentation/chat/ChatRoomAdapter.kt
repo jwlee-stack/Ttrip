@@ -15,7 +15,8 @@ class ChatRoomAdapter(
         memberId: String,
         imagePath: String?,
         articleTitle: String,
-        nickname: String
+        nickname: String,
+        articleId: Int
     ) -> Unit
 ) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
 
@@ -45,7 +46,8 @@ class ChatRoomAdapter(
             memberId: String,
             imagePath: String?,
             articleTitle: String,
-            nickname: String
+            nickname: String,
+            articleId: Int
         ) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ChatRoom) {
@@ -58,7 +60,8 @@ class ChatRoomAdapter(
                         data.otherUuid,
                         data.imagePath,
                         data.articleTitle,
-                        data.otherNickname
+                        data.otherNickname,
+                        data.articleId
                     )
                 }
             }
