@@ -1,7 +1,6 @@
 package org.sfy.ttrip.presentation.board
 
 import android.graphics.Color
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import org.sfy.ttrip.MainActivity
@@ -65,8 +64,9 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                             binding.tvNextPost.apply {
                                 text = "등록"
                                 setOnClickListener {
-                                    viewModel.
+                                    viewModel.postBoard()
                                 }
+                                popBackStack()
                             }
                         }
                     }
