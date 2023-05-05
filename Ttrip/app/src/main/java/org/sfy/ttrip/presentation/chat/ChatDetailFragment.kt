@@ -3,10 +3,14 @@ package org.sfy.ttrip.presentation.chat
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
@@ -26,6 +30,12 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         initRecyclerView()
         setChatInfo()
         setChatRoom(args.chatId)
+        sendMessage()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chatViewModel.disconnectSocket()
     }
 
     @SuppressLint("ResourceAsColor")
@@ -58,10 +68,22 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         }
     }
 
+    private fun sendMessage() {
+        binding.ivSendMessage.setOnClickListener {
+            lifecycleScope.launch {
+                chatViewModel.sendMessage(binding.etChat.text.toString())
+                binding.etChat.setText("")
+                delay(300)
+                chatViewModel.getChatDetail(args.chatId)
+            }
+        }
+    }
+
     private fun setChatRoom(chatId: Int) {
         chatViewModel.chatDetail.observe(viewLifecycleOwner) { response ->
             response?.let { chatDetailAdapter.setChat(it) }
         }
         chatViewModel.getChatDetail(chatId)
+        chatViewModel.connectSocket(chatId, args.memberId, ApplicationClass.preferences.userId!!)
     }
 }
