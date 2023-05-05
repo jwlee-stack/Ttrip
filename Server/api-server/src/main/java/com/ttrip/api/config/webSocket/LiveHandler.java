@@ -7,6 +7,7 @@ import com.ttrip.core.dto.live.LiveAllLocationsDto;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.liveRedisDao.LiveRedisDao;
 import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.repository.surveyRedisDao.SurveyRedisDao;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import com.ttrip.core.utils.EuclideanDistanceUtil;
 import org.apache.logging.log4j.LogManager;
@@ -27,14 +28,17 @@ public class LiveHandler extends TextWebSocketHandler {
             new ConcurrentHashMap<>();
     private final Logger logger = LogManager.getLogger(LiveHandler.class);
     private final LiveRedisDao liveRedisDao;
+    private final SurveyRedisDao surveyRedisDao;
     private final MemberRepository memberRepository;
     private final EuclideanDistanceUtil rateUtil;
     private final static double DELETE = -1;
 
     public LiveHandler(LiveRedisDao liveRedisDao,
+                       SurveyRedisDao surveyRedisDao,
                        MemberRepository memberRepository,
                        EuclideanDistanceUtil rateUtil) {
         this.liveRedisDao = liveRedisDao;
+        this.surveyRedisDao = surveyRedisDao;
         this.memberRepository = memberRepository;
         this.rateUtil = rateUtil;
     }
@@ -45,11 +49,11 @@ public class LiveHandler extends TextWebSocketHandler {
         Map<String, String> vars = getPathVariable(session);
         logger.info(String.format("********** LiveService : %s is connected **********", vars.get("memberUuid")));
         // survey cache
-//        if (Objects.isNull(liveRedisDao.getSurveyCache(vars.get("memberUuid")))){
-//            Member member = memberRepository.findByMemberUuid(UUID.fromString(vars.get("memberUuid")))
-//                    .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-//            liveRedisDao.saveSurveyCache(vars.get("memberUuid"), member.getSurvey().toVector());
-//        }
+        if (Objects.isNull(surveyRedisDao.getSurveyCache(vars.get("memberUuid")))){
+            Member member = memberRepository.findByMemberUuid(UUID.fromString(vars.get("memberUuid")))
+                    .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            surveyRedisDao.saveSurveyCache(vars.get("memberUuid"), member.getSurvey().toVector());
+        }
         clients.put(vars.get("memberUuid"), session);
     }
 
@@ -118,20 +122,20 @@ public class LiveHandler extends TextWebSocketHandler {
         // 1. 유저가 위치한 도시에 존재하는 다른 유저의 id, longitude, latitude 목록 조회
         List<LiveAllLocationsDto> allLocationsInCity = liveRedisDao.getAllLocationsInCity(payload.getCity());
         // 2. sender survey 정보
-//        double[] senderVector = liveRedisDao.getSurveyCache(payload.getMemberUuid());
+        double[] senderVector = surveyRedisDao.getSurveyCache(payload.getMemberUuid());
         double[] receiverVector;
         // 3. 도시에 속한 유저들에게 변경 정보 전송(변경된 유저 아이디, 위치, 거리)
         for (LiveAllLocationsDto otherInfo : allLocationsInCity) {
             if (Objects.equals(otherInfo.getMemberUuid(), payload.getMemberUuid())) continue;
             WebSocketSession memberSession = clients.get(otherInfo.getMemberUuid());
-//            receiverVector = liveRedisDao.getSurveyCache(otherInfo.getMemberUuid());
+            receiverVector = surveyRedisDao.getSurveyCache(otherInfo.getMemberUuid());
             if (!Objects.isNull(memberSession) && memberSession.isOpen())
                 memberSession.sendMessage(
                         new TextMessage(
                                 new Gson().toJson(
                                         LiveLocationResDto.builder()
                                                 .payload(payload)
-//                                                .matchingRate(rateUtil.getMatchingRateByVectors(senderVector, receiverVector))
+                                                .matchingRate(rateUtil.getMatchingRateByVectors(senderVector, receiverVector))
                                                 .otherLatitude(otherInfo.getLatitude())
                                                 .otherLongitude(otherInfo.getLongitude())
                                                 .build()))

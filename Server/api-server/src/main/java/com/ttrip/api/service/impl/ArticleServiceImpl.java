@@ -15,6 +15,7 @@ import com.ttrip.core.repository.applyArticle.ApplyArticleRepository;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
+import com.ttrip.core.utils.EuclideanDistanceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final FcmService fcmService;
 
     private final ApplyArticleRepository applyArticleRepository;
+
+    private final EuclideanDistanceUtil euclideanDistanceUtil;
 
     @Override
     public DataResDto<?> search(SearchReqDto searchReqDto) {
@@ -66,7 +69,10 @@ public class ArticleServiceImpl implements ArticleService {
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList) {
-            searchResultDtoList.add(SearchResDto.toBuild(article));
+            //삭제 되지 않으면
+            if(article.getStatus() != 'D') {
+                searchResultDtoList.add(SearchResDto.toBuild(article));
+            }
         }
         return DataResDto.builder().message("게시글 목록을 검색했습니다.").data(searchResultDtoList).build();
     }
@@ -118,7 +124,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .status(article.getStatus())
                     .isMine(member.equals(article.getMember()))
                     .isApplied(applyArticleRepository.existsByArticleAndMember(article, member))
-                    .similarity(100.0f)  //임의로 넣었어요
+                    .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), article.getMember().getSurvey()))
                     .searchApplyResDtoList(searchApply(article, member.getMemberUuid()))
                     .build();
 
@@ -129,14 +135,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    @Transactional
     public DataResDto<?> eraseArticle(Integer articleId, UUID memberUuid) {
         Article article = articleRepository.findById(articleId).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage()));
         if (!article.getMember().getMemberUuid().equals(memberUuid)) {
             throw new UnauthorizationException(ErrorMessageEnum.NO_AUTH.getMessage());
         }
         try {
-
+            article.setStatus('D');
             articleRepository.delete(article);
             return DataResDto.builder().message("게시글이 삭제되었습니다.").data(true).build();
         } catch (Exception e) {
@@ -187,7 +192,7 @@ public class ArticleServiceImpl implements ArticleService {
                         .applicantUuid(applyArticle.getMember().getMemberUuid())
                         .requestContent(applyArticle.getRequestContent())
                         .imgPath(applyArticle.getMember().getProfileImgPath())
-                        .similarity(100.0f)  //임의로 넣었어요2
+                        .similarity(euclideanDistanceUtil.getMatchingRate(article.getMember().getSurvey(), applyArticle.getMember().getSurvey()))
                         .build();
                 searchApplyResDtoList.add(searchApplyResDto);
             }
@@ -204,7 +209,7 @@ public class ArticleServiceImpl implements ArticleService {
                         .applicantUuid(applyArticle.getMember().getMemberUuid())
                         .requestContent(applyArticle.getRequestContent())
                         .imgPath(applyArticle.getMember().getProfileImgPath())
-                        .similarity(100.0f) //임의로 넣었어요3
+                        .similarity(100)
                         .build();
                 searchApplyResDtoList.add(searchApplyResDto);
             }

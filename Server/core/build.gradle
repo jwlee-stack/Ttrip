@@ -50,6 +50,7 @@ dependencies {
 
     //Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core'
 
     //fcm
     implementation 'com.google.firebase:firebase-admin:9.1.1'

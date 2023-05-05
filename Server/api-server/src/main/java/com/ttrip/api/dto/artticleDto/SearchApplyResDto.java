@@ -23,6 +23,6 @@ public class SearchApplyResDto {
     private String requestContent;
     @ApiModelProperty(value = "신청자 프로필이미지주소", example = "")
     private String imgPath;
-    @ApiModelProperty(value = "매칭 유사도", example = "78.5")
-    private float similarity;
+    @ApiModelProperty(value = "매칭 유사도", example = "78")
+    private int similarity;
 }
