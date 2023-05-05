@@ -307,6 +307,11 @@
                         app:layout_constraintTop_toBottomOf="@+id/tv_board_detail_content"
                         tools:listitem="@layout/list_item_board_detail_comment" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_board_detail_comment"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 

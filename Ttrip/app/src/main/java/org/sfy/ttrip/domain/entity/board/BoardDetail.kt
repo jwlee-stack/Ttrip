@@ -14,5 +14,6 @@ data class BoardDetail(
     val status: Char,
     val isMine: Boolean,
     val isApplied: Boolean,
-    val similarity: Int
+    val similarity: Int,
+    val searchApplyResDtoList: List<BoardComment>
 )

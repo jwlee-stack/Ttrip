@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImgString
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
@@ -48,7 +49,6 @@ class BoardDetailFragment :
     override fun addComment(boardId: Int, content: String?) {
         if (content == "") showToast("내용을 입력하세요!")
         else viewModel.postComment(boardId, content)
-        //viewModel.
     }
 
     private fun initListener() {
@@ -90,10 +90,11 @@ class BoardDetailFragment :
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
-                //ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                boardCommentListAdapter.setBoardComment(it.searchApplyResDtoList, it.isMine)
 
                 // 본인 게시물
-                if (it!!.isMine) {
+                if (it.isMine) {
                     tvPostBoardComment.visibility = View.GONE
                     tvFinishBoard.visibility = View.VISIBLE
 
@@ -161,7 +162,6 @@ class BoardDetailFragment :
             }
         }
         viewModel.getBoardDetail(args.boardId)
-        viewModel.getBoardComment(args.boardId)
 
         binding.apply {
             if (args.dDay <= 3) {
@@ -196,10 +196,6 @@ class BoardDetailFragment :
         binding.rvBoardDetailComment.apply {
             adapter = boardCommentListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        }
-
-        viewModel.boardCommentListData.observe(this@BoardDetailFragment) { response ->
-            response?.let { boardCommentListAdapter.setBoardComment(it) }
         }
     }
 

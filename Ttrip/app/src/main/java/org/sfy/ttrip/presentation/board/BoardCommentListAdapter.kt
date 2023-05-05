@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.R
-import org.sfy.ttrip.common.util.BindingAdapters.setNormalImg
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.ListItemBoardDetailCommentBinding
 import org.sfy.ttrip.domain.entity.board.BoardComment
 
@@ -21,6 +20,7 @@ class BoardCommentListAdapter(
 
     lateinit var binding: ListItemBoardDetailCommentBinding
     private var boardCommentList = listOf<BoardComment>()
+    private var isMine = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardCommentListViewHolder {
         binding = DataBindingUtil.inflate(
@@ -32,7 +32,8 @@ class BoardCommentListAdapter(
         return BoardCommentListViewHolder(
             binding,
             onBoardCommentItemClicked,
-            context
+            context,
+            isMine
         )
     }
 
@@ -46,19 +47,21 @@ class BoardCommentListAdapter(
     class BoardCommentListViewHolder(
         val binding: ListItemBoardDetailCommentBinding,
         private val onBoardCommentItemClicked: (nickName: String) -> Unit,
-        private val context: Context
+        private val context: Context,
+        private val isMine: Boolean
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: BoardComment) {
             binding.apply {
                 tvBoardDetailCommentUserNickName.text = data.applicantNickname
                 tvBoardDetailCommentUserContent.text = data.requestContent
-                ivBoardDetailCommentUserProfile.setNormalImg(data.imgPath)
+                ivBoardDetailCommentUserProfile.setProfileImg(data.imgPath)
 
-                if (data.applicantNickname == ApplicationClass.preferences.userId) {
+                if (isMine) {
                     root.setOnClickListener {
                         onBoardCommentItemClicked(data.applicantNickname)
                     }
                     tvBoardDetailCommentUserPercent.visibility = View.VISIBLE
+                    tvBoardDetailCommentUserPercent.text = "${data.similarity.toInt()}%"
 
                     if (data.similarity <= 50) {
                         clBoardDetailCommentItem.setBackgroundResource(R.drawable.bg_rect_lochmara_white_radius10_stroke1)
@@ -92,14 +95,16 @@ class BoardCommentListAdapter(
                     clBoardDetailCommentItem.setBackgroundResource(R.drawable.bg_rect_gainsboro_white_radius10_stroke1)
                     tvBoardDetailCommentUserPercent.visibility = View.INVISIBLE
                     tvBoardDetailCommentUserPercent.text = data.similarity.toInt().toString()
+                    root.isEnabled = false
                 }
             }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setBoardComment(boardCommentList: List<BoardComment>) {
+    fun setBoardComment(boardCommentList: List<BoardComment>, isMine: Boolean) {
         this.boardCommentList = boardCommentList
+        this.isMine = isMine
         notifyDataSetChanged()
     }
 }
