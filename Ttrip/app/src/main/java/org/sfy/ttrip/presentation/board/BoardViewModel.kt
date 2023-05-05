@@ -33,6 +33,18 @@ class BoardViewModel @Inject constructor(
     private val _boardData: MutableLiveData<BoardDetail?> = MutableLiveData()
     val boardData: LiveData<BoardDetail?> = _boardData
 
+    private val _postBoardTitle: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardTitle: MutableLiveData<String?> = _postBoardTitle
+
+    private val _postBoardContent: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardContent: MutableLiveData<String?> = _postBoardContent
+
+    private val _postStartDate: MutableLiveData<String?> = MutableLiveData(null)
+    val postStartDate: MutableLiveData<String?> = _postStartDate
+
+    private val _postEndDate: MutableLiveData<String?> = MutableLiveData(null)
+    val postEndDate: MutableLiveData<String?> = _postEndDate
+
     fun getBoards(condition: Int, nation: String, city: String, keyword: String) =
         viewModelScope.launch {
             when (val value = getBoardBriefUseCase(condition, nation, city, keyword)) {
@@ -87,5 +99,21 @@ class BoardViewModel @Inject constructor(
         viewModelScope.launch {
             postCommentUseCase.invoke(boardId, content!!)
         }
+    }
+
+    fun postBoardTitle(title: String?) {
+        _postBoardTitle.value = title
+    }
+
+    fun postBoardContent(content: String?) {
+        _postBoardContent.value = content
+    }
+
+    fun postStartDate(startDate: String?) {
+        _postStartDate.value = startDate
+    }
+
+    fun postEndDate(endDate: String?) {
+        _postEndDate.value = endDate
     }
 }
