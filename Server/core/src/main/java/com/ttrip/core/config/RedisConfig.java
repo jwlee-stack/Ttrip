@@ -62,17 +62,6 @@ public class RedisConfig {
         return socketRedisTemplate;
     }
 
-    @Bean(name = "openviduRedisTemplate")
-    public RedisTemplate<String, Object> openviduRedisTemplate(){
-        RedisTemplate<String, Object> openviduRedisTemplate = new RedisTemplate<>();
-        openviduRedisTemplate.setKeySerializer(new StringRedisSerializer());
-        openviduRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        openviduRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        openviduRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        openviduRedisTemplate.setConnectionFactory(redisConnectionFactory());
-        return openviduRedisTemplate;
-    }
-
     @Bean(name = "surveyRedisTemplate")
     public RedisTemplate<String, Object> surveyRedisTemplate(){
         RedisTemplate<String, Object> surveyRedisTemplate = new RedisTemplate<>();
