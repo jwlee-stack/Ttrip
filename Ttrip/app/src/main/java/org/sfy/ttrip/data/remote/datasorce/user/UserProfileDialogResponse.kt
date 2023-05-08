@@ -18,9 +18,9 @@ data class UserProfileDialogResponse(
     @SerializedName("markerImgPath")
     val markerImgPath: String,
     @SerializedName("backgroundImgPath")
-    val backgroundImgPath: String,
+    val backgroundImgPath: String?,
     @SerializedName("fcmToken")
-    val fcmToken: String,
+    val fcmToken: String?,
     @SerializedName("gender")
     val gender: String,
     @SerializedName("age")

@@ -6,6 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.BindingAdapters.setNormalImg
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.DialogUserInfoBinding
 
@@ -15,7 +18,7 @@ class UserProfileDialog(
     private val nickname: String,
     private val boardId: Int,
     private val uuid: String,
-    private val backgroundImgPath: String,
+    private val backgroundImgPath: String?,
     private val profileImgPath: String,
     private val similarity: Float,
     private val age: Int,
@@ -46,6 +49,10 @@ class UserProfileDialog(
             ivPostChat.setOnClickListener {
                 listener.postChats(boardId, uuid)
             }
+            ivCloseDialog.setOnClickListener {
+                listener.clear()
+                dismiss()
+            }
         }
     }
 
@@ -53,9 +60,10 @@ class UserProfileDialog(
         binding.apply {
             tvUserNickName.text = nickname
             ivUserProfile.setProfileImg(profileImgPath)
-            ivUserProfileBackground.setProfileImg(backgroundImgPath)
+            ivUserProfileBackground.setNormalImg(backgroundImgPath)
             tvUserInfoContent.text = intro
             tvProfileInfoAge.text = age.toString()
+            tvUserProfileSimilarity.text = "${similarity.toInt()}%"
 
             if (gender == "FEMALE") {
                 tvProfileInfoGender.text = "여성"
@@ -63,7 +71,31 @@ class UserProfileDialog(
                 tvProfileInfoGender.text = "남성"
             }
 
-            if (similarity)
+            if (similarity <= 50) {
+                tvUserProfileSimilarity.setBackgroundResource(R.drawable.bg_rect_lochmara2_alice_blue2_radius10_stroke1)
+                tvUserProfileSimilarity.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.lochmara
+                    )
+                )
+            } else if (similarity <= 80) {
+                tvUserProfileSimilarity.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.limerick
+                    )
+                )
+                tvUserProfileSimilarity.setBackgroundResource(R.drawable.bg_rect_limerick_twilight_blue_radius10_stroke1)
+            } else {
+                tvUserProfileSimilarity.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.medium_orchid
+                    )
+                )
+                tvUserProfileSimilarity.setBackgroundResource(R.drawable.bg_rect_medium_orchid_white_lilac_radius10_stroke1)
+            }
         }
     }
 }

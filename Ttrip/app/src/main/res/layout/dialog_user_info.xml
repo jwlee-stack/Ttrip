@@ -27,13 +27,22 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_rect_white_radius30">
 
-                <ImageView
-                    android:id="@+id/iv_user_profile_background"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_user_profile_background"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/bg_rect_white_top_radius30"
-                    android:contentDescription="@string/image_user_background"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_user_profile_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/image_user_background"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
                     android:id="@+id/iv_close_dialog"
@@ -66,7 +75,7 @@
                     android:src="@drawable/ic_profile_circle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/iv_user_profile_background" />
+                    app:layout_constraintTop_toTopOf="@+id/cl_user_profile_background" />
 
                 <TextView
                     android:id="@+id/tv_user_nick_name"
@@ -82,6 +91,7 @@
                     tools:text="림림" />
 
                 <TextView
+                    android:id="@+id/tv_user_profile_similarity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

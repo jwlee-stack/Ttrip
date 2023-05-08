@@ -1,5 +1,6 @@
 package org.sfy.ttrip.presentation.board
 
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -25,12 +26,16 @@ class BoardDetailFragment :
     private val boardCommentListAdapter by lazy {
         BoardCommentListAdapter(this::selectComment, requireContext(), args.boardId)
     }
+    private var boardId: Int = 0
+    private var similarity: Float = 0F
+    private var nickName: String = ""
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         getData()
         initListener()
         initRecyclerView()
+        initObserve()
     }
 
     override fun onDestroy() {
@@ -55,6 +60,10 @@ class BoardDetailFragment :
 
     override fun postChats(boardId: Int, uuid: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun clear() {
+        viewModel.clearUserProfile()
     }
 
     private fun initListener() {
@@ -213,22 +222,32 @@ class BoardDetailFragment :
         }
     }
 
-    private fun selectComment(nickName: String, boardId: Int, similarity: Float) {
-        viewModel.userProfileDialog.observe(this@BoardDetailFragment) {
-            UserProfileDialog(
-                requireActivity(),
-                this,
-                nickName,
-                boardId,
-                it!!.uuid,
-                it.backgroundImgPath,
-                it.profileImgPath,
-                similarity,
-                it.age,
-                it.gender,
-                it.intro
-            )
+    private fun initObserve() {
+        viewModel.userProfile.observe(this@BoardDetailFragment) {
+            Log.d("tpfla", "selectComment: ${it}")
+            Log.d("tpfla", "selectComment: ${similarity}")
+            if (it != null) {
+                UserProfileDialog(
+                    requireActivity(),
+                    this,
+                    nickName,
+                    boardId,
+                    it.uuid,
+                    it.backgroundImgPath,
+                    it.profileImgPath,
+                    similarity,
+                    it.age,
+                    it.gender,
+                    it.intro
+                ).show()
+            }
         }
+    }
+
+    private fun selectComment(nickName: String, boardId: Int, similarity: Float) {
+        this.nickName = nickName
+        this.boardId = boardId
+        this.similarity = similarity
         viewModel.getUserProfile(nickName)
     }
 }
