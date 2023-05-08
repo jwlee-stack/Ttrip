@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 @ApiModel(value = "배경 사진 업데이트 응답")
 public class BackgroundUpdateResDto {
-    @ApiModelProperty(value = "배경 사진 경로", example = "/var/lib/images/profile/aa.png")
+    @ApiModelProperty(value = "배경 사진 경로", example = "/var/lib/images/background/aa.png")
     private String backgroundImgPath;
 
     public static BackgroundUpdateResDto toBuild(Member member)
