@@ -1,8 +1,8 @@
 package com.ttrip.api.service.impl;
 
-import com.ttrip.api.dto.chatroomDto.ChatMessageResDto;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
+import com.ttrip.api.dto.chatroomDto.ChatMessageResDto;
 import com.ttrip.api.dto.chatroomDto.ExitChatReqDto;
 import com.ttrip.api.dto.chatroomDto.GetChatroomResDto;
 import com.ttrip.api.dto.matchDto.MakeMatchReqDto;
@@ -13,7 +13,6 @@ import com.ttrip.core.entity.chatmessage.ChatMessage;
 import com.ttrip.core.entity.chatroom.Chatroom;
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import com.ttrip.core.entity.member.Member;
-import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.chatMember.ChatMemberRepository;
 import com.ttrip.core.repository.chatMessage.ChatMessageRepository;
@@ -26,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,23 +53,40 @@ public class ChatServiceImpl implements ChatService {
                     .findFirst();
             ChatMessage lastMessage = chatMessageRepository.findByChatroomId(chatMember.getChatroom().getChatRoomId())
                     .get(chatMessageRepository.findByChatroomId(chatMember.getChatroom().getChatRoomId()).size() - 1);
-            //대화 상대가 있으면
-            Member opponent = optionalChatMember.get().getMember();
-            GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
-                    .chatroomId(chatMember.getChatroom().getChatRoomId())
-                    .nickname(opponent.getNickname())
-                    .memberUuid(opponent.getMemberUuid().toString())
-                    .lastMessage(lastMessage.getText())
-                    .updatedAt(lastMessage.getCreatedAt())
-                    .imagePath(opponent.getProfileImgPath())
-                    .articleId(chatMember.getChatroom().getArticle().getArticleId())
-                    .articleTitle(chatMember.getChatroom().getArticle().getTitle())
-                    .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponent.getSurvey()))
-                    .status(chatMember.getChatroom().getArticle().getStatus())
-                    .isMatch(chatMember.getChatroom().getStatus() == 'F')
-                    .build();
-            chatroomList.add(getChatroomResDto);
-
+            //대화 상대가 없으면
+            if (!optionalChatMember.isPresent()) {
+                GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
+                        .chatroomId(chatMember.getChatroom().getChatRoomId())
+                        .nickname("알수없음")
+                        .memberUuid("알수없음")
+                        .lastMessage(lastMessage.getText())
+                        .updatedAt(lastMessage.getCreatedAt())
+                        .imagePath(null)
+                        .articleId(chatMember.getChatroom().getArticle().getArticleId())
+                        .articleTitle(chatMember.getChatroom().getArticle().getTitle())
+                        .similarity(0)
+                        .status(chatMember.getChatroom().getArticle().getStatus())
+                        .isMatch(chatMember.getChatroom().getStatus() == 'F')
+                        .build();
+                chatroomList.add(getChatroomResDto);
+            } else {
+                //상대가 있으면
+                Member opponent = optionalChatMember.get().getMember();
+                GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
+                        .chatroomId(chatMember.getChatroom().getChatRoomId())
+                        .nickname(opponent.getNickname())
+                        .memberUuid(opponent.getMemberUuid().toString())
+                        .lastMessage(lastMessage.getText())
+                        .updatedAt(lastMessage.getCreatedAt())
+                        .imagePath(opponent.getProfileImgPath())
+                        .articleId(chatMember.getChatroom().getArticle().getArticleId())
+                        .articleTitle(chatMember.getChatroom().getArticle().getTitle())
+                        .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponent.getSurvey()))
+                        .status(chatMember.getChatroom().getArticle().getStatus())
+                        .isMatch(chatMember.getChatroom().getStatus() == 'F')
+                        .build();
+                chatroomList.add(getChatroomResDto);
+            }
         }
 
         return DataResDto.builder().data(chatroomList).message("채팅목록을 조회했습니다.").build();
@@ -98,7 +115,7 @@ public class ChatServiceImpl implements ChatService {
         Member opponent = memberRepository.findByMemberUuid(makeMatchREqDto.getOpponentUuid())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         Chatroom chatroom = chatroomRepoistory.findByChatRoomId(makeMatchREqDto.getChatroomId())
-                .orElseThrow(()-> new NoSuchElementException(ErrorMessageEnum.CHATMEMBER_NOT_EXIST.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.CHATMEMBER_NOT_EXIST.getMessage()));
         Article article = chatroom.getArticle();
 
         if (article.getStatus() == 'T') {
@@ -203,11 +220,18 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public DataResDto<?> getDetail(Integer chatRoomId, Member member) {
         List<ChatMessageResDto> chatMessageResDtoList = new ArrayList<>();
+        LocalDate localDate = LocalDate.parse(	"2000-01-01");
         for (ChatMessage chatMessage : chatMessageRepository.findByChatroomId(chatRoomId)) {
+            Boolean isFirst = false;
+            if (! localDate.equals(chatMessage.getCreatedAt().toLocalDate())){
+                isFirst = true;
+                localDate = chatMessage.getCreatedAt().toLocalDate();
+            }
             ChatMessageResDto chatMessageResDto = ChatMessageResDto.builder()
                     .content(chatMessage.getText())
                     .createdAt(chatMessage.getCreatedAt())
                     .isMine(member.getMemberUuid().toString().equals(chatMessage.getMemberUuid()))
+                    .isFirst(isFirst)
                     .build();
             chatMessageResDtoList.add(chatMessageResDto);
         }
