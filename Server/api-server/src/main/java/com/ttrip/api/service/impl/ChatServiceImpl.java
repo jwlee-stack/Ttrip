@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,11 +220,18 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public DataResDto<?> getDetail(Integer chatRoomId, Member member) {
         List<ChatMessageResDto> chatMessageResDtoList = new ArrayList<>();
+        LocalDate localDate = LocalDate.parse(	"2000-01-01");
         for (ChatMessage chatMessage : chatMessageRepository.findByChatroomId(chatRoomId)) {
+            Boolean isFirst = false;
+            if (! localDate.equals(chatMessage.getCreatedAt().toLocalDate())){
+                isFirst = true;
+                localDate = chatMessage.getCreatedAt().toLocalDate();
+            }
             ChatMessageResDto chatMessageResDto = ChatMessageResDto.builder()
                     .content(chatMessage.getText())
                     .createdAt(chatMessage.getCreatedAt())
                     .isMine(member.getMemberUuid().toString().equals(chatMessage.getMemberUuid()))
+                    .isFirst(isFirst)
                     .build();
             chatMessageResDtoList.add(chatMessageResDto);
         }

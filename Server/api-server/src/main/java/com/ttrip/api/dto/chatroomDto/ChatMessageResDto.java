@@ -16,4 +16,6 @@ public class ChatMessageResDto {
     private String content;
     @ApiModelProperty(value = "발송시간")
     private LocalDateTime createdAt;
+    @ApiModelProperty(value = "오늘 첫 메세지")
+    private Boolean isFirst;
 }
