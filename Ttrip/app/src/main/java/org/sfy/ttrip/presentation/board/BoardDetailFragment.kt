@@ -10,17 +10,20 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
+import org.sfy.ttrip.common.util.UserProfileDialog
+import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
     BoardDialogListener,
-    CommentDialogListener {
+    CommentDialogListener,
+    UserProfileDialogListener {
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
     private val boardCommentListAdapter by lazy {
-        BoardCommentListAdapter(this::selectComment, requireContext())
+        BoardCommentListAdapter(this::selectComment, requireContext(), args.boardId)
     }
 
     override fun initView() {
@@ -48,6 +51,10 @@ class BoardDetailFragment :
     override fun addComment(boardId: Int, content: String?) {
         if (content == "") showToast("내용을 입력하세요!")
         else viewModel.postComment(boardId, content)
+    }
+
+    override fun postChats(boardId: Int, uuid: String) {
+        TODO("Not yet implemented")
     }
 
     private fun initListener() {
@@ -169,10 +176,9 @@ class BoardDetailFragment :
         binding.apply {
             if (args.dDay == -2) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-            }else if(args.dDay == -1){
+            } else if (args.dDay == -1) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
-            }
-            else if (args.dDay <= 3) {
+            } else if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
@@ -207,7 +213,11 @@ class BoardDetailFragment :
         }
     }
 
-    private fun selectComment(nickName: String) {
+    private fun selectComment(nickName: String, boardId: Int) {
+        viewModel. 유저 프로필 정보 가져오고
+        viewmodel. 관찰하다 바뀌면 다이얼로그 띄우기
 
+
+        UserProfileDialog(requireActivity(), this, nickName, boardId)
     }
 }
