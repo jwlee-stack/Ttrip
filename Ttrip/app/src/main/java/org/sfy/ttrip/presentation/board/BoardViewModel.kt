@@ -50,7 +50,7 @@ class BoardViewModel @Inject constructor(
     val postEndDate: MutableLiveData<String> = _postEndDate
 
     private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData(null)
-    val userProfileDialog: MutableLiveData<UserProfileDialog?> = _userProfile
+    val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
 
     fun getUserProfile(nickname: String) =
         viewModelScope.launch {
@@ -63,6 +63,10 @@ class BoardViewModel @Inject constructor(
                 }
             }
         }
+
+    fun clearUserProfile(){
+        _userProfile.value = null
+    }
 
     fun getBoards(condition: Int, nation: String, city: String, keyword: String) =
         viewModelScope.launch {
