@@ -8,9 +8,9 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -21,14 +21,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.VisibleRegion
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.ApplicationClass
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
-import org.sfy.ttrip.presentation.init.AuthViewModel
-import java.util.*
+import java.util.Locale
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -36,14 +37,13 @@ import kotlin.math.sqrt
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
-    GoogleMap.OnCameraMoveListener {
+    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener {
 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
-    private val authViewModel by activityViewModels<AuthViewModel>()
     private val liveViewModel by viewModels<LiveViewModel>()
     private val liveUserAdapter by lazy {
         LiveUserAdapter(
@@ -64,6 +64,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun initView() {
+        blockMoveToOtherMenu()
         setLiveUsersRecyclerView()
         observeLiveState()
         setMapView()
@@ -71,6 +72,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         requestLocationPermission()
         getFilteredList()
         getOpenViduToken()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.switchLive.isChecked = false
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -98,6 +104,24 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun onCameraMove() {
         getFilteredList()
+    }
+
+    override fun onConfirmButtonClicked() {
+        binding.switchLive.isChecked = false
+    }
+
+    private fun blockMoveToOtherMenu() {
+        val bottomNavigationView = (activity as? MainActivity)?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView?.setOnNavigationItemSelectedListener { menuItem ->
+            if (binding.switchLive.isChecked) {
+                val dialog = CloseLiveDialog(requireContext(), this)
+                dialog.show()
+                false
+            } else {
+                Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(menuItem.itemId)
+                true
+            }
+        }
     }
 
     private fun observeLiveState() {
