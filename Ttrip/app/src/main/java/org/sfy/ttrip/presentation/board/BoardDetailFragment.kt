@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
-import org.sfy.ttrip.common.util.BindingAdapters.setProfileImgString
+import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
@@ -17,7 +17,6 @@ class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
     BoardDialogListener,
     CommentDialogListener {
-
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
     private val boardCommentListAdapter by lazy {
@@ -90,7 +89,7 @@ class BoardDetailFragment :
         viewModel.boardData.observe(this@BoardDetailFragment) {
             binding.apply {
                 boardDetail = it
-                ivBoardDetailUserProfile.setProfileImgString(it!!.imgPath)
+                ivBoardDetailUserProfile.setProfileImg(it!!.imgPath)
 
                 // 본인 게시물
                 if (it.isMine) {
@@ -168,7 +167,12 @@ class BoardDetailFragment :
         viewModel.getBoardDetail(args.boardId)
 
         binding.apply {
-            if (args.dDay <= 3) {
+            if (args.dDay == -2) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
+            }else if(args.dDay == -1){
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
+            }
+            else if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)

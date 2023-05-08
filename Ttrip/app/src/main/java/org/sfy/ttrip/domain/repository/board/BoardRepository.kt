@@ -12,8 +12,9 @@ interface BoardRepository {
         content: String,
         nation: String,
         city: String,
-        startDate: LocalDateTime,
-        endDateTime: LocalDateTime
+        startDate: String,
+        endDateTime: String,
+        title:String
     )
 
     suspend fun getBoardList(

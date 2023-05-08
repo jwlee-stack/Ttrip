@@ -47,27 +47,45 @@ class BoardListAdapter(
         fun onBind(data: BoardBrief) {
             binding.apply {
                 root.setOnClickListener {
-                    onBoardItemClicked(data.articleId, data.dueDay.toInt())
+                    if (data.dueDay < 0) {
+                        onBoardItemClicked(data.articleId, -2)
+                    } else {
+                        onBoardItemClicked(data.articleId, data.dueDay.toInt())
+                    }
                 }
-
-                if (data.dueDay <= 3) {
+                if (data.dueDay < 0) {
+                    clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
+                    tvDate.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_dim_gray)
+                    tvBoardDDay.text = "D+${-1 * data.dueDay}"
+                } else if (data.dueDay <= 3) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_red)
+
+                    if (data.dueDay.toInt() == 0) {
+                        tvBoardDDay.text = "D-DAY"
+                    } else {
+                        tvBoardDDay.text = "D-${data.dueDay}"
+                    }
                 } else if (data.dueDay <= 10) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.ming))
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.ming))
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.ming))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_green)
+                    tvBoardDDay.text = "D-${data.dueDay}"
                 } else {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_royal_blue_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.royal_blue))
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.royal_blue))
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.royal_blue))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_blue)
+                    tvBoardDDay.text = "D-${data.dueDay}"
                 }
 
                 val dateString = data.createdAt
@@ -89,7 +107,6 @@ class BoardListAdapter(
                 }
 
                 tvBoardTitle.text = data.title
-                tvBoardDDay.text = "D-${data.dueDay}"
                 tvNationCity.text = "${data.nation} - ${data.city}"
                 tvDate.text = "${data.startDate} ~ ${data.endDate}"
             }

@@ -33,6 +33,9 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
                     etSearchBoard.visibility = View.INVISIBLE
                 }
             }
+            ivPostBoard.setOnClickListener {
+                navigate(BoardFragmentDirections.actionBoardFragmentToPostBoardFragment())
+            }
         }
     }
 

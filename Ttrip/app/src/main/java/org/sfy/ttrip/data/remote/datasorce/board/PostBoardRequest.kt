@@ -11,7 +11,9 @@ data class PostBoardRequest(
     @SerializedName("city")
     val city: String,
     @SerializedName("startDate")
-    val startDate: LocalDateTime,
+    val startDate: String,
     @SerializedName("endDate")
-    val endDate: LocalDateTime,
+    val endDate: String,
+    @SerializedName("title")
+    val title: String
 )

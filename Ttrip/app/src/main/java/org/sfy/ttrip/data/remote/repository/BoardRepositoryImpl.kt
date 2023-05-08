@@ -21,8 +21,9 @@ class BoardRepositoryImpl @Inject constructor(
         content: String,
         nation: String,
         city: String,
-        startDate: LocalDateTime,
-        endDateTime: LocalDateTime
+        startDate: String,
+        endDateTime: String,
+        title:String
     ) {
         boardRemoteDataSource.postBoard(
             PostBoardRequest(
@@ -30,7 +31,8 @@ class BoardRepositoryImpl @Inject constructor(
                 nation,
                 city,
                 startDate,
-                endDateTime
+                endDateTime,
+                title
             )
         )
     }

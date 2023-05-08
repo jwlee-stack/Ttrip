@@ -13,12 +13,22 @@
         <action
             android:id="@+id/action_boardFragment_to_boardDetailFragment"
             app:destination="@id/boardDetailFragment" />
+        <action
+            android:id="@+id/action_boardFragment_to_postBoardFragment"
+            app:destination="@id/postBoardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/postBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.PostBoardFragment"
+        android:label="postBoardFragment"
+        tools:layout="@layout/fragment_post_board">
     </fragment>
 
     <fragment
         android:id="@+id/boardDetailFragment"
         android:name="org.sfy.ttrip.presentation.board.BoardDetailFragment"
-        android:label="boardFrboardDetailFragmentagment"
+        android:label="boardDetailFragment"
         tools:layout="@layout/fragment_board_detail">
         <argument
             android:name="boardId"
