@@ -29,6 +29,7 @@ public class SecurityConfig {
             "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
             "/ws/live/**/**",
             "/ws/chat/**/**/**",
+            "/ws/match/**/**",
             "/v2/api-docs",
             "/images/**/**",
             "/v3/api-docs",

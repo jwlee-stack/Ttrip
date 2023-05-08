@@ -1,7 +1,7 @@
 package com.ttrip.api.config.webSocket;
 
 import com.google.gson.Gson;
-import com.ttrip.api.dto.chatroomDto.ChatMessageResDto;
+import com.ttrip.api.dto.chatroomDto.ChatSocketResDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
 import com.ttrip.api.service.FcmService;
 import com.ttrip.core.entity.chatmessage.ChatMessage;
@@ -40,22 +40,22 @@ public class ChatHandler extends TextWebSocketHandler {
         String memberUuid = session.getAttributes().get("memberUuid").toString();
         String opponentUuid = session.getAttributes().get("opponentUuid").toString();
         Integer chatroomId = Integer.parseInt(session.getAttributes().get("chatroomId").toString());
-        ChatMessageResDto chatMessageResDto = ChatMessageResDto.builder()
+        ChatSocketResDto chatSocketResDto = ChatSocketResDto.builder()
                 .isMine(true)
                 .content(message.getPayload())
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().toString())
                 .build();
 
         Gson gson = new Gson();
         //json으로 파싱
-        TextMessage textMessage = new TextMessage(gson.toJson(chatMessageResDto));
+        TextMessage textMessage = new TextMessage(gson.toJson(chatSocketResDto));
         //나한테 보내기
         sessionMap.get(memberUuid).sendMessage(textMessage);
 
         //상대 접속중이면 보내기
         if (sessionMap.get(opponentUuid) != null) {
-            chatMessageResDto.setIsMine(false);
-            sessionMap.get(opponentUuid).sendMessage(textMessage);
+            chatSocketResDto.setIsMine(false);
+            sessionMap.get(opponentUuid).sendMessage(new TextMessage(gson.toJson(chatSocketResDto)));
         } else{
             Member member = memberRepository.findByMemberUuid(UUID.fromString(memberUuid))
                     .orElseThrow(()->new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
@@ -70,9 +70,9 @@ public class ChatHandler extends TextWebSocketHandler {
         }
         //db에 저장
         chatMessageRepository.save(ChatMessage.builder()
-                .text(chatMessageResDto.getContent())
+                .text(chatSocketResDto.getContent())
                 .memberUuid(memberUuid)
-                .createdAt(chatMessageResDto.getCreatedAt())
+                .createdAt(LocalDateTime.parse(chatSocketResDto.getCreatedAt()))
                 .chatroomId(chatroomId)
                 .build());
         logger.info("chatting: " + memberUuid + " send Message to " + opponentUuid);
