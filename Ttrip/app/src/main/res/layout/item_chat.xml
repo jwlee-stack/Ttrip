@@ -10,7 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_other_message"
@@ -23,6 +25,7 @@
                 android:id="@+id/tv_other_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bg_other_message"
                 android:fontFamily="@font/sc_dream3"
                 android:gravity="center"
@@ -70,7 +73,7 @@
                 android:id="@+id/tv_my_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bg_my_message"
                 android:fontFamily="@font/sc_dream3"
                 android:gravity="center"
