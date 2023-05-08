@@ -1,10 +1,14 @@
 package org.sfy.ttrip.presentation.init
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.*
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,31 +25,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.makeMarkerImg
 import org.sfy.ttrip.databinding.FragmentSignUpInfoContentBinding
 import org.sfy.ttrip.domain.entity.user.SurveyItem
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.io.File
+import java.io.FileOutputStream
 
 class SignUpInfoContentFragment :
     BaseFragment<FragmentSignUpInfoContentBinding>(R.layout.fragment_sign_up_info_content) {
 
-    private var bannerPosition = -1
-    private val userInfoTestListAdapter by lazy {
-        UserInfoTestListAdapter(this::onUserTestClicked)
-    }
-    private val userInfoViewModel by activityViewModels<UserInfoViewModel>()
-    private val fromAlbumActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        result.data?.let {
-            if (it.data != null) {
-                userInfoViewModel.setProfileImg(
-                    it.data as Uri,
-                    File(absolutelyPath(it.data, requireContext()))
-                )
-            }
-        }
-    }
+    private lateinit var markerFile: File
     private var testList = listOf(
         SurveyItem(
             "번화한 도시보다 자연 풍경이 좋다", 0, 0
@@ -75,6 +65,23 @@ class SignUpInfoContentFragment :
             "명소 관광보다 쇼핑이 좋다", 8, 0
         )
     )
+    private var bannerPosition = -1
+    private val userInfoTestListAdapter by lazy {
+        UserInfoTestListAdapter(this::onUserTestClicked)
+    }
+    private val userInfoViewModel by activityViewModels<UserInfoViewModel>()
+    private val fromAlbumActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        result.data?.let {
+            if (it.data != null) {
+                userInfoViewModel.setProfileImg(
+                    it.data as Uri,
+                    File(absolutelyPath(it.data, requireContext()))
+                )
+            }
+        }
+    }
 
     override fun initView() {
         binding.viewModel = userInfoViewModel
@@ -164,7 +171,16 @@ class SignUpInfoContentFragment :
                     userInfoViewModel.profileImgUri.observe(this@SignUpInfoContentFragment) {
                         when (it) {
                             null -> binding.ivUserInfoProfilePhotoBlack.visibility = View.VISIBLE
-                            else -> binding.ivUserInfoProfilePhotoBlack.visibility = View.GONE
+                            else -> {
+                                binding.ivUserInfoProfilePhotoBlack.visibility = View.GONE
+                                saveImageToGallery(
+                                    makeMarkerImg(
+                                        requireContext(),
+                                        userInfoViewModel.profileImgUri.value!!,
+                                        userInfoViewModel.markerfile!!
+                                    )
+                                )
+                            }
                         }
                     }
 
@@ -244,7 +260,7 @@ class SignUpInfoContentFragment :
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) -> {
                 fromAlbumActivityLauncher.launch(
                     Intent(
@@ -256,7 +272,7 @@ class SignUpInfoContentFragment :
             else -> {
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     REQUEST_READ_STORAGE_PERMISSION
                 )
             }
@@ -271,6 +287,84 @@ class SignUpInfoContentFragment :
         val result = c?.getString(index!!)
         c?.close()
         return result!!
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap) {
+        // 권한 체크
+        if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
+            !checkPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ) {
+            requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            return
+        }
+
+        // 그림 저장
+        if (!imageExternalSave(
+                requireActivity(),
+                bitmap,
+                requireActivity().getString(R.string.app_name)
+            )
+        ) {
+            showToast("마커 이미지 생성에 실패 했습니다. 프로필 사진을 다시 선택해 주세요")
+        }
+        showToast("마커 이미지 생성에 성공했습니다")
+        val file = File(markerFile.absolutePath)
+        userInfoViewModel.setMarkerImg(file)
+    }
+
+    private fun imageExternalSave(
+        context: Context,
+        bitmap: Bitmap,
+        path: String
+    ): Boolean {
+
+        val state = Environment.getExternalStorageState()
+        if (Environment.MEDIA_MOUNTED == state) {
+            val rootPath =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    .toString()
+            val dirName = "/" + path
+            val fileName = System.currentTimeMillis().toString() + ".png"
+            val savePath = File(rootPath + dirName)
+            savePath.mkdirs()
+
+            val file = File(savePath, fileName)
+            if (file.exists()) file.delete()
+
+            try {
+                val out = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                out.flush()
+                out.close()
+                markerFile = file
+                // 갤러리 갱신
+                context.sendBroadcast(
+                    Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.parse("file://" + Environment.getExternalStorageDirectory())
+                    )
+                )
+
+                return true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return false
+    }
+
+    private fun checkPermission(activity: Activity, permission: String): Boolean {
+        val permissionChecker =
+            ContextCompat.checkSelfPermission(activity.applicationContext, permission)
+        // 권한이 없으면 권한 요청
+        if (permissionChecker == PackageManager.PERMISSION_GRANTED) return true
+        requestPermission(activity, permission)
+        return false
+    }
+
+    private fun requestPermission(activity: Activity, permission: String) {
+        ActivityCompat.requestPermissions(activity, arrayOf(permission), 1)
     }
 
     companion object {
