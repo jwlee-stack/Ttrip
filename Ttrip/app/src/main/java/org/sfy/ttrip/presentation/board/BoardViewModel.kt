@@ -11,7 +11,9 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.entity.board.BoardDetail
+import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.usecase.board.*
+import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +24,8 @@ class BoardViewModel @Inject constructor(
     private val finishBoardUseCase: FinishBoardUseCase,
     private val getBoardCommentUseCase: GetBoardCommentUseCase,
     private val postCommentUseCase: PostCommentUseCase,
-    private val postBoardUseCase: PostBoardUseCase
+    private val postBoardUseCase: PostBoardUseCase,
+    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
@@ -45,6 +48,21 @@ class BoardViewModel @Inject constructor(
 
     private val _postEndDate: MutableLiveData<String> = MutableLiveData(null)
     val postEndDate: MutableLiveData<String> = _postEndDate
+
+    private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData(null)
+    val userProfileDialog: MutableLiveData<UserProfileDialog?> = _userProfile
+
+    fun getUserProfile(nickname: String) =
+        viewModelScope.launch {
+            when (val value = getUserProfileDialogUseCase(nickname)) {
+                is Resource.Success<UserProfileDialog> -> {
+                    _userProfile.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getUserProfile", "getUserProfile: ${value.errorMessage}")
+                }
+            }
+        }
 
     fun getBoards(condition: Int, nation: String, city: String, keyword: String) =
         viewModelScope.launch {
