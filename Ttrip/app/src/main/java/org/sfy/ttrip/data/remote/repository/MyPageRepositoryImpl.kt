@@ -6,6 +6,7 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.mypage.MyPageRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.mypage.UpdateUserInfoRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
+import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
@@ -61,4 +62,8 @@ class MyPageRepositoryImpl @Inject constructor(
         markerImg: MultipartBody.Part?,
         profileImg: MultipartBody.Part?
     ) = myPageRemoteDataSource.updateProfileImg(markerImg, profileImg)
+
+    override suspend fun getMyPosts(): Resource<List<BoardBrief>> = wrapToResource {
+        myPageRemoteDataSource.getMyPosts().map { it.toDomainModel() }
+    }
 }

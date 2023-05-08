@@ -2,6 +2,7 @@ package org.sfy.ttrip.data.remote.service
 
 import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
+import org.sfy.ttrip.data.remote.datasorce.board.BoardBriefResponse
 import org.sfy.ttrip.data.remote.datasorce.mypage.BackgroundImgResponse
 import org.sfy.ttrip.data.remote.datasorce.mypage.UpdateUserInfoRequest
 import org.sfy.ttrip.data.remote.datasorce.mypage.UserProfileResponse
@@ -35,4 +36,7 @@ interface MyPageApiService {
         @Part markerImg: MultipartBody.Part?,
         @Part profileImg: MultipartBody.Part?
     )
+
+    @GET("/api/mypage/view/articles")
+    suspend fun getMyPosts(): BaseResponse<List<BoardBriefResponse>>
 }

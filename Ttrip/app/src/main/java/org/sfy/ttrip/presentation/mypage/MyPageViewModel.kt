@@ -14,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
+import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 import org.sfy.ttrip.domain.entity.user.UserTest
@@ -30,8 +31,12 @@ class MyPageViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase,
-    private val updateProfileImgUseCase: UpdateProfileImgUseCase
+    private val updateProfileImgUseCase: UpdateProfileImgUseCase,
+    private val getMyPostsUseCase: GetMyPostsUseCase
 ) : ViewModel() {
+
+    private val _posts = MutableLiveData<List<BoardBrief>?>()
+    val posts: LiveData<List<BoardBrief>?> = _posts
 
     private val _userTest: MutableLiveData<UserTest> =
         MutableLiveData(UserTest(0, 0, 0, 0, 0, 0, 0, 0, 0))
@@ -180,6 +185,17 @@ class MyPageViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.d("getUserProfile", "getUserProfile: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getMyPosts() = viewModelScope.launch {
+        when (val value = getMyPostsUseCase()) {
+            is Resource.Success -> {
+                _posts.value = value.data
+            }
+            is Resource.Error -> {
+                Log.d("getMyPosts", "getMyPosts: ${value.errorMessage}")
             }
         }
     }
