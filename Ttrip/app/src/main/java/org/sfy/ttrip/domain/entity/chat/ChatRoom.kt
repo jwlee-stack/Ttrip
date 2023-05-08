@@ -8,5 +8,7 @@ data class ChatRoom(
     val chatId: Int,
     val otherUuid: String,
     val articleTitle: String,
-    val articleId: Int
+    val articleId: Int,
+    val status: String,
+    val isMatch: Boolean
 )

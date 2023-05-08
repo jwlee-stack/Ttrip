@@ -115,6 +115,9 @@
         <argument
             android:name="articleId"
             app:argType="integer" />
+        <argument
+            android:name="isMatch"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
