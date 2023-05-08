@@ -52,6 +52,12 @@ class BoardViewModel @Inject constructor(
     private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData(null)
     val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
 
+    private val _postBoardNation: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardNation: MutableLiveData<String?> = _postBoardNation
+
+    private val _postBoardCity: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardCity: MutableLiveData<String?> = _postBoardCity
+
     fun getUserProfile(nickname: String) =
         viewModelScope.launch {
             when (val value = getUserProfileDialogUseCase(nickname)) {
@@ -64,7 +70,7 @@ class BoardViewModel @Inject constructor(
             }
         }
 
-    fun clearUserProfile(){
+    fun clearUserProfile() {
         _userProfile.value = null
     }
 
@@ -109,10 +115,10 @@ class BoardViewModel @Inject constructor(
     fun postBoard() {
         viewModelScope.launch {
             postBoardUseCase(
-                "구미",
+                _postBoardCity.value!!,
                 _postBoardContent.value!!,
                 _postEndDate.value!!,
-                "대한민국",
+                _postBoardNation.value!!,
                 _postEndDate.value!!,
                 _postBoardTitle.value!!
             )
@@ -145,11 +151,26 @@ class BoardViewModel @Inject constructor(
         _postBoardContent.value = content
     }
 
+    fun postBoardNation(nation: String?) {
+        _postBoardNation.value = nation
+    }
+
+    fun postBoardCity(city: String?) {
+        _postBoardCity.value = city
+    }
+
     fun postStartDate(startDate: String?) {
         _postStartDate.value = startDate!!
     }
 
     fun postEndDate(endDate: String?) {
         _postEndDate.value = endDate!!
+    }
+
+    fun clearPostData(){
+        _postBoardTitle.value = null
+        _postBoardContent.value = null
+        _postBoardNation.value = null
+        _postBoardCity.value = null
     }
 }
