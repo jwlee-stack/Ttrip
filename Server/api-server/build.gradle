@@ -60,6 +60,9 @@ dependencies {
 
     // EuclideanDistance
     implementation 'org.apache.commons:commons-math3:3.6.1'
+
+    //httpheaders
+    implementation 'org.apache.httpcomponents.core5:httpcore5:5.1.5'
 }
 
 tasks.named('test') {
