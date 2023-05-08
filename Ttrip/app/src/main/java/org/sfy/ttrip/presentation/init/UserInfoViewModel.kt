@@ -47,6 +47,7 @@ class UserInfoViewModel @Inject constructor(
     val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private var profileImgMultiPart: MultipartBody.Part? = null
+    var markerfile: File? = null
     private var markerImgMultiPart: MultipartBody.Part? = null
 
     private val _userTest: MutableLiveData<UserTest> =
@@ -122,8 +123,14 @@ class UserInfoViewModel @Inject constructor(
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileImgMultiPart =
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-            markerImgMultiPart =
-                MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
+
+            markerfile = file
         }
+    }
+
+    fun setMarkerImg(file: File) {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        markerImgMultiPart =
+            MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
     }
 }

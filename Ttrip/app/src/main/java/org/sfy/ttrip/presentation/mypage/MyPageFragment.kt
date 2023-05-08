@@ -1,10 +1,14 @@
 package org.sfy.ttrip.presentation.mypage
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,16 +18,19 @@ import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.makeMarkerImg
 import org.sfy.ttrip.databinding.FragmentMypageBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.init.InitActivity
 import org.sfy.ttrip.presentation.init.SignUpInfoContentFragment.Companion.REQUEST_READ_STORAGE_PERMISSION
 import java.io.File
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage),
     LogoutDialogListener {
 
+    private lateinit var markerFile: File
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val fromActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -87,10 +94,20 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun observeImg() {
         myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
-            myPageViewModel.updateBackgroundImg()
+            if (myPageViewModel.isChanged.value!!){
+                myPageViewModel.updateBackgroundImg()
+            }
         }
         myPageViewModel.profileImg.observe(viewLifecycleOwner) {
-            myPageViewModel.updateProfileImg()
+            if (myPageViewModel.isChanged.value!!){
+                saveImageToGallery(
+                    makeMarkerImg(
+                        requireContext(),
+                        myPageViewModel.profileImg.value!!,
+                        myPageViewModel.markerfile!!
+                    )
+                )
+            }
         }
     }
 
@@ -108,7 +125,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) -> {
                 fromActivityLauncher.launch(
                     Intent(
@@ -120,7 +137,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             else -> {
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     REQUEST_READ_STORAGE_PERMISSION
                 )
             }
@@ -131,7 +148,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ) -> {
                 fromProfileActivityLauncher.launch(
                     Intent(
@@ -143,7 +160,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             else -> {
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     REQUEST_READ_STORAGE_PERMISSION
                 )
             }
@@ -159,5 +176,83 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             }
         }
         myPageViewModel.getUserProfile()
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap) {
+        // 권한 체크
+        if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
+            !checkPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ) {
+            requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            return
+        }
+
+        // 그림 저장
+        if (!imageExternalSave(
+                requireActivity(),
+                bitmap,
+                requireActivity().getString(R.string.app_name)
+            )
+        ) {
+            showToast("마커 이미지 생성에 실패 했습니다. 프로필 사진을 다시 선택해 주세요")
+        }
+        showToast("마커 이미지 생성에 성공했습니다")
+        val file = File(markerFile.absolutePath)
+        myPageViewModel.setMarkerImg(file)
+    }
+
+    private fun imageExternalSave(
+        context: Context,
+        bitmap: Bitmap,
+        path: String
+    ): Boolean {
+
+        val state = Environment.getExternalStorageState()
+        if (Environment.MEDIA_MOUNTED == state) {
+            val rootPath =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    .toString()
+            val dirName = "/" + path
+            val fileName = System.currentTimeMillis().toString() + ".png"
+            val savePath = File(rootPath + dirName)
+            savePath.mkdirs()
+
+            val file = File(savePath, fileName)
+            if (file.exists()) file.delete()
+
+            try {
+                val out = FileOutputStream(file)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                out.flush()
+                out.close()
+                markerFile = file
+                // 갤러리 갱신
+                context.sendBroadcast(
+                    Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.parse("file://" + Environment.getExternalStorageDirectory())
+                    )
+                )
+
+                return true
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return false
+    }
+
+    private fun checkPermission(activity: Activity, permission: String): Boolean {
+        val permissionChecker =
+            ContextCompat.checkSelfPermission(activity.applicationContext, permission)
+        // 권한이 없으면 권한 요청
+        if (permissionChecker == PackageManager.PERMISSION_GRANTED) return true
+        requestPermission(activity, permission)
+        return false
+    }
+
+    private fun requestPermission(activity: Activity, permission: String) {
+        ActivityCompat.requestPermissions(activity, arrayOf(permission), 1)
     }
 }

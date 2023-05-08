@@ -65,7 +65,11 @@ class MyPageViewModel @Inject constructor(
 
     private var profileFileMultiPart: MultipartBody.Part? = null
 
+    var markerfile: File? = null
     private var markerFileMultiPart: MultipartBody.Part? = null
+
+    private val _isChanged: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isChanged: MutableLiveData<Boolean> = _isChanged
 
     suspend fun checkDuplication() =
         viewModelScope.async {
@@ -134,13 +138,16 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun updateBackgroundImg() {
-        viewModelScope.launch {
-            when (val value = updateBackgroundImgUseCase(backgroundFileMultiPart)) {
-                is Resource.Success<BackgroundImg> -> {
-                    getUserProfile()
-                }
-                is Resource.Error -> {
-                    Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.errorMessage}")
+        if (isChanged.value!!) {
+            viewModelScope.launch {
+                when (val value = updateBackgroundImgUseCase(backgroundFileMultiPart)) {
+                    is Resource.Success<BackgroundImg> -> {
+                        getUserProfile()
+                        _isChanged.value = false
+                    }
+                    is Resource.Error -> {
+                        Log.d("updateBackgroundImg", "updateBackgroundImg: ${value.errorMessage}")
+                    }
                 }
             }
         }
@@ -148,6 +155,7 @@ class MyPageViewModel @Inject constructor(
 
     fun setBackgroundFile(uri: Uri, file: File) {
         viewModelScope.launch {
+            _isChanged.value = true
             _backgroundImg.value = uri
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             backgroundFileMultiPart =
@@ -157,20 +165,32 @@ class MyPageViewModel @Inject constructor(
 
     fun updateProfileImg() {
         viewModelScope.launch {
-            updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
-            getUserProfile()
+            if (isChanged.value!!) {
+                updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
+                _isChanged.value = false
+                getUserProfile()
+            }
         }
     }
 
     fun setProfileFile(uri: Uri, file: File) {
         viewModelScope.launch {
+            _isChanged.value = true
             _profileImg.value = uri
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileFileMultiPart =
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-            markerFileMultiPart =
-                MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
+
+            markerfile = file
         }
+    }
+
+    fun setMarkerImg(file: File) {
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        markerFileMultiPart =
+            MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
+
+        updateProfileImg()
     }
 
     fun getUserProfile() = viewModelScope.launch {
