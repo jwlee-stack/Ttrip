@@ -18,9 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.VisibleRegion
+import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,7 +27,7 @@ import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
-import java.util.Locale
+import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -150,7 +148,15 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         }
         liveViewModel.filteredLiveUserList.observe(viewLifecycleOwner) { response ->
-            response?.let { liveUserAdapter.setLiveUser(it.map { users -> users!! }) }
+            response?.let {
+                liveUserAdapter.setLiveUser(it.map { users -> users!! })
+                it.forEach { liveUser ->
+                    liveUser?.let {
+                        val latLng = LatLng(liveUser.latitude, liveUser.longitude)
+                        map.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromPath("https://k8d104.p.ssafy.io:443/image/${liveUser.markerImgPath!!}")))
+                    }
+                }
+            }
         }
     }
 
