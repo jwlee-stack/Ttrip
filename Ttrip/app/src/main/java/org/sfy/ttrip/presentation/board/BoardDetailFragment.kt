@@ -1,6 +1,5 @@
 package org.sfy.ttrip.presentation.board
 
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -224,8 +223,6 @@ class BoardDetailFragment :
 
     private fun initObserve() {
         viewModel.userProfile.observe(this@BoardDetailFragment) {
-            Log.d("tpfla", "selectComment: ${it}")
-            Log.d("tpfla", "selectComment: ${similarity}")
             if (it != null) {
                 UserProfileDialog(
                     requireActivity(),
