@@ -22,11 +22,15 @@ public class ImageUtil {
 
 
     //기존 사진 삭제//
-    public String removeImg(File rmImg) {
-        if (rmImg.exists()) {
-            if (!rmImg.delete())
+    public String removeImg(String childPath) {
+        File file=new File(parentPath+childPath);
+        log.info("삭제할 파일 경로: {}",file.getPath());
+        if (file.exists()) {
+            if (!file.delete())
                 throw new RuntimeException("파일 삭제 실패");
         }
+        else
+            log.info("삭제할 파일이 존재하지 않음");
         return null;
     }
 

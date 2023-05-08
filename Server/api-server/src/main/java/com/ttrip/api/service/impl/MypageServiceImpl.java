@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,10 +98,8 @@ public class MypageServiceImpl implements MypageService {
         imageUtil.checkImageType(profileImg);
 
         //기존 이미지 삭제
-        File rmImg;
-        if (member.getProfileImgPath() != null) {
-            rmImg = new File(member.getProfileImgPath());
-            member.setProfileImgPath(imageUtil.removeImg(rmImg));
+        if (!member.getProfileImgPath().isEmpty()) {
+            member.setProfileImgPath(imageUtil.removeImg(member.getProfileImgPath()));
         }
 
 
@@ -128,10 +125,8 @@ public class MypageServiceImpl implements MypageService {
         imageUtil.checkImageType(markerImg);
 
         //기존 이미지 삭제
-        File rmImg;
-        if (member.getMarkerImgPath() != null) {
-            rmImg = new File(member.getMarkerImgPath());
-            member.setMarkerImgPath(imageUtil.removeImg(rmImg));
+        if (!member.getMarkerImgPath().isEmpty()) {
+            member.setMarkerImgPath(imageUtil.removeImg(member.getMarkerImgPath()));
         }
 
         try {
@@ -158,10 +153,8 @@ public class MypageServiceImpl implements MypageService {
         imageUtil.checkImageType(backgroundImg);
 
         //기존 이미지 삭제
-        File rmImg;
-        if(member.getBackgroundImgPath()!=null) {
-            rmImg = new File(member.getBackgroundImgPath());
-            member.setBackgroundImgPath(imageUtil.removeImg(rmImg));
+        if (!member.getBackgroundImgPath().isEmpty()) {
+            member.setBackgroundImgPath(imageUtil.removeImg(member.getBackgroundImgPath()));
         }
 
         try
