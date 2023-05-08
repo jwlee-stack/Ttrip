@@ -38,7 +38,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -84,18 +83,47 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> login(MemberLoginReqDto memberLoginReqDto) {
-
+        Member member = memberRepository.findByPhoneNumber(memberLoginReqDto.getPhoneNumber()).orElse(null);
+        if(member==null)
+        {
+            log.info("아이디가 틀렸습니다.");
+            return DataResDto.builder()
+                    .status(410)
+                    .message("아이디가 틀렸습니다.")
+                    .data(false)
+                    .build();
+        }
+        if(!passwordEncoder.matches(memberLoginReqDto.getPassword(),member.getPassword()))
+        {
+            log.info("비밀번호가 틀렸습니다.");
+            return DataResDto.builder()
+                    .status(420)
+                    .message("비밀번호가 틀렸습니다.")
+                    .data(false)
+                    .build();
+        }
+        if(blacklistRepository.existsByMember(member))
+        {
+            log.info("신고로 정지된 계정입니다.");
+            return DataResDto.builder()
+                    .status(430)
+                    .message("신고로 정지된 계정입니다.")
+                    .data(false)
+                    .build();
+        }
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberLoginReqDto.toAuthentication();
+        log.info("AuthenticationToken 생성");
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        log.info("인증 정보 생성");
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        log.info("JWT 토큰 생성");
 
-        Member member = memberRepository.findByPhoneNumber(memberLoginReqDto.getPhoneNumber()).get();
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()
@@ -103,6 +131,7 @@ public class MemberServiceImpl implements MemberService {
                 .value(tokenDto.getRefreshToken()) //rt_value=refresh token
                 .build();
         refreshTokenRepository.save(refreshToken);
+        log.info("RefreshToken 저장");
 
         // 5. 유저 설문 정보 캐싱
 //        if (Objects.isNull(liveRedisDao.getSurveyCache(member.getMemberUuid().toString())))
@@ -119,11 +148,14 @@ public class MemberServiceImpl implements MemberService {
     public DataResDto<?> logout(MemberDetails memberDetails) {
         //memberDetails를 통해, 내 UUID 획득
         String myUuid = memberDetails.getMember().getMemberUuid().toString();
+        log.info("memberDetails를 통해, 내 UUID 획득");
         //내 UUID로 리프래시 토큰 서칭
         RefreshToken refreshToken = refreshTokenRepository.findByKey(myUuid).get();
+        log.info("내 UUID로 리프래시 토큰 서칭");
         try {
             //해당 리프래시 토큰 삭제
             refreshTokenRepository.delete(refreshToken);
+            log.info("리프래시 토큰 삭제");
             return DataResDto.builder()
                     .message("로그아웃되었습니다.")
                     .data(true)
@@ -156,10 +188,11 @@ public class MemberServiceImpl implements MemberService {
 
         // 5. 새로운 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
+        log.info("새로운 토큰 생성");
         // 6. 저장소 정보 업데이트
         RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
         refreshTokenRepository.save(newRefreshToken);
+        log.info("저장소 정보 업데이트");
 
         // 토큰 발급
         return DataResDto.builder()
@@ -173,15 +206,15 @@ public class MemberServiceImpl implements MemberService {
     public DataResDto<?> setInfo(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) {
         //fcm 토큰 변경//
         memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? memberDetails.getMember().getFcmToken() : memberUpdateReqDto.getFcmToken());
-
+        log.info("fcm 토큰 변경");
         //이미지 변경//
         ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
         mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
-
+        log.info("이미지 변경");
         //닉네임, 성별, 나이, 인트로 변경//
         InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
         mypageService.updateMember(infoUpdateReqDto,memberDetails);
-
+        log.info("닉네임, 성별, 나이, 인트로 변경");
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
                 .data(MemberResDto.toBuild(memberDetails.getMember()))
@@ -210,9 +243,16 @@ public class MemberServiceImpl implements MemberService {
 
         Survey survey;
         if(!surveyRepository.existsByMember(member))
+        {
+            log.info("설문조사 내역이 존재하지 않음");
             survey=Survey.builder().member(member).build();
+        }
         else
+        {
+            log.info("설문조사 내역이 존재");
             survey = surveyRepository.findByMember(member).get();
+        }
+
         survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity()/5f);
         survey.setPreferPlan(surveyReqDto.getPreferPlan()/5f);
         survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight()/5f);
@@ -223,7 +263,7 @@ public class MemberServiceImpl implements MemberService {
         survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule()/5f);
         survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour()/5f);
         surveyRepository.save(survey);
-
+        log.info("여행취향 저장");
         return DataResDto.builder()
                 .message("회원의 여행 취향이 저장되었습니다.")
                 .data(SurveyResDto.toBuild(survey))
@@ -236,6 +276,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BadRequestException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
 
         Member member = memberRepository.findByNickname(nickname).get();
+        log.info("닉네임 {}으로 멤버 조회",nickname);
         return DataResDto.builder()
                 .message("회원 프로필이 조회되었습니다.")
                 .data(MemberResDto.toBuild(member))
@@ -251,7 +292,7 @@ public class MemberServiceImpl implements MemberService {
                 .member(member)
                 .build();
         blacklistRepository.save(blacklist);
-
+        log.info("신고 저장(신고자: {}, 피신고자: {})",blacklist.getReporterId(),blacklist.getMember().getMemberId());
         return DataResDto.builder()
                 .message("신고가 접수되었습니다.")
                 .data(true)
