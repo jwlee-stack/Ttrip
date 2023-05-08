@@ -213,11 +213,22 @@ class BoardDetailFragment :
         }
     }
 
-    private fun selectComment(nickName: String, boardId: Int) {
-        viewModel. 유저 프로필 정보 가져오고
-        viewmodel. 관찰하다 바뀌면 다이얼로그 띄우기
-
-
-        UserProfileDialog(requireActivity(), this, nickName, boardId)
+    private fun selectComment(nickName: String, boardId: Int, similarity: Float) {
+        viewModel.userProfileDialog.observe(this@BoardDetailFragment) {
+            UserProfileDialog(
+                requireActivity(),
+                this,
+                nickName,
+                boardId,
+                it!!.uuid,
+                it.backgroundImgPath,
+                it.profileImgPath,
+                similarity,
+                it.age,
+                it.gender,
+                it.intro
+            )
+        }
+        viewModel.getUserProfile(nickName)
     }
 }

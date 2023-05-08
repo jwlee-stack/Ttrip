@@ -28,6 +28,7 @@ import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
+import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
 import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
 import javax.inject.Singleton
 
@@ -139,4 +140,9 @@ object UseCaseModule {
     @Provides
     fun providePostBoardUseCase(boardRepository: BoardRepository): PostBoardUseCase =
         PostBoardUseCase(boardRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfileDialogUseCase(userRepository: UserRepository): GetUserProfileDialogUseCase =
+        GetUserProfileDialogUseCase(userRepository)
 }

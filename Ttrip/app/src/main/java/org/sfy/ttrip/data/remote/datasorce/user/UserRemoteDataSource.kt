@@ -17,4 +17,6 @@ interface UserRemoteDataSource {
     suspend fun checkDuplication(nickName: String): CheckDuplicationResponse
 
     suspend fun postUserInfoTest(body: UserInfoTestRequest)
+
+    suspend fun getUserProfile(nickName: String): UserProfileDialogResponse
 }

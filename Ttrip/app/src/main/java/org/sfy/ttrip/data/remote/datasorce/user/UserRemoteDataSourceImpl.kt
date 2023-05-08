@@ -35,4 +35,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun postUserInfoTest(body: UserInfoTestRequest) {
         userApiService.patchUserInfoTest(body)
     }
+
+    override suspend fun getUserProfile(nickName: String): UserProfileDialogResponse =
+        userApiService.getUserProfile(nickName).data!!
 }

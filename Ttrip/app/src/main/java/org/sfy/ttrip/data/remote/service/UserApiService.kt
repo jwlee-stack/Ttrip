@@ -5,6 +5,7 @@ import okhttp3.RequestBody
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
+import org.sfy.ttrip.data.remote.datasorce.user.UserProfileDialogResponse
 import retrofit2.http.*
 
 interface UserApiService {
@@ -21,4 +22,7 @@ interface UserApiService {
 
     @PATCH("/api/members/preferences")
     suspend fun patchUserInfoTest(@Body body: UserInfoTestRequest)
+
+    @GET("/api/members/{nickname}")
+    suspend fun getUserProfile(@Path("nickname") nickname: String): BaseResponse<UserProfileDialogResponse>
 }
