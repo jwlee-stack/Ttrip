@@ -85,6 +85,7 @@
     <string name="content_chat_input_hint">메시지 보내기</string>
     <string name="image_send_message">image_send_message</string>
     <string name="content_exit_chat">채팅방을 나가시겠습니까?</string>
+    <string name="similarity_format">%d%%</string>
 
     <!-- MyPage -->
     <string name="image_profile_background">image_profile_background</string>

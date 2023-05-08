@@ -28,6 +28,8 @@ class ChatViewModel @Inject constructor(
     private val _chatDetail: MutableLiveData<List<ChatDetail>?> = MutableLiveData()
     val chatDetail: LiveData<List<ChatDetail>?> = _chatDetail
 
+    var chatId = 0
+
     fun getChatRooms() {
         viewModelScope.launch {
             when (val value = getChatRoomsUseCase()) {

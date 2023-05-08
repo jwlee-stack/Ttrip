@@ -17,10 +17,16 @@ data class ChatRoomResponse(
     val chatId: Int,
     @SerializedName("memberUuid")
     val otherUuid: String,
+    @SerializedName("similarity")
+    val similarity: Int,
     @SerializedName("articleTitle")
     val articleTitle: String,
     @SerializedName("articleId")
-    val articleId: Int
+    val articleId: Int,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("isMatch")
+    val isMatch: Boolean
 ) : DataToDomainMapper<ChatRoom> {
     override fun toDomainModel(): ChatRoom =
         ChatRoom(
@@ -30,7 +36,10 @@ data class ChatRoomResponse(
             lastMessage,
             chatId,
             otherUuid,
+            similarity,
             articleTitle,
-            articleId
+            articleId,
+            status,
+            isMatch
         )
 }

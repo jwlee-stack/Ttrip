@@ -2,6 +2,7 @@ package org.sfy.ttrip.presentation.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.R
@@ -16,7 +17,9 @@ class ChatRoomAdapter(
         imagePath: String?,
         articleTitle: String,
         nickname: String,
-        articleId: Int
+        articleId: Int,
+        isMatch: Boolean,
+        status: String
     ) -> Unit,
     private val onChatRoomLongClicked: (chatId: Int) -> Unit
 ) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
@@ -48,7 +51,9 @@ class ChatRoomAdapter(
             imagePath: String?,
             articleTitle: String,
             nickname: String,
-            articleId: Int
+            articleId: Int,
+            isMatch: Boolean,
+            status: String
         ) -> Unit,
         private val onChatRoomLongClicked: (chatId: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -63,12 +68,39 @@ class ChatRoomAdapter(
                         data.imagePath,
                         data.articleTitle,
                         data.otherNickname,
-                        data.articleId
+                        data.articleId,
+                        data.isMatch,
+                        data.status
                     )
                 }
                 root.setOnLongClickListener {
                     onChatRoomLongClicked(data.chatId)
                     true
+                }
+                if (data.similarity <= 50) {
+                    tvChatSimilarity.setTextColor(
+                        ContextCompat.getColor(
+                            root.context,
+                            R.color.lochmara
+                        )
+                    )
+                    clChatRoom.setBackgroundResource(R.drawable.bg_rect_lochmara2_alice_blue2_radius10_stroke1)
+                } else if (data.similarity <= 80) {
+                    tvChatSimilarity.setTextColor(
+                        ContextCompat.getColor(
+                            root.context,
+                            R.color.limerick
+                        )
+                    )
+                    clChatRoom.setBackgroundResource(R.drawable.bg_rect_limerick_twilight_blue_radius10_stroke1)
+                } else {
+                    tvChatSimilarity.setTextColor(
+                        ContextCompat.getColor(
+                            root.context,
+                            R.color.medium_orchid
+                        )
+                    )
+                    clChatRoom.setBackgroundResource(R.drawable.bg_rect_medium_orchid_white_lilac_radius10_stroke1)
                 }
             }
         }

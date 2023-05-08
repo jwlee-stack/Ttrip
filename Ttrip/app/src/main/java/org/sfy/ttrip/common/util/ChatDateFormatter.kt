@@ -1,17 +1,23 @@
 package org.sfy.ttrip.common.util
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 fun dateFormat(input: String): String{
     val dateTime = LocalDateTime.parse(input, DateTimeFormatter.ISO_DATE_TIME)
-    val today = LocalDateTime.now(ZoneId.systemDefault()).withHour(0).withMinute(0).withSecond(0)
-    val outputDate = if (dateTime.isEqual(today)) {
-        dateTime.format(DateTimeFormatter.ofPattern("h:mm a"))
+    val today = LocalDate.now(ZoneId.systemDefault())
+    val outputDate = if (dateTime.toLocalDate() == today) {
+        dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH))
     } else {
-        val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-        dateTime.format(dateFormatter)
+        dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
     }
     return outputDate
+}
+
+fun detailDateFormat(input: String): String {
+    val dateTime = LocalDateTime.parse(input, DateTimeFormatter.ISO_DATE_TIME)
+    return dateTime.format(DateTimeFormatter.ofPattern("M/d H:mm"))
 }
