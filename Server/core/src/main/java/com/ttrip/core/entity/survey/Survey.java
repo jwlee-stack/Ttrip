@@ -6,8 +6,6 @@ import com.ttrip.core.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Builder
 @Getter
@@ -18,7 +16,7 @@ import java.util.List;
 public class Survey extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",nullable = false)
+    @Column(name = "id", nullable = false)
     private int surveyId;
     @Column(columnDefinition = "TINYINT")
     private float preferNatureThanCity;
@@ -43,7 +41,7 @@ public class Survey extends BaseEntity {
     @JsonBackReference
     private Member member;
 
-    public double[] toVector(){
+    public double[] toVector() {
         double[] vector = new double[9];
         vector[0] = this.getPreferNatureThanCity();
         vector[1] = this.getPreferPlan();

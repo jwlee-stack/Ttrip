@@ -11,4 +11,5 @@ import java.util.List;
 public interface BlacklistRepository extends JpaRepository<Blacklist,Integer> {
     //List<Blacklist> findAllByBlacklist_Id(Integer memberId);
     List<Blacklist> findAllByMember(Member member);
+    Boolean existsByMember(Member member);
 }
