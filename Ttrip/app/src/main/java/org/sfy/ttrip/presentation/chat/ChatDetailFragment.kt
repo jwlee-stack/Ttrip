@@ -78,12 +78,32 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun setChatInfo() {
         chatViewModel.chatId = args.chatId
         binding.apply {
             ivOtherProfile.setProfileImg(args.imagePath)
             tvOtherNickname.text = args.nickname
             tvPostContent.text = args.articleTitle
+            if (args.articleTitle == "") {
+                clPostContent.visibility = View.GONE
+            }
+        }
+        if (args.isMatch) {
+            binding.apply {
+                clMatching.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius40)
+                clMatching.isEnabled = false
+                tvMatching.setTextColor(R.color.black)
+                tvMatching.text = "매칭완료"
+                ivMatching.visibility = View.GONE
+            }
+        } else {
+            binding.apply {
+                clMatching.setBackgroundResource(R.drawable.bg_rect_honey_suckle_transparent_radius40_stroke1)
+                clMatching.isEnabled = true
+                tvMatching.setTextColor(R.color.honey_suckle)
+                tvMatching.text = "매칭"
+            }
         }
     }
 
@@ -109,18 +129,18 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
     }
 
 
-    fun connectSocket(chatroomId: Int, memberUuid: String, targetUuid: String) {
+    private fun connectSocket(chatroomId: Int, memberUuid: String, targetUuid: String) {
         val request = Request.Builder()
             .url("ws://k8d104.p.ssafy.io:8081/ws/chat/$chatroomId/$memberUuid/$targetUuid")
             .build()
         webSocket = client.newWebSocket(request, listener)
     }
 
-    fun disconnectSocket() {
+    private fun disconnectSocket() {
         webSocket.close(NORMAL_CLOSURE_STATUS, null)
     }
 
-    fun sendMessage(message: String) {
+    private fun sendMessage(message: String) {
         webSocket.send(message)
     }
 

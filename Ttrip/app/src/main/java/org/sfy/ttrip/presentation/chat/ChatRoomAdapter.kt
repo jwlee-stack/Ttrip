@@ -16,7 +16,8 @@ class ChatRoomAdapter(
         imagePath: String?,
         articleTitle: String,
         nickname: String,
-        articleId: Int
+        articleId: Int,
+        isMatch: Boolean
     ) -> Unit,
     private val onChatRoomLongClicked: (chatId: Int) -> Unit
 ) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
@@ -48,7 +49,8 @@ class ChatRoomAdapter(
             imagePath: String?,
             articleTitle: String,
             nickname: String,
-            articleId: Int
+            articleId: Int,
+            isMatch: Boolean
         ) -> Unit,
         private val onChatRoomLongClicked: (chatId: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -63,7 +65,8 @@ class ChatRoomAdapter(
                         data.imagePath,
                         data.articleTitle,
                         data.otherNickname,
-                        data.articleId
+                        data.articleId,
+                        data.isMatch
                     )
                 }
                 root.setOnLongClickListener {

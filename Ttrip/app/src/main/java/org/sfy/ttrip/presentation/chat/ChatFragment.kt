@@ -46,7 +46,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
         imagePath: String?,
         articleTitle: String,
         nickname: String,
-        articleId: Int
+        articleId: Int,
+        isMatch: Boolean
     ) {
         navigate(
             ChatFragmentDirections.actionChatFragmentToChatDetailFragment(
@@ -55,7 +56,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
                 imagePath,
                 articleTitle,
                 nickname,
-                articleId
+                articleId,
+                isMatch
             )
         )
     }
