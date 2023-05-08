@@ -17,7 +17,9 @@ public class CustomHandshakeInterceptor extends HttpSessionHandshakeInterceptor 
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             String path = servletRequest.getURI().getPath();
-            // ["", "ws", "live", "{city}", "{memberId}"], ["", "ws", "{chatroomId}", "{memberUuid}", "{opponentUuid}"]
+            // ["", "ws", "live", "{city}", "{memberId}"],
+            // ["", "ws", "chat", "{chatroomId}", "{memberUuid}", "{opponentUuid}"]
+            // ["", "ws", "match", "{memberUuid}","{opponentUuid}"]
             String[] pathVariables = path.split("/");
             if (pathVariables[2].equals("live")) {
                 attributes.put("city", pathVariables[3]);
@@ -26,6 +28,9 @@ public class CustomHandshakeInterceptor extends HttpSessionHandshakeInterceptor 
                 attributes.put("chatroomId", pathVariables[3]);
                 attributes.put("memberUuid", pathVariables[4]);
                 attributes.put("opponentUuid", pathVariables[5]);
+            } else if (pathVariables[2].equals("match")) {
+                attributes.put("memberUuid", pathVariables[3]);
+                attributes.put("opponentUuid", pathVariables[4]);
             }
         }
         return super.beforeHandshake(request, response, wsHandler, attributes);

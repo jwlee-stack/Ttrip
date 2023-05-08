@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.ttrip.api.config.webSocket.ChatHandler;
 import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageResDto;
+import com.ttrip.api.service.ChatService;
 import com.ttrip.api.service.FcmService;
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import com.ttrip.core.entity.member.Member;
+import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.matchHistory.MatchHistoryRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
@@ -38,6 +41,8 @@ public class FcmServiceImpl implements FcmService {
     public final ObjectMapper objectMapper;
     private final Logger logger = LogManager.getLogger(ChatHandler.class);
     private final MatchHistoryRepository matchHistoryRepository;
+    private final ArticleRepository articleRepository;
+    private final ChatService chatService;
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/ttrip-6f310/messages:send";
 
     //    FCM에 push 요청을 보낼 때 인증을 위해 Header에 포함시킬 AccessToken 생성
@@ -172,7 +177,12 @@ public class FcmServiceImpl implements FcmService {
                         .evaluator(member)
                         .evaluated(targetMember)
                         .build());
-
+                //채팅 추가
+                chatService.makeChat(ChatMakerReqDto.builder()
+                        //제목 빈 삭제된 게시글 참조
+                        .ArticleId(18)
+                        .opponentUserUuid(targetMember.getMemberUuid())
+                        .build(), member);
                 logger.info("live 매칭 요청 수락!");
             } else {
                 logger.info("live 매칭 요청 거절!");
