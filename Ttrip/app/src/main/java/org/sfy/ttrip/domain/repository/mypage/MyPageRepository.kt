@@ -2,6 +2,7 @@ package org.sfy.ttrip.domain.repository.mypage
 
 import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
 
@@ -33,4 +34,6 @@ interface MyPageRepository {
         markerImg: MultipartBody.Part?,
         profileImg: MultipartBody.Part?
     )
+
+    suspend fun getMyPosts(): Resource<List<BoardBrief>>
 }
