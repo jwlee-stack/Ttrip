@@ -120,6 +120,14 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
                 )
             }
         }
+        if (args.nickname == "알수없음") {
+            binding.apply {
+                clMatching.visibility = View.GONE
+                ivSendMessage.visibility = View.GONE
+                etChat.isEnabled = false
+                etChat.hint = "대화 상대가 퇴장했습니다."
+            }
+        }
     }
 
     private fun sendMessage() {

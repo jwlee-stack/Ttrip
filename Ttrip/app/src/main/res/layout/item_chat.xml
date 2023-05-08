@@ -28,7 +28,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_other_message"
                 android:fontFamily="@font/sc_dream3"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:maxWidth="300dp"
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/white"

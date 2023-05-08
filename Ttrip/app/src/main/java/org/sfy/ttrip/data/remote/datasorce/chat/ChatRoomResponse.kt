@@ -17,6 +17,8 @@ data class ChatRoomResponse(
     val chatId: Int,
     @SerializedName("memberUuid")
     val otherUuid: String,
+    @SerializedName("similarity")
+    val similarity: Int,
     @SerializedName("articleTitle")
     val articleTitle: String,
     @SerializedName("articleId")
@@ -34,6 +36,7 @@ data class ChatRoomResponse(
             lastMessage,
             chatId,
             otherUuid,
+            similarity,
             articleTitle,
             articleId,
             status,
