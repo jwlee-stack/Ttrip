@@ -128,5 +128,8 @@
         <action
             android:id="@+id/action_myPageBoardFragment_to_boardDetailFragment"
             app:destination="@id/boardDetailFragment" />
+        <argument
+            android:name="isMatch"
+            app:argType="boolean" />
     </fragment>
 </navigation>
