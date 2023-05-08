@@ -45,6 +45,11 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         sendMessage()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).hideBottomNavigation(true)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         disconnectSocket()
@@ -103,6 +108,16 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
                 clMatching.isEnabled = true
                 tvMatching.setTextColor(R.color.honey_suckle)
                 tvMatching.text = "매칭"
+            }
+        }
+        if (args.status != "D") {
+            binding.tvPostContent.setOnClickListener {
+                navigate(
+                    ChatDetailFragmentDirections.actionChatDetailFragmentToBoardDetailFragment(
+                        args.articleId,
+                        -1
+                    )
+                )
             }
         }
     }

@@ -118,6 +118,12 @@
         <argument
             android:name="isMatch"
             app:argType="boolean" />
+        <argument
+            android:name="status"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chatDetailFragment_to_boardDetailFragment"
+            app:destination="@id/boardDetailFragment" />
     </fragment>
 
     <fragment
@@ -128,8 +134,5 @@
         <action
             android:id="@+id/action_myPageBoardFragment_to_boardDetailFragment"
             app:destination="@id/boardDetailFragment" />
-        <argument
-            android:name="isMatch"
-            app:argType="boolean" />
     </fragment>
 </navigation>

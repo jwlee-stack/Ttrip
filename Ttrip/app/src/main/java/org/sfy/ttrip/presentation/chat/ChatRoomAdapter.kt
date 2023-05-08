@@ -17,7 +17,8 @@ class ChatRoomAdapter(
         articleTitle: String,
         nickname: String,
         articleId: Int,
-        isMatch: Boolean
+        isMatch: Boolean,
+        status: String
     ) -> Unit,
     private val onChatRoomLongClicked: (chatId: Int) -> Unit
 ) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
@@ -50,7 +51,8 @@ class ChatRoomAdapter(
             articleTitle: String,
             nickname: String,
             articleId: Int,
-            isMatch: Boolean
+            isMatch: Boolean,
+            status: String
         ) -> Unit,
         private val onChatRoomLongClicked: (chatId: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -66,7 +68,8 @@ class ChatRoomAdapter(
                         data.articleTitle,
                         data.otherNickname,
                         data.articleId,
-                        data.isMatch
+                        data.isMatch,
+                        data.status
                     )
                 }
                 root.setOnLongClickListener {
