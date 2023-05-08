@@ -47,7 +47,11 @@ class BoardListAdapter(
         fun onBind(data: BoardBrief) {
             binding.apply {
                 root.setOnClickListener {
-                    onBoardItemClicked(data.articleId, data.dueDay.toInt())
+                    if (data.dueDay < 0) {
+                        onBoardItemClicked(data.articleId, -2)
+                    } else {
+                        onBoardItemClicked(data.articleId, data.dueDay.toInt())
+                    }
                 }
                 if (data.dueDay < 0) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
@@ -62,7 +66,12 @@ class BoardListAdapter(
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_red)
-                    tvBoardDDay.text = "D-${data.dueDay}"
+
+                    if (data.dueDay.toInt() == 0) {
+                        tvBoardDDay.text = "D-DAY"
+                    } else {
+                        tvBoardDDay.text = "D-${data.dueDay}"
+                    }
                 } else if (data.dueDay <= 10) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.ming))

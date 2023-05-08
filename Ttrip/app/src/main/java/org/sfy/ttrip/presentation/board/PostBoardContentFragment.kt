@@ -4,7 +4,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentPostBoardContentBinding
@@ -53,7 +52,6 @@ class PostBoardContentFragment :
                             viewModel.postBoardTitle(binding.etBoardInfoTitle.text.toString())
                         }
                     })
-
                     changeVisibility(0, contentData)
                 }
                 1 -> {
@@ -79,11 +77,9 @@ class PostBoardContentFragment :
                             viewModel.postBoardContent(binding.etBoardInfoContent.text.toString())
                         }
                     })
-
                     changeVisibility(1, contentData)
                 }
                 2 -> {
-
                     changeVisibility(2, contentData)
                 }
                 3 -> {
@@ -101,7 +97,6 @@ class PostBoardContentFragment :
                             viewModel.postStartDate("$year-${String.format("%02d", month+1)}-${String.format("%02d", dayOfMonth)}")
                         }
                     }
-
                     changeVisibility(3, contentData)
                 }
                 4 -> {
@@ -120,7 +115,6 @@ class PostBoardContentFragment :
                         }
                     }
                     changeVisibility(4, contentData)
-
                 }
             }
         }

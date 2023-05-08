@@ -167,9 +167,12 @@ class BoardDetailFragment :
         viewModel.getBoardDetail(args.boardId)
 
         binding.apply {
-            if (args.dDay < 0) {
+            if (args.dDay == -2) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-            } else if (args.dDay <= 3) {
+            }else if(args.dDay == -1){
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
+            }
+            else if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
