@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:autofillHints=""
+                android:textSize="16sp"
+                android:fontFamily="@font/sc_dream5"
                 android:hint="@string/content_user_info_nick_name_hint"
                 android:inputType="text"
                 android:paddingStart="8dp"
