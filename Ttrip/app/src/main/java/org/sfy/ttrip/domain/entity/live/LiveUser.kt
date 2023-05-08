@@ -8,5 +8,7 @@ data class LiveUser(
     val latitude: Double,
     val longitude: Double,
     val matchingRate: Double,
+    val profileImgPath: String?,
+    val markerImgPath: String?,
     val distanceFromMe: Double
 )

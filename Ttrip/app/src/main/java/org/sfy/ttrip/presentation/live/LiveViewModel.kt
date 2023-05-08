@@ -166,6 +166,8 @@ class LiveViewModel @Inject constructor(
                         userResponse.latitude,
                         userResponse.longitude,
                         userResponse.matchingRate,
+                        userResponse.profileImgPath,
+                        userResponse.markerImgPath,
                         userResponse.matchingRate
                     )
                 )
