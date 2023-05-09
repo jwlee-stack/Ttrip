@@ -23,6 +23,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
+            android:visibility="gone"
             android:background="@drawable/bg_rect_whisper_radius10"
             android:paddingHorizontal="12dp"
             app:layout_constraintStart_toStartOf="parent"
