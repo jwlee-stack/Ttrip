@@ -127,7 +127,7 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atNation.text.toString())
+                                viewModel.postBoardCity(binding.atCity.text.toString())
                             }
 
                             override fun onTextChanged(
@@ -136,11 +136,11 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atNation.text.toString())
+                                viewModel.postBoardCity(binding.atCity.text.toString())
                             }
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.postBoardCity(binding.atNation.text.toString())
+                                viewModel.postBoardCity(binding.atCity.text.toString())
                             }
                         })
                     }
