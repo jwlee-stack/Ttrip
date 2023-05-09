@@ -50,6 +50,7 @@ class UserProfileDialog(
         binding.apply {
             ivPostChat.setOnClickListener {
                 listener.postChats(boardId, uuid)
+                listener.clear()
             }
             ivCloseDialog.setOnClickListener {
                 listener.clear()
