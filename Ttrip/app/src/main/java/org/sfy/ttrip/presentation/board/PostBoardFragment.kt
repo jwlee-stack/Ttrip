@@ -74,6 +74,7 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                 text = "등록"
                                 setOnClickListener {
                                     viewModel.postBoard()
+                                    showToast("게시글이 작성되었습니다")
                                     popBackStack()
                                 }
                             }

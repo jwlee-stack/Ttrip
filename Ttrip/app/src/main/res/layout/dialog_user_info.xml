@@ -27,22 +27,17 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_rect_white_radius30">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_user_profile_background"
+                <ImageView
+                    android:id="@+id/iv_user_profile_background"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rect_white_top_radius30"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/iv_user_profile_background"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="@string/image_user_background"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="140dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/bg_rect_neon_blue_radius30"
+                    android:clipToOutline="true"
+                    android:contentDescription="@string/image_user_background"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="s" />
 
                 <ImageView
                     android:id="@+id/iv_close_dialog"
@@ -75,7 +70,7 @@
                     android:src="@drawable/ic_profile_circle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/cl_user_profile_background" />
+                    app:layout_constraintTop_toTopOf="@+id/iv_user_profile_background" />
 
                 <TextView
                     android:id="@+id/tv_user_nick_name"

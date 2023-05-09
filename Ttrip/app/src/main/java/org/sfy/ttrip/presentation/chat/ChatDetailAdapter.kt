@@ -40,14 +40,14 @@ class ChatDetailAdapter(var items: List<ChatDetail>) :
                     clOtherMessage.visibility = View.GONE
                     clMyMessage.visibility = View.VISIBLE
                     tvMyMessage.text = data.content
-                    tvMyTime.text = detailDateFormat(data.createdDate)
+                    tvMyTime.text = detailDateFormat(data.createdAt)
                 }
             } else {
                 binding.apply {
                     clMyMessage.visibility = View.GONE
                     clOtherMessage.visibility = View.VISIBLE
                     tvOtherMessage.text = data.content
-                    tvOtherTime.text = detailDateFormat(data.createdDate)
+                    tvOtherTime.text = detailDateFormat(data.createdAt)
                 }
             }
         }
