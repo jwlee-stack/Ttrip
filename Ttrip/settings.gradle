@@ -18,3 +18,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Ttrip"
 include ':app'
+include ':rtc-chat'
+include ':libwebrtc'
