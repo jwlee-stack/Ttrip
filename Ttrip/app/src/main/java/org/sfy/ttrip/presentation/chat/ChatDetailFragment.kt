@@ -64,7 +64,7 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
     private fun initListener() {
         binding.apply {
             clMatching.setOnClickListener {
-                chatViewModel.chatMatch(args.articleId, args.memberId)
+                chatViewModel.chatMatch(args.chatId, args.memberId)
                 it.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius40)
                 it.isEnabled = false
                 tvMatching.setTextColor(R.color.black)
