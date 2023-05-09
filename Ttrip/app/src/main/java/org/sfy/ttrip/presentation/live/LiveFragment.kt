@@ -2,6 +2,8 @@ package org.sfy.ttrip.presentation.live
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.util.Log
@@ -13,6 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -153,7 +158,21 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 it.forEach { liveUser ->
                     liveUser?.let {
                         val latLng = LatLng(liveUser.latitude, liveUser.longitude)
-                        map.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromPath("https://k8d104.p.ssafy.io:443/image/${liveUser.markerImgPath!!}")))
+                        Glide.with(requireContext())
+                            .asBitmap()
+                            .load("http://k8d104.p.ssafy.io:8081/images${liveUser.markerImgPath!!}")
+                            .into(object : CustomTarget<Bitmap>() {
+                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                                    val resizedBitmap = Bitmap.createScaledBitmap(resource, 150, 170, false)
+                                    map.addMarker(
+                                        MarkerOptions()
+                                            .position(latLng)
+                                            .icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
+                                    )
+                                }
+
+                                override fun onLoadCleared(placeholder: Drawable?) {}
+                            })
                     }
                 }
             }
@@ -208,6 +227,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             filteredLiveUserList.value = null
                         }
                         liveUserAdapter.setLiveUser(null)
+                        map.clear()
                     }
                 }
             }
