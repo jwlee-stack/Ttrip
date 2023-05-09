@@ -235,6 +235,22 @@
         <item>벨기에</item>
         <item>체코</item>
         <item>슬로베니아</item>
+        <item>볼리비아</item>
+        <item>미국</item>
+        <item>캐나다</item>
+        <item>멕시코</item>
+        <item>페루</item>
+        <item>아르헨티나</item>
+        <item>쿠바</item>
+        <item>호주</item>
+        <item>뉴질랜드</item>
+        <item>이집트</item>
+        <item>남아프리카공화국</item>
+        <item>탄자니아</item>
+        <item>에티오피아</item>
+        <item>케냐</item>
+        <item>나미비아</item>
+        <item>모로코</item>
     </string-array>
     <string-array name="city_names">
         <item>서울</item>
@@ -376,7 +392,56 @@
         <item>프라하</item>
         <item>크룸로프</item>
         <item>류블랴나</item>
-
+        <item>뉴욕</item>
+        <item>라스베가스</item>
+        <item>로스앤젤레스</item>
+        <item>샌프란시스코</item>
+        <item>시카고</item>
+        <item>올랜도</item>
+        <item>필라델피아</item>
+        <item>마이래미</item>
+        <item>시애틀</item>
+        <item>보스턴</item>
+        <item>워싱턴D.C</item>
+        <item>샌디에고</item>
+        <item>하와이</item>
+        <item>벤쿠버</item>
+        <item>토론토</item>
+        <item>갤거리</item>
+        <item>퀘백</item>
+        <item>칸쿤</item>
+        <item>리마</item>
+        <item>라파스</item>
+        <item>우유니</item>
+        <item>산티아고</item>
+        <item>산페드로데아타카마</item>
+        <item>부에노스아이레스</item>
+        <item>하바나</item>
+        <item>시드니</item>
+        <item>브리즈번</item>
+        <item>멜버른</item>
+        <item>케언즈</item>
+        <item>퍼스</item>
+        <item>퀸즈타운</item>
+        <item>오클랜드</item>
+        <item>로토루아</item>
+        <item>크라이스트처치</item>
+        <item>카이로</item>
+        <item>록소르</item>
+        <item>아스완</item>
+        <item>후루가다</item>
+        <item>케이프타운</item>
+        <item>요하네스버그</item>
+        <item>아루샤</item>
+        <item>킬리만자로</item>
+        <item>다르에스살람</item>
+        <item>잔지바르</item>
+        <item>아디스아바바</item>
+        <item>나이로비</item>
+        <item>빈트후크</item>
+        <item>스와콥문트</item>
+        <item>카사블랑카</item>
+        <item>마라케시</item>
+        <item>페스</item>
     </string-array>
-
 </resources>
