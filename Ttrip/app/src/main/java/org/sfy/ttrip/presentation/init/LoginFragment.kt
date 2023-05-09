@@ -47,5 +47,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 startActivity(intent)
             }
         }
+
+        authViewModel.isValid.observe(viewLifecycleOwner){
+            if(!it){
+                showToast("번호 또는 비밀번호를 확인해보세요.")
+                authViewModel.makeIsValidTrue()
+            }
+        }
     }
 }
