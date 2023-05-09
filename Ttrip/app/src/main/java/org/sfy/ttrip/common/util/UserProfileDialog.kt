@@ -10,8 +10,6 @@ import androidx.core.content.ContextCompat
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.BindingAdapters.setNormalImg
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
-import org.sfy.ttrip.common.util.BindingAdapters.setNormalImg
-import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.DialogUserInfoBinding
 
 class UserProfileDialog(
