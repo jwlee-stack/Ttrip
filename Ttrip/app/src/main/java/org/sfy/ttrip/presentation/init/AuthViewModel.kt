@@ -23,6 +23,9 @@ class AuthViewModel @Inject constructor(
     private val _userData: MutableLiveData<Auth?> = MutableLiveData()
     val userData: LiveData<Auth?> = _userData
 
+    private val _isValid: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isValid: LiveData<Boolean> = _isValid
+
     private val _emptyNickname: MutableLiveData<Boolean?> = MutableLiveData()
     val emptyNickname: LiveData<Boolean?> = _emptyNickname
 
@@ -46,10 +49,18 @@ class AuthViewModel @Inject constructor(
                 ApplicationClass.preferences.age = value.data.age
                 ApplicationClass.preferences.profileImgPath = value.data.profileImgPath
                 ApplicationClass.preferences.markerImgPath = value.data.markerImgPath
+
+                _isValid.value = true
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
+
+                _isValid.value = false
             }
         }
+    }
+
+    fun makeIsValidTrue(){
+        _isValid.value = true
     }
 }
