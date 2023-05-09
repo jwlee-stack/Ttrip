@@ -3,6 +3,7 @@ package org.sfy.ttrip.presentation.board
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import org.sfy.ttrip.R
@@ -16,7 +17,6 @@ class PostBoardContentFragment :
     private val viewModel by activityViewModels<BoardViewModel>()
 
     override fun initView() {
-
         bannerPosition = arguments?.getInt("content_position")!!
         with(bannerPosition) {
             val contentData = listOf(
@@ -62,6 +62,7 @@ class PostBoardContentFragment :
                             count: Int,
                             after: Int
                         ) {
+                            viewModel.postBoardContent(binding.etBoardInfoContent.text.toString())
                         }
 
                         override fun onTextChanged(
@@ -80,6 +81,69 @@ class PostBoardContentFragment :
                     changeVisibility(1, contentData)
                 }
                 2 -> {
+                    val adapter = ArrayAdapter<String>(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        resources.getStringArray(R.array.nation_names)
+                    )
+                    binding.atNation.apply {
+                        setAdapter(adapter)
+                        addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(
+                                p0: CharSequence?,
+                                p1: Int,
+                                p2: Int,
+                                p3: Int
+                            ) {
+                                viewModel.postBoardNation(binding.atNation.text.toString())
+                            }
+
+                            override fun onTextChanged(
+                                p0: CharSequence?,
+                                p1: Int,
+                                p2: Int,
+                                p3: Int
+                            ) {
+                                viewModel.postBoardNation(binding.atNation.text.toString())
+                            }
+
+                            override fun afterTextChanged(p0: Editable?) {
+                                viewModel.postBoardNation(binding.atNation.text.toString())
+                            }
+                        })
+                    }
+
+                    val adapter2 = ArrayAdapter<String>(
+                        requireContext(),
+                        android.R.layout.simple_dropdown_item_1line,
+                        resources.getStringArray(R.array.city_names)
+                    )
+                    binding.atCity.apply {
+                        setAdapter(adapter2)
+                        addTextChangedListener(object : TextWatcher {
+                            override fun beforeTextChanged(
+                                p0: CharSequence?,
+                                p1: Int,
+                                p2: Int,
+                                p3: Int
+                            ) {
+                                viewModel.postBoardCity(binding.atCity.text.toString())
+                            }
+
+                            override fun onTextChanged(
+                                p0: CharSequence?,
+                                p1: Int,
+                                p2: Int,
+                                p3: Int
+                            ) {
+                                viewModel.postBoardCity(binding.atCity.text.toString())
+                            }
+
+                            override fun afterTextChanged(p0: Editable?) {
+                                viewModel.postBoardCity(binding.atCity.text.toString())
+                            }
+                        })
+                    }
                     changeVisibility(2, contentData)
                 }
                 3 -> {
@@ -89,12 +153,23 @@ class PostBoardContentFragment :
                         val month = this.month + 1 // month는 0부터 시작하므로 1을 더해줌
                         val day = this.dayOfMonth
                         // yyyy-MM-dd 형식으로 날짜를 저장
-                        viewModel.postStartDate("$year-${String.format("%02d", month)}-${String.format("%02d", day)}")
-
+                        viewModel.postStartDate(
+                            "$year-${
+                                String.format(
+                                    "%02d",
+                                    month
+                                )
+                            }-${String.format("%02d", day)}"
+                        )
                         setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-                            //val selectedDate = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
-                            // 선택된 날짜에 대한 처리를 수행
-                            viewModel.postStartDate("$year-${String.format("%02d", month+1)}-${String.format("%02d", dayOfMonth)}")
+                            viewModel.postStartDate(
+                                "$year-${
+                                    String.format(
+                                        "%02d",
+                                        month + 1
+                                    )
+                                }-${String.format("%02d", dayOfMonth)}"
+                            )
                         }
                     }
                     changeVisibility(3, contentData)
@@ -106,12 +181,24 @@ class PostBoardContentFragment :
                         val month = this.month + 1 // month는 0부터 시작하므로 1을 더해줌
                         val day = this.dayOfMonth
                         // yyyy-MM-dd 형식으로 날짜를 저장
-                        viewModel.postEndDate("$year-${String.format("%02d", month)}-${String.format("%02d", day)}")
+                        viewModel.postEndDate(
+                            "$year-${
+                                String.format(
+                                    "%02d",
+                                    month
+                                )
+                            }-${String.format("%02d", day)}"
+                        )
 
                         setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-                            //val selectedDate = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
-                            // 선택된 날짜에 대한 처리를 수행
-                            viewModel.postEndDate("$year-${String.format("%02d", month+1)}-${String.format("%02d", dayOfMonth)}")
+                            viewModel.postEndDate(
+                                "$year-${
+                                    String.format(
+                                        "%02d",
+                                        month + 1
+                                    )
+                                }-${String.format("%02d", dayOfMonth)}"
+                            )
                         }
                     }
                     changeVisibility(4, contentData)

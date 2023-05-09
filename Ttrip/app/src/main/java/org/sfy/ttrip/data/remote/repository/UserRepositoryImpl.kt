@@ -6,6 +6,7 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserRemoteDataSource
+import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import javax.inject.Inject
 
@@ -45,4 +46,9 @@ class UserRepositoryImpl @Inject constructor(
             userRemoteDataSource.postUserInfoTest(userTest)
         }
     }
+
+    override suspend fun getUserProfile(nickName: String): Resource<UserProfileDialog> =
+        wrapToResource {
+            userRemoteDataSource.getUserProfile(nickName).toDomainModel()
+        }
 }

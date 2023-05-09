@@ -14,8 +14,9 @@ import org.sfy.ttrip.databinding.ListItemBoardDetailCommentBinding
 import org.sfy.ttrip.domain.entity.board.BoardComment
 
 class BoardCommentListAdapter(
-    private val onBoardCommentItemClicked: (nickName: String) -> Unit,
-    private val context: Context
+    private val onBoardCommentItemClicked: (nickName: String, boardId: Int, similarity: Float) -> Unit,
+    private val context: Context,
+    private val boardId: Int
 ) : RecyclerView.Adapter<BoardCommentListAdapter.BoardCommentListViewHolder>() {
 
     lateinit var binding: ListItemBoardDetailCommentBinding
@@ -33,7 +34,8 @@ class BoardCommentListAdapter(
             binding,
             onBoardCommentItemClicked,
             context,
-            isMine
+            isMine,
+            boardId
         )
     }
 
@@ -46,9 +48,10 @@ class BoardCommentListAdapter(
 
     class BoardCommentListViewHolder(
         val binding: ListItemBoardDetailCommentBinding,
-        private val onBoardCommentItemClicked: (nickName: String) -> Unit,
+        private val onBoardCommentItemClicked: (nickName: String, boardId: Int, similarity: Float) -> Unit,
         private val context: Context,
-        private val isMine: Boolean
+        private val isMine: Boolean,
+        private val boardId: Int
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: BoardComment) {
             binding.apply {
@@ -58,7 +61,7 @@ class BoardCommentListAdapter(
 
                 if (isMine) {
                     root.setOnClickListener {
-                        onBoardCommentItemClicked(data.applicantNickname)
+                        onBoardCommentItemClicked(data.applicantNickname, boardId, data.similarity)
                     }
                     tvBoardDetailCommentUserPercent.visibility = View.VISIBLE
                     tvBoardDetailCommentUserPercent.text = "${data.similarity.toInt()}%"

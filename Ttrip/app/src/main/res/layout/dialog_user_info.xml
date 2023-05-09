@@ -31,9 +31,13 @@
                     android:id="@+id/iv_user_profile_background"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:background="@drawable/bg_rect_white_top_radius30"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/bg_rect_neon_blue_radius30"
+                    android:clipToOutline="true"
                     android:contentDescription="@string/image_user_background"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="s" />
 
                 <ImageView
                     android:id="@+id/iv_close_dialog"
@@ -47,6 +51,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/iv_post_chat"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="20dp"
@@ -81,6 +86,7 @@
                     tools:text="림림" />
 
                 <TextView
+                    android:id="@+id/tv_user_profile_similarity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -95,16 +101,31 @@
                     app:layout_constraintTop_toTopOf="@id/tv_user_nick_name"
                     tools:text="97%" />
 
-                <TextView
-                    android:id="@+id/tv_profile_info_age"
+                <LinearLayout
+                    android:id="@+id/ll_user_age_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey2"
-                    android:textSize="12sp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_user_nick_name"
-                    tools:text="20대 여성" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_nick_name">
+
+                    <TextView
+                        android:id="@+id/tv_profile_info_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey2"
+                        android:textSize="12sp"
+                        tools:text="20대" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_info_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey2"
+                        android:textSize="12sp"
+                        tools:text="여성" />
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="16sp"
@@ -112,9 +133,9 @@
                     android:layout_marginStart="3dp"
                     android:contentDescription="@string/image_user_check"
                     android:src="@drawable/ic_user_check"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_profile_info_age"
-                    app:layout_constraintStart_toEndOf="@id/tv_profile_info_age"
-                    app:layout_constraintTop_toTopOf="@id/tv_profile_info_age" />
+                    app:layout_constraintBottom_toBottomOf="@id/ll_user_age_gender"
+                    app:layout_constraintStart_toEndOf="@id/ll_user_age_gender"
+                    app:layout_constraintTop_toTopOf="@id/ll_user_age_gender" />
 
                 <TextView
                     android:id="@+id/tv_user_info_content"
@@ -129,7 +150,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile_info_age"
+                    app:layout_constraintTop_toBottomOf="@id/ll_user_age_gender"
                     tools:text="대화하면서 하는 여행을 좋아해요!" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

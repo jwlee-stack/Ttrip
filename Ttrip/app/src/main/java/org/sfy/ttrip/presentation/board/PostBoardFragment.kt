@@ -16,6 +16,7 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
         initListener()
         initContent()
         (activity as MainActivity).hideBottomNavigation(true)
+        viewModel.clearPostData()
     }
 
     override fun onDestroy() {
@@ -53,7 +54,15 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                             }
                         }
                         2 -> {
-                            checkInfo(true)
+                            viewModel.postBoardNation.observe(this@PostBoardFragment) {
+                                if (it == null || it == "") checkInfo(false)
+                                else {
+                                    viewModel.postBoardCity.observe(this@PostBoardFragment) {
+                                        if (it == null || it == "") checkInfo(false)
+                                        else checkInfo(true)
+                                    }
+                                }
+                            }
                         }
                         3 -> {
                             binding.tvNextPost.text = "다음"
@@ -65,8 +74,9 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                 text = "등록"
                                 setOnClickListener {
                                     viewModel.postBoard()
+                                    showToast("게시글이 작성되었습니다")
+                                    popBackStack()
                                 }
-                                popBackStack()
                             }
                         }
                     }

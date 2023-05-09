@@ -11,7 +11,9 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.entity.board.BoardDetail
+import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.usecase.board.*
+import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +24,8 @@ class BoardViewModel @Inject constructor(
     private val finishBoardUseCase: FinishBoardUseCase,
     private val getBoardCommentUseCase: GetBoardCommentUseCase,
     private val postCommentUseCase: PostCommentUseCase,
-    private val postBoardUseCase: PostBoardUseCase
+    private val postBoardUseCase: PostBoardUseCase,
+    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
@@ -45,6 +48,31 @@ class BoardViewModel @Inject constructor(
 
     private val _postEndDate: MutableLiveData<String> = MutableLiveData(null)
     val postEndDate: MutableLiveData<String> = _postEndDate
+
+    private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData(null)
+    val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
+
+    private val _postBoardNation: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardNation: MutableLiveData<String?> = _postBoardNation
+
+    private val _postBoardCity: MutableLiveData<String?> = MutableLiveData(null)
+    val postBoardCity: MutableLiveData<String?> = _postBoardCity
+
+    fun getUserProfile(nickname: String) =
+        viewModelScope.launch {
+            when (val value = getUserProfileDialogUseCase(nickname)) {
+                is Resource.Success<UserProfileDialog> -> {
+                    _userProfile.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getUserProfile", "getUserProfile: ${value.errorMessage}")
+                }
+            }
+        }
+
+    fun clearUserProfile() {
+        _userProfile.value = null
+    }
 
     fun getBoards(condition: Int, nation: String, city: String, keyword: String) =
         viewModelScope.launch {
@@ -87,10 +115,10 @@ class BoardViewModel @Inject constructor(
     fun postBoard() {
         viewModelScope.launch {
             postBoardUseCase(
-                "구미",
+                _postBoardCity.value!!,
                 _postBoardContent.value!!,
                 _postEndDate.value!!,
-                "대한민국",
+                _postBoardNation.value!!,
                 _postEndDate.value!!,
                 _postBoardTitle.value!!
             )
@@ -123,11 +151,26 @@ class BoardViewModel @Inject constructor(
         _postBoardContent.value = content
     }
 
+    fun postBoardNation(nation: String?) {
+        _postBoardNation.value = nation
+    }
+
+    fun postBoardCity(city: String?) {
+        _postBoardCity.value = city
+    }
+
     fun postStartDate(startDate: String?) {
         _postStartDate.value = startDate!!
     }
 
     fun postEndDate(endDate: String?) {
         _postEndDate.value = endDate!!
+    }
+
+    fun clearPostData(){
+        _postBoardTitle.value = null
+        _postBoardContent.value = null
+        _postBoardNation.value = null
+        _postBoardCity.value = null
     }
 }

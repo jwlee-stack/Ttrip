@@ -10,28 +10,38 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
+import org.sfy.ttrip.common.util.UserProfileDialog
+import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.chat.ChatViewModel
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
     BoardDialogListener,
-    CommentDialogListener {
+    CommentDialogListener,
+    UserProfileDialogListener {
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
+    private val chatViewModel by activityViewModels<ChatViewModel>()
     private val boardCommentListAdapter by lazy {
-        BoardCommentListAdapter(this::selectComment, requireContext())
+        BoardCommentListAdapter(this::selectComment, requireContext(), args.boardId)
     }
+    private var boardId: Int = 0
+    private var similarity: Float = 0F
+    private var nickName: String = ""
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         getData()
         initListener()
         initRecyclerView()
+        initObserve()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.clearUserProfile()
         (activity as MainActivity).hideBottomNavigation(false)
     }
 
@@ -48,6 +58,14 @@ class BoardDetailFragment :
     override fun addComment(boardId: Int, content: String?) {
         if (content == "") showToast("내용을 입력하세요!")
         else viewModel.postComment(boardId, content)
+    }
+
+    override fun postChats(boardId: Int, uuid: String) {
+        //chatViewModel.createChatRoom(boardId, uuid)
+    }
+
+    override fun clear() {
+        viewModel.clearUserProfile()
     }
 
     private fun initListener() {
@@ -169,10 +187,9 @@ class BoardDetailFragment :
         binding.apply {
             if (args.dDay == -2) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-            }else if(args.dDay == -1){
+            } else if (args.dDay == -1) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
-            }
-            else if (args.dDay <= 3) {
+            } else if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
@@ -207,7 +224,30 @@ class BoardDetailFragment :
         }
     }
 
-    private fun selectComment(nickName: String) {
+    private fun initObserve() {
+        viewModel.userProfile.observe(this@BoardDetailFragment) {
+            if (it != null) {
+                UserProfileDialog(
+                    requireActivity(),
+                    this,
+                    nickName,
+                    boardId,
+                    it.uuid,
+                    it.backgroundImgPath,
+                    it.profileImgPath,
+                    similarity,
+                    it.age,
+                    it.gender,
+                    it.intro
+                ).show()
+            }
+        }
+    }
 
+    private fun selectComment(nickName: String, boardId: Int, similarity: Float) {
+        this.nickName = nickName
+        this.boardId = boardId
+        this.similarity = similarity
+        viewModel.getUserProfile(nickName)
     }
 }
