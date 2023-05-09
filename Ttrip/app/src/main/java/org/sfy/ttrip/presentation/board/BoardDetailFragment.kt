@@ -14,6 +14,7 @@ import org.sfy.ttrip.common.util.UserProfileDialog
 import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.chat.ChatViewModel
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
@@ -22,6 +23,7 @@ class BoardDetailFragment :
     UserProfileDialogListener {
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
+    private val chatViewModel by activityViewModels<ChatViewModel>()
     private val boardCommentListAdapter by lazy {
         BoardCommentListAdapter(this::selectComment, requireContext(), args.boardId)
     }
@@ -39,6 +41,7 @@ class BoardDetailFragment :
 
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.clearUserProfile()
         (activity as MainActivity).hideBottomNavigation(false)
     }
 
@@ -58,7 +61,7 @@ class BoardDetailFragment :
     }
 
     override fun postChats(boardId: Int, uuid: String) {
-        TODO("Not yet implemented")
+        //chatViewModel.createChatRoom(boardId, uuid)
     }
 
     override fun clear() {

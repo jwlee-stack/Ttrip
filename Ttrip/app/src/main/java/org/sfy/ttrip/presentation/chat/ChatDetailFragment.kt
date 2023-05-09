@@ -3,6 +3,7 @@ package org.sfy.ttrip.presentation.chat
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -72,6 +73,9 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
                 ivMatching.visibility = View.GONE
                 showToast("매칭 요청되었습니다!")
             }
+            ivBack.setOnClickListener {
+                popBackStack()
+            }
         }
     }
 
@@ -83,7 +87,6 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     private fun setChatInfo() {
         chatViewModel.chatId = args.chatId
         binding.apply {
@@ -98,7 +101,12 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
             binding.apply {
                 clMatching.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius40)
                 clMatching.isEnabled = false
-                tvMatching.setTextColor(R.color.black)
+                tvMatching.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.black
+                    )
+                )
                 tvMatching.text = "매칭완료"
                 ivMatching.visibility = View.GONE
             }
@@ -106,7 +114,12 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
             binding.apply {
                 clMatching.setBackgroundResource(R.drawable.bg_rect_honey_suckle_transparent_radius40_stroke1)
                 clMatching.isEnabled = true
-                tvMatching.setTextColor(R.color.honey_suckle)
+                tvMatching.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.honey_suckle
+                    )
+                )
                 tvMatching.text = "매칭"
             }
         }
@@ -148,7 +161,7 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
             }
         }
         chatViewModel.getChatDetail(chatId)
-        connectSocket(chatId, args.memberId, ApplicationClass.preferences.userId!!)
+        connectSocket(chatId, ApplicationClass.preferences.userId!!, args.memberId)
     }
 
 
