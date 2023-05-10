@@ -177,10 +177,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 }
             }
 
-
-
             switchLive.setOnCheckedChangeListener { _, isChecked ->
-
                 if ((activity as MainActivity).checkLocationService()) {
                     if (isChecked) {
                         tvSwitchState.apply {
