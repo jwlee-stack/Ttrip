@@ -84,9 +84,8 @@ public class MemberController {
     })
     @ApiOperation(value = "accessToken 재발급 API")
     @PatchMapping("/reissue")
-    public DataResDto<?> reissue(@RequestBody TokenReqDto tokenReqDto,
-                                 @AuthenticationPrincipal MemberDetails memberDetails) {
-        return memberService.reissue(tokenReqDto, memberDetails.getMember().getMemberUuid());
+    public DataResDto<?> reissue(@RequestBody TokenReqDto tokenReqDto) {
+        return memberService.reissue(tokenReqDto);
     }
 
     @ApiResponses({
