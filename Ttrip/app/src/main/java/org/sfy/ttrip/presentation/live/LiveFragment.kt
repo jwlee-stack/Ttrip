@@ -1,16 +1,13 @@
 package org.sfy.ttrip.presentation.live
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.LocationManager
 import android.media.MediaPlayer
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -114,14 +111,16 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     private fun blockMoveToOtherMenu() {
-        val bottomNavigationView = (activity as? MainActivity)?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val bottomNavigationView =
+            (activity as? MainActivity)?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView?.setOnNavigationItemSelectedListener { menuItem ->
             if (binding.switchLive.isChecked) {
                 val dialog = CloseLiveDialog(requireContext(), this)
                 dialog.show()
                 false
             } else {
-                Navigation.findNavController(requireActivity(), R.id.nav_host).navigate(menuItem.itemId)
+                Navigation.findNavController(requireActivity(), R.id.nav_host)
+                    .navigate(menuItem.itemId)
                 true
             }
         }
@@ -177,32 +176,50 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     startLocationUpdates()
                 }
             }
+
+
+
             switchLive.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    tvSwitchState.apply {
-                        setText(R.string.content_live_toggle_on)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.neon_blue))
-                        showToast("LIVE 모드가 시작됩니다.")
-                        liveViewModel.liveOn.value = true
-                        startLocationUpdates()
+
+                if ((activity as MainActivity).checkLocationService()) {
+                    if (isChecked) {
+                        tvSwitchState.apply {
+                            setText(R.string.content_live_toggle_on)
+                            setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.neon_blue
+                                )
+                            )
+                            showToast("LIVE 모드가 시작됩니다.")
+                            liveViewModel.liveOn.value = true
+                            startLocationUpdates()
+                        }
+                    } else {
+                        tvSwitchState.apply {
+                            setText(R.string.content_live_toggle_off)
+                            setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+                            liveViewModel.apply {
+                                liveOn.value = false
+                                cityOnLive.value = ""
+                                lat = 0.0
+                                lng = 0.0
+                                disconnectSocket()
+                            }
+                            stopLocationUpdates()
+                            liveViewModel.apply {
+                                setLiveUserReset()
+                                filteredLiveUserList.value = null
+                            }
+                            liveUserAdapter.setLiveUser(null)
+                        }
                     }
                 } else {
+                    showToast("GPS를 먼저 켜주세요")
+                    switchLive.isChecked = false
                     tvSwitchState.apply {
                         setText(R.string.content_live_toggle_off)
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-                        liveViewModel.apply {
-                            liveOn.value = false
-                            cityOnLive.value = ""
-                            lat = 0.0
-                            lng = 0.0
-                            disconnectSocket()
-                        }
-                        stopLocationUpdates()
-                        liveViewModel.apply {
-                            setLiveUserReset()
-                            filteredLiveUserList.value = null
-                        }
-                        liveUserAdapter.setLiveUser(null)
                     }
                 }
             }
@@ -375,10 +392,4 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     private fun getLiveUser(memberUuid: String) {}
-
-    // GPS가 켜져있는지 확인
-    private fun checkLocationService(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-    }
 }
