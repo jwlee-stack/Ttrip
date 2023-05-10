@@ -53,6 +53,11 @@ class PreferenceTestAgainFragment :
         (activity as MainActivity).hideBottomNavigation(true)
         initRecyclerView()
         observeSurvey()
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.ivBack.setOnClickListener { popBackStack() }
     }
 
     private fun initRecyclerView() {

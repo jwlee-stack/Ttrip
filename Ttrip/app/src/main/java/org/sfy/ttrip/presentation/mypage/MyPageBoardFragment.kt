@@ -18,8 +18,13 @@ class MyPageBoardFragment :
     }
 
     override fun initView() {
+        initListener()
         initRecyclerView()
         getMyPosts()
+    }
+
+    private fun initListener() {
+        binding.ivBack.setOnClickListener { popBackStack() }
     }
 
     private fun initRecyclerView() {
