@@ -57,6 +57,7 @@ class EditProfileFragment :
             tvGenderMale.setOnClickListener {
                 selectMale()
             }
+            ivBack.setOnClickListener { popBackStack() }
         }
     }
 
