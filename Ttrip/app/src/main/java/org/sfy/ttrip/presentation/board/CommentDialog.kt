@@ -35,6 +35,7 @@ class CommentDialog(
 
             tvConfirmComment.setOnClickListener {
                 listener.addComment(boardId, etBoardCommentContent.text.toString())
+                dismiss()
             }
         }
     }

@@ -16,7 +16,7 @@ data class CreateChatResponse(
     @SerializedName("chatId")
     val chatId: Int,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String?
 ) : DataToDomainMapper<CreateChat> {
     override fun toDomainModel(): CreateChat =
         CreateChat(
