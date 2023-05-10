@@ -1,12 +1,14 @@
 package org.sfy.ttrip.presentation.live
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -44,6 +46,9 @@ import kotlin.math.sqrt
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
     GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
 
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
+
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -78,6 +83,21 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getFilteredList()
         getOpenViduToken()
         showUserProfileDialog()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onDestroy() {

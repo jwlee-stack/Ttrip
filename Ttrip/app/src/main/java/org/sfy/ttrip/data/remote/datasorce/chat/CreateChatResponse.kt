@@ -5,21 +5,41 @@ import org.sfy.ttrip.data.remote.datasorce.base.DataToDomainMapper
 import org.sfy.ttrip.domain.entity.chat.CreateChat
 
 data class CreateChatResponse(
-    @SerializedName("imagePath")
-    val imagePath: String?,
     @SerializedName("nickname")
     val nickname: String,
-    @SerializedName("updatedAt")
-    val updatedAt: String,
+    @SerializedName("imagePath")
+    val imagePath: String?,
+    @SerializedName("memberUuid")
+    val memberUuid: String,
+    @SerializedName("similarity")
+    val similarity: Double,
     @SerializedName("lastMessage")
     val lastMessage: String,
-    @SerializedName("chatId")
+    @SerializedName("chatroomId")
     val chatId: Int,
-    @SerializedName("uuid")
-    val uuid: String?
+    @SerializedName("updatedAt")
+    val updatedAt: String,
+    @SerializedName("articleTitle")
+    val articleTitle: String,
+    @SerializedName("articleId")
+    val articleId: Int,
+    @SerializedName("status")
+    val status: Char,
+    @SerializedName("isMatch")
+    val isMatch: Boolean
 ) : DataToDomainMapper<CreateChat> {
     override fun toDomainModel(): CreateChat =
         CreateChat(
-            imagePath, nickname, updatedAt, lastMessage, chatId, uuid
+            nickname,
+            imagePath,
+            memberUuid,
+            similarity,
+            lastMessage,
+            chatId,
+            updatedAt,
+            articleTitle,
+            articleId,
+            status,
+            isMatch
         )
 }

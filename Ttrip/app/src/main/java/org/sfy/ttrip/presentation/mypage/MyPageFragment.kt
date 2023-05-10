@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -29,6 +30,9 @@ import java.io.FileOutputStream
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_mypage),
     LogoutDialogListener {
+
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
 
     private lateinit var markerFile: File
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
@@ -62,6 +66,21 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         initListener()
         setUserProfile()
         observeImg()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onConfirmButtonClicked() {
