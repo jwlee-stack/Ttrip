@@ -6,5 +6,5 @@ data class CreateChat(
     val updatedAt: String,
     val lastMessage: String,
     val chatId: Int,
-    val uuid: String?
+    val uuid: String
 )
