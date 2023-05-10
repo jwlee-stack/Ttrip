@@ -154,11 +154,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
         liveViewModel.filteredLiveUserList.observe(viewLifecycleOwner) { response ->
             response?.let {
+                map.clear()
                 liveUserAdapter.setLiveUser(it.map { users -> users!! })
                 it.forEach { liveUser ->
                     liveUser?.let {
                         val latLng = LatLng(liveUser.latitude, liveUser.longitude)
-                        map.clear()
                         Glide.with(requireContext())
                             .asBitmap()
                             .load("http://k8d104.p.ssafy.io:8081/images${liveUser.markerImgPath!!}")
