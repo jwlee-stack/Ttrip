@@ -119,7 +119,7 @@ class BoardViewModel @Inject constructor(
                 _postBoardContent.value!!,
                 _postEndDate.value!!,
                 _postBoardNation.value!!,
-                _postEndDate.value!!,
+                _postStartDate.value!!,
                 _postBoardTitle.value!!
             )
         }
