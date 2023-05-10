@@ -483,7 +483,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         chatViewModel.chatInit.observe(this@LiveFragment) {
             if (it != null) {
                 navigate(
-                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                    LiveFragmentDirections.actionLiveFragmentToChatDetailFragment(
                         it.chatId,
                         it.memberUuid,
                         it.imagePath,
