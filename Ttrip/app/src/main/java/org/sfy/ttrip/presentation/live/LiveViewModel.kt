@@ -17,17 +17,23 @@ import okio.ByteString
 import org.json.JSONObject
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.live.LiveUser
+import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
+import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class LiveViewModel @Inject constructor(
     private val getLiveUsersUseCase: GetLiveUsersUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
-    private val getCallTokenUseCase: GetCallTokenUseCase
+    private val getCallTokenUseCase: GetCallTokenUseCase,
+    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase
 ) : ViewModel() {
+
+    private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData()
+    val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
 
     private val _liveUserList = MutableLiveData<List<LiveUser?>?>()
     val liveUserList: LiveData<List<LiveUser?>?> = _liveUserList
@@ -50,6 +56,7 @@ class LiveViewModel @Inject constructor(
     var lng = 0.0
     var lat = 0.0
     var lastUpdateTime = 0L
+    var matchingRate: Float = 0F
 
     private fun removeLiveUserById(id: String) {
         val currentList = _liveUserList.value.orEmpty().toMutableList()
@@ -91,6 +98,23 @@ class LiveViewModel @Inject constructor(
             }
         }
     }.await()
+
+    fun clearUserProfile() {
+        _userProfile.value = null
+        matchingRate = 0F
+    }
+
+    fun getUserProfile(nickname: String) =
+        viewModelScope.launch {
+            when (val value = getUserProfileDialogUseCase(nickname)) {
+                is Resource.Success<UserProfileDialog> -> {
+                    _userProfile.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getUserProfile", "getUserProfile: ${value.errorMessage}")
+                }
+            }
+        }
 
     fun connectSocket(city: String, memberId: String) {
         val request = Request.Builder()
@@ -166,7 +190,9 @@ class LiveViewModel @Inject constructor(
                         userResponse.latitude,
                         userResponse.longitude,
                         userResponse.matchingRate,
-                        userResponse.matchingRate
+                        userResponse.profileImgPath,
+                        userResponse.markerImgPath,
+                        userResponse.distanceFromMe
                     )
                 )
             }

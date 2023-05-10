@@ -9,7 +9,7 @@ import org.sfy.ttrip.databinding.ItemLiveInfoBinding
 import org.sfy.ttrip.domain.entity.live.LiveUser
 
 class LiveUserAdapter(
-    private val onItemClicked: (userId: String) -> Unit,
+    private val onItemClicked: (nickname: String, matchingRate: Float) -> Unit,
     private val onCallBtnClicked: (userId: String) -> Unit
 ) : RecyclerView.Adapter<LiveUserAdapter.ViewHolder>() {
 
@@ -31,17 +31,14 @@ class LiveUserAdapter(
 
     class ViewHolder(
         private val binding: ItemLiveInfoBinding,
-        private val onItemClicked: (userId: String) -> Unit,
+        private val onItemClicked: (nickname: String, matchingRate: Float) -> Unit,
         private val onCallBtnClicked: (userId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: LiveUser) {
             binding.apply {
                 user = data
                 root.setOnClickListener {
-                    onItemClicked(data.memberUuid)
-                }
-                ivDetailInfoCallState.setOnClickListener {
-                    onCallBtnClicked(data.memberUuid)
+                    onItemClicked(data.nickname!!, data.matchingRate.toFloat())
                 }
             }
         }

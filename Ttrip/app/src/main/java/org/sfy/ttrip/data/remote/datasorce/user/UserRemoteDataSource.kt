@@ -12,7 +12,7 @@ interface UserRemoteDataSource {
         markerFile: MultipartBody.Part?,
         age: String,
         fcmToken: String
-    )
+    ): UserProfileDialogResponse
 
     suspend fun checkDuplication(nickName: String): CheckDuplicationResponse
 

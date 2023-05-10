@@ -19,6 +19,10 @@ data class LiveUserResponse(
     val longitude: Double,
     @SerializedName("matchingRate")
     val matchingRate: Double,
+    @SerializedName("profileImgPath")
+    val profileImgPath: String?,
+    @SerializedName("markerImgPath")
+    val markerImgPath: String?,
     @SerializedName("distanceFromMe")
     val distanceFromMe: Double
 ) : DataToDomainMapper<LiveUser> {
@@ -31,6 +35,8 @@ data class LiveUserResponse(
             latitude,
             longitude,
             matchingRate,
+            profileImgPath,
+            markerImgPath,
             distanceFromMe
         )
 }

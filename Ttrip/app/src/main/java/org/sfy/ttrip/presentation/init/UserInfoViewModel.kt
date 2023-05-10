@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.user.UserTest
@@ -88,18 +89,30 @@ class UserInfoViewModel @Inject constructor(
         postUserInfoTestUseCase(_userTest.value!!)
     }
 
-    fun postUserInfo() =
-        viewModelScope.launch {
-            postUserInfoUseCase(
-                _nickname.value!!,
-                _userIntro.value!!,
-                _userSex.value!!,
-                profileImgMultiPart,
-                markerImgMultiPart,
-                _userAge.value!!,
-                ""
-            )
+    fun postUserInfo() = viewModelScope.launch {
+        when (val value = postUserInfoUseCase(
+            _nickname.value!!,
+            _userIntro.value!!,
+            _userSex.value!!,
+            profileImgMultiPart,
+            markerImgMultiPart,
+            _userAge.value!!,
+            ""
+        )) {
+            is Resource.Success -> {
+                ApplicationClass.preferences.apply {
+                    nickname = value.data.nickname
+                    gender = value.data.gender
+                    age = value.data.age.toString()
+                    profileImgPath = value.data.profileImgPath
+                    markerImgPath = value.data.markerImgPath
+                }
+            }
+            is Resource.Error -> {
+                Log.e("postUserInfo", "postUserInfo: ${value.errorMessage}")
+            }
         }
+    }
 
     fun changeDuplicationTrue() {
         _isDuplicate.value = true

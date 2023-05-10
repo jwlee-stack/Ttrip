@@ -16,7 +16,7 @@ interface UserRepository {
         markerFile: MultipartBody.Part?,
         age: String,
         fcmToken: String
-    )
+    ): Resource<UserProfileDialog>
 
     suspend fun checkDuplication(nickName: String): Resource<CheckDuplicationResponse>
 

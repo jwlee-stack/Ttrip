@@ -2,6 +2,8 @@ package org.sfy.ttrip.presentation.live
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.util.Log
@@ -13,23 +15,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.VisibleRegion
+import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.UserProfileDialog
+import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
-import java.util.Locale
+import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -37,7 +42,7 @@ import kotlin.math.sqrt
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
-    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener {
+    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
@@ -72,6 +77,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         requestLocationPermission()
         getFilteredList()
         getOpenViduToken()
+        showUserProfileDialog()
     }
 
     override fun onDestroy() {
@@ -108,6 +114,26 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun onConfirmButtonClicked() {
         binding.switchLive.isChecked = false
+    }
+
+    private fun showUserProfileDialog() {
+        liveViewModel.userProfile.observe(viewLifecycleOwner) {
+            it?.let {
+                UserProfileDialog(
+                    requireActivity(),
+                    this,
+                    it.nickname,
+                    0,
+                    it.uuid,
+                    it.backgroundImgPath,
+                    it.profileImgPath,
+                    liveViewModel.matchingRate,
+                    it.age,
+                    it.gender,
+                    it.intro
+                ).show()
+            }
+        }
     }
 
     private fun blockMoveToOtherMenu() {
@@ -150,7 +176,34 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         }
         liveViewModel.filteredLiveUserList.observe(viewLifecycleOwner) { response ->
-            response?.let { liveUserAdapter.setLiveUser(it.map { users -> users!! }) }
+            response?.let {
+                map.clear()
+                liveUserAdapter.setLiveUser(it.map { users -> users!! })
+                it.forEach { liveUser ->
+                    liveUser?.let {
+                        val latLng = LatLng(liveUser.latitude, liveUser.longitude)
+                        Glide.with(requireContext())
+                            .asBitmap()
+                            .load("http://k8d104.p.ssafy.io:8081/images${liveUser.markerImgPath!!}")
+                            .into(object : CustomTarget<Bitmap>() {
+                                override fun onResourceReady(
+                                    resource: Bitmap,
+                                    transition: Transition<in Bitmap>?
+                                ) {
+                                    val resizedBitmap =
+                                        Bitmap.createScaledBitmap(resource, 150, 170, false)
+                                    map.addMarker(
+                                        MarkerOptions()
+                                            .position(latLng)
+                                            .icon(BitmapDescriptorFactory.fromBitmap(resizedBitmap))
+                                    )
+                                }
+
+                                override fun onLoadCleared(placeholder: Drawable?) {}
+                            })
+                    }
+                }
+            }
         }
     }
 
@@ -209,6 +262,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                                 filteredLiveUserList.value = null
                             }
                             liveUserAdapter.setLiveUser(null)
+                            map.clear()
                         }
                     }
                 } else {
@@ -263,8 +317,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         liveViewModel.sendMyInfo(
                             liveViewModel.cityOnLive.value.toString(),
                             ApplicationClass.preferences.userId.toString(),
-                            liveViewModel.lat,
-                            liveViewModel.lng,
+                            location.latitude,
+                            location.longitude,
                             ApplicationClass.preferences.nickname.toString(),
                             ApplicationClass.preferences.gender.toString(),
                             ApplicationClass.preferences.age.toString(),
@@ -388,5 +442,14 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
     }
 
-    private fun getLiveUser(memberUuid: String) {}
+    private fun getLiveUser(nickname: String, matchingRate: Float) {
+        liveViewModel.getUserProfile(nickname)
+        liveViewModel.matchingRate = matchingRate
+    }
+
+    override fun postChats(boardId: Int, uuid: String) {}
+
+    override fun clear() {
+        liveViewModel.clearUserProfile()
+    }
 }
