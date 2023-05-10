@@ -30,6 +30,8 @@ import kotlinx.coroutines.launch
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
+import org.sfy.ttrip.common.util.UserProfileDialog
+import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.util.*
@@ -40,7 +42,7 @@ import kotlin.math.sqrt
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
-    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener {
+    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
@@ -75,6 +77,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         requestLocationPermission()
         getFilteredList()
         getOpenViduToken()
+        showUserProfileDialog()
     }
 
     override fun onDestroy() {
@@ -111,6 +114,26 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun onConfirmButtonClicked() {
         binding.switchLive.isChecked = false
+    }
+
+    private fun showUserProfileDialog() {
+        liveViewModel.userProfile.observe(viewLifecycleOwner) {
+            it?.let {
+                UserProfileDialog(
+                    requireActivity(),
+                    this,
+                    it.nickname,
+                    0,
+                    it.uuid,
+                    it.backgroundImgPath,
+                    it.profileImgPath,
+                    liveViewModel.matchingRate,
+                    it.age,
+                    it.gender,
+                    it.intro
+                ).show()
+            }
+        }
     }
 
     private fun blockMoveToOtherMenu() {
@@ -419,5 +442,14 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
     }
 
-    private fun getLiveUser(memberUuid: String) {}
+    private fun getLiveUser(nickname: String, matchingRate: Float) {
+        liveViewModel.getUserProfile(nickname)
+        liveViewModel.matchingRate = matchingRate
+    }
+
+    override fun postChats(boardId: Int, uuid: String) {}
+
+    override fun clear() {
+        liveViewModel.clearUserProfile()
+    }
 }
