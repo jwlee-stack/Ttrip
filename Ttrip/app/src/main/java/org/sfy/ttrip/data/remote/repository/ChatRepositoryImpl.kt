@@ -8,6 +8,7 @@ import org.sfy.ttrip.data.remote.datasorce.chat.CreateChatRequest
 import org.sfy.ttrip.data.remote.datasorce.chat.ExitChatRequest
 import org.sfy.ttrip.domain.entity.chat.ChatDetail
 import org.sfy.ttrip.domain.entity.chat.ChatRoom
+import org.sfy.ttrip.domain.entity.chat.CreateChat
 import org.sfy.ttrip.domain.repository.chat.ChatRepository
 import javax.inject.Inject
 
@@ -25,8 +26,14 @@ class ChatRepositoryImpl @Inject constructor(
         chatRemoteDataSource.getChatDetail(chatId).map { it.toDomainModel() }
     }
 
-    override suspend fun createChatRoom(articleId: Int, opponentUserUuid: String) =
-        chatRemoteDataSource.createChatRoom(CreateChatRequest(articleId, opponentUserUuid))
+    override suspend fun createChatRoom(
+        articleId: Int,
+        opponentUserUuid: String
+    ): Resource<CreateChat> =
+        wrapToResource {
+            chatRemoteDataSource.createChatRoom(CreateChatRequest(articleId, opponentUserUuid))
+                .toDomainModel()
+        }
 
     override suspend fun chatMatch(articleId: Int, opponentUserUuid: String): Boolean =
         chatRemoteDataSource.chatMatch(ChatMatchRequest(articleId, opponentUserUuid))
