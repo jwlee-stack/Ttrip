@@ -1,12 +1,14 @@
 package org.sfy.ttrip.presentation.live
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +36,8 @@ import org.sfy.ttrip.common.util.UserProfileDialog
 import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.board.BoardDetailFragmentDirections
+import org.sfy.ttrip.presentation.chat.ChatViewModel
 import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -44,12 +48,16 @@ import kotlin.math.sqrt
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
     GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
 
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
+
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
     private val liveViewModel by viewModels<LiveViewModel>()
+    private val chatViewModel by viewModels<ChatViewModel>()
     private val liveUserAdapter by lazy {
         LiveUserAdapter(
             this::getLiveUser,
@@ -78,6 +86,22 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getFilteredList()
         getOpenViduToken()
         showUserProfileDialog()
+        initObserve()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onDestroy() {
@@ -116,6 +140,14 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         binding.switchLive.isChecked = false
     }
 
+    override fun postChats(boardId: Int, uuid: String) {
+        chatViewModel.createChatRoom(boardId, uuid)
+    }
+
+    override fun clear() {
+        liveViewModel.clearUserProfile()
+    }
+
     private fun showUserProfileDialog() {
         liveViewModel.userProfile.observe(viewLifecycleOwner) {
             it?.let {
@@ -123,7 +155,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     requireActivity(),
                     this,
                     it.nickname,
-                    0,
+                    18,
                     it.uuid,
                     it.backgroundImgPath,
                     it.profileImgPath,
@@ -447,9 +479,24 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         liveViewModel.matchingRate = matchingRate
     }
 
-    override fun postChats(boardId: Int, uuid: String) {}
+    private fun initObserve() {
+        chatViewModel.chatInit.observe(this@LiveFragment) {
+            if (it != null) {
+                navigate(
+                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                        it.chatId,
+                        it.memberUuid,
+                        it.imagePath,
+                        it.articleTitle,
+                        it.nickname,
+                        it.articleId,
+                        it.isMatch,
+                        it.status.toString()
+                    )
+                )
 
-    override fun clear() {
-        liveViewModel.clearUserProfile()
+                chatViewModel.clearChatInit()
+            }
+        }
     }
 }

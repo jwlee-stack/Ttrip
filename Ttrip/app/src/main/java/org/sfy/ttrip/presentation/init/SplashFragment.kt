@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.init
 
 import android.animation.ObjectAnimator
+import androidx.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,9 @@ class SplashFragment :
             animatorFront.start()
 
             delay(2000)
+            view?.let {
+                Navigation.findNavController(it).navigate(R.id.onboardingFragment)
+            }
         }
     }
 

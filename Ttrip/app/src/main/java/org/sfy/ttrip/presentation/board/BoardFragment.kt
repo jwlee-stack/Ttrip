@@ -1,6 +1,8 @@
 package org.sfy.ttrip.presentation.board
 
+import android.content.Context
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,9 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 @AndroidEntryPoint
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
 
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
+
     private val viewModel by activityViewModels<BoardViewModel>()
     private val boardListAdapter by lazy {
         BoardListAdapter(this::selectBoard, requireContext())
@@ -21,6 +26,21 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initObserver()
         initRecyclerView()
         initListener()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initListener() {

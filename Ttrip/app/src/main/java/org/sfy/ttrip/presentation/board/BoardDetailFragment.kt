@@ -61,7 +61,7 @@ class BoardDetailFragment :
     }
 
     override fun postChats(boardId: Int, uuid: String) {
-        //chatViewModel.createChatRoom(boardId, uuid)
+        chatViewModel.createChatRoom(boardId, uuid)
     }
 
     override fun clear() {
@@ -217,7 +217,6 @@ class BoardDetailFragment :
     }
 
     private fun initRecyclerView() {
-        viewModel.getBoardComment(args.boardId)
         binding.rvBoardDetailComment.apply {
             adapter = boardCommentListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -240,6 +239,25 @@ class BoardDetailFragment :
                     it.gender,
                     it.intro
                 ).show()
+            }
+        }
+
+        chatViewModel.chatInit.observe(this@BoardDetailFragment) {
+            if (it != null) {
+                navigate(
+                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                        it.chatId,
+                        it.memberUuid,
+                        it.imagePath,
+                        it.articleTitle,
+                        it.nickname,
+                        it.articleId,
+                        it.isMatch,
+                        it.status.toString()
+                    )
+                )
+
+                chatViewModel.clearChatInit()
             }
         }
     }

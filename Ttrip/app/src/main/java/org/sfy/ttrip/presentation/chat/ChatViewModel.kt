@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.chat.ChatDetail
 import org.sfy.ttrip.domain.entity.chat.ChatRoom
+import org.sfy.ttrip.domain.entity.chat.CreateChat
 import org.sfy.ttrip.domain.usecase.chat.*
 import javax.inject.Inject
 
@@ -27,6 +28,9 @@ class ChatViewModel @Inject constructor(
 
     private val _chatDetail: MutableLiveData<List<ChatDetail>?> = MutableLiveData()
     val chatDetail: LiveData<List<ChatDetail>?> = _chatDetail
+
+    private val _chatInit: MutableLiveData<CreateChat?> = MutableLiveData()
+    val chatInit: LiveData<CreateChat?> = _chatInit
 
     var chatId = 0
 
@@ -62,11 +66,22 @@ class ChatViewModel @Inject constructor(
 
     fun createChatRoom(articleId: Int, opponentUserUuid: String) {
         viewModelScope.launch {
-            createChatRoomUseCase(articleId, opponentUserUuid)
+            when (val value = createChatRoomUseCase(articleId, opponentUserUuid)) {
+                is Resource.Success -> {
+                    _chatInit.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.d("createChatRoom", "createChatRoom: ${value.errorMessage}")
+                }
+            }
         }
     }
 
     fun chatMatch(articleId: Int, opponentUserUuid: String) {
         viewModelScope.launch { chatMatchUseCase(articleId, opponentUserUuid) }
+    }
+
+    fun clearChatInit(){
+        _chatInit.value = null
     }
 }

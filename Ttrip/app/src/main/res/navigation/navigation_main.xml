@@ -36,13 +36,20 @@
         <argument
             android:name="d_day"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_boardDetailFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/liveFragment"
         android:name="org.sfy.ttrip.presentation.live.LiveFragment"
         android:label="liveFragment"
-        tools:layout="@layout/fragment_live" />
+        tools:layout="@layout/fragment_live" >
+        <action
+            android:id="@+id/action_liveFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/chatFragment"
