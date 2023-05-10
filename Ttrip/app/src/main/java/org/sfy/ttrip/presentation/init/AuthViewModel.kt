@@ -63,4 +63,8 @@ class AuthViewModel @Inject constructor(
     fun makeIsValidTrue() {
         _isValid.value = true
     }
+
+    fun clearEmptyNickname() {
+        _emptyNickname.value = null
+    }
 }

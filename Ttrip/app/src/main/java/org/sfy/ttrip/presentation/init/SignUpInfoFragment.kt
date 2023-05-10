@@ -9,13 +9,14 @@ import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentSignUpInfoBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.mypage.MyPageViewModel
 
 @AndroidEntryPoint
 class SignUpInfoFragment :
     BaseFragment<FragmentSignUpInfoBinding>(R.layout.fragment_sign_up_info) {
 
     private val viewModel by activityViewModels<UserInfoViewModel>()
-
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
     override fun initView() {
         initContent()
         initListener()
@@ -23,6 +24,7 @@ class SignUpInfoFragment :
 
     private fun initListener() {
         binding.ivBackToLogin.setOnClickListener {
+            myPageViewModel.logout()
             popBackStack()
         }
     }
