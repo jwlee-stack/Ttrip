@@ -38,7 +38,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -111,6 +110,7 @@ public class MemberServiceImpl implements MemberService {
                     .data(false)
                     .build();
         }
+        //memberLoginReqDto.setPassword(member.getMemberUuid().toString());
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberLoginReqDto.toAuthentication();
         log.info("AuthenticationToken 생성");
@@ -168,7 +168,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public DataResDto<?> reissue(TokenReqDto tokenReqDto, UUID uuid) {
+    public DataResDto<?> reissue(TokenReqDto tokenReqDto) {
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenReqDto.getRefreshToken())) {
             throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
@@ -178,7 +178,8 @@ public class MemberServiceImpl implements MemberService {
         Authentication authentication = tokenProvider.getAuthentication(tokenReqDto.getAccessToken());
 
         // 3. 저장소에서 Member UUID 를 기반으로 Refresh Token 값 가져옴
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(uuid.toString())
+        Member member=memberRepository.findByPhoneNumber(authentication.getName()).get();
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(member.getMemberUuid().toString())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
         // 4. Refresh Token 일치하는지 검사
