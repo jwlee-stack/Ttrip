@@ -69,6 +69,7 @@ class BoardListAdapter(
 
                     if (data.dueDay.toInt() == 0) {
                         tvBoardDDay.text = "D-DAY"
+                        tvBoardDDay.textSize = 15F
                     } else {
                         tvBoardDDay.text = "D-${data.dueDay}"
                     }

@@ -14,6 +14,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private val authViewModel by viewModels<AuthViewModel>()
 
     override fun initView() {
+        authViewModel.clearEmptyNickname()
         observeData()
         initListener()
     }
@@ -41,7 +42,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             if (it == true) {
                 showToast("로그인되었습니다.")
                 navigate(LoginFragmentDirections.actionLoginFragmentToSignUpInformationFragment())
-            } else {
+            } else if (it == false) {
                 showToast("돌아오신걸 환영해요!")
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -49,8 +50,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             }
         }
 
-        authViewModel.isValid.observe(viewLifecycleOwner){
-            if(!it){
+        authViewModel.isValid.observe(viewLifecycleOwner) {
+            if (!it) {
                 showToast("번호 또는 비밀번호를 확인해보세요.")
                 authViewModel.makeIsValidTrue()
             }

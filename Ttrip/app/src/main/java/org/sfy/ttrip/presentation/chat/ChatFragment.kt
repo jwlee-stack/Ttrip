@@ -1,5 +1,7 @@
 package org.sfy.ttrip.presentation.chat
 
+import android.content.Context
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,9 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
     ExitChatDialogListener {
 
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
+
     private val chatViewModel by activityViewModels<ChatViewModel>()
     private val chatRoomAdapter by lazy { ChatRoomAdapter(this::getChatDetail, this::exitChatRoom) }
     private var chatId = 0
@@ -24,6 +29,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
         (activity as MainActivity).hideBottomNavigation(false)
         initRecyclerView()
         setChatRooms()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
+                } else {
+                    requireActivity().finishAffinity()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initRecyclerView() {

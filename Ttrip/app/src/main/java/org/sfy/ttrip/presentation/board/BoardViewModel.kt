@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
@@ -140,6 +141,9 @@ class BoardViewModel @Inject constructor(
     fun postComment(boardId: Int, content: String?) {
         viewModelScope.launch {
             postCommentUseCase.invoke(boardId, content!!)
+
+            delay(500)
+            getBoardDetail(boardId)
         }
     }
 
@@ -167,7 +171,7 @@ class BoardViewModel @Inject constructor(
         _postEndDate.value = endDate!!
     }
 
-    fun clearPostData(){
+    fun clearPostData() {
         _postBoardTitle.value = null
         _postBoardContent.value = null
         _postBoardNation.value = null
