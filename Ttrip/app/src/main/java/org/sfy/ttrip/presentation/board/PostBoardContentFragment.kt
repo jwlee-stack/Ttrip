@@ -166,7 +166,7 @@ class PostBoardContentFragment :
                                 "$year-${
                                     String.format(
                                         "%02d",
-                                        month + 1
+                                        month
                                     )
                                 }-${String.format("%02d", dayOfMonth)}"
                             )
@@ -195,7 +195,7 @@ class PostBoardContentFragment :
                                 "$year-${
                                     String.format(
                                         "%02d",
-                                        month + 1
+                                        month
                                     )
                                 }-${String.format("%02d", dayOfMonth)}"
                             )
