@@ -1,6 +1,8 @@
 package org.sfy.ttrip.presentation.board
 
+import android.content.Context
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,16 +14,20 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 @AndroidEntryPoint
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
 
+    private lateinit var callback: OnBackPressedCallback
+
     private val viewModel by activityViewModels<BoardViewModel>()
     private val boardListAdapter by lazy {
         BoardListAdapter(this::selectBoard, requireContext())
     }
+    private var waitTime = 0L
 
     override fun initView() {
         initObserver()
         initRecyclerView()
         initListener()
     }
+
 
     private fun initListener() {
         binding.apply {
