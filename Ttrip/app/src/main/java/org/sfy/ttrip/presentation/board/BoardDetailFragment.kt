@@ -217,7 +217,6 @@ class BoardDetailFragment :
     }
 
     private fun initRecyclerView() {
-        viewModel.getBoardComment(args.boardId)
         binding.rvBoardDetailComment.apply {
             adapter = boardCommentListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -243,9 +242,22 @@ class BoardDetailFragment :
             }
         }
 
-        chatViewModel.chatInit.observe(this@BoardDetailFragment){
-            if (it != null){
+        chatViewModel.chatInit.observe(this@BoardDetailFragment) {
+            if (it != null) {
+                navigate(
+                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                        it.chatId,
+                        it.uuid!!,
+                        it.imagePath,
+                        binding.boardDetail!!.title,
+                        it.nickname,
+                        binding.boardDetail!!.articleId,
+                        false,
+                        binding.boardDetail!!.status.toString()
+                    )
+                )
 
+                chatViewModel.clearChatInit()
             }
         }
     }

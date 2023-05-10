@@ -80,4 +80,8 @@ class ChatViewModel @Inject constructor(
     fun chatMatch(articleId: Int, opponentUserUuid: String) {
         viewModelScope.launch { chatMatchUseCase(articleId, opponentUserUuid) }
     }
+
+    fun clearChatInit(){
+        _chatInit.value = null
+    }
 }
