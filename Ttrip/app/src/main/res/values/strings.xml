@@ -189,12 +189,12 @@
     <string name="title_rating_ask2">어떠셨나요?</string>
     <string name="image_declaration_siren">image_declaration_siren</string>
     <string name="content_declaration">신고하기</string>
+
+    <!-- Nation and cities -->
     <string name="content_nation">나라</string>
     <string name="content_nation_hint">나라를 입력해주세요</string>
     <string name="content_city">도시</string>
     <string name="content_city_hint">도시를 입력해주세요</string>
-
-    <!-- Nation and cities -->
     <string-array name="nation_names">
         <item>한국</item>
         <item>일본</item>
