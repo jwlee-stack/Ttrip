@@ -51,9 +51,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private lateinit var callback: OnBackPressedCallback
     private var waitTime = 0L
 
-    private lateinit var callback: OnBackPressedCallback
-    private var waitTime = 0L
-
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -90,36 +87,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getOpenViduToken()
         showUserProfileDialog()
         initObserve()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (System.currentTimeMillis() - waitTime >= 2500) {
-                    waitTime = System.currentTimeMillis()
-                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
-                } else {
-                    requireActivity().finishAffinity()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (System.currentTimeMillis() - waitTime >= 2500) {
-                    waitTime = System.currentTimeMillis()
-                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
-                } else {
-                    requireActivity().finishAffinity()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onAttach(context: Context) {
@@ -516,7 +483,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         chatViewModel.chatInit.observe(this@LiveFragment) {
             if (it != null) {
                 navigate(
-                    LiveFragmentDirections.actionLiveFragmentToChatDetailFragment(
+                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
                         it.chatId,
                         it.memberUuid,
                         it.imagePath,
