@@ -49,6 +49,7 @@ class UserProfileDialog(
             ivPostChat.setOnClickListener {
                 listener.postChats(boardId, uuid)
                 listener.clear()
+                dismiss()
             }
             ivCloseDialog.setOnClickListener {
                 listener.clear()

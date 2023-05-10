@@ -247,13 +247,13 @@ class BoardDetailFragment :
                 navigate(
                     BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
                         it.chatId,
-                        it.uuid!!,
+                        it.memberUuid,
                         it.imagePath,
-                        binding.boardDetail!!.title,
+                        it.articleTitle,
                         it.nickname,
-                        binding.boardDetail!!.articleId,
-                        false,
-                        binding.boardDetail!!.status.toString()
+                        it.articleId,
+                        it.isMatch,
+                        it.status.toString()
                     )
                 )
 
