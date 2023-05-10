@@ -15,7 +15,7 @@ interface UserApiService {
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part profileImg: MultipartBody.Part?,
         @Part markerImg: MultipartBody.Part?
-    )
+    ): BaseResponse<UserProfileDialogResponse>
 
     @GET("/api/members/{nickname}/exists")
     suspend fun checkDuplication(@Path("nickname") nickname: String): BaseResponse<CheckDuplicationResponse>

@@ -22,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
         markerFile: MultipartBody.Part?,
         age: String,
         fcmToken: String
-    ) {
+    ): Resource<UserProfileDialog> =
         wrapToResource {
             userRemoteDataSource.postUserInfo(
                 nickName,
@@ -32,9 +32,8 @@ class UserRepositoryImpl @Inject constructor(
                 markerFile,
                 age,
                 fcmToken
-            )
+            ).toDomainModel()
         }
-    }
 
     override suspend fun checkDuplication(nickName: String): Resource<CheckDuplicationResponse> =
         wrapToResource {

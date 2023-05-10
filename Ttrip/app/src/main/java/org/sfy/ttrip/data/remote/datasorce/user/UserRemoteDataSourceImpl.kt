@@ -19,14 +19,14 @@ class UserRemoteDataSourceImpl @Inject constructor(
         markerFile: MultipartBody.Part?,
         age: String,
         fcmToken: String
-    ) {
+    ): UserProfileDialogResponse {
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
         map["nickname"] = nickName.toRequestBody("text/plain".toMediaTypeOrNull())
         map["intro"] = intro.toRequestBody("text/plain".toMediaTypeOrNull())
         map["gender"] = gender.toRequestBody("text/plain".toMediaTypeOrNull())
         map["age"] = age.toRequestBody("text/plain".toMediaTypeOrNull())
         map["fcmToken"] = fcmToken.toRequestBody("text/plain".toMediaTypeOrNull())
-        return userApiService.patchUserInfo(map, profileFile, markerFile)
+        return userApiService.patchUserInfo(map, profileFile, markerFile).data!!
     }
 
     override suspend fun checkDuplication(nickName: String): CheckDuplicationResponse =

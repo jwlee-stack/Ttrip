@@ -163,8 +163,12 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             .asBitmap()
                             .load("http://k8d104.p.ssafy.io:8081/images${liveUser.markerImgPath!!}")
                             .into(object : CustomTarget<Bitmap>() {
-                                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                                    val resizedBitmap = Bitmap.createScaledBitmap(resource, 150, 170, false)
+                                override fun onResourceReady(
+                                    resource: Bitmap,
+                                    transition: Transition<in Bitmap>?
+                                ) {
+                                    val resizedBitmap =
+                                        Bitmap.createScaledBitmap(resource, 150, 170, false)
                                     map.addMarker(
                                         MarkerOptions()
                                             .position(latLng)
@@ -290,8 +294,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                         liveViewModel.sendMyInfo(
                             liveViewModel.cityOnLive.value.toString(),
                             ApplicationClass.preferences.userId.toString(),
-                            liveViewModel.lat,
-                            liveViewModel.lng,
+                            location.latitude,
+                            location.longitude,
                             ApplicationClass.preferences.nickname.toString(),
                             ApplicationClass.preferences.gender.toString(),
                             ApplicationClass.preferences.age.toString(),

@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.board.BoardBrief
@@ -202,6 +203,13 @@ class MyPageViewModel @Inject constructor(
         when (val value = getUserProfileUseCase()) {
             is Resource.Success -> {
                 _userProfile.value = value.data
+                ApplicationClass.preferences.apply {
+                    nickname = value.data.nickname
+                    gender = value.data.gender
+                    age = value.data.age.toString()
+                    profileImgPath = value.data.profileImgPath
+                    markerImgPath = value.data.markerImgPath
+                }
             }
             is Resource.Error -> {
                 Log.d("getUserProfile", "getUserProfile: ${value.errorMessage}")
