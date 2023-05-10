@@ -25,6 +25,7 @@ public class SecurityConfig {
     private static final String[] AUTH_ARR = {
             "/api/members",
             "/api/members/login",
+            "/api/members/reissue",
             "/ws/live",
             "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
             "/ws/live/**/**",
