@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,13 +37,41 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
 
-        val graphInflater = navController.navInflater
-        val navGraph = graphInflater.inflate(R.navigation.navigation_main)
 
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             itemIconTintList = null
+
+            setOnNavigationItemSelectedListener { menuItem ->
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.boardFragment, true)
+                    .build()
+
+                when (menuItem.itemId) {
+                    R.id.boardFragment -> {
+                        navController.navigate(R.id.boardFragment, null, navOptions)
+                        true
+                    }
+                    R.id.liveFragment -> {
+                        navController.navigate(R.id.liveFragment, null, navOptions)
+                        true
+                    }
+                    R.id.chatFragment -> {
+                        navController.navigate(R.id.chatFragment, null, navOptions)
+                        true
+                    }
+                    R.id.myPageFragment -> {
+                        navController.navigate(R.id.myPageFragment, null, navOptions)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
+
+        val graphInflater = navController.navInflater
+        val navGraph = graphInflater.inflate(R.navigation.navigation_main)
+
         navController.graph = navGraph
     }
 
