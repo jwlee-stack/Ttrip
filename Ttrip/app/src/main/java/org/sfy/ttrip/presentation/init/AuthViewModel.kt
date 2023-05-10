@@ -46,7 +46,7 @@ class AuthViewModel @Inject constructor(
                 ApplicationClass.preferences.userId = value.data.uuid
                 ApplicationClass.preferences.nickname = value.data.nickname
                 ApplicationClass.preferences.gender = value.data.gender
-                ApplicationClass.preferences.age = value.data.age
+                ApplicationClass.preferences.age = value.data.age.toString()
                 ApplicationClass.preferences.profileImgPath = value.data.profileImgPath
                 ApplicationClass.preferences.markerImgPath = value.data.markerImgPath
 
@@ -60,7 +60,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun makeIsValidTrue(){
+    fun makeIsValidTrue() {
         _isValid.value = true
     }
 }

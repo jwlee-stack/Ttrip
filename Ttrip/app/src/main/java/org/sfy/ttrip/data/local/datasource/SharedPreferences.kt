@@ -30,9 +30,9 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("gender", null)
         set(value) = prefs.edit().putString("gender", value).apply()
 
-    var age: Int?
-        get() = prefs.getInt("age", 0)
-        set(value) = prefs.edit().putInt("age", value!!).apply()
+    var age: String?
+        get() = prefs.getString("age", null)
+        set(value) = prefs.edit().putString("age", value).apply()
 
     var profileImgPath: String?
         get() = prefs.getString("profileImgPath", null)
