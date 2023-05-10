@@ -36,6 +36,9 @@
         <argument
             android:name="d_day"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_boardDetailFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment" />
     </fragment>
 
     <fragment
