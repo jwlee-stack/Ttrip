@@ -158,6 +158,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 it.forEach { liveUser ->
                     liveUser?.let {
                         val latLng = LatLng(liveUser.latitude, liveUser.longitude)
+                        map.clear()
                         Glide.with(requireContext())
                             .asBitmap()
                             .load("http://k8d104.p.ssafy.io:8081/images${liveUser.markerImgPath!!}")
@@ -234,33 +235,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                                 filteredLiveUserList.value = null
                             }
                             liveUserAdapter.setLiveUser(null)
+                            map.clear()
                         }
-                if (isChecked) {
-                    tvSwitchState.apply {
-                        setText(R.string.content_live_toggle_on)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.neon_blue))
-                        showToast("LIVE 모드가 시작됩니다.")
-                        liveViewModel.liveOn.value = true
-                        startLocationUpdates()
-                    }
-                } else {
-                    tvSwitchState.apply {
-                        setText(R.string.content_live_toggle_off)
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-                        liveViewModel.apply {
-                            liveOn.value = false
-                            cityOnLive.value = ""
-                            lat = 0.0
-                            lng = 0.0
-                            disconnectSocket()
-                        }
-                        stopLocationUpdates()
-                        liveViewModel.apply {
-                            setLiveUserReset()
-                            filteredLiveUserList.value = null
-                        }
-                        liveUserAdapter.setLiveUser(null)
-                        map.clear()
                     }
                 } else {
                     showToast("GPS를 먼저 켜주세요")
