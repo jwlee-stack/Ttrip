@@ -61,7 +61,7 @@ class BoardDetailFragment :
     }
 
     override fun postChats(boardId: Int, uuid: String) {
-        //chatViewModel.createChatRoom(boardId, uuid)
+        chatViewModel.createChatRoom(boardId, uuid)
     }
 
     override fun clear() {
@@ -240,6 +240,12 @@ class BoardDetailFragment :
                     it.gender,
                     it.intro
                 ).show()
+            }
+        }
+
+        chatViewModel.chatInit.observe(this@BoardDetailFragment){
+            if (it != null){
+
             }
         }
     }

@@ -165,7 +165,6 @@ class LiveViewModel @Inject constructor(
             put("markerImgPath", markerImgPath)
         }
         webSocket.send(data.toString())
-
     }
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {

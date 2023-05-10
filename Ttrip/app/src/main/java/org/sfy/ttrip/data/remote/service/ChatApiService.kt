@@ -19,7 +19,7 @@ interface ChatApiService {
     suspend fun getChatDetail(@Path("chatId") chatId: Int): BaseResponse<List<ChatDetailResponse>>
 
     @POST("/api/chats")
-    suspend fun createChatRoom(@Body body: CreateChatRequest)
+    suspend fun createChatRoom(@Body body: CreateChatRequest): BaseResponse<CreateChatResponse>
 
     @POST("/api/chats/match")
     suspend fun chatMatch(@Body body: ChatMatchRequest): BaseResponse<Boolean>
