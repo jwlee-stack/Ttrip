@@ -42,10 +42,11 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pacifico_regular"
                 android:text="@string/content_logo_text1"
+                android:lines="1"
                 android:textColor="@color/pear"
                 android:textSize="80sp" />
 
