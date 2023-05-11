@@ -5,6 +5,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    private val userViewModel by viewModels<UserInfoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
+            userViewModel.postUserFcmToken(true)
             Log.d("fcmToken", "getFCMToken: $result")
         }
     }
