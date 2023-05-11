@@ -11,7 +11,7 @@ public interface ArticleRepository extends JpaRepository <Article, Integer> {
     List<Article> findAllByOrderByCreatedAtDesc();
     List<Article> findByNationOrderByCreatedAtDesc(String nation);
     List<Article> findByCityOrderByCreatedAtDesc(String city);
-    List<Article> findByTitleOrContentContainingOrderByCreatedAtDesc(String keyword, String keyword2);
+    List<Article> findByTitleContainingOrContentContainingOrderByCreatedAtDesc(String keyword, String keyword2);
     Optional<Article> findByArticleId(Integer id);
     List<Article> findAllByMember(Member member);
 }

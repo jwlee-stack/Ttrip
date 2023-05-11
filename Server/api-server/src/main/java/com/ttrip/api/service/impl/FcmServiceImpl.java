@@ -180,8 +180,8 @@ public class FcmServiceImpl implements FcmService {
                 //채팅 추가
                 chatService.makeChat(ChatMakerReqDto.builder()
                         //제목 빈 삭제된 게시글 참조
-                        .ArticleId(18)
-                        .opponentUserUuid(targetMember.getMemberUuid())
+                        .articleId(18)
+                        .opponentUserUuid(targetMember.getMemberUuid().toString())
                         .build(), member);
                 logger.info("live 매칭 요청 수락!");
             } else {
