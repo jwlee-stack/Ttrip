@@ -93,7 +93,7 @@ public class LandmarkServiceImpl implements LandmarkService {
     public DataResDto<?> getBadgeList(Member member) {
         List<ReceiveBadgeResDto> badgeList = new ArrayList<>();
 
-        for (Badge badge : badgeRepository.findByMemberMemberId(member.getMemberId())) {
+        for (Badge badge : badgeRepository.findByMember(member)) {
             Landmark landmark = landmarkRepository.findByLandmarkId(badge.getLandmark().getLandmarkId())
                     .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
 
