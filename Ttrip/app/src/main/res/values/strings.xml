@@ -451,4 +451,8 @@
         <item>마라케시</item>
         <item>페스</item>
     </string-array>
+
+    <!-- Notification -->
+    <string name="notification_channel_id">Channel_Id</string>
+    <string name="notification_channel_name">ttrip</string>
 </resources>

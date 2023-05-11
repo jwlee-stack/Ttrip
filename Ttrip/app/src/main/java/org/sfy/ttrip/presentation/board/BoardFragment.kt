@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
 class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board) {
@@ -18,6 +19,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
     private var waitTime = 0L
 
     private val viewModel by activityViewModels<BoardViewModel>()
+    private val userViewModel by activityViewModels<UserInfoViewModel>()
     private val boardListAdapter by lazy {
         BoardListAdapter(this::selectBoard, requireContext())
     }
@@ -26,6 +28,8 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initObserver()
         initRecyclerView()
         initListener()
+
+        userViewModel.postUserFcmToken()
     }
 
     override fun onAttach(context: Context) {

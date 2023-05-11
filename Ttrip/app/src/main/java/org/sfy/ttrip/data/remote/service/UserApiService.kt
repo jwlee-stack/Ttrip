@@ -25,4 +25,7 @@ interface UserApiService {
 
     @GET("/api/members/{nickname}")
     suspend fun getUserProfile(@Path("nickname") nickname: String): BaseResponse<UserProfileDialogResponse>
+
+    @PATCH("/api/members/fcm")
+    suspend fun postUserFcm(@Body fcmToken: String)
 }

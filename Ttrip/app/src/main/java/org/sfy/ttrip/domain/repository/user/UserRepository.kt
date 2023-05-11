@@ -23,4 +23,6 @@ interface UserRepository {
     suspend fun postUserInfoTest(userTest: UserInfoTestRequest)
 
     suspend fun getUserProfile(nickName: String): Resource<UserProfileDialog>
+
+    suspend fun postUserFcm(fcmToken: String)
 }
