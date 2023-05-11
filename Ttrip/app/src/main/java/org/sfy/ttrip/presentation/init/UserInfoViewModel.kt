@@ -150,7 +150,8 @@ class UserInfoViewModel @Inject constructor(
             MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
     }
 
-    fun postUserFcmToken() {
-        viewModelScope.launch { postUserFcmTokenUseCase(FirebaseService().getCurrentToken()) }
+    fun postUserFcmToken(alarm: Boolean) {
+        if (alarm) viewModelScope.launch { postUserFcmTokenUseCase(FirebaseService().getCurrentToken()) }
+        else viewModelScope.launch { postUserFcmTokenUseCase("") }
     }
 }
