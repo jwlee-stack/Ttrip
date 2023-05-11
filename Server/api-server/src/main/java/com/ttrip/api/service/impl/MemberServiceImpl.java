@@ -305,9 +305,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public DataResDto<?> updateFcm(MemberFcmReqDto memberFcmReqDto, MemberDetails memberDetails) {
         Member member=memberDetails.getMember();
-
+        String fcmToken=memberFcmReqDto.getFcmToken();
+        if(fcmToken.equals(""))
+            fcmToken=null;
         try{
-            member.setFcmToken(memberFcmReqDto.getFcmToken());
+            member.setFcmToken(fcmToken);
             memberRepository.save(member);
         }
         catch(Exception e)
