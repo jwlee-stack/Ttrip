@@ -30,26 +30,39 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
-            val type = remoteMessage.data["type"]
-            //val body = remoteMessage.
+            val type = remoteMessage.data["body"]
+            Log.d("check remoteMessage", "onMessageReceived: $type")
+            Log.d("check remoteMessage", remoteMessage.data.toString())
+            Log.d("check remoteMessage", remoteMessage.from.toString())
+            Log.d("check remoteMessage", remoteMessage.notification!!.body.toString())
 
-//            if (type == 2) {
-//
-//            } else if (type == 3) {
-//
-//            }
-
-        } else if (remoteMessage.notification != null) {
-
+            sendNotificationForeground(remoteMessage.notification!!.body.toString(), remoteMessage)
         }
     }
 
-    private fun sendNotificationForeground(type: Int) {
+    private fun sendNotificationForeground(notificationBody: String, remoteMessage: RemoteMessage) {
+        val type = remoteMessage.data["type"]!!.toInt()
+        val nickName = remoteMessage.data["nickName"]
+        val memberUuid = remoteMessage.data["memberUuid"]
+
         intent = when (type) {
+            0 -> {
+                Intent(this, MainActivity::class.java)
+            }
+            1 -> {
+                val result = remoteMessage.data["result"]
+                Intent(this, MainActivity::class.java)
+            }
             2 -> {
+                val articleId = remoteMessage.data["articleId"]
                 Intent(this, MainActivity::class.java)
             }
             3 -> {
+                val chatroomId = remoteMessage.data["chatroomId"]
+                Intent(this, MainActivity::class.java)
+            }
+            4 -> {
+                val matchHistoryId = remoteMessage.data["memberUuid"]
                 Intent(this, MainActivity::class.java)
             }
             else -> {
@@ -57,28 +70,26 @@ class FirebaseService : FirebaseMessagingService() {
             }
         }
 
+        val CHANNEL_ID = getString(R.string.notification_channel_id)
+        val CHANNEL_NAME = getString(R.string.notification_channel_name)
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_app_logo_round)
+            .setContentText(notificationBody)
+            .setAutoCancel(true)
+            .setSound(soundUri)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-//        val CHANNEL_ID = getString(R.string.notification_channel_id)
-//        val CHANNEL_NAME = getString(R.string.notification_channel_name)
-//        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-//        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-//            .setSmallIcon(R.mipmap.ic_app_logo_round)
-//            .setContentText(body)
-//            .setAutoCancel(true)
-//            .setSound(soundUri)
-//            .setPriority(NotificationCompat.PRIORITY_HIGH)
-//            .setContentIntent(pendingIntent)
-//        val notificationManager =
-//            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//
-//        val channel = NotificationChannel(
-//            CHANNEL_ID,
-//            CHANNEL_NAME,
-//            NotificationManager.IMPORTANCE_HIGH
-//        )
-//        notificationManager.createNotificationChannel(channel)
-//
-//        notificationManager.notify(0, notificationBuilder.build())
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        notificationManager.createNotificationChannel(channel)
+
+        notificationManager.notify(0, notificationBuilder.build())
     }
 
     suspend fun getCurrentToken() = suspendCoroutine<String> { continuation ->
