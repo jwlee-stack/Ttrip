@@ -1,52 +1,61 @@
 import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_mysqldb import MySQL
 from dotenv import load_dotenv
+from TFIDF import TfidfRecommender
+from mysql_connector import MySqlConnector
+
 
 load_dotenv()
 
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 CORS(app)
-# mysql 객체 생성
-mysql = MySQL(app)
+
+# MySQL 계정정보 등록
+app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+mysql = MySqlConnector()
 
 # 접속 url 설정
 @app.route('/')
 def index():
-    return
+    return "hello flask server."
 
-# MySQL 계정정보 등록
-app.config['MYSQL_USER'] = os.getenv("MYSQL_USER")
-app.config['MYSQL_PASSWORD'] = os.getenv("MYSQL_PASSWORD")
-app.config['MYSQL_HOST'] = os.getenv("MYSQL_HOST")
-app.config['MYSQL_DB'] = os.getenv("MYSQL_DB")
-
-@app.route('/', methods=['GET', 'POST'])
-def visit():
+@app.route('/recommend-articles', methods=['GET'])
+def recommend_articles():
     if request.method == 'GET':
-        # MySQL 서버에 접속하기
-        cur = mysql.connection.cursor()
-        # MySQL 명령어 실행하기
-        cur.execute("SELECT * FROM visits")
-        # 전체 row 가져오기
-        res = cur.fetchall()
-        # Flask에서 제공하는 json변환 함수
-        return jsonify(res)
+        article_id = request.args.get('article_id')
+        content = request.args.get('content')
+        requester_id = request.args.get('author_id')
+        city = request.args.get('city')
+        n_recom = request.args.get('n_recom')
+
+        if not all([article_id, content, requester_id, city, n_recom]):
+            return 'Missing required data.', 400
+
+        recommender = TfidfRecommender(city, mysql)
+        recommendations = recommender.recommend_articles(article_id, content, requester_id, n_recom)
+        return jsonify(recommendations)
     
+    return 'unexpected exception occured', 500
+
+@app.route('/city-learning', methods=['POST'])
+def city_learning():
+
     if request.method == 'POST':
-        name = request.json['visitor_name']
-        # mysql 접속 후 cursor 생성하기
-        cur = mysql.connection.cursor()
-        # DB 데이터 삽입하기
-        cur.execute("INSERT INTO visits (visitor_name) VALUES(%s)", [name])
-        # DB에 수정사항 반영하기
-        mysql.connection.commit()
-        # mysql cursor 종료하기
-        cur.close()
-        return
+        data = request.get_json()
+        city = data.get('city')
+        recommender = TfidfRecommender(city, mysql)
+        recommender.first_learning()
+        return 'Success', 200
+    
+    return 'unexpected exception occured', 500
 
 if __name__ == '__main__':
     # 코드 수정 시 자동 반영
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
