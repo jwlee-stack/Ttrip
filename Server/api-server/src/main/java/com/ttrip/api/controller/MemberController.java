@@ -1,10 +1,7 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.*;
 import com.ttrip.api.dto.surveyDto.surverReqDto.SurveyReqDto;
 import com.ttrip.api.dto.tokenDto.tokenReqDto.TokenReqDto;
 import com.ttrip.api.service.MemberService;
@@ -118,5 +115,15 @@ public class MemberController {
     public DataResDto<?> reportMember(@RequestBody MemberReportReqDto memberReportReqDto,
                                       @AuthenticationPrincipal MemberDetails memberDetails) {
         return memberService.reportMember(memberReportReqDto, memberDetails);
+    }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "FCM 토큰 업데이트 성공"),
+            @ApiResponse(code = 400, message = "FCM 토큰 업데이트 실패")
+    })
+    @ApiOperation(value = "FCM 토큰 업데이트")
+    @PatchMapping("/fcm")
+    public DataResDto<?> updateFcm(@RequestBody MemberFcmReqDto memberFcmReqDto,
+                                      @AuthenticationPrincipal MemberDetails memberDetails) {
+        return memberService.updateFcm(memberFcmReqDto, memberDetails);
     }
 }
