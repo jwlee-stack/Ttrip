@@ -16,7 +16,7 @@ public class Landmark {
     @Column(name = "id", nullable = false)
     private int landmarkId;
     private String landmarkName;
-    private String badgeImagePath;
+    private String badgeImgPath;
     private Double latitude;
     private Double longitude;
 }
