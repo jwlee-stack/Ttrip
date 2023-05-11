@@ -36,7 +36,6 @@ import org.sfy.ttrip.common.util.UserProfileDialog
 import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
-import org.sfy.ttrip.presentation.board.BoardDetailFragmentDirections
 import org.sfy.ttrip.presentation.chat.ChatViewModel
 import java.util.*
 import kotlin.math.atan2
@@ -483,7 +482,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         chatViewModel.chatInit.observe(this@LiveFragment) {
             if (it != null) {
                 navigate(
-                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                    LiveFragmentDirections.actionLiveFragmentToChatDetailFragment(
                         it.chatId,
                         it.memberUuid,
                         it.imagePath,
