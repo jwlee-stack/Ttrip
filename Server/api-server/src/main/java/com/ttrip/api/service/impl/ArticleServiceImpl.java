@@ -19,7 +19,6 @@ import com.ttrip.core.utils.EuclideanDistanceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -63,14 +62,14 @@ public class ArticleServiceImpl implements ArticleService {
             }
         } else if (condition == 2) {
 //            keyword로 조회
-            articleList = articleRepository.findByTitleOrContentContainingOrderByCreatedAtDesc(keyword, keyword);
+            articleList = articleRepository.findByTitleContainingOrContentContainingOrderByCreatedAtDesc(keyword, keyword);
         } else {
             throw new BadRequestException(ErrorMessageEnum.UNEXPECT_VALUE.getMessage());
         }
 //      돌면서 dto만듬  조회되지않으면 빈 배열 갑니당
         for (Article article : articleList) {
             //삭제 되지 않으면
-            if(article.getStatus() != 'D') {
+            if (article.getStatus() != 'D') {
                 searchResultDtoList.add(SearchResDto.toBuild(article));
             }
         }
@@ -142,7 +141,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         try {
             article.setStatus('D');
-            articleRepository.delete(article);
+            articleRepository.save(article);
             return DataResDto.builder().message("게시글이 삭제되었습니다.").data(true).build();
         } catch (Exception e) {
             throw new BadRequestException(ErrorMessageEnum.SERVER_ERROR.getMessage());
