@@ -59,6 +59,12 @@ public class LandmarkServiceImpl implements LandmarkService {
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
 
         // 이미 해당 뱃지를 보유하고 있는지 확인
+        if(badgeRepository.existsByMemberAndLandmark(member, landmark)) {
+            return DataResDto.builder()
+                    .status(204)
+                    .message("이미 발급한 뱃지입니다.")
+                    .build();
+        }
 
         // 뱃지 db 저장
         Badge badge = Badge.builder()
