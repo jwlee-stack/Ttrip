@@ -10,7 +10,6 @@ import com.ttrip.core.entity.badge.Landmark;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.landmark.BadgeRepository;
 import com.ttrip.core.repository.landmark.LandmarkRepository;
-import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import java.util.NoSuchElementException;
 public class LandmarkServiceImpl implements LandmarkService {
     private final LandmarkRepository landmarkRepository;
     private final BadgeRepository badgeRepository;
-    private final MemberRepository memberRepository;
 
     /**
      * 랜드마크 목록 데이터들이 반환됩니다.
@@ -56,10 +54,7 @@ public class LandmarkServiceImpl implements LandmarkService {
      * @return : badgeId, badgeName, badgeImgPath 데이터
      */
     @Override
-    public DataResDto<?> receiveBadge(MemberDetails memberDetails, ReceiveBadgeReqDto receiveBadgeReqDto) {
-        Member member = memberRepository.findByMemberUuid(memberDetails.getMember().getMemberUuid())
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-
+    public DataResDto<?> receiveBadge(Member member, ReceiveBadgeReqDto receiveBadgeReqDto) {
         Landmark landmark = landmarkRepository.findByLandmarkId(receiveBadgeReqDto.getLandmarkId())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
 
@@ -75,13 +70,10 @@ public class LandmarkServiceImpl implements LandmarkService {
                 .badgeName(landmark.getLandmarkName())
                 .badgeImgPath(landmark.getBadgeImgPath())
                 .build();
-        try {
-            return DataResDto.builder()
-                    .message("뱃지를 발급했습니다.")
-                    .data(receiveBadgeResDto)
-                    .build();
-        } catch (Exception e) {
-            throw new RuntimeException("뱃지 발급에 실패하였습니다.");
-        }
+
+        return DataResDto.builder()
+                .message("뱃지를 발급했습니다.")
+                .data(receiveBadgeResDto)
+                .build();
     }
 }
