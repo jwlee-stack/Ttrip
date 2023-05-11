@@ -36,4 +36,11 @@ public class LandmarkController {
     public DataResDto<?> receiveBadge(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody ReceiveBadgeReqDto receiveBadgeReqDto) {
         return landmarkService.receiveBadge(memberDetails.getMember(), receiveBadgeReqDto);
     }
+
+    @ApiResponses({@ApiResponse(code = 200, message = "뱃지 목록 조회 성공 시 응답")})
+    @ApiOperation(value = "뱃지 조회 API")
+    @GetMapping("/badges")
+    public DataResDto<?> getBadgeList(@AuthenticationPrincipal MemberDetails memberDetails) {
+        return landmarkService.getBadgeList(memberDetails.getMember());
+    }
 }
