@@ -29,7 +29,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initRecyclerView()
         initListener()
 
-        userViewModel.postUserFcmToken()
+        userViewModel.postUserFcmToken(true)
     }
 
     override fun onAttach(context: Context) {
