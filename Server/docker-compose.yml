@@ -39,6 +39,7 @@ services:
     depends_on:
       - ttrip-db
       - mongo-db
+      - flask-server
     volumes:
       - upload-images:/var/lib/images
     logging:
@@ -95,10 +96,10 @@ services:
 
   flask-server:
     container_name: flask-server
-    hostname: flask-server
-    image: my-flask:latest
-    build: ./flask-server
-    command: python app.py
+    build:
+      context: ./flask-server
+      dockerfile: ./Dockerfile
+    image: my-flask:0.1
     restart: unless-stopped
     env_file:
       - ./flask-server/.env
@@ -106,6 +107,8 @@ services:
       - 5000:5000
     volumes:
       - flask-data:/app
+    depends_on:
+      - ttrip-db
     networks:
       ttrip_bridge:
         ipv4_address: 172.35.0.14
