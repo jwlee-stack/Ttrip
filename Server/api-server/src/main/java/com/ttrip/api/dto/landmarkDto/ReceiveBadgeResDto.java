@@ -13,6 +13,6 @@ public class ReceiveBadgeResDto {
     private Integer badgeId;
     @ApiModelProperty(value = "뱃지(랜드마크) 이름")
     private String badgeName;
-    @ApiModelProperty(value = "뱃지 이미지 경로", example = "C:\\ssafy\\Project\\S08P31D104\\Server\\badgeImg\\landmark.png")
+    @ApiModelProperty(value = "뱃지 이미지 경로", example = "/badgeImg/landmark.png")
     private String badgeImgPath;
 }
