@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    namespace 'org.sfy.ttrip'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "org.sfy.ttrip"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation libs.bundles.androidx
+    implementation libs.android.material
+    implementation libs.hilt
+    implementation libs.databinding
+    implementation libs.circleindicator
+
+    implementation libs.bundles.retrofit.bundles
+    implementation libs.bundles.okhttp3.bundles
+
+    testImplementation libs.junit
+
+    androidTestImplementation libs.android.test.junit
+    androidTestImplementation libs.android.test.espresso
+
+    kapt libs.hilt.complier
+
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
+
+    implementation libs.viewpager.indicator
+
+    implementation libs.google.maps
+    implementation libs.google.maps.location
+    implementation libs.google.maps.directions
+
+    implementation libs.stomp.protocol
+
+    implementation libs.firebase.auth
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.messaging
+}
+
+kapt {
+    correctErrorTypes true
+}

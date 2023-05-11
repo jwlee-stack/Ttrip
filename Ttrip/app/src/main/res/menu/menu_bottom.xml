@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/boardFragment"
+        android:icon="@drawable/selector_menu_board"
+        android:title="@string/content_menu_board" />
+    <item
+        android:id="@+id/liveFragment"
+        android:icon="@drawable/selector_menu_live"
+        android:title="@string/content_menu_live" />
+    <item
+        android:id="@+id/chatFragment"
+        android:icon="@drawable/selector_menu_chat"
+        android:title="@string/content_menu_chat" />
+    <item
+        android:id="@+id/myPageFragment"
+        android:icon="@drawable/selector_menu_mypage"
+        android:title="@string/content_menu_mypage" />
+</menu>

@@ -1,0 +1,208 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_board_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream7"
+                android:text="@string/content_board_info_title"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_board_info_title"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="30dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                android:gravity="top"
+                android:hint="@string/content_board_info_title_hint"
+                android:inputType="textMultiLine"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_board_info_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_info_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_board_info_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream7"
+                android:text="@string/content_board_info_content"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_board_info_content"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="30dp"
+                android:autofillHints=""
+                android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                android:gravity="top"
+                android:hint="@string/content_board_info_content_hint"
+                android:inputType="textMultiLine"
+                android:padding="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_board_info_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_info_destination"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp">
+
+            <TextView
+                android:id="@+id/tv_board_info_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream7"
+                android:text="@string/content_board_info_distination"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_nation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/sc_dream6"
+                android:text="@string/content_nation"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_board_info_destination" />
+
+            <AutoCompleteTextView
+                android:id="@+id/at_nation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                android:completionThreshold="1"
+                android:fontFamily="@font/sc_dream5"
+                android:hint="@string/content_nation_hint"
+                android:padding="10dp"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_nation" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/sc_dream6"
+                android:text="@string/content_city"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginHorizontal="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/at_nation" />
+
+            <AutoCompleteTextView
+                android:id="@+id/at_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                android:completionThreshold="1"
+                android:fontFamily="@font/sc_dream5"
+                android:hint="@string/content_city_hint"
+                android:padding="10dp"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_info_start_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_board_info_start_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream7"
+                android:text="@string/content_board_info_start_day"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <DatePicker
+                android:id="@+id/dp_post_board_start_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                app:layout_constraintTop_toBottomOf="@id/tv_board_info_start_day" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_info_end_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_board_info_end_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream7"
+                android:text="@string/content_board_info_end_day"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <DatePicker
+                android:id="@+id/dp_post_board_end_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                app:layout_constraintTop_toBottomOf="@id/tv_board_info_end_day" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

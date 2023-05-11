@@ -1,0 +1,448 @@
+<resources>
+    <string name="app_name">Ttrip</string>
+
+    <!-- Splash -->
+    <string name="content_logo_text1">TT</string>
+    <string name="content_logo_text2">r</string>
+    <string name="content_logo_text3">!P</string>
+    <string name="image_splash_ticket_back">image_splash_ticket_back</string>
+    <string name="image_splash_ticket_front">image_splash_ticket_front</string>
+
+    <!-- OnBoarding -->
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
+    <string name="content_onboarding_puzzles1">내 취향에 딱 어울리는</string>
+    <string name="content_onboarding_puzzles2">여행 메이트</string>
+    <string name="content_onboarding_puzzles3">를 찾아주는</string>
+    <string name="content_onboarding_task1">계획</string>
+    <string name="content_onboarding_task2">적인 여행러부터</string>
+    <string name="content_onboarding_task3">즉흥</string>
+    <string name="content_onboarding_task4">적인 여행러까지</string>
+    <string name="content_onboarding_travel1">국내부터 해외까지</string>
+    <string name="content_onboarding_travel2">띱</string>
+    <string name="content_onboarding_travel3">과 함께 해요!</string>
+    <string name="content_onboarding_skip">Skip</string>
+    <string name="image_onboarding_button">image_onboarding_button</string>
+    <string name="content_start_login">시작하기</string>
+    <string name="content_ask_id">계정이 없으신가요? </string>
+    <string name="content_sign_up">가입하기</string>
+
+    <!-- Bottom Navigation Menu -->
+    <string name="content_menu_board">게시판</string>
+    <string name="content_menu_live">실시간</string>
+    <string name="content_menu_chat">채팅</string>
+    <string name="content_menu_mypage">마이페이지</string>
+
+    <!-- login -->
+    <string name="image_back_to_onboarding">image_back_to_onboarding</string>
+    <string name="image_title_login">image_title_login</string>
+    <string name="image_login_earth">image_login_earth</string>
+    <string name="content_login">로그인</string>
+    <string name="image_login_line">content_login_line</string>
+    <string name="content_text_password">PASSWORD</string>
+    <string name="content_hint_password">01012345678</string>
+    <string name="content_login_id">PHONE</string>
+    <string name="content_login_logo">TTr!p</string>
+    <string name="content_sign_up_user">회원가입</string>
+    <string name="content_phone_number">휴대폰 번호</string>
+    <string name="content_phone_number_check">인증번호</string>
+    <string name="content_sign_up_password">비밀번호</string>
+    <string name="content_sign_up_check">비밀번호 확인</string>
+    <string name="content_sign_up_password_not_valid">비밀번호가 일치하지 않습니다.</string>
+    <string name="content_declaration_title1">신고</string>
+    <string name="content_declaration_title2">가 접수된 회원입니다.</string>
+    <string name="content_declaration_title3">소명하시려면 내용을 작성해주세요.</string>
+    <string name="content_declaration_phone">phone</string>
+    <string name="content_declaration_content">소명내용</string>
+    <string name="content_declaration_submit">확인</string>
+    <string name="content_declaration_cancel">취소</string>
+
+    <!-- Live -->
+    <string name="image_call_state">image_call_state</string>
+    <string name="image_info_profile">image_info_profile</string>
+    <string name="image_distance">image_distance</string>
+    <string name="image_detail_info_match_state">image_detail_info_match_state</string>
+    <string name="image_detail_info_call_state">image_detail_info_call_state</string>
+    <string name="image_end_matching">image_end_matching</string>
+    <string name="image_call_to_matching">image_call_to_matching</string>
+    <string name="image_current_location">image_current_location</string>
+    <string name="content_request_matching">님과 동행하시겠습니까?</string>
+    <string name="content_end_matching">님과 만나셨나요?</string>
+    <string name="content_cancel">취소</string>
+    <string name="content_confirm">확인</string>
+    <string name="content_no">아니오</string>
+    <string name="content_yes">네</string>
+    <string name="content_live_toggle_off">OFF</string>
+    <string name="content_live_toggle_on">ON</string>
+    <string name="content_close_live">라이브 실행중에는\n다른 페이지로 이동할 수 없습니다.\n라이브를 종료하시겠습니까?</string>
+
+    <!-- Chat -->
+    <string name="image_chat">image_chat</string>
+    <string name="title_chat">채팅</string>
+    <string name="image_arrow_left">image_arrow_left</string>
+    <string name="image_other_profile">image_other_profile</string>
+    <string name="image_chat_matching">image_chat_matching</string>
+    <string name="content_matching">매칭</string>
+    <string name="content_chat_input_hint">메시지 보내기</string>
+    <string name="image_send_message">image_send_message</string>
+    <string name="content_exit_chat">채팅방을 나가시겠습니까?</string>
+    <string name="similarity_format">%d%%</string>
+
+    <!-- MyPage -->
+    <string name="image_profile_background">image_profile_background</string>
+    <string name="image_edit_profile_background">image_edit_profile_background</string>
+    <string name="image_profile_img">image_profile_img</string>
+    <string name="image_edit_profile_img">image_edit_profile_img</string>
+    <string name="image_certification_badge">image_certification_badge</string>
+    <string name="image_profile_certificate">image_profile_certificate</string>
+    <string name="image_edit_profile">image_edit_profile</string>
+    <string name="content_get_my_posts">내 게시글 보기</string>
+    <string name="content_get_my_badges">뱃지 보기</string>
+    <string name="content_test_again">취향 테스트 다시하기</string>
+    <string name="content_logout">로그아웃</string>
+    <string name="title_my_board">게시글 조회</string>
+    <string name="content_logout_dialog">로그아웃하시겠습니까?</string>
+
+    <!-- sign_up_information -->
+    <string name="image_back_to_login">image_back_to_login</string>
+    <string name="title_user_info">회원 정보 입력</string>
+    <string name="content_user_info_next">다음</string>
+    <string name="content_user_info_nick_name">닉네임을\n입력해주세요</string>
+    <string name="content_user_info_nick_name_hint">6자 이내로 입력해주세요</string>
+    <string name="content_user_info_nick_name_check">중복체크</string>
+    <string name="content_user_info_age">나이를\n입력해주세요</string>
+    <string name="content_user_info_sex">성별을\n선택해주세요</string>
+    <string name="content_user_info_sex_girl">여자</string>
+    <string name="content_user_info_sex_boy">남자</string>
+    <string name="content_user_info_profile">프로필 사진과\n소개말을 등록해주세요</string>
+    <string name="content_user_info_introduction_hint">20자 이내로 입력해주세요</string>
+    <string name="content_user_info_profile_photo">content_user_info_profile_photo</string>
+    <string name="content_user_info_profile_photo_black">content_user_info_profile_photo_black</string>
+    <string name="title_user_info_test">취향 테스트</string>
+    <string name="content_user_info_test">비슷한 취향의 여행 메이트를 추천해드려요!</string>
+    <string name="content_test_disagree">비동의</string>
+    <string name="content_test_agree">동의</string>
+    <string name="image_test_check">image_test_check</string>
+    <string name="content_certificate_phone">휴대폰 인증</string>
+    <string name="content_verification_again">인증번호를 받지 못하셨나요?</string>
+    <string name="content_user_info_age_hint">나이를 입력하세요</string>
+
+    <!-- board -->
+    <string name="title_board_category">전체</string>
+    <string name="image_select_location">image_select_location</string>
+    <string name="image_post_board">image_post_board</string>
+    <string name="image_search_board">image_search_board</string>
+    <string name="image_ticket_dash_line">image_ticket_dash_line</string>
+    <string name="content_ticket_date">DATE</string>
+    <string name="content_ticket_destination">DESTINATION</string>
+    <string name="image_ticket_airplane">image_ticket_airplane</string>
+    <string name="content_post_comment">20자 이내로 작성해주세요!</string>
+    <string name="content_comment_hint">작성자에게 전달할\n간단한 소개글을 작성해주세요</string>
+    <string name="content_post_board_comment">신청하기</string>
+    <string name="image_board_profile">image_board_profile</string>
+    <string name="image_go_to_profile_detail">image_go_to_profile_detail</string>
+    <string name="image_board_line">image_board_line</string>
+    <string name="content_delete_board">게시글을 삭제하겠습니까?</string>
+    <string name="content_finish_board">모집 종료</string>
+    <string name="content_delete_my_board">content_delete_my_board</string>
+
+    <!-- Edit Profile -->
+    <string name="image_dash_line">image_dash_line</string>
+    <string name="title_edit_profile">프로필 수정</string>
+    <string name="title_logo_ttrip">TTr!P</string>
+    <string name="title_edit_profile_nickname">닉네임</string>
+    <string name="content_enable_nickname">사용할 수 있는 닉네임입니다.</string>
+    <string name="title_edit_profile_age">나이</string>
+    <string name="content_select_date">날짜 선택</string>
+    <string name="title_edit_profile_gender">성별</string>
+    <string name="content_gender_female">여자</string>
+    <string name="content_gender_male">남자</string>
+    <string name="title_edit_profile_introduction">소개글</string>
+    <string name="title_certificate_profile">프로필 인증</string>
+    <string name="content_edit_profile">회원정보 수정완료</string>
+    <string name="content_confirm_test_again">취향테스트 마치기</string>
+
+    <!-- Certification -->
+    <string name="image_recent_profile_image">image_recent_profile_image</string>
+    <string name="image_input_user_img">image_input_user_img</string>
+    <string name="image_certificate_profile_camera">image_certificate_profile_camera</string>
+    <string name="content_confirm_certificate_profile">본인 인증</string>
+
+    <!-- Post Board -->
+    <string name="title_post_board">게시글 등록</string>
+    <string name="content_board_info_title">글의 제목을\n입력해주세요</string>
+    <string name="content_board_info_title_hint">다른 유저들이 한눈에 알아보기 쉽게 제목을 입력해주세요!</string>
+    <string name="content_board_info_content">내용을\n입력해주세요</string>
+    <string name="content_board_info_content_hint">동행을 구하는 목적이나 상세한 일정을 기입해주시면 좋아요!</string>
+    <string name="content_board_info_start_day">여행 시작일을\n설정해주세요</string>
+    <string name="content_board_info_end_day">여행 종료일을\n설정해주세요</string>
+    <string name="content_cancel_post_dialog">게시글 등록을 취소하겠습니까?\n입력된 내용은 저장되지 않습니다.</string>
+    <string name="content_board_info_distination">여행지를\n선택해주세요</string>
+    <string name="image_user_background">image_user_background</string>
+    <string name="image_user_profile">image_user_profile</string>
+    <string name="image_close_user_profile">image_close_user_profile</string>
+    <string name="image_user_check">image_user_check</string>
+
+    <!-- Declaration -->
+    <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>
+    <string name="content_declaration_hint">신고내용이 거짓임이 밝혀질 경우 계정이 정지될 수 있습니다.</string>
+    <string name="title_rating_ask1">님 과의 동행은</string>
+    <string name="title_rating_ask2">어떠셨나요?</string>
+    <string name="image_declaration_siren">image_declaration_siren</string>
+    <string name="content_declaration">신고하기</string>
+
+    <!-- Nation and cities -->
+    <string name="content_nation">나라</string>
+    <string name="content_nation_hint">나라를 입력해주세요</string>
+    <string name="content_city">도시</string>
+    <string name="content_city_hint">도시를 입력해주세요</string>
+    <string-array name="nation_names">
+        <item>한국</item>
+        <item>일본</item>
+        <item>중국</item>
+        <item>홍콩</item>
+        <item>대만</item>
+        <item>몽골</item>
+        <item>태국</item>
+        <item>캄보디아</item>
+        <item>라오스</item>
+        <item>필리핀</item>
+        <item>싱가포르</item>
+        <item>인도네시아</item>
+        <item>말레이시아</item>
+        <item>베트남</item>
+        <item>필리핀</item>
+        <item>미얀마</item>
+        <item>슬로베니아</item>
+        <item>프랑스</item>
+        <item>이탈리아</item>
+        <item>터키</item>
+        <item>스페인</item>
+        <item>영국</item>
+        <item>오스트리아</item>
+        <item>독일</item>
+        <item>네덜란드</item>
+        <item>스위스</item>
+        <item>포르투갈</item>
+        <item>폴란드</item>
+        <item>아이슬란드</item>
+        <item>필란드</item>
+        <item>스웨덴</item>
+        <item>노르웨이</item>
+        <item>덴마크</item>
+        <item>그리스</item>
+        <item>러시아</item>
+        <item>아일랜드</item>
+        <item>헝가리</item>
+        <item>벨기에</item>
+        <item>체코</item>
+        <item>슬로베니아</item>
+        <item>볼리비아</item>
+        <item>미국</item>
+        <item>캐나다</item>
+        <item>멕시코</item>
+        <item>페루</item>
+        <item>아르헨티나</item>
+        <item>쿠바</item>
+        <item>호주</item>
+        <item>뉴질랜드</item>
+        <item>이집트</item>
+        <item>남아프리카공화국</item>
+        <item>탄자니아</item>
+        <item>에티오피아</item>
+        <item>케냐</item>
+        <item>나미비아</item>
+        <item>모로코</item>
+    </string-array>
+    <string-array name="city_names">
+        <item>서울</item>
+        <item>강원도</item>
+        <item>제주도</item>
+        <item>부산</item>
+        <item>경기도</item>
+        <item>인천</item>
+        <item>충청도</item>
+        <item>경상도</item>
+        <item>전라도</item>
+        <item>울릉도</item>
+        <item>도쿄</item>
+        <item>오사카</item>
+        <item>후쿠오카</item>
+        <item>오키나와</item>
+        <item>나고야</item>
+        <item>교토</item>
+        <item>훗카이도</item>
+        <item>히로시마</item>
+        <item>나가노</item>
+        <item>홍콩</item>
+        <item>마카오</item>
+        <item>타이페이</item>
+        <item>타이중</item>
+        <item>가오슝</item>
+        <item>상하이</item>
+        <item>베이징</item>
+        <item>칭다오</item>
+        <item>청두</item>
+        <item>광저우</item>
+        <item>하이난</item>
+        <item>항저우</item>
+        <item>장가계</item>
+        <item>충칭</item>
+        <item>서안</item>
+        <item>울란바토르</item>
+        <item>싱가포르</item>
+        <item>발리</item>
+        <item>자카르타</item>
+        <item>룸복</item>
+        <item>바탐</item>
+        <item>족자카르타</item>
+        <item>반둥</item>
+        <item>수라바야</item>
+        <item>쿠알라룸푸르</item>
+        <item>페낭</item>
+        <item>코타키나발루</item>
+        <item>랑카위</item>
+        <item>조호바루</item>
+        <item>케팅하이랜드</item>
+        <item>방콕</item>
+        <item>파타야</item>
+        <item>치앙마이</item>
+        <item>푸켓</item>
+        <item>코사무이</item>
+        <item>끄라비</item>
+        <item>후하힌</item>
+        <item>코팡</item>
+        <item>피피섬</item>
+        <item>치앙라이</item>
+        <item>호치민</item>
+        <item>하노이</item>
+        <item>후에</item>
+        <item>호이안</item>
+        <item>다낭</item>
+        <item>푸꾸옥</item>
+        <item>달랏</item>
+        <item>나트랑</item>
+        <item>사파</item>
+        <item>보라카이</item>
+        <item>마닐라</item>
+        <item>세부</item>
+        <item>팔라완</item>
+        <item>보홀</item>
+        <item>부식&amp;클락</item>
+        <item>비엔티안</item>
+        <item>방비엥</item>
+        <item>루앙프라방</item>
+        <item>미얀마</item>
+        <item>양곤</item>
+        <item>바간</item>
+        <item>만달레이</item>
+        <item>인레호수</item>
+        <item>나팔리</item>
+        <item>씨엠립</item>
+        <item>프놈펜</item>
+        <item>파리</item>
+        <item>니스</item>
+        <item>마르세유</item>
+        <item>알자스</item>
+        <item>로마</item>
+        <item>피렌체</item>
+        <item>베네치아</item>
+        <item>밀라노</item>
+        <item>나폴리</item>
+        <item>피사</item>
+        <item>이스탄불</item>
+        <item>카파도키아</item>
+        <item>마드리드</item>
+        <item>바르셀로나</item>
+        <item>톨레도</item>
+        <item>세비야</item>
+        <item>그라나다</item>
+        <item>런던</item>
+        <item>에딘버러</item>
+        <item>맨체스터</item>
+        <item>리버풀</item>
+        <item>비엔나</item>
+        <item>암스테르담</item>
+        <item>베를린</item>
+        <item>프랑크푸르트</item>
+        <item>뮌헨</item>
+        <item>함부르크</item>
+        <item>취리히</item>
+        <item>루체른</item>
+        <item>제네바</item>
+        <item>인터라켄</item>
+        <item>리스본</item>
+        <item>포르투</item>
+        <item>크라쿠프</item>
+        <item>레이캬비크</item>
+        <item>헬싱키</item>
+        <item>스톡홀름</item>
+        <item>오슬로</item>
+        <item>트롬쇠</item>
+        <item>베르겐</item>
+        <item>코펜하겐</item>
+        <item>아테네</item>
+        <item>산토리니</item>
+        <item>모스크바</item>
+        <item>상트페테르부르크</item>
+        <item>블라디보스톡</item>
+        <item>이르쿠츠크</item>
+        <item>더블린</item>
+        <item>부다페스트</item>
+        <item>브뤼셀</item>
+        <item>브뤼헤</item>
+        <item>프라하</item>
+        <item>크룸로프</item>
+        <item>류블랴나</item>
+        <item>뉴욕</item>
+        <item>라스베가스</item>
+        <item>로스앤젤레스</item>
+        <item>샌프란시스코</item>
+        <item>시카고</item>
+        <item>올랜도</item>
+        <item>필라델피아</item>
+        <item>마이래미</item>
+        <item>시애틀</item>
+        <item>보스턴</item>
+        <item>워싱턴D.C</item>
+        <item>샌디에고</item>
+        <item>하와이</item>
+        <item>벤쿠버</item>
+        <item>토론토</item>
+        <item>갤거리</item>
+        <item>퀘백</item>
+        <item>칸쿤</item>
+        <item>리마</item>
+        <item>라파스</item>
+        <item>우유니</item>
+        <item>산티아고</item>
+        <item>산페드로데아타카마</item>
+        <item>부에노스아이레스</item>
+        <item>하바나</item>
+        <item>시드니</item>
+        <item>브리즈번</item>
+        <item>멜버른</item>
+        <item>케언즈</item>
+        <item>퍼스</item>
+        <item>퀸즈타운</item>
+        <item>오클랜드</item>
+        <item>로토루아</item>
+        <item>크라이스트처치</item>
+        <item>카이로</item>
+        <item>록소르</item>
+        <item>아스완</item>
+        <item>후루가다</item>
+        <item>케이프타운</item>
+        <item>요하네스버그</item>
+        <item>아루샤</item>
+        <item>킬리만자로</item>
+        <item>다르에스살람</item>
+        <item>잔지바르</item>
+        <item>아디스아바바</item>
+        <item>나이로비</item>
+        <item>빈트후크</item>
+        <item>스와콥문트</item>
+        <item>카사블랑카</item>
+        <item>마라케시</item>
+        <item>페스</item>
+    </string-array>
+</resources>

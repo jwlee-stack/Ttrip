@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="org.sfy.ttrip.domain.entity.live.LiveUser" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_rect_white_radius10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_info_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:circleImgUri="@{user.profileImgPath}"
+                android:contentDescription="@string/image_info_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_info_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_info_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_info_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_info_profile">
+
+                <TextView
+                    android:id="@+id/tv_info_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/sc_dream5"
+                    android:text="@{user.nickname}"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="림림" />
+
+                <TextView
+                    android:id="@+id/tv_matching_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_rect_medium_orchid_white_lilac_radius10_stroke1"
+                    android:fontFamily="@font/sc_dream5"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="3dp"
+                    android:text="@{String.format(`%.0f%%`, user.matchingRate)}"
+                    android:textColor="@color/medium_orchid"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_info_nickname"
+                    app:layout_constraintStart_toEndOf="@+id/tv_info_nickname"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SmallSp"
+                    tools:text="97%" />
+
+                <TextView
+                    android:id="@+id/tv_info_age_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/sc_dream4"
+                    android:text="@{String.format(`%s %s`, user.age, user.gender)}"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_info_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/tv_info_nickname"
+                    tools:text="20대 여성" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:contentDescription="@string/image_distance"
+                android:src="@drawable/ic_live_distance"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/iv_info_profile" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/sc_dream4"
+                android:text="@{String.format(`%.0fkm`, user.distanceFromMe)}"
+                android:textColor="@color/neon_blue"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_distance"
+                app:layout_constraintStart_toEndOf="@id/iv_distance"
+                app:layout_constraintTop_toTopOf="@id/iv_distance"
+                tools:text="3km" />
+
+            <ImageView
+                android:id="@+id/iv_detail_info_match_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="15dp"
+                android:contentDescription="@string/image_detail_info_match_state"
+                android:src="@drawable/ic_live_info_not_matching"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/cl_info_detail"
+                app:layout_constraintStart_toEndOf="@id/tv_distance"
+                app:layout_constraintTop_toBottomOf="@id/cl_info_detail" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

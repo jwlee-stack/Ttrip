@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chat"
+            type="org.sfy.ttrip.domain.entity.chat.ChatRoom" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_chat_room"
+        android:layout_width="350dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/bg_rect_medium_orchid_white_lilac_radius20_stroke1"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_info_profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:circleImgUri="@{chat.imagePath}"
+            android:contentDescription="@string/image_info_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_info_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_info_profile"
+            app:layout_constraintEnd_toStartOf="@id/tv_chat_time"
+            app:layout_constraintStart_toEndOf="@id/iv_info_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_info_profile">
+
+            <TextView
+                android:id="@+id/tv_info_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sc_dream6"
+                android:text="@{chat.otherNickname}"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="림림" />
+
+            <TextView
+                android:id="@+id/tv_chat_similarity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/sc_dream5"
+                android:textColor="@color/medium_orchid"
+                android:textSize="10sp"
+                android:text="@{@string/similarity_format(chat.similarity)}"                app:layout_constraintBottom_toBottomOf="@+id/tv_info_nickname"
+                app:layout_constraintStart_toEndOf="@+id/tv_info_nickname"
+                app:layout_constraintTop_toTopOf="@+id/tv_info_nickname"
+                tools:ignore="SmallSp"
+                tools:text="97%" />
+
+            <TextView
+                android:id="@+id/tv_info_age_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/sc_dream4"
+                android:maxLines="1"
+                android:text="@{chat.lastMessage}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/tv_info_nickname"
+                app:layout_constraintTop_toBottomOf="@id/tv_info_nickname"
+                tools:text="안녕하세요안녕하세요안녕하세요안녕하세요" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_chat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/sc_dream5"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12:25 PM" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
