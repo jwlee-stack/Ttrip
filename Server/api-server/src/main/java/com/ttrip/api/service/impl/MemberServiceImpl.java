@@ -2,10 +2,7 @@ package com.ttrip.api.service.impl;
 
 import com.ttrip.api.config.jwt.TokenProvider;
 import com.ttrip.api.dto.DataResDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberLoginReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberReportReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberSignupReqDto;
-import com.ttrip.api.dto.memberDto.memberReqDto.MemberUpdateReqDto;
+import com.ttrip.api.dto.memberDto.memberReqDto.*;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberCheckNicknameResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberLoginResDto;
 import com.ttrip.api.dto.memberDto.memberResDto.MemberResDto;
@@ -152,6 +149,11 @@ public class MemberServiceImpl implements MemberService {
         //내 UUID로 리프래시 토큰 서칭
         RefreshToken refreshToken = refreshTokenRepository.findByKey(myUuid).get();
         log.info("내 UUID로 리프래시 토큰 서칭");
+
+        //fcm토큰값 없앰
+        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(),memberDetails);
+        log.info("fcm토큰값 없앰");
+
         try {
             //해당 리프래시 토큰 삭제
             refreshTokenRepository.delete(refreshToken);
@@ -296,6 +298,28 @@ public class MemberServiceImpl implements MemberService {
         log.info("신고 저장(신고자: {}, 피신고자: {})",blacklist.getReporterId(),blacklist.getMember().getMemberId());
         return DataResDto.builder()
                 .message("신고가 접수되었습니다.")
+                .data(true)
+                .build();
+    }
+
+    @Override
+    public DataResDto<?> updateFcm(MemberFcmReqDto memberFcmReqDto, MemberDetails memberDetails) {
+        Member member=memberDetails.getMember();
+
+        try{
+            member.setFcmToken(memberFcmReqDto.getFcmToken());
+            memberRepository.save(member);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return DataResDto.builder()
+                    .message("fcm 토큰 업데이트 실패")
+                    .data(false)
+                    .build();
+        }
+        return DataResDto.builder()
+                .message("fcm 토큰 업데이트 성공")
                 .data(true)
                 .build();
     }
