@@ -27,10 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -99,12 +96,9 @@ public class ChatServiceImpl implements ChatService {
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.CHATMEMBER_NOT_EXIST.getMessage()));
         ChatMember chatMember = chatMemberRepository.findByMemberAndChatroom(member, chatroom)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.CHATMEMBER_NOT_EXIST.getMessage()));
-        System.out.println(chatMember.getChatroom().getChatRoomId());
-        System.out.println(chatMember.getChatMemberId());
-        System.out.println(chatMember.getMember().getMemberId());
         chatMemberRepository.delete(chatMember);
         //채팅방에서 모두 나가면 채팅방도 삭제
-        if (chatroom.getChatMemberList().size() == 0) {
+        if (chatroom.getChatMemberList().size() == 1) {
             chatroomRepoistory.delete(chatroom);
         }
         return DataResDto.builder().data(true).message("채팅방에서 나갔습니다.").build();
@@ -148,7 +142,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public DataResDto<?> makeChat(ChatMakerReqDto chatMakerReqDto, Member member) {
         //상대 유저
-        Member opponentUser = memberRepository.findByMemberUuid(chatMakerReqDto.getOpponentUserUuid())
+        Member opponentUser = memberRepository.findByMemberUuid(UUID.fromString(chatMakerReqDto.getOpponentUserUuid()))
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         //관련 게시글
         Article article = articleRepository.findByArticleId(chatMakerReqDto.getArticleId())
@@ -156,7 +150,8 @@ public class ChatServiceImpl implements ChatService {
         //이미 채팅방이있다면?
         Optional<Chatroom> optionalChatroom = chatroomRepoistory.findByArticleAndMember(article, opponentUser);
         if (optionalChatroom.isPresent()) {
-            if (optionalChatroom.get().getChatMemberList().contains(member)) {
+            //chatmember에 자기가 있으면 해당 챗룸 반환
+            if (optionalChatroom.get().getChatMemberList().stream().filter(chatMember -> chatMember.getMember().equals(member)).findFirst().isPresent()) {
                 List<ChatMessage> chatMessageList = chatMessageRepository.findByChatroomId(optionalChatroom.get().getChatRoomId());
                 ChatMessage lastChatMessage = chatMessageList.get(chatMessageList.size() - 1);
                 GetChatroomResDto getChatroomResDto = GetChatroomResDto.builder()
@@ -172,7 +167,7 @@ public class ChatServiceImpl implements ChatService {
                         .status(article.getStatus())
                         .isMatch(optionalChatroom.get().getStatus() == 'F')
                         .build();
-                return DataResDto.builder().data(getChatroomResDto).message("채팅방을 생성했습니다.").build();
+                return DataResDto.builder().status(201).data(getChatroomResDto).message("이미 생성된 채팅방이 있습니다.").build();
             } else {
                 return DataResDto.builder().status(400).message("이미 나간 채팅방입니다.").data(false).build();
             }
@@ -196,7 +191,7 @@ public class ChatServiceImpl implements ChatService {
                 .build());
         //생성 메세지 추가
         chatMessageRepository.save(ChatMessage.builder()
-                .text("여만추를 원하는 당신에게 선물 ~")
+                .text(member.getNickname() + "님과" + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
                 .chatroomId(newChatroom.getChatRoomId())
                 .createdAt(LocalDateTime.now())
                 .memberUuid(member.getMemberUuid().toString())
@@ -207,7 +202,7 @@ public class ChatServiceImpl implements ChatService {
                 .memberUuid(opponentUser.getMemberUuid().toString())
                 .imagePath(opponentUser.getProfileImgPath())
                 .updatedAt(LocalDateTime.now())
-                .lastMessage("여만추를 원하는 당신에게 선물 ~")
+                .lastMessage(member.getNickname() + "님과" + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
                 .articleId(article.getArticleId())
                 .articleTitle(article.getTitle())
                 .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponentUser.getSurvey()))
@@ -220,10 +215,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public DataResDto<?> getDetail(Integer chatRoomId, Member member) {
         List<ChatMessageResDto> chatMessageResDtoList = new ArrayList<>();
-        LocalDate localDate = LocalDate.parse(	"2000-01-01");
+        LocalDate localDate = LocalDate.parse("2000-01-01");
         for (ChatMessage chatMessage : chatMessageRepository.findByChatroomId(chatRoomId)) {
             Boolean isFirst = false;
-            if (! localDate.equals(chatMessage.getCreatedAt().toLocalDate())){
+            if (!localDate.equals(chatMessage.getCreatedAt().toLocalDate())) {
                 isFirst = true;
                 localDate = chatMessage.getCreatedAt().toLocalDate();
             }
