@@ -27,6 +27,7 @@ public class SecurityConfig {
             "/api/members/login",
             "/api/members/reissue",
             "/ws/live",
+            "/ws/call/**",
             "/api-server/src/main/webapp/WEB-INF/views/live.jsp",
             "/ws/live/**/**",
             "/ws/chat/**/**/**",

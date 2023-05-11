@@ -20,6 +20,7 @@ public class CustomHandshakeInterceptor extends HttpSessionHandshakeInterceptor 
             // ["", "ws", "live", "{city}", "{memberId}"],
             // ["", "ws", "chat", "{chatroomId}", "{memberUuid}", "{opponentUuid}"]
             // ["", "ws", "match", "{memberUuid}","{opponentUuid}"]
+            // ["", "ws", "call", "{memberUuid}"]
             String[] pathVariables = path.split("/");
             if (pathVariables[2].equals("live")) {
                 attributes.put("city", pathVariables[3]);
@@ -31,6 +32,8 @@ public class CustomHandshakeInterceptor extends HttpSessionHandshakeInterceptor 
             } else if (pathVariables[2].equals("match")) {
                 attributes.put("memberUuid", pathVariables[3]);
                 attributes.put("opponentUuid", pathVariables[4]);
+            } else if (pathVariables[2].equals("call")) {
+                attributes.put("memberUuid", pathVariables[3]);
             }
         }
         return super.beforeHandshake(request, response, wsHandler, attributes);

@@ -15,6 +15,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final LiveHandler liveHandler;
     private final ChatHandler chatHandler;
     private final MatchHandler matchHandler;
+    private final CallHandler callHandler;
     /**
      * WebSocket 핸들러를 등록하는 과정
      *
@@ -31,6 +32,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(liveHandler, "ws/live/{city}/{memberUuid}").setAllowedOrigins("*")
                 .addHandler(matchHandler, "ws/match/{memberUuid}/{opponentUuid}").setAllowedOrigins("*")
                 .addHandler(chatHandler, "ws/chat/{chatroomId}/{memberUuid}/{opponentUuid}").setAllowedOrigins("*")
+                .addHandler(callHandler, "ws/call/{memberUuid}").setAllowedOrigins("*")
                 .addInterceptors(new CustomHandshakeInterceptor());
     }
 
