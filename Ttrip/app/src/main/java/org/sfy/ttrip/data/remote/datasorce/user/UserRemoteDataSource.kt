@@ -19,4 +19,6 @@ interface UserRemoteDataSource {
     suspend fun postUserInfoTest(body: UserInfoTestRequest)
 
     suspend fun getUserProfile(nickName: String): UserProfileDialogResponse
+
+    suspend fun postUserFcm(fcmToken: String)
 }

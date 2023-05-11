@@ -11,6 +11,7 @@ import org.sfy.ttrip.domain.repository.live.LiveRepository
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
+import org.sfy.ttrip.domain.usecase.user.PostUserFcmTokenUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
@@ -145,4 +146,9 @@ object UseCaseModule {
     @Provides
     fun provideGetUserProfileDialogUseCase(userRepository: UserRepository): GetUserProfileDialogUseCase =
         GetUserProfileDialogUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun providePostUserFcmTokenUseCase(userRepository: UserRepository): PostUserFcmTokenUseCase =
+        PostUserFcmTokenUseCase(userRepository)
 }
