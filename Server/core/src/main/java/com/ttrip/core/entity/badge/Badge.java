@@ -1,18 +1,15 @@
 package com.ttrip.core.entity.badge;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ttrip.core.entity.BaseEntity;
-import com.ttrip.core.entity.member.Member;
-import lombok.*;
+import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Builder
+@Data
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Badge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +17,6 @@ public class Badge {
     private int badgeId;
     private String badgeName;
     private String badgeImagePath;
-    private Double lat;
-    private Double lng;
+    private Double latitude;
+    private Double longitude;
 }
