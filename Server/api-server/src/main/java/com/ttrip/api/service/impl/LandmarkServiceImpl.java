@@ -58,6 +58,14 @@ public class LandmarkServiceImpl implements LandmarkService {
         Landmark landmark = landmarkRepository.findByLandmarkId(receiveBadgeReqDto.getLandmarkId())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
 
+        // 이미 해당 뱃지를 보유하고 있는지 확인
+        if(badgeRepository.existsByMemberAndLandmark(member, landmark)) {
+            return DataResDto.builder()
+                    .status(204)
+                    .message("이미 발급한 뱃지입니다.")
+                    .build();
+        }
+
         // 뱃지 db 저장
         Badge badge = Badge.builder()
                 .member(member)
@@ -74,6 +82,31 @@ public class LandmarkServiceImpl implements LandmarkService {
         return DataResDto.builder()
                 .message("뱃지를 발급했습니다.")
                 .data(receiveBadgeResDto)
+                .build();
+    }
+
+    /**
+     * 해당 유저가 가진 뱃지를 조회합니다.
+     * @return : badgeId, badgeName, badgeImgPath 데이터
+     */
+    @Override
+    public DataResDto<?> getBadgeList(Member member) {
+        List<ReceiveBadgeResDto> badgeList = new ArrayList<>();
+
+        for (Badge badge : badgeRepository.findByMember(member)) {
+            Landmark landmark = landmarkRepository.findByLandmarkId(badge.getLandmark().getLandmarkId())
+                    .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
+
+            ReceiveBadgeResDto receiveBadgeResDto = ReceiveBadgeResDto.builder()
+                    .badgeId(badge.getBadgeId())
+                    .badgeName(landmark.getLandmarkName())
+                    .badgeImgPath(landmark.getBadgeImgPath())
+                    .build();
+            badgeList.add(receiveBadgeResDto);
+        }
+        return DataResDto.builder()
+                .message(String.format("%s님의 뱃지 목록를 조회했습니다.", member.getNickname()))
+                .data(badgeList)
                 .build();
     }
 }

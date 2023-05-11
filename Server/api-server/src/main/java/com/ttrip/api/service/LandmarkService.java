@@ -7,4 +7,5 @@ import com.ttrip.core.entity.member.Member;
 public interface LandmarkService {
     DataResDto<?> getLandmarkList();
     DataResDto<?> receiveBadge(Member member, ReceiveBadgeReqDto receiveBadgeReqDto);
+    DataResDto<?> getBadgeList(Member member);
 }
