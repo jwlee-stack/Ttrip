@@ -148,7 +148,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("내 UUID로 리프래시 토큰 서칭");
 
         //fcm토큰값 없앰
-        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(), memberDetails);
+        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(),memberDetails);
         log.info("fcm토큰값 없앰");
 
         try {
