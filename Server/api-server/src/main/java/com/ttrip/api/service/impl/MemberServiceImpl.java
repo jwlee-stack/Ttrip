@@ -149,11 +149,6 @@ public class MemberServiceImpl implements MemberService {
         //내 UUID로 리프래시 토큰 서칭
         RefreshToken refreshToken = refreshTokenRepository.findByKey(myUuid).get();
         log.info("내 UUID로 리프래시 토큰 서칭");
-
-        //fcm토큰값 없앰
-        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(),memberDetails);
-        log.info("fcm토큰값 없앰");
-
         try {
             //해당 리프래시 토큰 삭제
             refreshTokenRepository.delete(refreshToken);
