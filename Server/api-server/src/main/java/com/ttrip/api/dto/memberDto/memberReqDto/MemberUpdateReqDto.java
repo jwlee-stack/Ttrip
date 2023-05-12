@@ -44,7 +44,7 @@ public class MemberUpdateReqDto {
                 .nickname(memberUpdateReqDto.getNickname())
                 .age(memberUpdateReqDto.getAge())
                 .gender(memberUpdateReqDto.getGender())
-                .intro((memberUpdateReqDto.getIntro()))
+                .intro(memberUpdateReqDto.getIntro())
                 .build();
     }
 
