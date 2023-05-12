@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableJpaAuditing
-@EnableJpaRepositories(basePackages = "com.ttrip.core.repository")
-@EnableMongoRepositories(basePackages = "com.ttrip.core.mongo")
 public class TtripApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TtripApplication.class, args);

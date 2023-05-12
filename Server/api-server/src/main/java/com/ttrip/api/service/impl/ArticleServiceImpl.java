@@ -19,6 +19,8 @@ import com.ttrip.core.utils.EuclideanDistanceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -169,7 +171,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .type(2)
                     .targetUuid(article.getMember().getMemberUuid())
                     .extraId(article.getArticleId().toString())
-                    .extraData("")
+                    .extraData(Long.toString(ChronoUnit.DAYS.between(LocalDate.now(), article.getStartDate())))
                     .build()
             );
 
