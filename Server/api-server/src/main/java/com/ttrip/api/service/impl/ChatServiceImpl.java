@@ -191,7 +191,7 @@ public class ChatServiceImpl implements ChatService {
                 .build());
         //생성 메세지 추가
         chatMessageRepository.save(ChatMessage.builder()
-                .text(member.getNickname() + "님과" + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
+                .text(member.getNickname() + "님과 " + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
                 .chatroomId(newChatroom.getChatRoomId())
                 .createdAt(LocalDateTime.now())
                 .memberUuid(member.getMemberUuid().toString())
@@ -202,7 +202,7 @@ public class ChatServiceImpl implements ChatService {
                 .memberUuid(opponentUser.getMemberUuid().toString())
                 .imagePath(opponentUser.getProfileImgPath())
                 .updatedAt(LocalDateTime.now())
-                .lastMessage(member.getNickname() + "님과" + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
+                .lastMessage(member.getNickname() + "님과 " + opponentUser.getNickname() + "님의 채팅이 시작되었습니다.")
                 .articleId(article.getArticleId())
                 .articleTitle(article.getTitle())
                 .similarity(euclideanDistanceUtil.getMatchingRate(member.getSurvey(), opponentUser.getSurvey()))
