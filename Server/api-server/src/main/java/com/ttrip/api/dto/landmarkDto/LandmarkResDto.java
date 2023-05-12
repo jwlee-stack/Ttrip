@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-@ApiModel(value = "랜드마크 추가 요청")
+@ApiModel(value = "랜드마크 추가 응답")
 public class LandmarkResDto {
     @ApiModelProperty(value = "랜드마크 아이디", example = "aa.png")
     private Integer landmarkId;
