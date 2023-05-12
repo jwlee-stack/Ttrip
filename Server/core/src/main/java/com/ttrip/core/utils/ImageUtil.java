@@ -86,4 +86,45 @@ public class ImageUtil {
         }
         return childPath;
     }
+
+    public String saveBadgeImg(String landmarkName, MultipartFile img, String folder) throws IOException {
+        //경로 설정//
+        File dir = new File(parentPath + File.separator + folder); //저장할 폴더
+        String originalFilename = img.getOriginalFilename(); //넘어온 파일의 이름
+        String fileName = originalFilename.substring(originalFilename.lastIndexOf("\\") + 1);
+
+        String uploadFileName = landmarkName + "_" + fileName;
+        String childPath = File.separator + folder + File.separator + uploadFileName;
+
+        try {
+            if (!dir.exists()) {
+                dir.mkdirs(); //폴더가 없으면 생성
+            }
+        } catch (SecurityException e) {
+            throw new SecurityException("이미지 업로드 폴더 생성 오류");
+        }
+
+        //파일 객체 생성//
+        File saveFile;
+        try {
+            saveFile = new File(parentPath, childPath);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("child 파일 생성 불가");
+        }
+
+        //이미지 저장//
+        log.info("originalFileName : " + img.getOriginalFilename());
+        log.info("saveFile : " + saveFile);
+        System.out.println("here it is : " + Paths.get(parentPath + childPath).toAbsolutePath().toString());
+        try {
+            img.transferTo(saveFile);
+        } catch (IOException e) {
+            log.info("IOException : 이미지 저장 과정에서 에러가 발생했습니다.");
+            throw new IOException(e);
+        } catch (IllegalStateException e) {
+            log.info("IllegalStateException" + e.getMessage());
+            throw new IllegalStateException("the file has already been moved in the filesystem and is not available anymore for another transfer");
+        }
+        return childPath;
+    }
 }
