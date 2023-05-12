@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -33,6 +34,27 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
         getFCMToken()
+
+
+
+        val fragmentName = intent.getStringExtra("fragment")
+        val extraData = intent.getStringExtra("articleId") // 인텐트에서 추가 데이터를 가져옵니다.
+
+//        if (fragmentName != null) {
+//            val fragmentClass = Class.forName(fragmentName).kotlin
+//            val fragmentInstance = fragmentClass.createInstance() as Fragment
+//
+//            // 추가 데이터를 프래그먼트 인스턴스의 arguments에 저장합니다.
+//            val bundle = Bundle()
+//            bundle.putString("articleId", extraData)
+//            fragmentInstance.arguments = bundle
+//
+//            supportFragmentManager.beginTransaction().apply {
+//                replace(R.id.frame_container, fragmentInstance)
+//                addToBackStack(null)
+//                commit()
+//            }
+//        }
     }
 
     private fun initNavigation() {

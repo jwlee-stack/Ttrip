@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.board
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
@@ -26,6 +27,13 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initObserver()
         initRecyclerView()
         initListener()
+
+        // 프래그먼트의 arguments에서 추가 데이터를 가져옵니다.
+        val extraData = arguments?.getString("articleId")
+        // 여기서 extraData를 사용하여 필요한 작업을 수행합니다.
+        if (extraData != null){
+            selectBoard(extraData!!.toInt(), 3)
+        }
     }
 
     override fun onAttach(context: Context) {
