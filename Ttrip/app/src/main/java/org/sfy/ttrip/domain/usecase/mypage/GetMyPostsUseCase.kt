@@ -6,7 +6,9 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetMyPostsUseCase @Inject constructor(
     private val myPageRepository: MyPageRepository
 ) {

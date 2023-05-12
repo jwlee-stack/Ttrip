@@ -7,7 +7,9 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PostUserInfoUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {

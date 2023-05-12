@@ -6,7 +6,9 @@ import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardDetail
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class GetBoardDetailUseCase @Inject constructor(
     private val boardRepository: BoardRepository
 ) {
