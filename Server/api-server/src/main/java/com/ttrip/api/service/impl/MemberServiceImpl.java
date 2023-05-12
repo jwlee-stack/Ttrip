@@ -208,20 +208,23 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public DataResDto<?> setInfo(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) {
         //fcm 토큰 변경//
-        memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken().isEmpty() ? memberDetails.getMember().getFcmToken() : memberUpdateReqDto.getFcmToken());
+        memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken()==null ? null : memberUpdateReqDto.getFcmToken());
         log.info("fcm 토큰 변경");
         //이미지 변경//
         ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
         mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
         log.info("이미지 변경");
+
         //닉네임, 성별, 나이, 인트로 변경//
         InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
         mypageService.updateMember(infoUpdateReqDto,memberDetails);
         log.info("닉네임, 성별, 나이, 인트로 변경");
+
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
                 .data(MemberResDto.toBuild(memberDetails.getMember()))
                 .build();
+
     }
 
     @Override

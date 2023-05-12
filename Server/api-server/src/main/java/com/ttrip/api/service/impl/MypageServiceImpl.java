@@ -31,6 +31,7 @@ public class MypageServiceImpl implements MypageService {
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
     private final ImageUtil imageUtil;
+
     @Override
     public DataResDto<?> viewMyArticles(MemberDetails memberDetails) {
         Member member = memberDetails.getMember();
@@ -48,13 +49,10 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public DataResDto<?> updateMember(InfoUpdateReqDto infoUpdateReqDto, MemberDetails memberDetails) {
-        log.info("닉네임: {}",infoUpdateReqDto.getNickname());
-        log.info("성별: {}",Gender.valueOf(infoUpdateReqDto.getGender()));
-        log.info("나이: {}",infoUpdateReqDto.getAge());
-        log.info("인트로: {}",infoUpdateReqDto.getIntro());
-
-        if (infoUpdateReqDto.getNickname().isEmpty() || infoUpdateReqDto.getGender() == null || infoUpdateReqDto.getAge() == null)
+        if (infoUpdateReqDto.getNickname() == null || infoUpdateReqDto.getGender() == null || infoUpdateReqDto.getAge() == null)
             throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/나이)");
+
+        log.info("닉네임: {} 성별: {} 나이: {} 인트로: {}", infoUpdateReqDto.getNickname(), Gender.valueOf(infoUpdateReqDto.getGender()), infoUpdateReqDto.getAge(), infoUpdateReqDto.getIntro());
 
         Member member = memberDetails.getMember();
 
@@ -62,9 +60,10 @@ public class MypageServiceImpl implements MypageService {
         member.setNickname(infoUpdateReqDto.getNickname());
         member.setGender(Gender.valueOf(infoUpdateReqDto.getGender()));
         member.setAge(Integer.parseInt(infoUpdateReqDto.getAge()));
-        member.setIntro(infoUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : infoUpdateReqDto.getIntro());
+        member.setIntro(infoUpdateReqDto.getIntro() == null ? "20자 이내로 입력해주세요" : infoUpdateReqDto.getIntro());
 
         memberRepository.save(member);
+
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
                 .data(InfoUpdateResDto.toBuild(member))
@@ -74,10 +73,10 @@ public class MypageServiceImpl implements MypageService {
     //프로필과 마커 이미지 업데이트//
     @Override
     public DataResDto<?> updateProfileAndMarkerImg(ProfileUpdateReqDto profileUpdateReqDto, MemberDetails memberDetails) {
-        Member member=memberDetails.getMember();
+        Member member = memberDetails.getMember();
 
-        member= updateProfileImg(profileUpdateReqDto.getProfileImg(),member);
-        member= updateMarkerImg(profileUpdateReqDto.getMarkerImg(),member);
+        member = updateProfileImg(profileUpdateReqDto.getProfileImg(), member);
+        member = updateMarkerImg(profileUpdateReqDto.getMarkerImg(), member);
 
         memberRepository.save(member);
         return DataResDto.builder()
@@ -91,17 +90,17 @@ public class MypageServiceImpl implements MypageService {
         log.info("프로필 사진:{}", profileImg);
 
         //입력된 사진 없음
-        if(profileImg.isEmpty())
+        if (profileImg.isEmpty())
             throw new BadRequestException("프로필 사진이 입력되지 않았습니다.");
 
         //넘어온 파일이 이미지인지?
         imageUtil.checkImageType(profileImg);
-
+        log.info("넘어온 파일이 이미지임");
         //기존 이미지 삭제
-        if (!member.getProfileImgPath().isEmpty()) {
+        if (member.getProfileImgPath() != null) {
             member.setProfileImgPath(imageUtil.removeImg(member.getProfileImgPath()));
         }
-
+        log.info("기존 이미지 삭제 성공");
 
         try {
             //프로필 사진 저장
@@ -118,14 +117,14 @@ public class MypageServiceImpl implements MypageService {
         log.info("마커 사진:{}", markerImg);
 
         //입력된 사진 없음
-        if(markerImg.isEmpty())
+        if (markerImg.isEmpty())
             throw new BadRequestException("마커 사진이 입력되지 않았습니다.");
 
         //넘어온 파일이 이미지인지?
         imageUtil.checkImageType(markerImg);
 
         //기존 이미지 삭제
-        if (!member.getMarkerImgPath().isEmpty()) {
+        if (member.getMarkerImgPath() != null) {
             member.setMarkerImgPath(imageUtil.removeImg(member.getMarkerImgPath()));
         }
 
@@ -141,29 +140,26 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public DataResDto<?> updateBackgroundImg(BackgroundUpdateReqDto backgroundUpdateReqDto, MemberDetails memberDetails) {
-        Member member=memberDetails.getMember();
+        Member member = memberDetails.getMember();
 
-        MultipartFile backgroundImg=backgroundUpdateReqDto.getBackgroundImg();
+        MultipartFile backgroundImg = backgroundUpdateReqDto.getBackgroundImg();
 
         //입력된 사진 없음
-        if(backgroundImg.isEmpty())
+        if (backgroundImg.isEmpty())
             throw new BadRequestException("배경 사진이 입력되지 않았습니다.");
 
         //넘어온 파일이 이미지인지?
         imageUtil.checkImageType(backgroundImg);
 
         //기존 이미지 삭제
-        if (!member.getBackgroundImgPath().isEmpty()) {
+        if (member.getBackgroundImgPath() != null) {
             member.setBackgroundImgPath(imageUtil.removeImg(member.getBackgroundImgPath()));
         }
 
-        try
-        {
+        try {
             member.setBackgroundImgPath(imageUtil.saveImg(member, backgroundImg, "backgroundImg"));
             memberRepository.save(member);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException("배경 사진 변경을 실패했습니다.");
         }
 
