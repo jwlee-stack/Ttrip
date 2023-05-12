@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChatMemberRepository extends JpaRepository<ChatMember, Integer> {
-    List<ChatMember> findByMember(Member member);
+    List<ChatMember> findByMemberOrderByCreatedAtDesc(Member member);
     Optional<ChatMember> findByMemberAndChatroom(Member member, Chatroom chatroom);
 }
