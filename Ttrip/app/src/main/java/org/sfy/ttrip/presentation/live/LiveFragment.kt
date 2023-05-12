@@ -89,7 +89,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getOpenViduToken()
         showUserProfileDialog()
         initObserve()
-        (activity as MainActivity).hideBottomNavigation(true)
+        (activity as MainActivity).hideBottomNavigation(false)
     }
 
     override fun onAttach(context: Context) {

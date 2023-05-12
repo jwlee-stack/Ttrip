@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PostUserFcmTokenUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {

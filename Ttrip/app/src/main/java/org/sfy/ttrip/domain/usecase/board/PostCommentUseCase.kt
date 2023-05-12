@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PostCommentUseCase @Inject constructor(
     private val boardRepository: BoardRepository
 ) {
