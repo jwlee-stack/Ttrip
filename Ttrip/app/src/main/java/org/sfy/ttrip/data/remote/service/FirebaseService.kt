@@ -2,6 +2,7 @@ package org.sfy.ttrip.data.remote.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -45,30 +46,55 @@ class FirebaseService : FirebaseMessagingService() {
         val nickName = remoteMessage.data["nickName"]
         val memberUuid = remoteMessage.data["memberUuid"]
 
-        intent = when (type) {
+        var pendingIntent: PendingIntent
+
+        when (type) {
             0 -> {
-                Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java)
+
             }
             1 -> {
                 val result = remoteMessage.data["result"]
-                Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java)
             }
             2 -> {
                 val articleId = remoteMessage.data["articleId"]
-                Intent(this, MainActivity::class.java)
+                //val dDay = remoteMessage.data["dDay"]
+                intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    putExtra("fragment", "") // 이동할 프래그먼트 이름을 전달합니다.
+                    putExtra("articleId", articleId)
+                    //putExtra("dDay", dDay)
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                pendingIntent =
+                    PendingIntent.getActivity(
+                        this,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
             }
             3 -> {
                 val chatroomId = remoteMessage.data["chatroomId"]
-                Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java)
             }
             4 -> {
                 val matchHistoryId = remoteMessage.data["memberUuid"]
-                Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java)
             }
             else -> {
-                Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java)
             }
         }
+
+        pendingIntent =
+            PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
 
         val CHANNEL_ID = getString(R.string.notification_channel_id)
         val CHANNEL_NAME = getString(R.string.notification_channel_name)
@@ -79,6 +105,7 @@ class FirebaseService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setSound(soundUri)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
