@@ -197,6 +197,7 @@ public class FcmServiceImpl implements FcmService {
             data.put("nickName", member.getNickname());
             data.put("memberUuid", member.getMemberUuid().toString());
             data.put("articleId", fcmMessageReqDto.getExtraId());
+            data.put("dDay", fcmMessageReqDto.getExtraData());
 
             FcmMessageResDto fcmMessage = FcmMessageResDto.builder()
                     .message(FcmMessageResDto.Message.builder()
