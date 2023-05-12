@@ -61,7 +61,7 @@ public class ChatHandler extends TextWebSocketHandler {
                     .orElseThrow(()->new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
             //상대가 채팅방에 없으나 fcm토큰이 있으면 fcm 메세지 전송
             fcmService.sendMessageTo(member, FcmMessageReqDto.builder()
-                    .type(4)
+                    .type(3)
                     .targetUuid(UUID.fromString(opponentUuid))
                     .extraId(chatroomId.toString())
                     .extraData(message.getPayload())

@@ -72,4 +72,15 @@ public class RedisConfig {
         surveyRedisTemplate.setConnectionFactory(redisConnectionFactory());
         return surveyRedisTemplate;
     }
+
+    @Bean(name = "matchRedisTemplate")
+    public RedisTemplate<String, Object> matchRedisTemplate(){
+        RedisTemplate<String, Object> matchRedisTemplate = new RedisTemplate<>();
+        matchRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        matchRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        matchRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        matchRedisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        matchRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return matchRedisTemplate;
+    }
 }
