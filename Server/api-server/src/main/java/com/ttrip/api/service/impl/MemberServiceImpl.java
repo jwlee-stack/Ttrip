@@ -213,16 +213,13 @@ public class MemberServiceImpl implements MemberService {
         //이미지 변경//
         ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
         mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
-
         log.info("이미지 변경");
-        log.info("프로필 사진 경로: "+memberDetails.getMember().getProfileImgPath());
-        log.info("마커 사진 경로: "+memberDetails.getMember().getMarkerImgPath());
 
         //닉네임, 성별, 나이, 인트로 변경//
         InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
         mypageService.updateMember(infoUpdateReqDto,memberDetails);
         log.info("닉네임, 성별, 나이, 인트로 변경");
-        log.info("멤버 리스폰스: {}",MemberResDto.toBuild(memberDetails.getMember()));
+
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
                 .data(MemberResDto.toBuild(memberDetails.getMember()))
