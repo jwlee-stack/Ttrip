@@ -18,23 +18,14 @@ public class Survey extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int surveyId;
-    @Column(columnDefinition = "TINYINT")
     private float preferNatureThanCity;
-    @Column(columnDefinition = "TINYINT")
     private float preferPlan;
-    @Column(columnDefinition = "TINYINT")
     private float preferDirectFlight;
-    @Column(columnDefinition = "TINYINT")
     private float preferCheapHotelThanComfort;
-    @Column(columnDefinition = "TINYINT")
     private float preferGoodFood;
-    @Column(columnDefinition = "TINYINT")
     private float preferCheapTraffic;
-    @Column(columnDefinition = "TINYINT")
     private float preferPersonalBudget;
-    @Column(columnDefinition = "TINYINT")
     private float preferTightSchedule;
-    @Column(columnDefinition = "TINYINT")
     private float preferShoppingThanTour;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
