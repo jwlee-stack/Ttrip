@@ -48,13 +48,13 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public DataResDto<?> updateMember(InfoUpdateReqDto infoUpdateReqDto, MemberDetails memberDetails) {
+        if (infoUpdateReqDto.getNickname()==null || infoUpdateReqDto.getGender() == null || infoUpdateReqDto.getAge() == null)
+            throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/나이)");
+
         log.info("닉네임: {}",infoUpdateReqDto.getNickname());
         log.info("성별: {}",Gender.valueOf(infoUpdateReqDto.getGender()));
         log.info("나이: {}",infoUpdateReqDto.getAge());
         log.info("인트로: {}",infoUpdateReqDto.getIntro());
-
-        if (infoUpdateReqDto.getNickname().isEmpty() || infoUpdateReqDto.getGender() == null || infoUpdateReqDto.getAge() == null)
-            throw new BadRequestException("멤버 필수 정보가 누락됐습니다. (닉네임/성별/나이)");
 
         Member member = memberDetails.getMember();
 
@@ -62,9 +62,17 @@ public class MypageServiceImpl implements MypageService {
         member.setNickname(infoUpdateReqDto.getNickname());
         member.setGender(Gender.valueOf(infoUpdateReqDto.getGender()));
         member.setAge(Integer.parseInt(infoUpdateReqDto.getAge()));
-        member.setIntro(infoUpdateReqDto.getIntro().isEmpty() ? "20자 이내로 입력해주세요" : infoUpdateReqDto.getIntro());
+        member.setIntro(infoUpdateReqDto.getIntro()==null ? "20자 이내로 입력해주세요" : infoUpdateReqDto.getIntro());
 
-        memberRepository.save(member);
+        try{
+           log.info("멤버: {}", memberRepository.save(member));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            log.info("멤버 데이터베이스에 저장 실패");
+        }
+
         return DataResDto.builder()
                 .message("회원 정보가 업데이트되었습니다.")
                 .data(InfoUpdateResDto.toBuild(member))
@@ -96,12 +104,12 @@ public class MypageServiceImpl implements MypageService {
 
         //넘어온 파일이 이미지인지?
         imageUtil.checkImageType(profileImg);
-
+        log.info("넘어온 파일이 이미지임");
         //기존 이미지 삭제
-        if (!member.getProfileImgPath().isEmpty()) {
+        if (member.getProfileImgPath()!=null) {
             member.setProfileImgPath(imageUtil.removeImg(member.getProfileImgPath()));
         }
-
+        log.info("기존 이미지 삭제 성공");
 
         try {
             //프로필 사진 저장
@@ -125,7 +133,7 @@ public class MypageServiceImpl implements MypageService {
         imageUtil.checkImageType(markerImg);
 
         //기존 이미지 삭제
-        if (!member.getMarkerImgPath().isEmpty()) {
+        if (member.getMarkerImgPath()!=null) {
             member.setMarkerImgPath(imageUtil.removeImg(member.getMarkerImgPath()));
         }
 
@@ -153,7 +161,7 @@ public class MypageServiceImpl implements MypageService {
         imageUtil.checkImageType(backgroundImg);
 
         //기존 이미지 삭제
-        if (!member.getBackgroundImgPath().isEmpty()) {
+        if (member.getBackgroundImgPath()!=null) {
             member.setBackgroundImgPath(imageUtil.removeImg(member.getBackgroundImgPath()));
         }
 
