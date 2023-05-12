@@ -1,6 +1,7 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.landmarkDto.LandmarkReqDto;
 import com.ttrip.api.dto.landmarkDto.ReceiveBadgeReqDto;
 import com.ttrip.api.service.LandmarkService;
 import com.ttrip.api.service.impl.MemberDetails;
@@ -10,11 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "랜드마크 관련 API")
 @RestController
@@ -23,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LandmarkController {
     private final LandmarkService landmarkService;
 
+    @ApiResponses({@ApiResponse(code = 200, message = "랜드마크 추가 성공 시 응답")})
+    @ApiOperation(value = "랜드마크 추가 API")
+    @PatchMapping
+    public DataResDto<?> addLandmark(@ModelAttribute LandmarkReqDto landmarkReqDto) {
+        return landmarkService.addLandmark(landmarkReqDto);
+    }
     @ApiResponses({@ApiResponse(code = 200, message = "랜드마크 목록 조회 성공 시 응답")})
     @ApiOperation(value = "랜드마크 목록 조회 API")
     @GetMapping
