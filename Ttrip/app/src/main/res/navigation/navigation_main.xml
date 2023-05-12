@@ -147,7 +147,7 @@
 
     <fragment
         android:id="@+id/doodleFragment"
-        android:name="org.sfy.ttrip.presentation.live.DoodleFragment"
+        android:name="org.sfy.ttrip.presentation.landmark.DoodleFragment"
         android:label="DoodleFragment"
         tools:layout="@layout/fragment_doodle">
         <argument
