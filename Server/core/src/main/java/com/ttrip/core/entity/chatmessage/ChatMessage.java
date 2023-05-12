@@ -15,7 +15,7 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private String chatMessageId;
+    private Integer chatMessageId;
     private Integer chatroomId;
     //    @Type(type="org.hibernate.type.UUIDCharType")
     //hibernate는 관계형인거 같아서 잘모르겠어요
