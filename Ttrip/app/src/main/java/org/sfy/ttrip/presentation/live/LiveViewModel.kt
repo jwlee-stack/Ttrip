@@ -16,8 +16,10 @@ import okhttp3.WebSocket
 import okio.ByteString
 import org.json.JSONObject
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.landmark.LandmarkItem
 import org.sfy.ttrip.domain.entity.live.LiveUser
 import org.sfy.ttrip.domain.entity.user.UserProfileDialog
+import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
 import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
@@ -29,8 +31,12 @@ class LiveViewModel @Inject constructor(
     private val getLiveUsersUseCase: GetLiveUsersUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
     private val getCallTokenUseCase: GetCallTokenUseCase,
-    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase
+    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase,
+    private val getLandmarksUseCase: GetLandmarksUseCase
 ) : ViewModel() {
+
+    private val _landmarks: MutableLiveData<List<LandmarkItem>?> = MutableLiveData()
+    val landmarks: LiveData<List<LandmarkItem>?> = _landmarks
 
     private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData()
     val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
@@ -165,6 +171,19 @@ class LiveViewModel @Inject constructor(
             put("markerImgPath", markerImgPath)
         }
         webSocket.send(data.toString())
+    }
+
+    fun getLandmarks() {
+        viewModelScope.launch {
+            when (val value = getLandmarksUseCase()) {
+                is Resource.Success -> {
+                    _landmarks.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getLandmarks", "getLandmarks: ${value.errorMessage}")
+                }
+            }
+        }
     }
 
     inner class WebSocketListener : okhttp3.WebSocketListener() {

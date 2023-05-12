@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
@@ -45,7 +46,8 @@ import kotlin.math.sqrt
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
-    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
+    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var callback: OnBackPressedCallback
     private var waitTime = 0L
@@ -110,6 +112,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnMarkerClickListener(this)
         map.setOnCameraMoveListener(this)
         // My Location 레이어 활성화
         if (ActivityCompat.checkSelfPermission(
@@ -131,6 +134,14 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
     }
 
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val tag = marker.tag
+        if (tag != null) {
+            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(tag.toString()))
+        }
+        return true
+    }
+
     override fun onCameraMove() {
         getFilteredList()
     }
@@ -145,6 +156,53 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun clear() {
         liveViewModel.clearUserProfile()
+    }
+
+    private fun setLandmarks() {
+        liveViewModel.landmarks.observe(viewLifecycleOwner) {
+            if (::map.isInitialized) {
+                it?.let {
+                    for (item in it) {
+                        try {
+                            val vectorDrawable = ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_landmark_marker
+                            )
+                            val bitmap = Bitmap.createBitmap(
+                                vectorDrawable?.intrinsicWidth ?: 0,
+                                vectorDrawable?.intrinsicHeight ?: 0,
+                                Bitmap.Config.ARGB_8888
+                            )
+                            val canvas = Canvas(bitmap)
+                            vectorDrawable?.setBounds(0, 0, canvas.width, canvas.height)
+                            vectorDrawable?.draw(canvas)
+
+                            // 마커 이미지의 크기를 조정합니다.
+                            val scaleFactor = 0.5f
+                            val scaledBitmap = Bitmap.createScaledBitmap(
+                                bitmap,
+                                (bitmap.width * scaleFactor).toInt(),
+                                (bitmap.height * scaleFactor).toInt(),
+                                false
+                            )
+
+                            val markerBitmapDescriptor =
+                                BitmapDescriptorFactory.fromBitmap(scaledBitmap)
+                            val markerOptions = MarkerOptions()
+                                .position(LatLng(item.latitude, item.longitude))
+                                .icon(markerBitmapDescriptor)
+
+                            val marker = map.addMarker(markerOptions)
+                            marker?.tag = item.landmarkName
+
+                        } catch (e: Exception) {
+                            Log.e("setLandmarks", "Failed to decode marker image: ${e.message}")
+                        }
+                    }
+                }
+            }
+        }
+        liveViewModel.getLandmarks()
     }
 
     private fun showUserProfileDialog() {
@@ -234,6 +292,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             })
                     }
                 }
+                setLandmarks()
             }
         }
     }
