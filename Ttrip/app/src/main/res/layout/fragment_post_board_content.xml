@@ -98,12 +98,12 @@
                 android:id="@+id/tv_nation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/sc_dream6"
                 android:text="@string/content_nation"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginHorizontal="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_board_info_destination" />
 
@@ -122,17 +122,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_nation" />
 
             <TextView
+                android:id="@+id/tv_nation_valid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/sc_dream4"
+                android:text="@string/content_valid_nation"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/at_nation" />
+
+            <TextView
                 android:id="@+id/tv_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/sc_dream6"
                 android:text="@string/content_city"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginHorizontal="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/at_nation" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_nation_valid" />
 
             <AutoCompleteTextView
                 android:id="@+id/at_city"
@@ -147,6 +161,21 @@
                 android:padding="10dp"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+
+            <TextView
+                android:id="@+id/tv_city_valid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/sc_dream4"
+                android:text="@string/content_valid_city"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/at_city" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

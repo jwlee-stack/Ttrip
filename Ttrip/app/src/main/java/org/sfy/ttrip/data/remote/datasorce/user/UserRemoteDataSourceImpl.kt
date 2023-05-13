@@ -38,4 +38,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getUserProfile(nickName: String): UserProfileDialogResponse =
         userApiService.getUserProfile(nickName).data!!
+
+    override suspend fun postUserFcm(fcmToken: String) {
+        userApiService.postUserFcm(fcmToken)
+    }
 }

@@ -24,6 +24,7 @@ import org.sfy.ttrip.databinding.FragmentMypageBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.init.InitActivity
 import org.sfy.ttrip.presentation.init.SignUpInfoContentFragment.Companion.REQUEST_READ_STORAGE_PERMISSION
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 import java.io.File
 import java.io.FileOutputStream
 
@@ -36,6 +37,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private lateinit var markerFile: File
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val userViewModel by activityViewModels<UserInfoViewModel>()
     private val fromActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -85,6 +87,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     override fun onConfirmButtonClicked() {
         myPageViewModel.logout()
+        userViewModel.postUserFcmToken(false)
         val intent = Intent(activity, InitActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
@@ -117,12 +120,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun observeImg() {
         myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
-            if (myPageViewModel.isChanged.value!!){
+            if (myPageViewModel.isChanged.value!!) {
                 myPageViewModel.updateBackgroundImg()
             }
         }
         myPageViewModel.profileImg.observe(viewLifecycleOwner) {
-            if (myPageViewModel.isChanged.value!!){
+            if (myPageViewModel.isChanged.value!!) {
                 saveImageToGallery(
                     makeMarkerImg(
                         requireContext(),

@@ -5,7 +5,9 @@ import kotlinx.coroutines.withContext
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.board.BoardComment
 import org.sfy.ttrip.domain.repository.board.BoardRepository
+import javax.inject.Singleton
 
+@Singleton
 class GetBoardCommentUseCase(
     private val boardRepository: BoardRepository
 ) {

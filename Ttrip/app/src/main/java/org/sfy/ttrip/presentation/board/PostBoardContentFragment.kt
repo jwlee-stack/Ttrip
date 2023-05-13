@@ -4,11 +4,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentPostBoardContentBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PostBoardContentFragment :
     BaseFragment<FragmentPostBoardContentBinding>(R.layout.fragment_post_board_content) {
@@ -95,7 +98,10 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun onTextChanged(
@@ -104,11 +110,19 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                } else {
+                                    binding.tvNationValid.visibility = View.VISIBLE
+                                }
                             }
                         })
                     }
@@ -127,7 +141,10 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun onTextChanged(
@@ -136,11 +153,19 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                } else {
+                                    binding.tvCityValid.visibility = View.VISIBLE
+                                }
                             }
                         })
                     }
@@ -162,14 +187,37 @@ class PostBoardContentFragment :
                             }-${String.format("%02d", day)}"
                         )
                         setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-                            viewModel.postStartDate(
-                                "$year-${
+                            val startDateCandidate = "$year-${
+                                String.format(
+                                    "%02d",
+                                    monthOfYear + 1
+                                )
+                            }-${String.format("%02d", dayOfMonth)}"
+                            viewModel.postStartDate(startDateCandidate)
+
+                            binding.dpPostBoardEndDate.apply {
+                                // DatePicker에서 선택한 날짜를 가져옴
+                                val year = this.year
+                                val month = this.month + 1 // month는 0부터 시작하므로 1을 더해줌
+                                val day = this.dayOfMonth
+                                // yyyy-MM-dd 형식으로 날짜를 저장
+                                val endDateCandidate = "$year-${
                                     String.format(
                                         "%02d",
                                         month
                                     )
-                                }-${String.format("%02d", dayOfMonth)}"
-                            )
+                                }-${String.format("%02d", day)}"
+
+                                if (isEndAfterStart(
+                                        viewModel.postStartDate.value ?: "",
+                                        endDateCandidate
+                                    )
+                                ) {
+                                    viewModel.postEndDate(endDateCandidate)
+                                } else {
+                                    viewModel.postEndDate("")
+                                }
+                            }
                         }
                     }
                     changeVisibility(3, contentData)
@@ -181,24 +229,43 @@ class PostBoardContentFragment :
                         val month = this.month + 1 // month는 0부터 시작하므로 1을 더해줌
                         val day = this.dayOfMonth
                         // yyyy-MM-dd 형식으로 날짜를 저장
-                        viewModel.postEndDate(
-                            "$year-${
-                                String.format(
-                                    "%02d",
-                                    month
-                                )
-                            }-${String.format("%02d", day)}"
-                        )
+
+                        val endDateCandidate = "$year-${
+                            String.format(
+                                "%02d",
+                                month
+                            )
+                        }-${String.format("%02d", day)}"
+
+                        if (isEndAfterStart(
+                                viewModel.postStartDate.value ?: "",
+                                endDateCandidate
+                            )
+                        ) {
+                            viewModel.postEndDate(endDateCandidate)
+                        } else {
+                            viewModel.postEndDate("")
+                            showToast("종료 날짜가 시작 날짜보다 이전입니다. 다시 선택해주세요.")
+                        }
 
                         setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-                            viewModel.postEndDate(
-                                "$year-${
-                                    String.format(
-                                        "%02d",
-                                        month
-                                    )
-                                }-${String.format("%02d", dayOfMonth)}"
-                            )
+                            val endDateCandidate = "$year-${
+                                String.format(
+                                    "%02d",
+                                    monthOfYear + 1
+                                )
+                            }-${String.format("%02d", dayOfMonth)}"
+
+                            if (isEndAfterStart(
+                                    viewModel.postStartDate.value ?: "",
+                                    endDateCandidate
+                                )
+                            ) {
+                                viewModel.postEndDate(endDateCandidate)
+                            } else {
+                                viewModel.postEndDate("")
+                                showToast("종료 날짜가 시작 날짜보다 이전입니다. 다시 선택해주세요.")
+                            }
                         }
                     }
                     changeVisibility(4, contentData)
@@ -212,5 +279,26 @@ class PostBoardContentFragment :
             bannerData[i].visibility = View.GONE
         }
         bannerData[position].visibility = View.VISIBLE
+    }
+
+    private fun isEndAfterStart(startDate: String, endDate: String): Boolean {
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val start: Date = format.parse(startDate) ?: return false
+        val end: Date = format.parse(endDate) ?: return false
+        return end >= start
+    }
+
+    fun isTextInArray(autoCompleteTextView: AutoCompleteTextView, kind: String): Boolean {
+        val inputText = autoCompleteTextView.text.toString()
+        return when (kind) {
+            "nation" -> {
+                val nationNamesArray = resources.getStringArray(R.array.nation_names)
+                nationNamesArray.contains(inputText)
+            }
+            else -> {
+                val cityNamesArray = resources.getStringArray(R.array.city_names)
+                cityNamesArray.contains(inputText)
+            }
+        }
     }
 }

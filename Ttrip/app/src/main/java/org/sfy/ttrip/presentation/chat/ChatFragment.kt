@@ -56,6 +56,31 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
     private fun setChatRooms() {
         chatViewModel.chatRooms.observe(viewLifecycleOwner) { response ->
             response?.let { chatRoomAdapter.setChatRooms(it) }
+            // 새로 받은 알람에 대해서 처리
+            if (MainActivity.NEW_ALARM_FLAG && arguments != null) {
+                // 알림을 통해 받은 채팅방 id
+                val chatroomId = arguments?.getString("chatroomId")
+                // 리스트에 일치하는 데이터 찾기
+                val chatRoomsList = chatViewModel.chatRooms.value
+                val matchedChatRoom =
+                    chatRoomsList?.firstOrNull { it.chatId == chatroomId!!.toInt() }
+
+                if (matchedChatRoom != null) {
+                    navigate(
+                        ChatFragmentDirections.actionChatFragmentToChatDetailFragment(
+                            chatroomId!!.toInt(),
+                            memberId = matchedChatRoom.otherUuid,
+                            imagePath = matchedChatRoom.imagePath,
+                            articleTitle = matchedChatRoom.articleTitle,
+                            nickname = matchedChatRoom.otherNickname,
+                            articleId = matchedChatRoom.articleId,
+                            isMatch = matchedChatRoom.isMatch,
+                            status = matchedChatRoom.status
+                        )
+                    )
+                }
+                MainActivity.NEW_ALARM_FLAG = false
+            }
         }
         chatViewModel.getChatRooms()
     }

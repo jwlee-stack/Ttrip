@@ -1,12 +1,14 @@
 package org.sfy.ttrip.presentation.board
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -22,10 +24,26 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         BoardListAdapter(this::selectBoard, requireContext())
     }
 
+    // 초기값으로 초기화합니다.
+    private var articleId: String? = null
+    private var dDay: String? = null
+
     override fun initView() {
         initObserver()
         initRecyclerView()
         initListener()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        articleId = arguments?.getString("articleId")
+        dDay = arguments?.getString("dDay")
+
+        if (MainActivity.NEW_ALARM_FLAG && arguments != null) {
+            selectBoard(articleId!!.toInt(), dDay!!.toInt())
+            MainActivity.NEW_ALARM_FLAG = false
+        }
     }
 
     override fun onAttach(context: Context) {

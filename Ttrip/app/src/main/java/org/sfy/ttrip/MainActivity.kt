@@ -5,6 +5,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    private val userViewModel by viewModels<UserInfoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,22 +33,45 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
         getFCMToken()
+
+        val fragmentName = intent.getStringExtra("fragment")
+        if (fragmentName != null) {
+            getFCMData(fragmentName)
+        }
+    }
+
+    private fun getFCMData(fragment: String) {
+        NEW_ALARM_FLAG = true
+        when (fragment) {
+            "BoardFragment" -> {
+                val articleId = intent.getStringExtra("articleId")
+                val dDay = intent.getStringExtra("dDay")
+                val bundle = Bundle()
+                bundle.putString("articleId", articleId)
+                bundle.putString("dDay", dDay)
+
+                navController.navigate(R.id.boardFragment, bundle)
+            }
+            "ChatFragment" -> {
+                val chatroomId = intent.getStringExtra("chatroomId")
+                val bundle = Bundle()
+                bundle.putString("chatroomId", chatroomId)
+
+                navController.navigate(R.id.chatFragment, bundle)
+            }
+        }
     }
 
     private fun initNavigation() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-
 
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             itemIconTintList = null
 
             setOnNavigationItemSelectedListener { menuItem ->
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.boardFragment, true)
-                    .build()
+                val navOptions = NavOptions.Builder().setPopUpTo(R.id.boardFragment, true).build()
 
                 when (menuItem.itemId) {
                     R.id.boardFragment -> {
@@ -79,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
+            userViewModel.postUserFcmToken(true)
             Log.d("fcmToken", "getFCMToken: $result")
         }
     }
@@ -98,5 +125,9 @@ class MainActivity : AppCompatActivity() {
     fun checkLocationService(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    companion object {
+        var NEW_ALARM_FLAG = false
     }
 }
