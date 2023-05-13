@@ -1,4 +1,4 @@
-package org.sfy.ttrip.presentation.live
+package org.sfy.ttrip.presentation.landmark
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -8,12 +8,12 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.Node
-import com.google.ar.sceneform.math.Quaternion
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.TransformableNode
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentDoodleBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
@@ -22,13 +22,20 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doodle) {
 
     private var arFragment: ArFragment? = null
-    private var userPhotoUrl = "http://k8d104.p.ssafy.io:8081/images/profileImg/070ba99a-c7d8-44e4-a18d-547b05ca14f8_20230511_125718.jpg" // 사용자가 등록한 사진의 URL
-
+    private var userPhotoUrl = "https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg" // 사용자가 등록한 사진의 URL
+    private var isObjectPlaced = false
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(true)
         arFragment = childFragmentManager.findFragmentById(R.id.arContentFragment) as ArFragment?
 
         arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
+
+            // 추가적인 배치가 불가능한 상태일 경우
+            if (isObjectPlaced) {
+                return@setOnTapArPlaneListener
+            }
+
             ViewRenderable.builder()
                 .setView(requireContext(), R.layout.your_image_layout) // 프리뷰 이미지에 사용할 XML 레이아웃
                 .build()
@@ -47,25 +54,28 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                         })
                     placeImageOnArSurface(renderable, hitResult.createAnchor())
                 }
+
+            // 사물 배치 상태 변수 변경
+            isObjectPlaced = true
         }
     }
 
-    private fun placeImageOnArSurface(renderable: ViewRenderable, anchor: Anchor) {
+    private fun placeImageOnArSurface(viewRenderable: ViewRenderable, anchor: Anchor) {
         val anchorNode = AnchorNode(anchor)
-        val imageNode = Node()
-        imageNode.setParent(anchorNode)
-
-        val quaternion = Quaternion.axisAngle(Vector3(0f, 1f, 0f), 90f) // 특정 각도에 회전한 객체를 등록하려면 이 행을 수정하세요.
-        renderable.isShadowCaster = false
-        imageNode.renderable = renderable
-        imageNode.localRotation = quaternion
+        viewRenderable.isShadowCaster = false
+        val transformableNode = TransformableNode(arFragment!!.transformationSystem)
+        transformableNode.apply {
+            setParent(anchorNode)
+            scaleController.maxScale = 0.5f
+            scaleController.minScale = 0.05f
+            renderable = viewRenderable
+        }
+        arFragment!!.arSceneView.scene.addChild(anchorNode)
+        transformableNode.select()
 
         // 위치 정보 및 사진을 서버에 전송
-        val position = anchorNode.worldPosition
+        val position = transformableNode.worldPosition
         sendPositionAndImageToServer(position, userPhotoUrl)
-
-        // 사용자 인터페이스를 업데이트
-        arFragment?.arSceneView?.scene?.addChild(anchorNode)
     }
 
     private fun sendPositionAndImageToServer(position: Vector3, imageUrl: String) {

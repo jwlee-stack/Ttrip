@@ -44,6 +44,9 @@ google-services = "4.3.15"
 
 openvidu = "2.18.0"
 
+arcore = "1.35.0"
+sceneform = "1.15.0"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -81,6 +84,9 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 openvidu = { module = "io.openvidu:openvidu-android", version.ref = "openvidu" }
+arcore = { module = "com.google.ar:core", version.ref = "arcore" }
+sceneform-ux = { module = "com.google.ar.sceneform.ux:sceneform-ux", version.ref = "sceneform" }
+sceneform-core = { module = "com.google.ar.sceneform:core", version.ref = "sceneform" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",

@@ -78,6 +78,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(false)
         blockMoveToOtherMenu()
         setLiveUsersRecyclerView()
         observeLiveState()
