@@ -32,4 +32,7 @@ class LandmarkRemoteDataSourceImpl @Inject constructor(
         map["longitude"] = longitude.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         landmarkApiService.createDoodle(map, doodleImgPath)
     }
+
+    override suspend fun getDoodles(landmarkId: Int): List<DoodleResponse> =
+        landmarkApiService.getDoodles(landmarkId).data!!
 }
