@@ -2,12 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/neon_blue"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@android:color/transparent">
 
     <ImageView
-        android:id="@+id/your_image_view_id"
+        android:id="@+id/iv_doodle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/image_doodle_view"
         android:scaleType="centerCrop" />
 </FrameLayout>

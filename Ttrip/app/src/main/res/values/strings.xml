@@ -74,6 +74,11 @@
     <string name="content_live_toggle_off">OFF</string>
     <string name="content_live_toggle_on">ON</string>
     <string name="content_close_live">라이브 실행중에는\n다른 페이지로 이동할 수 없습니다.\n라이브를 종료하시겠습니까?</string>
+    <string name="image_add_doodle">image_add_doodle</string>
+    <string name="image_doodle_color_black">image_doodle_color_black</string>
+    <string name="image_doodle_color_neon_blue">image_doodle_color_neon_blue</string>
+    <string name="image_doodle_color_pear">image_doodle_color_pear</string>
+    <string name="image_doodle_clear">image_doodle_clear</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
@@ -195,6 +200,7 @@
     <string name="content_nation_hint">나라를 입력해주세요</string>
     <string name="content_city">도시</string>
     <string name="content_city_hint">도시를 입력해주세요</string>
+    <string name="image_doodle_view">image_doodle_view</string>
     <string-array name="nation_names">
         <item>한국</item>
         <item>일본</item>
