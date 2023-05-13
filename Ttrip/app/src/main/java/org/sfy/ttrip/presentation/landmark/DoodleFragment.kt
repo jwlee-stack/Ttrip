@@ -23,12 +23,19 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
 
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
+        initListener()
+        setARFunction()
+    }
+
+    private fun initListener() {
         binding.ivAddDoodle.setOnClickListener {
             val dialog = DrawDoodleDialog(requireContext(), this)
             dialog.show()
         }
-        arFragment = childFragmentManager.findFragmentById(R.id.arContentFragment) as ArFragment?
+    }
 
+    private fun setARFunction() {
+        arFragment = childFragmentManager.findFragmentById(R.id.arContentFragment) as ArFragment?
         arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
             // 추가적인 배치가 불가능한 상태일 경우
             if (isObjectPlaced) {
