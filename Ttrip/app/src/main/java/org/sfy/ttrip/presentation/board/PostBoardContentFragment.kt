@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import org.sfy.ttrip.R
@@ -97,7 +98,10 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun onTextChanged(
@@ -106,11 +110,19 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.postBoardNation(binding.atNation.text.toString())
+                                if (isTextInArray(binding.atNation, "nation")) {
+                                    viewModel.postBoardNation(binding.atNation.text.toString())
+                                    binding.tvNationValid.visibility = View.INVISIBLE
+                                } else {
+                                    binding.tvNationValid.visibility = View.VISIBLE
+                                }
                             }
                         })
                     }
@@ -129,7 +141,10 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun onTextChanged(
@@ -138,11 +153,19 @@ class PostBoardContentFragment :
                                 p2: Int,
                                 p3: Int
                             ) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                }
                             }
 
                             override fun afterTextChanged(p0: Editable?) {
-                                viewModel.postBoardCity(binding.atCity.text.toString())
+                                if (isTextInArray(binding.atCity, "city")) {
+                                    viewModel.postBoardCity(binding.atCity.text.toString())
+                                    binding.tvCityValid.visibility = View.INVISIBLE
+                                } else {
+                                    binding.tvCityValid.visibility = View.VISIBLE
+                                }
                             }
                         })
                     }
@@ -185,7 +208,11 @@ class PostBoardContentFragment :
                                     )
                                 }-${String.format("%02d", day)}"
 
-                                if (isEndAfterStart(viewModel.postStartDate.value ?: "", endDateCandidate)) {
+                                if (isEndAfterStart(
+                                        viewModel.postStartDate.value ?: "",
+                                        endDateCandidate
+                                    )
+                                ) {
                                     viewModel.postEndDate(endDateCandidate)
                                 } else {
                                     viewModel.postEndDate("")
@@ -210,7 +237,11 @@ class PostBoardContentFragment :
                             )
                         }-${String.format("%02d", day)}"
 
-                        if (isEndAfterStart(viewModel.postStartDate.value ?: "", endDateCandidate)) {
+                        if (isEndAfterStart(
+                                viewModel.postStartDate.value ?: "",
+                                endDateCandidate
+                            )
+                        ) {
                             viewModel.postEndDate(endDateCandidate)
                         } else {
                             viewModel.postEndDate("")
@@ -225,7 +256,11 @@ class PostBoardContentFragment :
                                 )
                             }-${String.format("%02d", dayOfMonth)}"
 
-                            if (isEndAfterStart(viewModel.postStartDate.value ?: "", endDateCandidate)) {
+                            if (isEndAfterStart(
+                                    viewModel.postStartDate.value ?: "",
+                                    endDateCandidate
+                                )
+                            ) {
                                 viewModel.postEndDate(endDateCandidate)
                             } else {
                                 viewModel.postEndDate("")
@@ -251,5 +286,19 @@ class PostBoardContentFragment :
         val start: Date = format.parse(startDate) ?: return false
         val end: Date = format.parse(endDate) ?: return false
         return end >= start
+    }
+
+    fun isTextInArray(autoCompleteTextView: AutoCompleteTextView, kind: String): Boolean {
+        val inputText = autoCompleteTextView.text.toString()
+        return when (kind) {
+            "nation" -> {
+                val nationNamesArray = resources.getStringArray(R.array.nation_names)
+                nationNamesArray.contains(inputText)
+            }
+            else -> {
+                val cityNamesArray = resources.getStringArray(R.array.city_names)
+                cityNamesArray.contains(inputText)
+            }
+        }
     }
 }
