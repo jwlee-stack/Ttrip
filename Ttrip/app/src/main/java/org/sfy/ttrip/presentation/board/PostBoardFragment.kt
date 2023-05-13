@@ -69,13 +69,18 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                             checkInfo(true)
                         }
                         4 -> {
-                            checkInfo(true)
-                            binding.tvNextPost.apply {
-                                text = "등록"
-                                setOnClickListener {
-                                    viewModel.postBoard()
-                                    showToast("게시글이 작성되었습니다")
-                                    popBackStack()
+                            binding.tvNextPost.text = "등록"
+                            viewModel.postEndDate.observe(this@PostBoardFragment) {
+                                if (it == null || it == "") checkInfo(false)
+                                else {
+                                    checkInfo(true)
+                                    binding.tvNextPost.apply {
+                                        setOnClickListener {
+                                            viewModel.postBoard()
+                                            showToast("게시글이 작성되었습니다")
+                                            popBackStack()
+                                        }
+                                    }
                                 }
                             }
                         }
