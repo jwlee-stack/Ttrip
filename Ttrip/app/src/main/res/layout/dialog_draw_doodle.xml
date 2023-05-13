@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="600dp"
+            android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_doodle_color_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="25dp"
+                android:contentDescription="@string/image_doodle_color_black"
+                android:src="@drawable/ic_doodle_color_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_doodle_color_neon_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_doodle_color_neon_blue"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/image_doodle_color_neon_blue"
+                app:layout_constraintTop_toTopOf="@id/iv_doodle_color_black"
+                app:layout_constraintStart_toEndOf="@id/iv_doodle_color_black" />
+
+            <ImageView
+                android:id="@+id/iv_doodle_color_pear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_doodle_color_pear"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/image_doodle_color_pear"
+                app:layout_constraintTop_toTopOf="@id/iv_doodle_color_neon_blue"
+                app:layout_constraintStart_toEndOf="@id/iv_doodle_color_neon_blue" />
+
+            <ImageView
+                android:id="@+id/iv_doodle_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_doodle_clear"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="25dp"
+                android:contentDescription="@string/image_doodle_clear"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <org.sfy.ttrip.presentation.landmark.DrawingView
+                android:id="@+id/drawing_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_doodle_color_black" />
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="59dp"
+                android:layout_height="38dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:gravity="center"
+                android:text="@string/content_cancel"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_confirm" />
+
+            <TextView
+                android:id="@+id/tv_confirm"
+                android:layout_width="59dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bg_rect_neon_blue_radius15"
+                android:fontFamily="@font/gmarket_sans_ttf_medium"
+                android:gravity="center"
+                android:text="@string/content_confirm"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

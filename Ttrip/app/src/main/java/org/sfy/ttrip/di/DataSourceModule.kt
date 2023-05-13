@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.data.remote.datasorce.auth.AuthRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.chat.ChatRemoteDataSourceImpl
+import org.sfy.ttrip.data.remote.datasorce.landmark.LandmarkRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.live.LiveRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.mypage.MyPageRemoteDataSourceImpl
 import org.sfy.ttrip.data.remote.datasorce.user.UserRemoteDataSourceImpl
@@ -52,4 +53,10 @@ object DataSourceModule {
     fun provideChatDataSource(
         chatApiService: ChatApiService
     ): ChatRemoteDataSourceImpl = ChatRemoteDataSourceImpl(chatApiService)
+
+    @Provides
+    @Singleton
+    fun provideLandmarkDataSource(
+        landmarkApiService: LandmarkApiService
+    ): LandmarkRemoteDataSourceImpl = LandmarkRemoteDataSourceImpl(landmarkApiService)
 }

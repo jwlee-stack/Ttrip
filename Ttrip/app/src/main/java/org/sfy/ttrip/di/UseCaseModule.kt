@@ -7,20 +7,18 @@ import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.domain.repository.auth.AuthRepository
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import org.sfy.ttrip.domain.repository.chat.ChatRepository
+import org.sfy.ttrip.domain.repository.landmark.LandmarkRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.board.*
-import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
-import org.sfy.ttrip.domain.usecase.board.FinishBoardUseCase
-import org.sfy.ttrip.domain.usecase.board.GetBoardBriefUseCase
-import org.sfy.ttrip.domain.usecase.board.GetBoardDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.CreateChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.ExitChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
+import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
 import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
@@ -145,4 +143,9 @@ object UseCaseModule {
     @Provides
     fun provideGetUserProfileDialogUseCase(userRepository: UserRepository): GetUserProfileDialogUseCase =
         GetUserProfileDialogUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetLandmarksUseCase(landmarkRepository: LandmarkRepository): GetLandmarksUseCase =
+        GetLandmarksUseCase(landmarkRepository)
 }

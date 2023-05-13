@@ -55,4 +55,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): ChatApiService =
         retrofit.create(ChatApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLandmarkApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): LandmarkApiService =
+        retrofit.create(LandmarkApiService::class.java)
 }

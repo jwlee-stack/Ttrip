@@ -84,6 +84,10 @@ dependencies {
     implementation libs.firebase.auth
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.messaging
+
+    implementation libs.arcore
+    implementation libs.sceneform.ux
+    implementation libs.sceneform.core
 }
 
 kapt {

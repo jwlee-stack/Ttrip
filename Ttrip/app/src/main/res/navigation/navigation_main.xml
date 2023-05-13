@@ -22,8 +22,7 @@
         android:id="@+id/postBoardFragment"
         android:name="org.sfy.ttrip.presentation.board.PostBoardFragment"
         android:label="postBoardFragment"
-        tools:layout="@layout/fragment_post_board">
-    </fragment>
+        tools:layout="@layout/fragment_post_board" />
 
     <fragment
         android:id="@+id/boardDetailFragment"
@@ -45,10 +44,13 @@
         android:id="@+id/liveFragment"
         android:name="org.sfy.ttrip.presentation.live.LiveFragment"
         android:label="liveFragment"
-        tools:layout="@layout/fragment_live" >
+        tools:layout="@layout/fragment_live">
         <action
             android:id="@+id/action_liveFragment_to_chatDetailFragment"
             app:destination="@id/chatDetailFragment" />
+        <action
+            android:id="@+id/action_liveFragment_to_doodleFragment"
+            app:destination="@id/doodleFragment" />
     </fragment>
 
     <fragment
@@ -141,5 +143,15 @@
         <action
             android:id="@+id/action_myPageBoardFragment_to_boardDetailFragment"
             app:destination="@id/boardDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/doodleFragment"
+        android:name="org.sfy.ttrip.presentation.landmark.DoodleFragment"
+        android:label="DoodleFragment"
+        tools:layout="@layout/fragment_doodle">
+        <argument
+            android:name="landmarkName"
+            app:argType="string" />
     </fragment>
 </navigation>
