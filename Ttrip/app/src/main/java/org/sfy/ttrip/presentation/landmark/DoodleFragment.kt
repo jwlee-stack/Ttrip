@@ -18,7 +18,6 @@ import org.sfy.ttrip.presentation.base.BaseFragment
 class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doodle), DrawDoodleDialogListener {
 
     private var arFragment: ArFragment? = null
-    private var userPhotoUrl = "https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg" // 사용자가 등록한 사진의 URL
     private var isObjectPlaced = false
     private var bitmap: Bitmap? = null
 
@@ -64,7 +63,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
 
         // 위치 정보 및 사진을 서버에 전송
         val position = transformableNode.worldPosition
-        sendPositionAndImageToServer(position, userPhotoUrl)
+        // sendPositionAndImageToServer(position, userPhotoUrl)
     }
 
     private fun sendPositionAndImageToServer(position: Vector3, imageUrl: String) {
