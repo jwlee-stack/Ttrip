@@ -1,4 +1,4 @@
-package com.ttrip.core.entity.badge;
+package com.ttrip.core.entity.landmark;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ttrip.core.entity.BaseEntity;
