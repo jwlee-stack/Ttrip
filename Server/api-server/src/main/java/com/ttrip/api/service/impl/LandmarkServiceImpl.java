@@ -4,10 +4,12 @@ import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.landmarkDto.*;
 import com.ttrip.api.exception.BadRequestException;
 import com.ttrip.api.service.LandmarkService;
-import com.ttrip.core.entity.badge.Badge;
-import com.ttrip.core.entity.badge.Landmark;
+import com.ttrip.core.entity.landmark.Badge;
+import com.ttrip.core.entity.landmark.Doodle;
+import com.ttrip.core.entity.landmark.Landmark;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.landmark.BadgeRepository;
+import com.ttrip.core.repository.landmark.DoodleRepository;
 import com.ttrip.core.repository.landmark.LandmarkRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import com.ttrip.core.utils.ImageUtil;
@@ -25,6 +27,7 @@ import java.util.NoSuchElementException;
 public class LandmarkServiceImpl implements LandmarkService {
     private final LandmarkRepository landmarkRepository;
     private final BadgeRepository badgeRepository;
+    private final DoodleRepository doodleRepository;
     private final ImageUtil imageUtil;
 
     /**
@@ -144,5 +147,70 @@ public class LandmarkServiceImpl implements LandmarkService {
         } catch (Exception e) {
             throw new RuntimeException("랜드마크 저장에 실패하였습니다.");
         }
+    }
+
+    /**
+     * 낙서를 저장합니다.
+     * @return : doodleId, latitude, longitude, positionX, positionY, positionZ, doodleImgPath, landmarkId 데이터
+     */
+    @Override
+    public DataResDto<?> saveDoodle(Member member, DoodleReqDto doodleReqDto) {
+        MultipartFile doodleImg = doodleReqDto.getDoodleImgPath();
+
+        if (doodleImg.isEmpty() || doodleImg.equals(null)) {
+            throw new BadRequestException("낙서 사진이 입력되지 않았습니다.");
+        }
+        // 타입 체크
+        imageUtil.checkImageType(doodleImg);
+        Landmark landmark = landmarkRepository.findByLandmarkId(doodleReqDto.getLandmarkId())
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.LANDMARK_NOT_EXIST.getMessage()));
+
+        try {
+            String imgPath = imageUtil.saveBadgeImg(landmark.getLandmarkName() + "_"
+                            +  member.getNickname(), doodleImg, "doodleImg");
+            Doodle doodle = Doodle.builder()
+                    .latitude(doodleReqDto.getLatitude())
+                    .longitude(doodleReqDto.getLongitude())
+                    .positionX(doodleReqDto.getPositionX())
+                    .positionY(doodleReqDto.getPositionY())
+                    .positionZ(doodleReqDto.getPositionZ())
+                    .doodleImgPath(imgPath)
+                    .landmark(landmark)
+                    .build();
+            doodleRepository.save(doodle);
+            return DataResDto.builder()
+                    .message("낙서 저장이 완료되었습니다.")
+                    .data(DoodleResDto.toBuild(doodle, doodleRepository.findByLandmarkAndDoodleImgPath(landmark, imgPath).get().getDoodleId()))
+                    .build();
+        } catch (Exception e) {
+            throw new RuntimeException("낙서 저장에 실패하였습니다.");
+        }
+    }
+
+    /**
+     * 해당 랜드마크의 낙서 목록을 조회합니다.
+     * @return : doodleId, latitude, longitude, positionX, positionY, positionZ, doodleImgPath, landmarkId 데이터를 담은 리스트
+     */
+    @Override
+    public DataResDto<?> getDoodleList(Integer landmarkId) {
+        List<DoodleResDto> doodleList = new ArrayList<>();
+
+        for (Doodle doodle : doodleRepository.findByLandmarkLandmarkId(landmarkId)) {
+            DoodleResDto doodleResDto = DoodleResDto.builder()
+                    .doodleId(doodle.getDoodleId())
+                    .latitude(doodle.getLatitude())
+                    .longitude(doodle.getLongitude())
+                    .positionX(doodle.getPositionX())
+                    .positionY(doodle.getPositionY())
+                    .positionZ(doodle.getPositionZ())
+                    .doodleImgPath(doodle.getDoodleImgPath())
+                    .landmarkId(landmarkId)
+                    .build();
+            doodleList.add(doodleResDto);
+        }
+        return DataResDto.builder()
+                .message(String.format("%s의 낙서 목록를 조회했습니다.", landmarkRepository.findByLandmarkId(landmarkId).get().getLandmarkName()))
+                .data(doodleList)
+                .build();
     }
 }

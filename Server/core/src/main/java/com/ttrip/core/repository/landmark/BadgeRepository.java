@@ -1,7 +1,7 @@
 package com.ttrip.core.repository.landmark;
 
-import com.ttrip.core.entity.badge.Badge;
-import com.ttrip.core.entity.badge.Landmark;
+import com.ttrip.core.entity.landmark.Badge;
+import com.ttrip.core.entity.landmark.Landmark;
 import com.ttrip.core.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

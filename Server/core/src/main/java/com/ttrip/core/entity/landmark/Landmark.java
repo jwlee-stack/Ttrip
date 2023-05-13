@@ -1,4 +1,4 @@
-package com.ttrip.core.entity.badge;
+package com.ttrip.core.entity.landmark;
 
 import lombok.Builder;
 import lombok.Data;
