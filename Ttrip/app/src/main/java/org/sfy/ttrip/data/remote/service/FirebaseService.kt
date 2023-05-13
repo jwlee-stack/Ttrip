@@ -46,12 +46,9 @@ class FirebaseService : FirebaseMessagingService() {
         val nickName = remoteMessage.data["nickName"]
         val memberUuid = remoteMessage.data["memberUuid"]
 
-        var pendingIntent: PendingIntent
-
         when (type) {
             0 -> {
                 intent = Intent(this, MainActivity::class.java)
-
             }
             1 -> {
                 val result = remoteMessage.data["result"]
@@ -62,24 +59,17 @@ class FirebaseService : FirebaseMessagingService() {
                 val dDay = remoteMessage.data["dDay"]
                 intent = Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    putExtra("fragment", "BoardFragment") // 이동할 프래그먼트 이름을 전달합니다.
+                    putExtra("fragment", "BoardFragment")
                     putExtra("articleId", articleId)
                     putExtra("dDay", dDay)
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                pendingIntent =
-                    PendingIntent.getActivity(
-                        this,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
             }
             3 -> {
                 val chatroomId = remoteMessage.data["chatroomId"]
                 intent = Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    putExtra("fragment", "ChatFragment") // 이동할 프래그먼트 이름을 전달합니다.
+                    putExtra("fragment", "ChatFragment")
                     putExtra("chatroomId", chatroomId)
                 }
             }
@@ -92,8 +82,7 @@ class FirebaseService : FirebaseMessagingService() {
             }
         }
 
-        pendingIntent =
-            PendingIntent.getActivity(
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
                 this,
                 0,
                 intent,
