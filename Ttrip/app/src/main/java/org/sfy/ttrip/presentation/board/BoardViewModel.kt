@@ -47,8 +47,8 @@ class BoardViewModel @Inject constructor(
     private val _postStartDate: MutableLiveData<String> = MutableLiveData(null)
     val postStartDate: MutableLiveData<String> = _postStartDate
 
-    private val _postEndDate: MutableLiveData<String> = MutableLiveData(null)
-    val postEndDate: MutableLiveData<String> = _postEndDate
+    private val _postEndDate: MutableLiveData<String?> = MutableLiveData(null)
+    val postEndDate: MutableLiveData<String?> = _postEndDate
 
     private val _userProfile: MutableLiveData<UserProfileDialog?> = MutableLiveData(null)
     val userProfile: MutableLiveData<UserProfileDialog?> = _userProfile
@@ -168,7 +168,7 @@ class BoardViewModel @Inject constructor(
     }
 
     fun postEndDate(endDate: String?) {
-        _postEndDate.value = endDate!!
+        _postEndDate.value = endDate
     }
 
     fun clearPostData() {
