@@ -1,6 +1,7 @@
 package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
+import com.ttrip.api.dto.landmarkDto.DoodleReqDto;
 import com.ttrip.api.dto.landmarkDto.LandmarkReqDto;
 import com.ttrip.api.dto.landmarkDto.ReceiveBadgeReqDto;
 import com.ttrip.api.service.LandmarkService;
@@ -12,12 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "랜드마크 관련 API")
 @RestController
@@ -51,5 +47,19 @@ public class LandmarkController {
     @GetMapping("/badges")
     public DataResDto<?> getBadgeList(@AuthenticationPrincipal MemberDetails memberDetails) {
         return landmarkService.getBadgeList(memberDetails.getMember());
+    }
+
+    @ApiResponses({@ApiResponse(code = 200, message = "낙서 저장 성공 시 응답")})
+    @ApiOperation(value = "낙서 저장 API")
+    @PostMapping(value = "/doodles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public DataResDto<?> saveDoodle(@AuthenticationPrincipal MemberDetails memberDetails, @ModelAttribute DoodleReqDto doodleReqDto) {
+        return landmarkService.saveDoodle(memberDetails.getMember(), doodleReqDto);
+    }
+
+    @ApiResponses({@ApiResponse(code = 200, message = "낙서 목록 조회 성공 시 응답")})
+    @ApiOperation(value = "낙서 조회 API")
+    @GetMapping("/doodles/{landmarkId}")
+    public DataResDto<?> getDoodleList(@PathVariable("landmarkId") Integer landmarkId) {
+        return landmarkService.getDoodleList(landmarkId);
     }
 }
