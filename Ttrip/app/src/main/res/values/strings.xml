@@ -186,6 +186,8 @@
     <string name="image_user_profile">image_user_profile</string>
     <string name="image_close_user_profile">image_close_user_profile</string>
     <string name="image_user_check">image_user_check</string>
+    <string name="content_valid_city">유효한 도시가 아닙니다. 다시 입력해주세요!</string>
+    <string name="content_valid_nation">유효한 나라가 아닙니다. 다시 입력해주세요!</string>
 
     <!-- Declaration -->
     <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>
