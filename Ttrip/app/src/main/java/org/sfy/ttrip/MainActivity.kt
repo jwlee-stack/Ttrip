@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -35,12 +34,12 @@ class MainActivity : AppCompatActivity() {
         initNavigation()
         getFCMToken()
 
-
-
         val fragmentName = intent.getStringExtra("fragment")
         val extraData = intent.getStringExtra("articleId") // 인텐트에서 추가 데이터를 가져옵니다.
 
-//        if (fragmentName != null) {
+        if (fragmentName != null) {
+            getFCMData(fragmentName)
+
 //            val fragmentClass = Class.forName(fragmentName).kotlin
 //            val fragmentInstance = fragmentClass.createInstance() as Fragment
 //
@@ -54,23 +53,41 @@ class MainActivity : AppCompatActivity() {
 //                addToBackStack(null)
 //                commit()
 //            }
-//        }
+        }
+    }
+
+    private fun getFCMData(fragment: String) {
+        NEW_ALARM_FLAG = true
+        when (fragment) {
+            "BoardFragment" -> {
+                val articleId = intent.getStringExtra("articleId")
+                val dDay = intent.getStringExtra("dDay")
+                val bundle = Bundle()
+                bundle.putString("articleId", articleId)
+                bundle.putString("dDay", dDay)
+
+                navController.navigate(R.id.boardFragment, bundle)
+            }
+            "ChatFragment" -> {
+                val chatroomId = intent.getStringExtra("chatroomId")
+                val bundle = Bundle()
+                bundle.putString("chatroomId", chatroomId)
+
+                navController.navigate(R.id.chatFragment, bundle)
+            }
+        }
     }
 
     private fun initNavigation() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-
 
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             itemIconTintList = null
 
             setOnNavigationItemSelectedListener { menuItem ->
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.boardFragment, true)
-                    .build()
+                val navOptions = NavOptions.Builder().setPopUpTo(R.id.boardFragment, true).build()
 
                 when (menuItem.itemId) {
                     R.id.boardFragment -> {
@@ -124,5 +141,9 @@ class MainActivity : AppCompatActivity() {
     fun checkLocationService(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    companion object {
+        var NEW_ALARM_FLAG = false
     }
 }

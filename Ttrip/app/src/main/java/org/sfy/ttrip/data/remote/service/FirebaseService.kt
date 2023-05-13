@@ -59,12 +59,12 @@ class FirebaseService : FirebaseMessagingService() {
             }
             2 -> {
                 val articleId = remoteMessage.data["articleId"]
-                //val dDay = remoteMessage.data["dDay"]
+                val dDay = remoteMessage.data["dDay"]
                 intent = Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    putExtra("fragment", "") // 이동할 프래그먼트 이름을 전달합니다.
+                    putExtra("fragment", "BoardFragment") // 이동할 프래그먼트 이름을 전달합니다.
                     putExtra("articleId", articleId)
-                    //putExtra("dDay", dDay)
+                    putExtra("dDay", dDay)
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 pendingIntent =
@@ -77,7 +77,11 @@ class FirebaseService : FirebaseMessagingService() {
             }
             3 -> {
                 val chatroomId = remoteMessage.data["chatroomId"]
-                intent = Intent(this, MainActivity::class.java)
+                intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    putExtra("fragment", "ChatFragment") // 이동할 프래그먼트 이름을 전달합니다.
+                    putExtra("chatroomId", chatroomId)
+                }
             }
             4 -> {
                 val matchHistoryId = remoteMessage.data["memberUuid"]
