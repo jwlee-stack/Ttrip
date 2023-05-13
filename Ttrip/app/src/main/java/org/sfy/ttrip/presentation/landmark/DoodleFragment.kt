@@ -67,8 +67,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     }
 
     private fun sendPositionAndImageToServer(position: Vector3, imageUrl: String) {
-        // 이 위치에서 위치 정보를 서버에 전송하려면 이를 구현하세요.
-        // 여기에 서버 연결 및 데이터 전송 코드가 필요합니다.
+
     }
 
     override fun onConfirmButtonClicked(bitmap: Bitmap) {
