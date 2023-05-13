@@ -1,12 +1,18 @@
 package org.sfy.ttrip.presentation.landmark
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.ar.core.Anchor
+import com.google.ar.core.Pose
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
@@ -30,6 +36,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         initListener()
+        setDoodles()
         setARFunction()
     }
 
@@ -45,6 +52,45 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
             showToast("낙서가 저장되었습니다!")
             binding.ivSaveDoodle.visibility = View.GONE
         }
+    }
+
+    private fun setDoodles() {
+        landmarkViewModel.doodles.observe(viewLifecycleOwner) {
+            if (it != null) {
+                for (item in it) {
+                    ViewRenderable.builder()
+                        .setView(context, R.layout.item_doodle)
+                        .build()
+                        .thenAccept { renderable ->
+                            val imageView =
+                                renderable.view.findViewById<ImageView>(R.id.iv_doodle_view) // 프리뷰 이미지에 사용할 ImageView
+                            Glide.with(requireContext())
+                                .asBitmap()
+                                .load("http://k8d104.p.ssafy.io:8081/images${item.doodleImgPath}")
+                                .into(object : CustomTarget<Bitmap>() {
+                                    override fun onResourceReady(
+                                        bitmap: Bitmap,
+                                        transition: Transition<in Bitmap>?
+                                    ) {
+                                        imageView.setImageBitmap(bitmap)
+                                    }
+
+                                    override fun onLoadCleared(placeholder: Drawable?) {
+                                    }
+                                })
+                            placeExistingDoodles(
+                                renderable,
+                                Vector3(
+                                    item.positionX.toFloat(),
+                                    item.positionY.toFloat(),
+                                    item.positionZ.toFloat()
+                                )
+                            )
+                        }
+                }
+            }
+        }
+        landmarkViewModel.getDoodles(args.landmarkId)
     }
 
     private fun setARFunction() {
@@ -64,6 +110,31 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                 }
             // 사물 배치 상태 변수 변경
             isObjectPlaced = true
+        }
+    }
+
+    private fun placeExistingDoodles(viewRenderable: ViewRenderable, position: Vector3) {
+        val anchor = arFragment?.arSceneView?.session?.createAnchor(
+            Pose(
+                floatArrayOf(
+                    position.x,
+                    position.y,
+                    position.z
+                ), floatArrayOf(0f, 0f, 0f, 1f)
+            )
+        )
+        anchor?.let {
+            val anchorNode = AnchorNode(it)
+            anchorNode.setParent(arFragment?.arSceneView?.scene)
+
+            val node = TransformableNode(arFragment?.transformationSystem)
+            node.setParent(anchorNode)
+            node.renderable = viewRenderable
+            node.select()
+
+            viewRenderable.view.setOnClickListener {
+                val worldPosition = node.worldPosition
+            }
         }
     }
 

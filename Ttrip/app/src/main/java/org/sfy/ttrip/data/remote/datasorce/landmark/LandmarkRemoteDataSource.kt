@@ -15,4 +15,6 @@ interface LandmarkRemoteDataSource {
         latitude: Double,
         longitude: Double
     )
+
+    suspend fun getDoodles(landmarkId: Int): List<DoodleResponse>
 }

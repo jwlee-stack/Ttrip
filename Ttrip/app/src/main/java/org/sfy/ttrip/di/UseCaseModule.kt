@@ -19,6 +19,7 @@ import org.sfy.ttrip.domain.usecase.chat.ExitChatRoomUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import org.sfy.ttrip.domain.usecase.landmark.CreateDoodleUseCase
+import org.sfy.ttrip.domain.usecase.landmark.GetDoodlesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
@@ -154,4 +155,9 @@ object UseCaseModule {
     @Provides
     fun provideCreateDoodleUseCase(landmarkRepository: LandmarkRepository): CreateDoodleUseCase =
         CreateDoodleUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetDoodlesUseCase(landmarkRepository: LandmarkRepository): GetDoodlesUseCase =
+        GetDoodlesUseCase(landmarkRepository)
 }
