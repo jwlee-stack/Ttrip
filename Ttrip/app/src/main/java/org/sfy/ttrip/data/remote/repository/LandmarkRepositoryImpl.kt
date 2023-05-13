@@ -1,5 +1,6 @@
 package org.sfy.ttrip.data.remote.repository
 
+import okhttp3.MultipartBody
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.landmark.LandmarkRemoteDataSource
@@ -13,5 +14,19 @@ class LandmarkRepositoryImpl @Inject constructor(
 
     override suspend fun getLandmarks(): Resource<List<LandmarkItem>> = wrapToResource {
         landmarkRemoteDataSource.getLandmarks().map { it.toDomainModel() }
+    }
+
+    override suspend fun createDoodle(
+        positionX: Double,
+        positionY: Double,
+        positionZ: Double,
+        doodleImgPath: MultipartBody.Part?,
+        landmarkId: Int,
+        latitude: Double,
+        longitude: Double
+    ) {
+        landmarkRemoteDataSource.createDoodle(
+            positionX, positionY, positionZ, doodleImgPath, landmarkId, latitude, longitude
+        )
     }
 }

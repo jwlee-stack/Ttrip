@@ -20,7 +20,19 @@
             android:layout_marginBottom="35dp"
             android:contentDescription="@string/image_add_doodle"
             android:src="@drawable/ic_add_doodle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_save_doodle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="35dp"
+            android:contentDescription="@string/image_add_doodle"
+            android:src="@drawable/ic_save_doodle"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

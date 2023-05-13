@@ -151,7 +151,7 @@
         android:label="DoodleFragment"
         tools:layout="@layout/fragment_doodle">
         <argument
-            android:name="landmarkName"
-            app:argType="string" />
+            android:name="landmarkId"
+            app:argType="integer" />
     </fragment>
 </navigation>
