@@ -1,6 +1,6 @@
 package com.ttrip.api.dto.landmarkDto;
 
-import com.ttrip.core.entity.badge.Landmark;
+import com.ttrip.core.entity.landmark.Landmark;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
