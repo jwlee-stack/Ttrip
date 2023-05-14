@@ -25,6 +25,14 @@ class MySqlConnector:
         cursor = self.conn.cursor()
         cursor.execute(query)
         article_list = cursor.fetchall()
-        # article_pd의 id값을 maindb article_id값과 일치시켜서 관리한다.
+        if len(article_list) < 1:
+            raise NoDataException(city)
         article_pd = pd.DataFrame(article_list, columns=['id', 'content', 'author_id'])
         return refiner(article_pd)
+
+
+class NoDataException(Exception):
+    def __init__(self, city):
+        self.city = city
+        self.message = f'{city}에 해당하는 게시글이 없습니다.'
+        super().__init__(self.message)
