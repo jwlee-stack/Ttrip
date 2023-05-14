@@ -53,6 +53,7 @@ dependencies {
 
     implementation libs.bundles.retrofit.bundles
     implementation libs.bundles.okhttp3.bundles
+    implementation 'com.google.ar.sceneform:assets:1.17.1'
 
     testImplementation libs.junit
 
