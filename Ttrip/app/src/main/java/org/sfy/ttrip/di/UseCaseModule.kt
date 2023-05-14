@@ -173,4 +173,9 @@ object UseCaseModule {
     @Provides
     fun provideGetLandmarksUseCase(landmarkRepository: LandmarkRepository): GetLandmarksUseCase =
         GetLandmarksUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestAccessToken(authRepository: AuthRepository): AccessTokenUseCase =
+        AccessTokenUseCase(authRepository)
 }

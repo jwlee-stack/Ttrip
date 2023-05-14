@@ -13,4 +13,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun requestLogin(body: AuthRequest): AuthResponse =
         authApiService.requestLogin(body).data!!
+
+    override suspend fun requestAccessToken(body: AccessTokenRequest): AccessTokenResponse =
+        authApiService.requestAccessToken(body).data!!
 }
