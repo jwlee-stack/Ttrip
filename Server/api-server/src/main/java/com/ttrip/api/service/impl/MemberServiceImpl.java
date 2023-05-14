@@ -62,8 +62,7 @@ public class MemberServiceImpl implements MemberService {
 
         //멤버 생성
         Member member = memberSignupReqDto.toMember(passwordEncoder);
-        log.info("멤버 생성: {}", member);
-        log.info("응답값으로 변환: {}", MemberResDto.toBuild(member).toString());
+        
         //DB에 저장
         try {
             memberRepository.save(member);
