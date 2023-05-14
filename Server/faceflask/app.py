@@ -217,11 +217,11 @@ def delete_folder(folder_path):
             os.rmdir(os.path.join(root, name))
     os.rmdir(folder_path)
 
-@app.route('/',methods=['GET'])
+@app.route('/face',methods=['GET'])
 def hell():
     return jsonify("success")
 
-@app.route('/',methods=['POST'])
+@app.route('/face',methods=['POST'])
 def hello():
     # 여러 개의 파일 받기
     trainImgs=[request.files.get('trainImg1'),request.files.get('trainImg2'),request.files.get('trainImg3')]
