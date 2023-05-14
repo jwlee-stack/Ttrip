@@ -6,13 +6,13 @@ import org.sfy.ttrip.domain.entity.auth.AccessToken
 
 data class AccessTokenResponse(
     @SerializedName("grantType")
-    val grantType: String,
+    val grantType: String?,
     @SerializedName("accessToken")
-    val accessToken: String,
+    val accessToken: String?,
     @SerializedName("refreshToken")
-    val refreshToken: String,
+    val refreshToken: String?,
     @SerializedName("accessTokenExpiresIn")
-    val accessTokenExpiresIn: String,
+    val accessTokenExpiresIn: String?,
     @SerializedName("nickname")
     val nickname: String?
 ) : DataToDomainMapper<AccessToken> {

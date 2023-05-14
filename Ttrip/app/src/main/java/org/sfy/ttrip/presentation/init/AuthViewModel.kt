@@ -41,9 +41,14 @@ class AuthViewModel @Inject constructor(
             ApplicationClass.preferences.refreshToken.toString()
         )){
             is Resource.Success<AccessToken> ->{
-                ApplicationClass.preferences.accessToken = value.data.accessToken
-                ApplicationClass.preferences.refreshToken = value.data.refreshToken
-                _emptyNickname.value = value.data.nickname == null
+                if(value.data.grantType == null){
+                    _isValid.value = false
+                }else{
+                    ApplicationClass.preferences.accessToken = value.data.accessToken
+                    ApplicationClass.preferences.refreshToken = value.data.refreshToken
+                    _emptyNickname.value = value.data.nickname == null
+                    _isValid.value = true
+                }
             }
             is Resource.Error ->{
 
