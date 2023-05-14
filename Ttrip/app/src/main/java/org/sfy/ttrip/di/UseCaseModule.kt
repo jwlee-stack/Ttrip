@@ -14,6 +14,7 @@ import org.sfy.ttrip.domain.repository.user.UserRepository
 import org.sfy.ttrip.domain.usecase.auth.*
 import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.chat.*
+import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
 import org.sfy.ttrip.domain.usecase.live.*
 import org.sfy.ttrip.domain.usecase.mypage.*
@@ -173,4 +174,9 @@ object UseCaseModule {
     @Provides
     fun provideGetLandmarksUseCase(landmarkRepository: LandmarkRepository): GetLandmarksUseCase =
         GetLandmarksUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetBadgesUseCase(landmarkRepository: LandmarkRepository): GetBadgesUseCase =
+        GetBadgesUseCase(landmarkRepository)
 }

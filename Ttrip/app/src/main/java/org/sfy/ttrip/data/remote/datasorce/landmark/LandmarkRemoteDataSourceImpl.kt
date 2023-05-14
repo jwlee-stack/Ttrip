@@ -9,4 +9,7 @@ class LandmarkRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getLandmarks(): List<LandmarkResponse> =
         landmarkApiService.getLandmarks().data!!
+
+    override suspend fun getBadges(): List<BadgeResponse> =
+        landmarkApiService.getBadges().data!!
 }
