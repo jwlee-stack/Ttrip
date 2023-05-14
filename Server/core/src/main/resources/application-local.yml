@@ -5,6 +5,14 @@ spring:
     username: root
     password: ttrip104!
 
+  redis:
+    host: localhost
+    port: 6379
+    password: ttrip104!
+
+flask:
+  baseurl: 'http://localhost:5000'
+
   data:
     monogodb:
       uri: mongodb://root:root@localhost:27017/chatDB?authSource=admin
