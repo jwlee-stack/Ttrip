@@ -10,10 +10,14 @@ data class AccessTokenResponse(
     @SerializedName("accessToken")
     val accessToken: String,
     @SerializedName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String,
+    @SerializedName("accessTokenExpiresIn")
+    val accessTokenExpiresIn: String,
+    @SerializedName("nickname")
+    val nickname: String?
 ) : DataToDomainMapper<AccessToken> {
     override fun toDomainModel(): AccessToken =
         AccessToken(
-            grantType, accessToken, refreshToken
+            grantType, accessToken, refreshToken,accessTokenExpiresIn, nickname
         )
 }
