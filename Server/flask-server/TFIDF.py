@@ -27,11 +27,12 @@ class TfidfRecommender():
         self.TF_PATH = os.path.join(self.MODEL_FOLDER, "tf.pickle")
 
         # 모델 폴더 생성
-        try:
-            if not os.path.exists(self.MODEL_FOLDER):
+        if not os.path.exists(self.MODEL_FOLDER):
+            try:
                 os.makedirs(self.MODEL_FOLDER)
-        except OSError:
-            print("Error: Failed to create the directory.")
+            except OSError:
+                raise Exception("Failed to create the directory.")
+        
         # TfidfVectorizer 객체 생성
         self.tf = TfidfVectorizer(
             stop_words=stopwords, tokenizer=tokenizer, ngram_range=(1, 2), max_features=200000, sublinear_tf=True)
@@ -84,15 +85,13 @@ class TfidfRecommender():
         # self.tf.partial_fit(content_df['content'])
         with open(self.TF_PATH, "wb") as fw:
             pickle.dump(self.tf, fw)
-        print("here it is : ")
-        print(len(self.tf.vocabulary_))
+
         # 코사인 유사도 계산
         #  다차원 배열을 일차원 배열로 전환하여 배열의 모든 요소가 연속된 선형 구조를 갖도록 변환
         cos_similar = linear_kernel(example_vector, X).flatten()
         # 유사도 순으로 인덱스 추출
         sim_rank_idx = cos_similar.argsort()[::-1]
         sim_rank_idx = sim_rank_idx[:100]
-
         # 추천 게시물 선별
         i = 0
         cnt = 0
@@ -100,7 +99,7 @@ class TfidfRecommender():
         n_recom = int(n_recom)
         while n_recom > cnt and i < 100:
             if self.article_pd.loc[sim_rank_idx[i]]['author_id'] != int(requester_id):
-                result.append(self.article_pd.loc[sim_rank_idx[i]]['id'])
+                result.append(int(self.article_pd.loc[sim_rank_idx[i]]['id']))
                 cnt += 1
             i += 1
         # 추천 게시물 반환
