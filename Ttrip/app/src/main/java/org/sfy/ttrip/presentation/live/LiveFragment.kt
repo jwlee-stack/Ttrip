@@ -13,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -38,6 +39,7 @@ import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.chat.ChatViewModel
+import org.sfy.ttrip.presentation.landmark.LandmarkViewModel
 import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -59,6 +61,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     private val liveViewModel by viewModels<LiveViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
+    private val landmarkViewModel by activityViewModels<LandmarkViewModel>()
+
     private val liveUserAdapter by lazy {
         LiveUserAdapter(
             this::getLiveUser,
@@ -137,9 +141,19 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val tag = marker.tag
-        if (tag != null) {
-            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(tag as Int))
+        val tag = marker.tag as String
+        val value = tag.split(",")
+        if (distance(
+                value[1].toDouble(),
+                value[2].toDouble(),
+                liveViewModel.lat,
+                liveViewModel.lng
+            ) <= 1000.0
+        ) {
+            landmarkViewModel.issueBadge(value[0].toInt())
+            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(value[0].toInt()))
+        } else {
+            showToast("랜드마크와의 거리가 멀어\n접근할 수 없습니다.")
         }
         return true
     }
@@ -195,7 +209,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                                 .icon(markerBitmapDescriptor)
 
                             val marker = map.addMarker(markerOptions)
-                            marker?.tag = item.landmarkId
+                            marker?.tag =
+                                "${item.landmarkId},${item.latitude},${item.longitude},${item.landmarkName}"
 
                         } catch (e: Exception) {
                             Log.e("setLandmarks", "Failed to decode marker image: ${e.message}")
@@ -256,6 +271,13 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 } else {
                     liveViewModel.setLiveUserReset()
                 }
+            }
+        }
+        landmarkViewModel.issueStatus.observe(viewLifecycleOwner) {
+            if (it == 200) {
+                showToast("뱃지가 발급되었습니다!")
+            } else if (it == 204) {
+                showToast("이미 발급된 뱃지입니다.")
             }
         }
     }

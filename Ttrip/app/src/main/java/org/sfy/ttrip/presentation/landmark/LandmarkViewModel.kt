@@ -31,7 +31,7 @@ class LandmarkViewModel @Inject constructor(
     private val _badges: MutableLiveData<List<BadgeItem>?> = MutableLiveData()
     val badges: LiveData<List<BadgeItem>?> = _badges
 
-    private val _issueStatus: MutableLiveData<Int?> = MutableLiveData()
+    private val _issueStatus: MutableLiveData<Int?> = MutableLiveData(0)
     val issueStatus: LiveData<Int?> = _issueStatus
 
     private val _doodles: MutableLiveData<List<DoodleItem>?> = MutableLiveData()
@@ -85,7 +85,7 @@ class LandmarkViewModel @Inject constructor(
 
     fun issueBadge(landmarkId: Int) = viewModelScope.launch {
         val value = issueBadgeUseCase(landmarkId)
-        _issueStatus.value = value
+        _issueStatus.postValue(value)
     }
 
     fun setPositionX(num: Double) {
