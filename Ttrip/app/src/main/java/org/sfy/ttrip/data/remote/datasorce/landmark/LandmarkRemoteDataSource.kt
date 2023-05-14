@@ -19,4 +19,6 @@ interface LandmarkRemoteDataSource {
     suspend fun getDoodles(landmarkId: Int): List<DoodleResponse>
 
     suspend fun getBadges(): List<BadgeResponse>
+
+    suspend fun issueBadge(body: BadgeRequest): Int
 }
