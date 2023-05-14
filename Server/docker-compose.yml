@@ -141,8 +141,6 @@ services:
     restart: unless-stopped
     ports:
       - 5050:5050
-    volumes:
-      - ./faceflask:/app
     networks:
       ttrip_bridge:
         ipv4_address: 172.35.0.16
