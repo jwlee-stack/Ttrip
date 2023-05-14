@@ -35,4 +35,10 @@ class LandmarkRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getDoodles(landmarkId: Int): List<DoodleResponse> =
         landmarkApiService.getDoodles(landmarkId).data!!
+
+    override suspend fun getBadges(): List<BadgeResponse> =
+        landmarkApiService.getBadges().data!!
+
+    override suspend fun issueBadge(body: BadgeRequest): Int =
+        landmarkApiService.issueBadge(body).status!!
 }

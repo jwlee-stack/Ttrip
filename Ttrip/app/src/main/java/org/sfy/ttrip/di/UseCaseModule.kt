@@ -27,7 +27,9 @@ import org.sfy.ttrip.domain.usecase.chat.GetChatDetailUseCase
 import org.sfy.ttrip.domain.usecase.chat.GetChatRoomsUseCase
 import org.sfy.ttrip.domain.usecase.landmark.CreateDoodleUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetDoodlesUseCase
+import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
+import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
@@ -208,4 +210,14 @@ object UseCaseModule {
     @Provides
     fun provideGetDoodlesUseCase(landmarkRepository: LandmarkRepository): GetDoodlesUseCase =
         GetDoodlesUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetBadgesUseCase(landmarkRepository: LandmarkRepository): GetBadgesUseCase =
+        GetBadgesUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideIssueBadgeUseCase(landmarkRepository: LandmarkRepository): IssueBadgeUseCase =
+        IssueBadgeUseCase(landmarkRepository)
 }

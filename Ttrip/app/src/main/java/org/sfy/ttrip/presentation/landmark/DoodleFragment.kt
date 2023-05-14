@@ -96,43 +96,43 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
 
     private fun setARFunction() {
         arFragment = childFragmentManager.findFragmentById(R.id.arContentFragment) as ArFragment?
-//        arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
-//            // 추가적인 배치가 불가능한 상태일 경우
-//            if (isObjectPlaced) {
-//                return@setOnTapArPlaneListener
-//            }
-//            ViewRenderable.builder()
-//                .setView(requireContext(), R.layout.item_doodle)
-//                .build()
-//                .thenAccept { renderable ->
-//                    val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
-//                    imageView.setImageBitmap(bitmap)
-//                    placeImageOnArSurface(renderable, hitResult.createAnchor())
-//                    setDoodles()
-//                }
-//            // 사물 배치 상태 변수 변경
-//            isObjectPlaced = true
-//        }
+        arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
+            // 추가적인 배치가 불가능한 상태일 경우
+            if (isObjectPlaced) {
+                return@setOnTapArPlaneListener
+            }
+            ViewRenderable.builder()
+                .setView(requireContext(), R.layout.item_doodle)
+                .build()
+                .thenAccept { renderable ->
+                    val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
+                    imageView.setImageBitmap(bitmap)
+                    placeImageOnArSurface(renderable, hitResult.createAnchor())
+                    setDoodles()
+                }
+            // 사물 배치 상태 변수 변경
+            isObjectPlaced = true
+        }
 
 
         // 실패
-        ViewRenderable.builder()
-            .setView(context, R.layout.item_doodle)
-            .build()
-            .thenAccept { renderable ->
-                val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
-                imageView.setImageBitmap(bitmap)
-                arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
-                    // 추가적인 배치가 불가능한 상태일 경우
-                    if (isObjectPlaced) {
-                        return@setOnTapArPlaneListener
-                    }
-                    placeImageOnArSurface(renderable, hitResult.createAnchor())
-                    // setDoodles()
-                    // 사물 배치 상태 변수 변경
-                    isObjectPlaced = true
-                }
-            }
+//        ViewRenderable.builder()
+//            .setView(context, R.layout.item_doodle)
+//            .build()
+//            .thenAccept { renderable ->
+//                val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
+//                imageView.setImageBitmap(bitmap)
+//                arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
+//                    // 추가적인 배치가 불가능한 상태일 경우
+//                    if (isObjectPlaced) {
+//                        return@setOnTapArPlaneListener
+//                    }
+//                    placeImageOnArSurface(renderable, hitResult.createAnchor())
+//                    // setDoodles()
+//                    // 사물 배치 상태 변수 변경
+//                    isObjectPlaced = true
+//                }
+//            }
 
     }
 

@@ -15,13 +15,24 @@ import org.sfy.ttrip.domain.entity.landmark.DoodleItem
 import org.sfy.ttrip.domain.usecase.landmark.CreateDoodleUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetDoodlesUseCase
 import java.io.File
+import org.sfy.ttrip.domain.entity.landmark.BadgeItem
+import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
+import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class LandmarkViewModel @Inject constructor(
     private val createDoodleUseCase: CreateDoodleUseCase,
-    private val getDoodlesUseCase: GetDoodlesUseCase
+    private val getDoodlesUseCase: GetDoodlesUseCase,
+    private val getBadgesUseCase: GetBadgesUseCase,
+    private val issueBadgeUseCase: IssueBadgeUseCase
 ) : ViewModel() {
+
+    private val _badges: MutableLiveData<List<BadgeItem>?> = MutableLiveData()
+    val badges: LiveData<List<BadgeItem>?> = _badges
+
+    private val _issueStatus: MutableLiveData<Int?> = MutableLiveData(0)
+    val issueStatus: LiveData<Int?> = _issueStatus
 
     private val _doodles: MutableLiveData<List<DoodleItem>?> = MutableLiveData()
     val doodles: LiveData<List<DoodleItem>?> = _doodles
@@ -59,6 +70,22 @@ class LandmarkViewModel @Inject constructor(
                 Log.e("getDoodles", "getDoodles: ${value.errorMessage}")
             }
         }
+    }
+
+    fun getBadges() = viewModelScope.launch {
+        when (val value = getBadgesUseCase()) {
+            is Resource.Success -> {
+                _badges.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getBadges", "getBadges: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun issueBadge(landmarkId: Int) = viewModelScope.launch {
+        val value = issueBadgeUseCase(landmarkId)
+        _issueStatus.postValue(value)
     }
 
     fun setPositionX(num: Double) {
