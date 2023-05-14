@@ -2,6 +2,7 @@ package org.sfy.ttrip.presentation.landmark
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
@@ -36,8 +37,8 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         initListener()
-        setDoodles()
         setARFunction()
+        setDoodles()
     }
 
     private fun initListener() {
@@ -95,45 +96,62 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
 
     private fun setARFunction() {
         arFragment = childFragmentManager.findFragmentById(R.id.arContentFragment) as ArFragment?
-        arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
-            // 추가적인 배치가 불가능한 상태일 경우
-            if (isObjectPlaced) {
-                return@setOnTapArPlaneListener
-            }
-            ViewRenderable.builder()
-                .setView(requireContext(), R.layout.item_doodle)
-                .build()
-                .thenAccept { renderable ->
-                    val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
-                    imageView.setImageBitmap(bitmap)
+//        arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
+//            // 추가적인 배치가 불가능한 상태일 경우
+//            if (isObjectPlaced) {
+//                return@setOnTapArPlaneListener
+//            }
+//            ViewRenderable.builder()
+//                .setView(requireContext(), R.layout.item_doodle)
+//                .build()
+//                .thenAccept { renderable ->
+//                    val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
+//                    imageView.setImageBitmap(bitmap)
+//                    placeImageOnArSurface(renderable, hitResult.createAnchor())
+//                    setDoodles()
+//                }
+//            // 사물 배치 상태 변수 변경
+//            isObjectPlaced = true
+//        }
+
+
+        // 실패
+        ViewRenderable.builder()
+            .setView(context, R.layout.item_doodle)
+            .build()
+            .thenAccept { renderable ->
+                val imageView = renderable.view.findViewById<ImageView>(R.id.iv_doodle_view)
+                imageView.setImageBitmap(bitmap)
+                arFragment?.setOnTapArPlaneListener { hitResult, _, _ ->
+                    // 추가적인 배치가 불가능한 상태일 경우
+                    if (isObjectPlaced) {
+                        return@setOnTapArPlaneListener
+                    }
                     placeImageOnArSurface(renderable, hitResult.createAnchor())
+                    // setDoodles()
+                    // 사물 배치 상태 변수 변경
+                    isObjectPlaced = true
                 }
-            // 사물 배치 상태 변수 변경
-            isObjectPlaced = true
-        }
+            }
+
     }
 
     private fun placeExistingDoodles(viewRenderable: ViewRenderable, position: Vector3) {
-        val anchor = arFragment?.arSceneView?.session?.createAnchor(
-            Pose(
-                floatArrayOf(
-                    position.x,
-                    position.y,
-                    position.z
-                ), floatArrayOf(0f, 0f, 0f, 1f)
-            )
-        )
-        anchor?.let {
-            val anchorNode = AnchorNode(it)
-            anchorNode.setParent(arFragment?.arSceneView?.scene)
+        arFragment?.let { fragment ->
+            fragment.arSceneView!!.let { sceneView ->
+                Log.d("엥", "Pose: ${Pose.makeTranslation(position.x, position.y, position.z)}")
+                val anchor = sceneView.session!!.createAnchor(
+                    Pose.makeTranslation(position.x, position.y, position.z)
+                )
+                anchor.let { anchor ->
+                    val anchorNode = AnchorNode(anchor)
+                    anchorNode.setParent(sceneView.scene)
 
-            val node = TransformableNode(arFragment?.transformationSystem)
-            node.setParent(anchorNode)
-            node.renderable = viewRenderable
-            node.select()
-
-            viewRenderable.view.setOnClickListener {
-                val worldPosition = node.worldPosition
+                    val node = TransformableNode(fragment.transformationSystem)
+                    node.setParent(anchorNode)
+                    node.renderable = viewRenderable
+                    node.select()
+                }
             }
         }
     }
@@ -161,11 +179,11 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     private fun sendImageToServer(bitmap: Bitmap) {
         val file = File(requireContext().cacheDir, "temp_image.jpg")
         file.outputStream().use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             outputStream.flush()
         }
         landmarkViewModel.setDoodleImg(file)
-        landmarkViewModel.createDoodle(args.landmarkId, 0.0, 0.0)
+        landmarkViewModel.createDoodle(args.landmarkId, 36.108, 128.4185)
     }
 
     override fun onConfirmButtonClicked(bitmap: Bitmap) {
