@@ -173,7 +173,12 @@ public class MemberServiceImpl implements MemberService {
     public DataResDto<?> reissue(TokenReqDto tokenReqDto) {
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenReqDto.getRefreshToken())) {
-            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+            log.info("Refresh Token 이 유효하지 않습니다.");
+            return DataResDto.builder()
+                    .status(400)
+                    .message("Refresh Token 이 유효하지 않습니다.")
+                    .data(false)
+                    .build();
         }
 
         // 2. Access Token 에서 authentication 가져오기

@@ -2,10 +2,7 @@ package com.ttrip.api.dto.tokenDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
@@ -21,5 +18,7 @@ public class TokenDto {
     private String refreshToken;
     @ApiModelProperty(value = "토큰 만료 시간", example = "1682667021094")
     private Long accessTokenExpiresIn;
+    @ApiModelProperty(value = "유저 닉네임", example = "jwlee")
+    private String nickname;
 }
 
