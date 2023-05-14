@@ -78,6 +78,7 @@ public class MypageServiceImpl implements MypageService {
         member = updateProfileImg(profileUpdateReqDto.getProfileImg(), member);
         member = updateMarkerImg(profileUpdateReqDto.getMarkerImg(), member);
 
+        member.setProfileVerification(false);
         memberRepository.save(member);
         return DataResDto.builder()
                 .message("프로필 사진이 업데이트되었습니다.")
@@ -168,6 +169,5 @@ public class MypageServiceImpl implements MypageService {
                 .data(BackgroundUpdateResDto.toBuild(member))
                 .build();
     }
-
 
 }

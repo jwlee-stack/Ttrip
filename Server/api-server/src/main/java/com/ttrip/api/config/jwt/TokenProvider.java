@@ -3,6 +3,7 @@ package com.ttrip.api.config.jwt;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.exception.UnauthorizationException;
 import com.ttrip.api.service.impl.CustomUserDetailsService;
+import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -20,7 +21,6 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,15 +29,17 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-    //private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30분
+    //private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 10;//10초
+    //private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 30;  // 30초
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24;//1일
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
-
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
+    private final MemberRepository memberRepository;
 
-    public TokenProvider(@Value("${jwt.secret}") String secretKey, CustomUserDetailsService customUserDetailsService) {
+    public TokenProvider(@Value("${jwt.secret}") String secretKey, CustomUserDetailsService customUserDetailsService, MemberRepository memberRepository) {
         this.customUserDetailsService = customUserDetailsService;
+        this.memberRepository = memberRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -65,11 +67,14 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
+        //멤버의 닉네임
+        String nickname=memberRepository.findByPhoneNumber(authentication.getName()).get().getNickname();
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
+                .nickname(nickname)
                 .build();
     }
 
