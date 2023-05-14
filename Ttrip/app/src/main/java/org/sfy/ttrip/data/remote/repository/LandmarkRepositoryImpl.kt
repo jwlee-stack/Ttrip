@@ -5,6 +5,7 @@ import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.landmark.LandmarkRemoteDataSource
 import org.sfy.ttrip.domain.entity.landmark.DoodleItem
+import org.sfy.ttrip.domain.entity.landmark.BadgeItem
 import org.sfy.ttrip.domain.entity.landmark.LandmarkItem
 import org.sfy.ttrip.domain.repository.landmark.LandmarkRepository
 import javax.inject.Inject
@@ -33,5 +34,9 @@ class LandmarkRepositoryImpl @Inject constructor(
 
     override suspend fun getDoodles(landmarkId: Int): Resource<List<DoodleItem>> = wrapToResource {
         landmarkRemoteDataSource.getDoodles(landmarkId).map { it.toDomainModel() }
+    }
+
+    override suspend fun getBadges(): Resource<List<BadgeItem>> = wrapToResource {
+        landmarkRemoteDataSource.getBadges().map { it.toDomainModel() }
     }
 }
