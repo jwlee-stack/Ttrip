@@ -139,7 +139,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     override fun onMarkerClick(marker: Marker): Boolean {
         val tag = marker.tag
         if (tag != null) {
-            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(tag.toString()))
+            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(tag as Int))
         }
         return true
     }
@@ -195,7 +195,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                                 .icon(markerBitmapDescriptor)
 
                             val marker = map.addMarker(markerOptions)
-                            marker?.tag = item.landmarkName
+                            marker?.tag = item.landmarkId
 
                         } catch (e: Exception) {
                             Log.e("setLandmarks", "Failed to decode marker image: ${e.message}")
