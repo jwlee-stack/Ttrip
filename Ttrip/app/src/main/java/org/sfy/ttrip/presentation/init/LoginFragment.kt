@@ -17,6 +17,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         authViewModel.clearEmptyNickname()
         observeData()
         initListener()
+
+        authViewModel.requestAccessToken()
     }
 
     private fun initListener() {
