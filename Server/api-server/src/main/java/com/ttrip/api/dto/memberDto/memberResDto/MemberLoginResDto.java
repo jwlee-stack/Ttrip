@@ -37,6 +37,8 @@ public class MemberLoginResDto {
     private Integer age;
     @ApiModelProperty(value = "위치 정보 활용 동의", notes="기본값: false", example = "false")
     private Boolean shareLocation;
+    @ApiModelProperty(value = "본인 인증 뱃지")
+    private Boolean profileVerification;
     @ApiModelProperty(value = "액세스 토큰", example = "eyJhbGci...")
     private TokenDto tokenDto;
 
@@ -54,6 +56,7 @@ public class MemberLoginResDto {
                 .gender(member.getGender().toString())
                 .age(member.getAge())
                 .shareLocation(member.getShareLocation())
+                .profileVerification(member.getProfileVerification())
                 .tokenDto(tokenDto)
                 .build();
     }

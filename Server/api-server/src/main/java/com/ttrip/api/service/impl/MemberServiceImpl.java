@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public DataResDto<?> signup(MemberSignupReqDto memberSignupReqDto) {
-        log.info("멤버 회원 가입 요청: {}",memberSignupReqDto.toString());
+        log.info("멤버 회원 가입 요청: {}", memberSignupReqDto.toString());
         //이미 가입한 전화번호?
         if (memberRepository.existsByPhoneNumber(memberSignupReqDto.getPhoneNumber()))
             //이미 가입한 유저입니다.
@@ -62,8 +62,7 @@ public class MemberServiceImpl implements MemberService {
 
         //멤버 생성
         Member member = memberSignupReqDto.toMember(passwordEncoder);
-        log.info("멤버 생성: {}",member);
-        log.info("응답값으로 변환: {}",MemberResDto.toBuild(member).toString());
+        
         //DB에 저장
         try {
             memberRepository.save(member);
@@ -80,8 +79,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public DataResDto<?> login(MemberLoginReqDto memberLoginReqDto) {
         Member member = memberRepository.findByPhoneNumber(memberLoginReqDto.getPhoneNumber()).orElse(null);
-        if(member==null)
-        {
+        if (member == null) {
             log.info("아이디가 틀렸습니다.");
             return DataResDto.builder()
                     .status(410)
@@ -89,8 +87,7 @@ public class MemberServiceImpl implements MemberService {
                     .data(false)
                     .build();
         }
-        if(!passwordEncoder.matches(memberLoginReqDto.getPassword(),member.getPassword()))
-        {
+        if (!passwordEncoder.matches(memberLoginReqDto.getPassword(), member.getPassword())) {
             log.info("비밀번호가 틀렸습니다.");
             return DataResDto.builder()
                     .status(420)
@@ -98,8 +95,7 @@ public class MemberServiceImpl implements MemberService {
                     .data(false)
                     .build();
         }
-        if(blacklistRepository.existsByMember(member))
-        {
+        if (blacklistRepository.existsByMember(member)) {
             log.info("신고로 정지된 계정입니다.");
             return DataResDto.builder()
                     .status(430)
@@ -151,7 +147,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("내 UUID로 리프래시 토큰 서칭");
 
         //fcm토큰값 없앰
-        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(),memberDetails);
+        updateFcm(MemberFcmReqDto.builder().fcmToken("").build(), memberDetails);
         log.info("fcm토큰값 없앰");
 
         try {
@@ -173,14 +169,25 @@ public class MemberServiceImpl implements MemberService {
     public DataResDto<?> reissue(TokenReqDto tokenReqDto) {
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(tokenReqDto.getRefreshToken())) {
-            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+            log.info("Refresh Token 이 유효하지 않습니다.");
+            return DataResDto.builder()
+                    .status(400)
+                    .message("Refresh Token 이 유효하지 않습니다.")
+                    .data(TokenDto.builder()
+                            .grantType(null)
+                            .accessToken(null)
+                            .refreshToken(null)
+                            .accessTokenExpiresIn(null)
+                            .nickname(null)
+                            .build())
+                    .build();
         }
 
         // 2. Access Token 에서 authentication 가져오기
         Authentication authentication = tokenProvider.getAuthentication(tokenReqDto.getAccessToken());
 
         // 3. 저장소에서 Member UUID 를 기반으로 Refresh Token 값 가져옴
-        Member member=memberRepository.findByPhoneNumber(authentication.getName()).get();
+        Member member = memberRepository.findByPhoneNumber(authentication.getName()).get();
         RefreshToken refreshToken = refreshTokenRepository.findByKey(member.getMemberUuid().toString())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
@@ -208,16 +215,16 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public DataResDto<?> setInfo(MemberUpdateReqDto memberUpdateReqDto, MemberDetails memberDetails) {
         //fcm 토큰 변경//
-        memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken()==null ? null : memberUpdateReqDto.getFcmToken());
+        memberDetails.getMember().setFcmToken(memberUpdateReqDto.getFcmToken() == null ? null : memberUpdateReqDto.getFcmToken());
         log.info("fcm 토큰 변경");
         //이미지 변경//
-        ProfileUpdateReqDto profileUpdateReqDto=MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
+        ProfileUpdateReqDto profileUpdateReqDto = MemberUpdateReqDto.toProfileUpdateReq(memberUpdateReqDto);
         mypageService.updateProfileAndMarkerImg(profileUpdateReqDto, memberDetails);
         log.info("이미지 변경");
 
         //닉네임, 성별, 나이, 인트로 변경//
-        InfoUpdateReqDto infoUpdateReqDto=MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
-        mypageService.updateMember(infoUpdateReqDto,memberDetails);
+        InfoUpdateReqDto infoUpdateReqDto = MemberUpdateReqDto.toInfoUpdateReq(memberUpdateReqDto);
+        mypageService.updateMember(infoUpdateReqDto, memberDetails);
         log.info("닉네임, 성별, 나이, 인트로 변경");
 
         return DataResDto.builder()
@@ -248,26 +255,23 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberDetails.getMember();
 
         Survey survey;
-        if(!surveyRepository.existsByMember(member))
-        {
+        if (!surveyRepository.existsByMember(member)) {
             log.info("설문조사 내역이 존재하지 않음");
-            survey=Survey.builder().member(member).build();
-        }
-        else
-        {
+            survey = Survey.builder().member(member).build();
+        } else {
             log.info("설문조사 내역이 존재");
             survey = surveyRepository.findByMember(member).get();
         }
 
-        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity()/5f);
-        survey.setPreferPlan(surveyReqDto.getPreferPlan()/5f);
-        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight()/5f);
-        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort()/5f);
-        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood()/5f);
-        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic()/5f);
-        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget()/5f);
-        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule()/5f);
-        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour()/5f);
+        survey.setPreferNatureThanCity(surveyReqDto.getPreferNatureThanCity() / 5f);
+        survey.setPreferPlan(surveyReqDto.getPreferPlan() / 5f);
+        survey.setPreferDirectFlight(surveyReqDto.getPreferDirectFlight() / 5f);
+        survey.setPreferCheapHotelThanComfort(surveyReqDto.getPreferCheapHotelThanComfort() / 5f);
+        survey.setPreferGoodFood(surveyReqDto.getPreferGoodFood() / 5f);
+        survey.setPreferCheapTraffic(surveyReqDto.getPreferCheapTraffic() / 5f);
+        survey.setPreferPersonalBudget(surveyReqDto.getPreferPersonalBudget() / 5f);
+        survey.setPreferTightSchedule(surveyReqDto.getPreferTightSchedule() / 5f);
+        survey.setPreferShoppingThanTour(surveyReqDto.getPreferShoppingThanTour() / 5f);
         surveyRepository.save(survey);
         log.info("여행취향 저장");
         return DataResDto.builder()
@@ -282,7 +286,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BadRequestException(ErrorMessageEnum.USER_NOT_EXIST.getMessage());
 
         Member member = memberRepository.findByNickname(nickname).get();
-        log.info("닉네임 {}으로 멤버 조회",nickname);
+        log.info("닉네임 {}으로 멤버 조회", nickname);
         return DataResDto.builder()
                 .message("회원 프로필이 조회되었습니다.")
                 .data(MemberResDto.toBuild(member))
@@ -298,7 +302,7 @@ public class MemberServiceImpl implements MemberService {
                 .member(member)
                 .build();
         blacklistRepository.save(blacklist);
-        log.info("신고 저장(신고자: {}, 피신고자: {})",blacklist.getReporterId(),blacklist.getMember().getMemberId());
+        log.info("신고 저장(신고자: {}, 피신고자: {})", blacklist.getReporterId(), blacklist.getMember().getMemberId());
         return DataResDto.builder()
                 .message("신고가 접수되었습니다.")
                 .data(true)
@@ -307,16 +311,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DataResDto<?> updateFcm(MemberFcmReqDto memberFcmReqDto, MemberDetails memberDetails) {
-        Member member=memberDetails.getMember();
-        String fcmToken=memberFcmReqDto.getFcmToken();
-        if(fcmToken.equals(""))
-            fcmToken=null;
-        try{
+        Member member = memberDetails.getMember();
+        String fcmToken = memberFcmReqDto.getFcmToken();
+        if (fcmToken.equals(""))
+            fcmToken = null;
+        try {
             member.setFcmToken(fcmToken);
             memberRepository.save(member);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return DataResDto.builder()
                     .message("fcm 토큰 업데이트 실패")
