@@ -15,8 +15,6 @@ import org.sfy.ttrip.domain.entity.landmark.DoodleItem
 import org.sfy.ttrip.domain.usecase.landmark.CreateDoodleUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetDoodlesUseCase
 import java.io.File
-import kotlinx.coroutines.launch
-import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.landmark.BadgeItem
 import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase

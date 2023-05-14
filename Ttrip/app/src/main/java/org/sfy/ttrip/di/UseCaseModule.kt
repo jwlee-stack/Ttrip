@@ -29,6 +29,7 @@ import org.sfy.ttrip.domain.usecase.landmark.CreateDoodleUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetDoodlesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
+import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
