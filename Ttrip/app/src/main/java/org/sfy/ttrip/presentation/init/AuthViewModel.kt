@@ -43,8 +43,7 @@ class AuthViewModel @Inject constructor(
             is Resource.Success<AccessToken> ->{
                 ApplicationClass.preferences.accessToken = value.data.accessToken
                 ApplicationClass.preferences.refreshToken = value.data.refreshToken
-
-                //_emptyNickname.value = value.data.nickname == null
+                _emptyNickname.value = value.data.nickname == null
             }
             is Resource.Error ->{
 
