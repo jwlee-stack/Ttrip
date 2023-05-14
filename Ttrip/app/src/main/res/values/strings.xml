@@ -457,4 +457,9 @@
     <!-- Notification -->
     <string name="notification_channel_id">Channel_Id</string>
     <string name="notification_channel_name">ttrip</string>
+
+    <!-- Badge -->
+    <string name="title_badge">뱃지</string>
+    <string name="content_my_badge">보유한 뱃지</string>
+    <string name="image_badge">image_badge</string>
 </resources>

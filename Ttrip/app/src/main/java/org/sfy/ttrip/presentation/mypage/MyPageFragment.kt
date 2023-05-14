@@ -105,6 +105,9 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             tvGetMyPosts.setOnClickListener {
                 navigate(MyPageFragmentDirections.actionMyPageFragmentToMyPageBoardFragment())
             }
+            tvGetMyBadges.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToMyBadgesFragment())
+            }
             ivProfileBackground.setOnClickListener {
                 setBackgroundView()
             }

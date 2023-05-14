@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_myPageBoardFragment"
             app:destination="@id/myPageBoardFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_myBadgesFragment"
+            app:destination="@id/myBadgesFragment" />
     </fragment>
 
     <fragment
@@ -154,4 +157,10 @@
             android:name="landmarkId"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/myBadgesFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.MyBadgesFragment"
+        android:label="MyBadgesFragment"
+        tools:layout="@layout/fragment_my_badges" />
 </navigation>
