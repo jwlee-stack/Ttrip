@@ -9,4 +9,6 @@ interface LandmarkRepository {
     suspend fun getLandmarks(): Resource<List<LandmarkItem>>
 
     suspend fun getBadges(): Resource<List<BadgeItem>>
+
+    suspend fun issueBadges(landmarkId: Int): Int
 }

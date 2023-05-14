@@ -16,6 +16,7 @@ import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.chat.*
 import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
 import org.sfy.ttrip.domain.usecase.landmark.GetLandmarksUseCase
+import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import org.sfy.ttrip.domain.usecase.live.*
 import org.sfy.ttrip.domain.usecase.mypage.*
 import org.sfy.ttrip.domain.usecase.user.*
@@ -179,4 +180,9 @@ object UseCaseModule {
     @Provides
     fun provideGetBadgesUseCase(landmarkRepository: LandmarkRepository): GetBadgesUseCase =
         GetBadgesUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideIssueBadgeUseCase(landmarkRepository: LandmarkRepository): IssueBadgeUseCase =
+        IssueBadgeUseCase(landmarkRepository)
 }

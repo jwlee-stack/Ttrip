@@ -10,15 +10,20 @@ import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.domain.entity.landmark.BadgeItem
 import org.sfy.ttrip.domain.usecase.landmark.GetBadgesUseCase
+import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class LandmarkViewModel @Inject constructor(
-    private val getBadgesUseCase: GetBadgesUseCase
+    private val getBadgesUseCase: GetBadgesUseCase,
+    private val issueBadgeUseCase: IssueBadgeUseCase
 ) : ViewModel() {
 
     private val _badges: MutableLiveData<List<BadgeItem>?> = MutableLiveData()
     val badges: LiveData<List<BadgeItem>?> = _badges
+
+    private val _issueStatus: MutableLiveData<Int?> = MutableLiveData()
+    val issueStatus: LiveData<Int?> = _issueStatus
 
     fun getBadges() = viewModelScope.launch {
         when (val value = getBadgesUseCase()) {
@@ -29,5 +34,10 @@ class LandmarkViewModel @Inject constructor(
                 Log.e("getBadges", "getBadges: ${value.errorMessage}")
             }
         }
+    }
+
+    fun issueBadge(landmarkId: Int) = viewModelScope.launch {
+        val value = issueBadgeUseCase(landmarkId)
+        _issueStatus.value = value
     }
 }
