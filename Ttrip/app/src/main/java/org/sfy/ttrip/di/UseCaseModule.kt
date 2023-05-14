@@ -220,4 +220,9 @@ object UseCaseModule {
     @Provides
     fun provideIssueBadgeUseCase(landmarkRepository: LandmarkRepository): IssueBadgeUseCase =
         IssueBadgeUseCase(landmarkRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestAccessToken(authRepository: AuthRepository): AccessTokenUseCase =
+        AccessTokenUseCase(authRepository)
 }
