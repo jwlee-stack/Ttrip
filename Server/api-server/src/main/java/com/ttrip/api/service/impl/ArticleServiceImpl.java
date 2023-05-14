@@ -1,5 +1,7 @@
 package com.ttrip.api.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.artticleDto.*;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
@@ -16,15 +18,22 @@ import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import com.ttrip.core.utils.EuclideanDistanceUtil;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.annotation.PostConstruct;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
@@ -34,6 +43,30 @@ public class ArticleServiceImpl implements ArticleService {
     private final FcmService fcmService;
 
     private final ApplyArticleRepository applyArticleRepository;
+    @Value("${flask.baseurl}")
+    private String flaskBaseUrl;
+    private WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
+
+    @Autowired
+    public ArticleServiceImpl(ArticleRepository articleRepository,
+                              MemberRepository memberRepository,
+                              FcmService fcmService,
+                              ApplyArticleRepository applyArticleRepository,
+                              WebClient.Builder webclientBuilder,
+                              EuclideanDistanceUtil euclideanDistanceUtil) {
+        this.articleRepository = articleRepository;
+        this.memberRepository = memberRepository;
+        this.fcmService = fcmService;
+        this.applyArticleRepository = applyArticleRepository;
+        this.webClientBuilder = webclientBuilder;
+        this.euclideanDistanceUtil = euclideanDistanceUtil;
+    }
+
+    @PostConstruct
+    public void init() {
+        this.webClient = this.webClientBuilder.baseUrl(this.flaskBaseUrl).build();
+    }
 
     private final EuclideanDistanceUtil euclideanDistanceUtil;
 
@@ -222,7 +255,7 @@ public class ArticleServiceImpl implements ArticleService {
     public DataResDto<?> endArticle(Integer articleId, UUID memberUuid) {
         Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
-        if (!optionalArticle.isPresent()) {
+        if (optionalArticle.isEmpty()) {
             throw new NotFoundException(ErrorMessageEnum.ARTICLE_NOT_EXIST.getMessage());
         }
         Article article = optionalArticle.get();
@@ -233,5 +266,45 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             throw new BadRequestException(ErrorMessageEnum.NO_AUTH.getMessage());
         }
+    }
+
+    @Override
+    public DataResDto<?> recommendSimilarArticles(Member requester, RecommendReqDto recommendReqDto) {
+        if (notExistAllArgs(recommendReqDto)) {
+            throw new IllegalArgumentException("요청 입력값이 유효하지 않습니다.");
+        }
+        try {
+            // flask 서버로 요청
+            String recommendIds = webClient.post().uri("/recommend-articles")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(recommendReqDto.toJson()))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Integer>>() {
+            }.getType();
+            List<Integer> ids = gson.fromJson(recommendIds, listType);
+            if (ids != null && ids.isEmpty()) {
+                return DataResDto.builder().data(new ArrayList<>()).build();
+            }
+            // 실제 db 데이터와 비교 && 필터링 후 반환
+            List<Article> articleList = articleRepository
+                    .findByArticleIdInAndMemberNotAndStatus(ids, requester, 'T');
+            List<RecommendResDto> resDtoList = articleList.stream()
+                    .map(a -> RecommendResDto.builder().article(a).requester(requester).similarity(euclideanDistanceUtil).build())
+                    .collect(Collectors.toList());
+            return DataResDto.builder().data(resDtoList).build();
+        } catch (Exception e) {
+            return DataResDto.builder().message(e.getMessage()).data(new ArrayList<>()).build();
+        }
+    }
+
+    private boolean notExistAllArgs(RecommendReqDto dto) {
+        return Objects.isNull(dto.getCity())
+                || dto.getCity().isEmpty()
+                || Objects.isNull(dto.getContent())
+                || dto.getContent().isEmpty();
     }
 }
