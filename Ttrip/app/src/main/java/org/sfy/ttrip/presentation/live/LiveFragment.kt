@@ -221,7 +221,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     liveViewModel.matchingRate,
                     it.age,
                     it.gender,
-                    it.intro
+                    it.intro,
+                    it.profileVerification
                 ).show()
             }
         }
