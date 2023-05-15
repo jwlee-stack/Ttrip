@@ -33,7 +33,8 @@ class MyPageViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase,
     private val updateProfileImgUseCase: UpdateProfileImgUseCase,
-    private val getMyPostsUseCase: GetMyPostsUseCase
+    private val getMyPostsUseCase: GetMyPostsUseCase,
+    private val certificateProfileUseCase: CertificateProfileUseCase
 ) : ViewModel() {
 
     private val _posts = MutableLiveData<List<BoardBrief>?>()
@@ -270,6 +271,16 @@ class MyPageViewModel @Inject constructor(
                 Log.d("getMyPosts", "getMyPosts: ${value.errorMessage}")
             }
         }
+    }
+
+    fun certificateProfile() = viewModelScope.launch {
+        certificateProfileUseCase(
+            certificateFile1MultiPart,
+            certificateFile2MultiPart,
+            certificateFile3MultiPart,
+            "https://k8d104.p.ssafy.io:443${_userProfile.value?.profileImgPath}",
+            _userProfile.value?.nickname!!
+        )
     }
 
     fun logout() = viewModelScope.launch { logoutUseCase() }

@@ -66,4 +66,19 @@ class MyPageRepositoryImpl @Inject constructor(
     override suspend fun getMyPosts(): Resource<List<BoardBrief>> = wrapToResource {
         myPageRemoteDataSource.getMyPosts().map { it.toDomainModel() }
     }
+
+    override suspend fun certificateProfile(
+        trainImg1: MultipartBody.Part?,
+        trainImg2: MultipartBody.Part?,
+        trainImg3: MultipartBody.Part?,
+        testImg: String,
+        nickname: String
+    ): String =
+        myPageRemoteDataSource.certificateProfile(
+            trainImg1,
+            trainImg2,
+            trainImg3,
+            testImg,
+            nickname
+        )
 }
