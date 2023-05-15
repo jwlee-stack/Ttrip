@@ -20,7 +20,6 @@ import org.sfy.ttrip.databinding.FragmentCertificateProfileBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
 
 @AndroidEntryPoint
 class CertificateProfileFragment :
@@ -47,22 +46,19 @@ class CertificateProfileFragment :
                             1 -> {
                                 binding.ivInputImageCamera1.visibility = View.GONE
                                 myPageViewModel.setCertificateImg1(
-                                    uri,
-                                    File(absolutelyPath(uri, requireContext()))
+                                    uri, File(absolutelyPath(uri, requireContext()))
                                 )
                             }
                             2 -> {
                                 binding.ivInputImageCamera2.visibility = View.GONE
                                 myPageViewModel.setCertificateImg2(
-                                    uri,
-                                    File(absolutelyPath(uri, requireContext()))
+                                    uri, File(absolutelyPath(uri, requireContext()))
                                 )
                             }
                             3 -> {
                                 binding.ivInputImageCamera3.visibility = View.GONE
                                 myPageViewModel.setCertificateImg3(
-                                    uri,
-                                    File(absolutelyPath(uri, requireContext()))
+                                    uri, File(absolutelyPath(uri, requireContext()))
                                 )
                             }
                         }
@@ -74,9 +70,7 @@ class CertificateProfileFragment :
 
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
             permissionGranted(requestCode)
@@ -99,17 +93,27 @@ class CertificateProfileFragment :
                 myPageViewModel.certificateNum = 3
                 requirePermissions(arrayOf(Manifest.permission.CAMERA), PERMISSION_CAMERA)
             }
+            tvSubmit.setOnClickListener {
+                if (myPageViewModel.certificateImg1.value == null ||
+                    myPageViewModel.certificateImg2.value == null ||
+                    myPageViewModel.certificateImg3.value == null
+                ) {
+                    showToast("사진 3개를 모두 등록해주세요!")
+                } else {
+                    myPageViewModel.certificateProfile()
+                    showToast("인증 신청되었습니다. 약 1분이 소요됩니다.")
+                    popBackStack()
+                }
+            }
         }
     }
 
     private fun requirePermissions(permissions: Array<String>, requestCode: Int) {
-        val isAllPermissionsGranted =
-            permissions.all {
-                checkSelfPermission(
-                    requireContext(),
-                    it
-                ) == PackageManager.PERMISSION_GRANTED
-            }
+        val isAllPermissionsGranted = permissions.all {
+            checkSelfPermission(
+                requireContext(), it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
         if (isAllPermissionsGranted) {
             permissionGranted(requestCode)
         } else {
@@ -160,8 +164,7 @@ class CertificateProfileFragment :
         values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
         values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
         return requireActivity().contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            values
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
         )
     }
 

@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sfy.ttrip.AuthInterceptorClient
+import org.sfy.ttrip.FlaskInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
 import org.sfy.ttrip.RefreshInterceptorClient
 import org.sfy.ttrip.common.util.Constants.BASE_URL
@@ -77,6 +78,20 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @FlaskInterceptorClient
+    fun provideFlaskHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return OkHttpClient.Builder()
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @NoAuthInterceptorClient
     fun provideRetrofit(
         @NoAuthInterceptorClient okHttpClient: OkHttpClient
@@ -113,9 +128,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @NoAuthInterceptorClient
+    @FlaskInterceptorClient
     fun provideFlaskRetrofit(
-        @NoAuthInterceptorClient okHttpClient: OkHttpClient
+        @FlaskInterceptorClient okHttpClient: OkHttpClient
     ): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
