@@ -114,6 +114,9 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             ivProfileImage.setOnClickListener {
                 setProfileView()
             }
+            tvTutorials.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToTutorialsFragment())
+            }
         }
         binding.tvLogout.setOnClickListener {
             val dialog = LogoutDialog(requireContext(), this)

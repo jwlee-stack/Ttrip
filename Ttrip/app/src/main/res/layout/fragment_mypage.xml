@@ -227,6 +227,27 @@
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="@id/view_2"
                         app:layout_constraintTop_toBottomOf="@id/view_2" />
+
+                    <View
+                        android:id="@+id/view_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/whisper"
+                        app:layout_constraintTop_toBottomOf="@id/tv_test_again" />
+
+                    <TextView
+                        android:id="@+id/tv_tutorials"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/sc_dream5"
+                        android:text="@string/content_tutorials"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view_3" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
