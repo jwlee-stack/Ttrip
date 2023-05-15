@@ -83,4 +83,13 @@ public class RedisConfig {
         matchRedisTemplate.setConnectionFactory(redisConnectionFactory());
         return matchRedisTemplate;
     }
+
+    @Bean(name = "callRedisTemplate")
+    public RedisTemplate<String, Object> callRedisTemplate(){
+        RedisTemplate<String, Object> callRedisTemplate = new RedisTemplate<>();
+        callRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        callRedisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        callRedisTemplate.setConnectionFactory(redisConnectionFactory());
+        return callRedisTemplate;
+    }
 }

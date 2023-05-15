@@ -2,6 +2,11 @@ package com.ttrip.api.config.webSocket;
 
 import com.google.gson.Gson;
 import com.ttrip.api.dto.Call.CallPayloadDto;
+import com.ttrip.core.repository.call.CallRedisDao;
+import com.ttrip.core.repository.liveRedisDao.LiveRedisDao;
+import com.ttrip.core.repository.member.MemberRepository;
+import com.ttrip.core.repository.surveyRedisDao.SurveyRedisDao;
+import com.ttrip.core.utils.EuclideanDistanceUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -10,8 +15,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class CallHandler extends TextWebSocketHandler {
@@ -19,9 +28,9 @@ public class CallHandler extends TextWebSocketHandler {
     private final static ConcurrentHashMap<String, WebSocketSession> clients =
             new ConcurrentHashMap<>();
     private final Logger logger = LogManager.getLogger(CallHandler.class);
-
-    public CallHandler() {
-
+    private final CallRedisDao callRedisDao;
+    public CallHandler(CallRedisDao callRedisDao) {
+        this.callRedisDao = callRedisDao;
     }
 
     // connection established
@@ -29,6 +38,7 @@ public class CallHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         Map<String, String> vars = getPathVariable(session);
         logger.info(String.format("********** CallService : %s is connected **********", vars.get("memberUuid")));
+        clients.put(vars.get("memberUuid"), session);
     }
 
     /**
@@ -47,6 +57,15 @@ public class CallHandler extends TextWebSocketHandler {
             //상대한테 수신 알리기
             sendMessageToCall(payload);
             logger.info(String.format("********** CallService : %s call %s : %s **********", payload.getMemberUuid(), payload.getOtherUuid(), payload.getSessionId()));
+        } else if(payload.getType().equals("ok")){
+            callRedisDao.saveCallSession(payload.getSessionId(), payload.getMemberUuid());
+            callRedisDao.saveCallSession(payload.getSessionId(), payload.getOtherUuid());
+            sendMessageToResult(payload, "success");
+        } else if(payload.getType().equals("no")) {
+            sendMessageToResult(payload, "fail");
+        } else if(payload.getType().equals("end")){
+            callRedisDao.deleteMember(payload.getSessionId(), payload.getMemberUuid());
+            callRedisDao.deleteMember(payload.getSessionId(), payload.getOtherUuid());
         }
 
     }
@@ -63,8 +82,9 @@ public class CallHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         Map<String, String> vars = getPathVariable(session);
-        //
+        clients.remove(vars.get("memberUuid"));
         logger.info(String.format("********** CallService : %s is disconnected **********", vars.get("memberUuid")));
+
     }
 
     @Override
@@ -78,18 +98,20 @@ public class CallHandler extends TextWebSocketHandler {
 
     private void sendMessageToCall(CallPayloadDto payload) throws Exception {
         // otherUuid가 이미 다른 세션에 들어가 있는지 확인하는 코드 추가 예정
-        String member = payload.getOtherUuid();
-        String other = payload.getMemberUuid();
+        String member = payload.getOtherUuid().toString(); //발신자
+        String other = payload.getMemberUuid().toString(); //수신자
         payload.setType("receive");
-//        // 상대가 이미 통화중이라면 유저에게 이미 통화중이라고 알림
-//        if (callRedisDao.findSessionIdbyMemberUuid(payload.getOtherUuid())) {
-//            member = payload.getMemberUuid();
-//            other = payload.getOtherUuid();
-//            type = "already";
-//        }
+        // 상대가 이미 통화중이라면 유저에게 이미 통화중이라고 알림
+        if (callRedisDao.findSessionIdbyMemberUuid(payload.getOtherUuid())) {
+            member = payload.getMemberUuid();
+            other = payload.getOtherUuid();
+            payload.setType("already");
+        }
         // 그렇지 않다면 상대에게 알림
         WebSocketSession callSession = clients.get(other);
+        logger.info("callservice otherUuid : " + other);
         if (!Objects.isNull(callSession) && callSession.isOpen()) {
+            logger.info("callservice 수신 연결되어있음");
             callSession.sendMessage(
                     new TextMessage(
                             new Gson().toJson(
@@ -100,6 +122,28 @@ public class CallHandler extends TextWebSocketHandler {
                                             .otherUuid(member)
                                             .build()))
             );
+        }
+    }
+
+    private void sendMessageToResult(CallPayloadDto payload, String result) throws Exception {
+        List<String> members = new ArrayList<>();
+        members.add(payload.getMemberUuid());
+        members.add(payload.getOtherUuid());
+        for (String member : members) {
+            String other = (payload.getMemberUuid().equals(member)) ? payload.getOtherUuid() : payload.getMemberUuid();
+            WebSocketSession callSession = clients.get(member);
+            if (!Objects.isNull(callSession) && callSession.isOpen()) {
+                callSession.sendMessage(
+                        new TextMessage(
+                                new Gson().toJson(
+                                        CallPayloadDto.builder()
+                                                .type(result)
+                                                .sessionId(payload.getSessionId())
+                                                .memberUuid(member)
+                                                .otherUuid(other)
+                                                .build()))
+                );
+            }
         }
     }
 
