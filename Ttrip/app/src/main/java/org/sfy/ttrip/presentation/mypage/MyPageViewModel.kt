@@ -71,6 +71,23 @@ class MyPageViewModel @Inject constructor(
 
     private var profileFileMultiPart: MultipartBody.Part? = null
 
+    private val _certificateImg1: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg1: MutableLiveData<Uri?> = _certificateImg1
+
+    private var certificateFile1MultiPart: MultipartBody.Part? = null
+
+    private val _certificateImg2: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg2: MutableLiveData<Uri?> = _certificateImg2
+
+    private var certificateFile2MultiPart: MultipartBody.Part? = null
+
+    private val _certificateImg3: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg3: MutableLiveData<Uri?> = _certificateImg3
+
+    private var certificateFile3MultiPart: MultipartBody.Part? = null
+
+    var certificateNum = 0
+
     var markerfile: File? = null
     private var markerFileMultiPart: MultipartBody.Part? = null
 
@@ -188,6 +205,33 @@ class MyPageViewModel @Inject constructor(
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
 
             markerfile = file
+        }
+    }
+
+    fun setCertificateImg1(uri: Uri?, file: File) {
+        viewModelScope.launch {
+            _certificateImg1.value = uri
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            certificateFile1MultiPart =
+                MultipartBody.Part.createFormData("trainImg1", file.name, requestFile)
+        }
+    }
+
+    fun setCertificateImg2(uri: Uri?, file: File) {
+        viewModelScope.launch {
+            _certificateImg2.value = uri
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            certificateFile2MultiPart =
+                MultipartBody.Part.createFormData("trainImg2", file.name, requestFile)
+        }
+    }
+
+    fun setCertificateImg3(uri: Uri?, file: File) {
+        viewModelScope.launch {
+            _certificateImg3.value = uri
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            certificateFile3MultiPart =
+                MultipartBody.Part.createFormData("trainImg3", file.name, requestFile)
         }
     }
 

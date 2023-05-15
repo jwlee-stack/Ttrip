@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="vm"
+            type="org.sfy.ttrip.presentation.mypage.MyPageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,8 +39,8 @@
 
         <ImageView
             android:id="@+id/iv_recent_profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="48dp"
             android:contentDescription="@string/image_recent_profile_image"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,11 +52,16 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="55dp"
+            android:certificateImgUri="@{vm.certificateImg2}"
+            android:clipToOutline="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
             android:contentDescription="@string/image_input_user_img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_recent_profile_image" />
+            app:layout_constraintTop_toBottomOf="@id/iv_recent_profile_image"
+            tools:targetApi="s" />
 
         <ImageView
             android:id="@+id/iv_input_image_camera_2"
@@ -70,11 +78,16 @@
             android:id="@+id/iv_input_image_1"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:clipToOutline="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
+            android:certificateImgUri="@{vm.certificateImg1}"
             android:contentDescription="@string/image_input_user_img"
             app:layout_constraintEnd_toStartOf="@id/iv_input_image_2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_input_image_2" />
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_2"
+            tools:targetApi="s" />
 
         <ImageView
             android:id="@+id/iv_input_image_camera_1"
@@ -91,11 +104,16 @@
             android:id="@+id/iv_input_image_3"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:certificateImgUri="@{vm.certificateImg3}"
+            android:clipToOutline="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:background="@drawable/bg_rect_honey_suckle_white_radius30_stroke2"
             android:contentDescription="@string/image_input_user_img"
             app:layout_constraintStart_toEndOf="@id/iv_input_image_2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_input_image_2" />
+            app:layout_constraintTop_toTopOf="@id/iv_input_image_2"
+            tools:targetApi="s" />
 
         <ImageView
             android:id="@+id/iv_input_image_camera_3"
