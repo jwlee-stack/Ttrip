@@ -287,7 +287,7 @@ public class ArticleServiceImpl implements ArticleService {
             }.getType();
             List<Integer> ids = gson.fromJson(recommendIds, listType);
             if (ids != null && ids.isEmpty()) {
-                return DataResDto.builder().data(new ArrayList<>()).build();
+                return DataResDto.builder().data(new ArrayList<>()).message("추천 게시글이 없습니다.").build();
             }
             // 실제 db 데이터와 비교 && 필터링 후 반환
             List<Article> articleList = articleRepository
@@ -295,7 +295,7 @@ public class ArticleServiceImpl implements ArticleService {
             List<RecommendResDto> resDtoList = articleList.stream()
                     .map(a -> RecommendResDto.builder().article(a).requester(requester).similarity(euclideanDistanceUtil).build())
                     .collect(Collectors.toList());
-            return DataResDto.builder().data(resDtoList).build();
+            return DataResDto.builder().data(resDtoList).message("추천 게시글이 조회되었습니다.").build();
         } catch (Exception e) {
             return DataResDto.builder().message(e.getMessage()).data(new ArrayList<>()).build();
         }
