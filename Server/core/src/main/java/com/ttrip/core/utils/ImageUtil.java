@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -90,11 +91,10 @@ public class ImageUtil {
     public String saveBadgeImg(String landmarkName, MultipartFile img, String folder) throws IOException {
         //경로 설정//
         File dir = new File(parentPath + File.separator + folder); //저장할 폴더
-        String originalFilename = img.getOriginalFilename(); //넘어온 파일의 이름
-        String fileName = originalFilename.substring(originalFilename.lastIndexOf("\\") + 1);
-
-        String uploadFileName = landmarkName + "_" + fileName;
-        String childPath = File.separator + folder + File.separator + uploadFileName;
+//        String originalFilename = img.getOriginalFilename(); //넘어온 파일의 이름
+//        String fileName = originalFilename.substring(originalFilename.lastIndexOf("\\") + 1);
+//        String uploadFileName = landmarkName + "_" + fileName;
+        String childPath = File.separator + folder + File.separator + landmarkName + "_" + UUID.randomUUID().toString();
 
         try {
             if (!dir.exists()) {
