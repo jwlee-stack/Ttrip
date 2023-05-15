@@ -7,6 +7,7 @@ import com.ttrip.api.dto.chatroomDto.ExitChatReqDto;
 import com.ttrip.api.dto.chatroomDto.GetChatroomResDto;
 import com.ttrip.api.dto.matchDto.MakeMatchReqDto;
 import com.ttrip.api.service.ChatService;
+import com.ttrip.api.util.BadWordFilterUtil;
 import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.chatMember.ChatMember;
 import com.ttrip.core.entity.chatmessage.ChatMessage;
@@ -39,6 +40,7 @@ public class ChatServiceImpl implements ChatService {
     private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
     private final EuclideanDistanceUtil euclideanDistanceUtil;
+    private final BadWordFilterUtil badWordFilterUtil;
 
     @Override
     public DataResDto<?> getChatroomList(Member member) {
@@ -223,7 +225,7 @@ public class ChatServiceImpl implements ChatService {
                 localDate = chatMessage.getCreatedAt().toLocalDate();
             }
             ChatMessageResDto chatMessageResDto = ChatMessageResDto.builder()
-                    .content(chatMessage.getText())
+                    .content(badWordFilterUtil.filter(chatMessage.getText()))
                     .createdAt(chatMessage.getCreatedAt())
                     .isMine(member.getMemberUuid().toString().equals(chatMessage.getMemberUuid()))
                     .isFirst(isFirst)

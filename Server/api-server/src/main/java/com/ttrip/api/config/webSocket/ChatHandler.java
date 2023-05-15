@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.ttrip.api.dto.chatroomDto.ChatSocketResDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
 import com.ttrip.api.service.FcmService;
+import com.ttrip.api.util.BadWordFilterUtil;
 import com.ttrip.core.entity.chatmessage.ChatMessage;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.chatMessage.ChatMessageRepository;
@@ -33,6 +34,7 @@ public class ChatHandler extends TextWebSocketHandler {
     // session 저장 맵
     private final HashMap<String, WebSocketSession> sessionMap = new HashMap<>();
     private final ChatMessageRepository chatMessageRepository;
+    private final BadWordFilterUtil badWordFilterUtil;
     private final Logger logger = LogManager.getLogger(ChatHandler.class);
 
     @Override
@@ -42,7 +44,7 @@ public class ChatHandler extends TextWebSocketHandler {
         Integer chatroomId = Integer.parseInt(session.getAttributes().get("chatroomId").toString());
         ChatSocketResDto chatSocketResDto = ChatSocketResDto.builder()
                 .isMine(true)
-                .content(message.getPayload())
+                .content(badWordFilterUtil.filter(message.getPayload()))
                 .createdAt(LocalDateTime.now().toString())
                 .build();
 
