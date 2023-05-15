@@ -78,20 +78,6 @@ object NetworkModule {
     @Provides
     @Singleton
     @NoAuthInterceptorClient
-    fun provideFlaskHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return OkHttpClient.Builder()
-            .readTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    @NoAuthInterceptorClient
     fun provideRetrofit(
         @NoAuthInterceptorClient okHttpClient: OkHttpClient
     ): Retrofit =
