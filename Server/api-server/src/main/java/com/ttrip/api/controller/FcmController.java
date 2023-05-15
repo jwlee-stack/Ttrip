@@ -2,6 +2,7 @@ package com.ttrip.api.controller;
 
 import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
+import com.ttrip.api.dto.fcmMessageDto.FromFlaskDto;
 import com.ttrip.api.service.FcmService;
 import com.ttrip.api.service.impl.MemberDetails;
 import io.swagger.annotations.Api;
@@ -29,6 +30,16 @@ public class FcmController {
     @PostMapping
     public DataResDto<?> sendMessage(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody FcmMessageReqDto fcmMessageReqDto) throws IOException {
         return fcmService.sendMessageTo(memberDetails.getMember(), fcmMessageReqDto) ;
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "FCM 메세지 발송성공했습니다."),
+            @ApiResponse(code = 400, message = "FCM 메세지 발송 실패했습니다.")
+    })
+    @ApiOperation(value = "FCM 발송 API", httpMethod = "POST")
+    @PostMapping("/face")
+    public DataResDto<?> face(@RequestBody FromFlaskDto fromFlaskDto) throws IOException {
+        return fcmService.face(fromFlaskDto) ;
     }
 
     @Scheduled(cron = "0 0 16 * * ?")

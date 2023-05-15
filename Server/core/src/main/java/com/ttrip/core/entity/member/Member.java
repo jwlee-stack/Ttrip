@@ -48,6 +48,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
     private Boolean profileVerification;
+    private Boolean isFreezed;
     @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
     @JsonManagedReference
@@ -67,7 +68,6 @@ public class Member extends BaseEntity {
         this.gender = gender;
         this.age = age;
         this.shareLocation = false;
-        this.profileVerification=false;
         this.authority=authority;
     }
 }
