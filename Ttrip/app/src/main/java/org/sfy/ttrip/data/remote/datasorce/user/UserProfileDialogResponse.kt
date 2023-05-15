@@ -27,6 +27,8 @@ data class UserProfileDialogResponse(
     val age: Int,
     @SerializedName("shareLocation")
     val shareLocation: Boolean,
+    @SerializedName("profileVerification")
+    val profileVerification: Boolean,
 ) : DataToDomainMapper<UserProfileDialog> {
     override fun toDomainModel(): UserProfileDialog =
         UserProfileDialog(
@@ -40,6 +42,7 @@ data class UserProfileDialogResponse(
             fcmToken,
             gender,
             age,
-            shareLocation
+            shareLocation,
+            profileVerification
         )
 }
