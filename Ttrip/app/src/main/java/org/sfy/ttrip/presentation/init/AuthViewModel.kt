@@ -29,6 +29,9 @@ class AuthViewModel @Inject constructor(
     private val _isValid: MutableLiveData<Boolean> = MutableLiveData(true)
     val isValid: LiveData<Boolean> = _isValid
 
+    private val _isAutoLogin: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isAutoLogin: LiveData<Boolean> = _isAutoLogin
+
     private val _emptyNickname: MutableLiveData<Boolean?> = MutableLiveData()
     val emptyNickname: LiveData<Boolean?> = _emptyNickname
 
@@ -39,18 +42,18 @@ class AuthViewModel @Inject constructor(
         when (val value = accessTokenUseCase(
             ApplicationClass.preferences.accessToken.toString(),
             ApplicationClass.preferences.refreshToken.toString()
-        )){
-            is Resource.Success<AccessToken> ->{
-                if(value.data.grantType == null){
-                    _isValid.value = false
-                }else{
+        )) {
+            is Resource.Success<AccessToken> -> {
+                if (value.data.grantType == null) {
+                    _isAutoLogin.value = false
+                } else {
                     ApplicationClass.preferences.accessToken = value.data.accessToken
                     ApplicationClass.preferences.refreshToken = value.data.refreshToken
                     _emptyNickname.value = value.data.nickname == null
-                    _isValid.value = true
+                    _isAutoLogin.value = true
                 }
             }
-            is Resource.Error ->{
+            is Resource.Error -> {
 
             }
         }
