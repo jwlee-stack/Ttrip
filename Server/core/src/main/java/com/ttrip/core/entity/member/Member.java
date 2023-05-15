@@ -24,10 +24,10 @@ import java.util.UUID;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",nullable = false)
+    @Column(name = "id", nullable = false)
     private int memberId;
-    @Column(name="uuid",nullable = false, unique = true,columnDefinition = "char(36)")
-    @Type(type="org.hibernate.type.UUIDCharType")
+    @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "char(36)")
+    @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID memberUuid;
     private String phoneNumber;
     private String password;
@@ -43,31 +43,32 @@ public class Member extends BaseEntity {
     private Gender gender;
     @Column(columnDefinition = "TINYINT")
     private Integer age;
-    @Column(columnDefinition="BOOLEAN DEFAULT false")
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
     private Boolean shareLocation;
     @Enumerated(EnumType.STRING) //문자열 자체 저장
     private Authority authority;
     private Boolean profileVerification;
     private Boolean isFreezed;
-    @OneToOne(mappedBy = "member",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
     @JsonManagedReference
     private Survey survey;
 
     @Builder
-    public Member(UUID uuid,String phoneNumber, String password, String nickname, String intro, String profileImgPath, String backgroundImgPath,String markerImgPath, String fcmToken, Gender gender, Integer age, Boolean shareLocation,Authority authority) {
+    public Member(UUID uuid, String phoneNumber, String password, String nickname, String intro, String profileImgPath, String backgroundImgPath, String markerImgPath, String fcmToken, Gender gender, Integer age, Boolean shareLocation, Authority authority) {
         this.memberUuid = uuid;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.nickname = nickname;
         this.intro = intro;
         this.profileImgPath = profileImgPath;
-        this.backgroundImgPath=backgroundImgPath;
+        this.backgroundImgPath = backgroundImgPath;
         this.markerImgPath = markerImgPath;
         this.fcmToken = fcmToken;
         this.gender = gender;
         this.age = age;
         this.shareLocation = false;
-        this.authority=authority;
+        this.authority = authority;
+        this.isFreezed = false;
     }
 }
