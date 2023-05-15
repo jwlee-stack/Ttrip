@@ -133,7 +133,12 @@ public class ArticleServiceImpl implements ArticleService {
 
             Article savedArticle = articleRepository.save(article);
 
-            NewArticleResDto newArticleResultDto = new NewArticleResDto();
+            NewArticleResDto newArticleResultDto = NewArticleResDto.builder()
+                    .authorId(member.getMemberId())
+                    .articleId(savedArticle.getArticleId())
+                    .city(savedArticle.getCity())
+                    .content(savedArticle.getContent())
+                    .build();
             newArticleResultDto.setArticleId(savedArticle.getArticleId());
 
             return DataResDto.builder().message("게시글 등록이 완료되었습니다.").data(newArticleResultDto).build();
