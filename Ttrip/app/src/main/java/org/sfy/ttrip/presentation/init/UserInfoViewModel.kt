@@ -15,7 +15,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
-import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.domain.entity.user.UserTest
 import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
 import org.sfy.ttrip.domain.usecase.user.PostUserFcmTokenUseCase
@@ -150,8 +149,8 @@ class UserInfoViewModel @Inject constructor(
             MultipartBody.Part.createFormData("markerImg", file.name, requestFile)
     }
 
-    fun postUserFcmToken(alarm: Boolean) {
-        if (alarm) viewModelScope.launch { postUserFcmTokenUseCase(FirebaseService().getCurrentToken()) }
+    fun postUserFcmToken(alarm: Boolean, token: String) {
+        if (alarm) viewModelScope.launch { postUserFcmTokenUseCase(token) }
         else viewModelScope.launch { postUserFcmTokenUseCase("") }
     }
 }

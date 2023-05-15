@@ -87,7 +87,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     override fun onConfirmButtonClicked() {
         myPageViewModel.logout()
-        userViewModel.postUserFcmToken(false)
+        userViewModel.postUserFcmToken(false, "")
         val intent = Intent(activity, InitActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
