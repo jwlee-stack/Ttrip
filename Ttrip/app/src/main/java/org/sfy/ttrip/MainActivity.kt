@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
-            userViewModel.postUserFcmToken(true)
+            userViewModel.postUserFcmToken(true, result)
             Log.d("fcmToken", "getFCMToken: $result")
         }
     }

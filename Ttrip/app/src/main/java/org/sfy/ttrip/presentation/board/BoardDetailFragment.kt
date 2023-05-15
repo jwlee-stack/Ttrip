@@ -134,7 +134,16 @@ class BoardDetailFragment :
                     tvFinishBoard.visibility = View.GONE
 
                     tvUserSimilarity.visibility = View.VISIBLE
-                    ivArrowBoardDetailUserDetail.visibility = View.VISIBLE
+                    ivArrowBoardDetailUserDetail.apply {
+                        visibility = View.VISIBLE
+//                        setOnClickListener {
+//                            this@BoardDetailFragment.nickName = boardDetail.authorName
+//                            this@BoardDetailFragment.boardId = boardDetail.articleId
+//                            this@BoardDetailFragment.similarity = boardDetail.similarity.toFloat()
+//                            viewModel.getUserProfile(nickName)
+//                        }
+                    }
+
                     ivDeleteOption.visibility = View.GONE
 
                     // 모집 진행중인 경우
