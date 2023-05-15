@@ -36,6 +36,8 @@ public class MemberResDto {
     private Boolean shareLocation;
     @ApiModelProperty(value = "본인 인증 뱃지")
     private Boolean profileVerification;
+    @ApiModelProperty(value = "정지 여부", example = "true")
+    private Boolean isFreeze;
 
     public static MemberResDto toBuild(Member member)
     {
@@ -52,6 +54,7 @@ public class MemberResDto {
                 .age(member.getAge())
                 .shareLocation(member.getShareLocation())
                 .profileVerification(member.getProfileVerification())
+                .isFreeze(member.getIsFreezed())
                 .build();
     }
 }

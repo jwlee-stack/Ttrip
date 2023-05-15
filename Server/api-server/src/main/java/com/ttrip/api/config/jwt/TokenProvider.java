@@ -3,6 +3,7 @@ package com.ttrip.api.config.jwt;
 import com.ttrip.api.dto.tokenDto.TokenDto;
 import com.ttrip.api.exception.UnauthorizationException;
 import com.ttrip.api.service.impl.CustomUserDetailsService;
+import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import io.jsonwebtoken.*;
@@ -67,14 +68,15 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        //멤버의 닉네임
-        String nickname=memberRepository.findByPhoneNumber(authentication.getName()).get().getNickname();
+        //토큰 생성
+        Member member = memberRepository.findByPhoneNumber(authentication.getName()).get();
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
-                .nickname(nickname)
+                .nickname(member.getNickname())
+                .isFreeze(member.getIsFreezed())
                 .build();
     }
 
