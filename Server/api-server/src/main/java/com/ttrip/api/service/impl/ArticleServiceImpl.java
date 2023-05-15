@@ -10,6 +10,7 @@ import com.ttrip.api.exception.NotFoundException;
 import com.ttrip.api.exception.UnauthorizationException;
 import com.ttrip.api.service.ArticleService;
 import com.ttrip.api.service.FcmService;
+import com.ttrip.api.util.BadWordFilterUtil;
 import com.ttrip.core.entity.applyArticle.ApplyArticle;
 import com.ttrip.core.entity.article.Article;
 import com.ttrip.core.entity.member.Member;
@@ -54,13 +55,15 @@ public class ArticleServiceImpl implements ArticleService {
                               FcmService fcmService,
                               ApplyArticleRepository applyArticleRepository,
                               WebClient.Builder webclientBuilder,
-                              EuclideanDistanceUtil euclideanDistanceUtil) {
+                              EuclideanDistanceUtil euclideanDistanceUtil,
+                              BadWordFilterUtil badWordFilterUtil) {
         this.articleRepository = articleRepository;
         this.memberRepository = memberRepository;
         this.fcmService = fcmService;
         this.applyArticleRepository = applyArticleRepository;
         this.webClientBuilder = webclientBuilder;
         this.euclideanDistanceUtil = euclideanDistanceUtil;
+        this.badWordFilterUtil = badWordFilterUtil;
     }
 
     @PostConstruct
@@ -69,6 +72,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private final EuclideanDistanceUtil euclideanDistanceUtil;
+    private final BadWordFilterUtil badWordFilterUtil;
 
     @Override
     public DataResDto<?> search(SearchReqDto searchReqDto) {
@@ -117,8 +121,8 @@ public class ArticleServiceImpl implements ArticleService {
         try {
             Member member = memberRepository.findByMemberUuid(memberUuid).orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
             Article article = Article.builder()
-                    .title(newArticleReqDto.getTitle())
-                    .content(newArticleReqDto.getContent())
+                    .title(badWordFilterUtil.filter(newArticleReqDto.getTitle()))
+                    .content(badWordFilterUtil.filter(newArticleReqDto.getContent()))
                     .city(newArticleReqDto.getCity())
                     .nation(newArticleReqDto.getNation())
                     .startDate(newArticleReqDto.getStartDate())
@@ -195,7 +199,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .article(article)
                     .status('T')
                     .member(member)
-                    .requestContent(applyReqDto.getRequestContent())
+                    .requestContent(badWordFilterUtil.filter(applyReqDto.getRequestContent()))
                     .build();
             applyArticleRepository.save(applyArticle);
 
