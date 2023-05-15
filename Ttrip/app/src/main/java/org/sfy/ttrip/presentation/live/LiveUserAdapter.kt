@@ -40,6 +40,9 @@ class LiveUserAdapter(
                 root.setOnClickListener {
                     onItemClicked(data.nickname!!, data.matchingRate.toFloat())
                 }
+                ivDetailInfoCallState.setOnClickListener {
+                    onCallBtnClicked(data.memberUuid)
+                }
             }
         }
     }
@@ -51,5 +54,9 @@ class LiveUserAdapter(
             this.items = emptyList()
         }
         notifyDataSetChanged()
+    }
+
+    fun setInCall() {
+        binding.ivDetailInfoCallState.setImageResource(R.drawable.ic_live_info_calling)
     }
 }

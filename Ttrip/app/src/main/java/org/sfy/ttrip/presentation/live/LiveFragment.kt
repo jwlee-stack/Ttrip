@@ -22,6 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.dds.skywebrtc.CallSession
+import com.dds.skywebrtc.EnumType.CallState
+import com.dds.skywebrtc.SkyEngineKit
+import com.dds.skywebrtc.except.NotInitializedException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -53,14 +57,17 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     private lateinit var callback: OnBackPressedCallback
     private var waitTime = 0L
+    private var callState = "call"
 
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private var gEngineKit: SkyEngineKit? = null
 
     private val liveViewModel by viewModels<LiveViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
+    private val callViewModel by viewModels<CallViewModel>()
     private val landmarkViewModel by activityViewModels<LandmarkViewModel>()
 
     private val liveUserAdapter by lazy {
@@ -94,6 +101,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         showUserProfileDialog()
         initObserve()
         (activity as MainActivity).hideBottomNavigation(false)
+        callConnect()
+        receiveCallState()
     }
 
     override fun onAttach(context: Context) {
@@ -536,14 +545,88 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         return d * 1000 // m
     }
 
-    private fun callToOtherUser(memberId: String) {
-        lifecycleScope.launch {
-            val async = liveViewModel.createCallingSession()
-            liveViewModel.getCallToken(
-                async.toString(),
-                ApplicationClass.preferences.userId.toString()
-            )
+    private fun callConnect() {
+        callViewModel.connectSocket(ApplicationClass.preferences.userId.toString());
+        SkyEngineKit.init(VoipEvent()) // 초기화
+
+        try {
+            gEngineKit = SkyEngineKit.Instance()
+        } catch (e: NotInitializedException) {
+            Log.e("CallSession", "initialize failed: ${e.message}")
         }
+    }
+
+    private fun receiveCallState() {
+        callViewModel.callData.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                it?.apply {
+                    if(type.equals("receive")){
+                        setRingtone()
+                        //전화를 온다는 부분을 여기서 표시해야함
+                        Log.d("CallSession", "callreceive"+gEngineKit!!.currentSession.toString())
+                        Log.d("CallSession", "callreceive = "+sessionId)
+                        liveUserAdapter.setInCall()
+                        callState = "receive"
+                        val b = SkyEngineKit.Instance().startInCall(App.getInstance(), sessionId, otherUuid)
+//                        val session = gEngineKit!!.currentSession
+//                        if (session != null)
+//                            Log.d("CallSession","session = " + session + "; session.getState() = " + session.state)
+//                        if (session != null && session.state == CallState.Incoming) {
+//                            session.joinHome(session.roomId)
+//                        } else session?.sendRefuse()
+                    } else if(type.equals("ok")) {
+                        // 상대방이 전화를 받음
+                    } else if(type.equals("no")) {
+                        // 상대방이 전화를 거절함
+                    }
+
+
+                }
+            }
+        }
+
+
+
+
+        liveViewModel.sessionId.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                val value = liveViewModel.getCallToken(
+                    it,
+                    ApplicationClass.preferences.userId.toString()
+                )
+            }
+        }
+    }
+
+    private fun callToOtherUser(memberId: String) {
+        Log.d("callSession", "버튼 눌림")
+
+        if(callState.equals("call")) {
+            // 세션 생성
+            val room = UUID.randomUUID().toString() + System.currentTimeMillis()
+            val b = gEngineKit!!.startOutCall(context, room, memberId)
+
+            if (b) {
+                callViewModel.sendMyInfo(
+                    "call",
+                    room,
+                    memberId,
+                    ApplicationClass.preferences.userId.toString()
+                )
+            }
+        } else if(callState.equals("receive")) {
+            Log.d("CallSession", "통화하자")
+
+            val session : CallSession = gEngineKit!!.currentSession
+            if (session != null)
+                Log.d("CallSession", "session = " + session + "; session.getState() = " + session.state)
+            if (session != null && session.state == CallState.Incoming) {
+                session.joinHome(session.roomId)
+            } else session?.sendRefuse()
+        }
+
+
+
     }
 
     private fun getOpenViduToken() {

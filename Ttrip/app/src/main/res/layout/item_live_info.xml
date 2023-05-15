@@ -126,9 +126,22 @@
                 android:layout_marginBottom="15dp"
                 android:contentDescription="@string/image_detail_info_match_state"
                 android:src="@drawable/ic_live_info_not_matching"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/cl_info_detail"
+                app:layout_constraintBottom_toBottomOf="@id/iv_detail_info_call_state"
+                app:layout_constraintEnd_toStartOf="@id/iv_detail_info_call_state"
                 app:layout_constraintStart_toEndOf="@id/tv_distance"
+                app:layout_constraintTop_toTopOf="@id/iv_detail_info_call_state" />
+
+            <ImageView
+                android:id="@+id/iv_detail_info_call_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:contentDescription="@string/image_detail_info_call_state"
+                android:src="@drawable/ic_live_info_not_calling"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_info_detail" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
