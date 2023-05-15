@@ -11,6 +11,7 @@ import org.sfy.ttrip.domain.repository.landmark.LandmarkRepository
 import org.sfy.ttrip.domain.repository.live.LiveRepository
 import org.sfy.ttrip.domain.repository.mypage.MyPageRepository
 import org.sfy.ttrip.domain.repository.user.UserRepository
+import org.sfy.ttrip.domain.usecase.auth.AccessTokenUseCase
 import org.sfy.ttrip.domain.usecase.auth.LoginUseCase
 import org.sfy.ttrip.domain.usecase.auth.SignUpUseCase
 import org.sfy.ttrip.domain.usecase.board.DeleteBoardUseCase
