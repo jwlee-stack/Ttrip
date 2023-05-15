@@ -106,14 +106,16 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 navigate(MyPageFragmentDirections.actionMyPageFragmentToMyPageBoardFragment())
             }
             tvGetMyBadges.setOnClickListener {
-                //navigate(MyPageFragmentDirections.actionMyPageFragmentToMyBadgesFragment())
-                navigate(MyPageFragmentDirections.actionMyPageFragmentToTutorialsFragment())
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToMyBadgesFragment())
             }
             ivProfileBackground.setOnClickListener {
                 setBackgroundView()
             }
             ivProfileImage.setOnClickListener {
                 setProfileView()
+            }
+            tvTutorials.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToTutorialsFragment())
             }
         }
         binding.tvLogout.setOnClickListener {

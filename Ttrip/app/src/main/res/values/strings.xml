@@ -470,4 +470,5 @@
     <string name="content_tutorials_profile">content_tutorials_profile</string>
     <string name="content_tutorials_chat">content_tutorials_chat</string>
     <string name="content_tutorials_ar">content_tutorials_ar</string>
+    <string name="content_tutorials">튜토리얼 다시보기</string>
 </resources>
