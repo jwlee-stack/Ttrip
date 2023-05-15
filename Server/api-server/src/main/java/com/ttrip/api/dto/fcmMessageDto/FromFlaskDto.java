@@ -13,6 +13,6 @@ public class FromFlaskDto {
     private int type;
     private String nickname;
     private String extraData;
-    private Boolean result;
+    private String result;
 
 }

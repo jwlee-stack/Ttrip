@@ -20,5 +20,7 @@ public class TokenDto {
     private Long accessTokenExpiresIn;
     @ApiModelProperty(value = "유저 닉네임", example = "jwlee")
     private String nickname;
+    @ApiModelProperty(value = "정지 여부", example = "true")
+    private Boolean isFreeze;
 }
 
