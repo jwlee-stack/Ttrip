@@ -32,6 +32,9 @@ class AuthViewModel @Inject constructor(
     private val _isAutoLogin: MutableLiveData<Boolean> = MutableLiveData(true)
     val isAutoLogin: LiveData<Boolean> = _isAutoLogin
 
+    private val _isFreeze: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFreeze: LiveData<Boolean> = _isFreeze
+
     private val _emptyNickname: MutableLiveData<Boolean?> = MutableLiveData()
     val emptyNickname: LiveData<Boolean?> = _emptyNickname
 
@@ -51,6 +54,8 @@ class AuthViewModel @Inject constructor(
                     ApplicationClass.preferences.refreshToken = value.data.refreshToken
                     _emptyNickname.value = value.data.nickname == null
                     _isAutoLogin.value = true
+
+                    _isFreeze.value = value.data.isFreeze
                 }
             }
             is Resource.Error -> {
@@ -78,6 +83,7 @@ class AuthViewModel @Inject constructor(
                 ApplicationClass.preferences.markerImgPath = value.data.markerImgPath
 
                 _isValid.value = true
+                _isFreeze.value = value.data.isFreeze
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")

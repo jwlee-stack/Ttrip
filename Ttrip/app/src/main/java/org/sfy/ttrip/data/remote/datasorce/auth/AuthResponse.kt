@@ -25,6 +25,8 @@ data class AuthResponse(
     val age: Int?,
     @SerializedName("shareLocation")
     val shareLocation: Boolean,
+    @SerializedName("isFreeze")
+    val isFreeze: Boolean,
     @SerializedName("tokenDto")
     val tokenResponse: TokenResponse
 ) : DataToDomainMapper<Auth> {
@@ -40,6 +42,7 @@ data class AuthResponse(
             gender,
             age,
             shareLocation,
+            isFreeze,
             tokenResponse.toDomainModel()
         )
 }
