@@ -462,4 +462,12 @@
     <string name="title_badge">뱃지</string>
     <string name="content_my_badge">보유한 뱃지</string>
     <string name="image_badge">image_badge</string>
+
+    <!-- Tutorials -->
+    <string name="content_tutorials_board">content_tutorials_board</string>
+    <string name="content_tutorials_board_detail">content_tutorials_board_detail</string>
+    <string name="content_tutorials_live">content_tutorials_live</string>
+    <string name="content_tutorials_profile">content_tutorials_profile</string>
+    <string name="content_tutorials_chat">content_tutorials_chat</string>
+    <string name="content_tutorials_ar">content_tutorials_ar</string>
 </resources>

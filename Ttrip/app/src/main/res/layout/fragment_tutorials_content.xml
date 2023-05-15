@@ -17,6 +17,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_board"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_board"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -33,6 +34,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_board_detail"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_board_detail"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,6 +51,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_live"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_live"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +68,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_ar"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_ar"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,6 +85,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_chat"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_chat"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -97,6 +102,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/content_tutorials_profile"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_tutorial_profile"
                 app:layout_constraintBottom_toBottomOf="parent"
