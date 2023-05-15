@@ -8,6 +8,8 @@ from PIL import Image, ImageDraw
 from io import BytesIO
 import face_recognition
 from face_recognition.face_recognition_cli import image_files_in_folder
+from io import BytesIO
+import requests
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg','JPG'}
 app = Flask("__name__")
@@ -225,18 +227,26 @@ def hell():
 def hello():
     # 여러 개의 파일 받기
     trainImgs=[request.files.get('trainImg1'),request.files.get('trainImg2'),request.files.get('trainImg3')]
-    testImg = request.files.get('testImg')
 
     # 여러 개의 텍스트 데이터 받기
     nickname = request.form.get('nickname')
+    profileImgPath = request.form.get('profileImgPath')
+
+    response = requests.get('http://application:8081/images' + profileImgPath)
+    # 응답의 상태 코드를 확인하여 요청이 성공했는지 확인
+    if response.status_code == 200:
+        # 이미지 데이터를 BytesIO 객체로 변환
+        testImg = BytesIO(response.content)
+    else:
+        return response.reason, 400
 
     trainFolderPath = os.path.join("train",nickname)
     trainImgsFolderPath=os.path.join(trainFolderPath,nickname)
+
     #train 폴더 생성
     if not os.path.exists(trainImgsFolderPath):
         os.makedirs(trainImgsFolderPath)
-
-    for trainImg in trainImgs:   
+    for trainImg in trainImgs:
         # 파일 객체를 BytesIO에 쓰기
         img_bytes = trainImg.read()
 
@@ -248,15 +258,15 @@ def hello():
 
     # STEP 1: Train the KNN classifier and save it to disk
     # Once the model is trained and saved, you can skip this step next time.
-    print("Training KNN classifier...")
+    # print("Training KNN classifier...")
     dataRes, classifier = train(trainFolderPath, model_save_path="trained_knn_model.clf", n_neighbors=None)
-    
+
     #학습할 사진에 얼굴이 없거나 여러 개임
     if(dataRes.data=="false"):
         delete_folder(trainFolderPath)
         return jsonify(dataRes.__dict__)
-    
-    print("Training complete!")
+
+    # print("Training complete!")
 
     testFolderPath = os.path.join("test",nickname)
 
@@ -268,14 +278,15 @@ def hello():
     ds_store_path = os.path.join(testFolderPath, ".DS_Store")
     if os.path.exists(ds_store_path):
         os.remove(ds_store_path)
-        print(".DS_Store file removed successfully.")
+        # print(".DS_Store file removed successfully.")
 
     # 파일 객체를 BytesIO에 쓰기
     img_bytes = testImg.read()
 
     # BytesIO에서 Image 객체로 변환하기
     img = Image.open(BytesIO(img_bytes))
-    fileName=testImg.filename
+    fileName = os.path.basename(profileImgPath)
+
     #이미지 저장하기
     img.save(os.path.join(testFolderPath,fileName), quality=100)
 
@@ -283,7 +294,7 @@ def hello():
     for image_file in os.listdir(testFolderPath):
         full_file_path = os.path.join(testFolderPath, fileName)
 
-        print("Looking for faces in {}".format(image_file))
+        # print("Looking for faces in {}".format(image_file))
 
         # Find all people in the image using a trained classifier model
         # Note: You can pass in either a classifier file name or a classifier model instance
@@ -310,7 +321,6 @@ def hello():
         delete_folder(trainFolderPath)
         delete_folder(testFolderPath)
         return jsonify(dataRes.__dict__)
-
 
 if __name__ == '__main__':
     # app.logger.setLevel(logging.DEBUG)

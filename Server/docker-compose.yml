@@ -106,7 +106,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - flask-data:/app
+      - flask-server-data:/app
     depends_on:
       - ttrip-db
     networks:
@@ -122,7 +122,7 @@ services:
         ipv4_address: 172.35.0.15
     restart: unless-stopped
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USERNAME=ttrip
       - MONGO_INITDB_ROOT_PASSWORD=ttrip104! #local 도커환경에서는 root로 설정하세요.
     ports:
       - 27017:27017
@@ -139,6 +139,8 @@ services:
     build: ./faceflask
     command: python app.py
     restart: unless-stopped
+    volumes:
+      - faceflask-data:/app
     ports:
       - 5050:5050
     networks:
@@ -151,7 +153,8 @@ volumes:
   confd-volume:
   data-volume:
   redis-data:
-  flask-data:
+  flask-server-data:
+  faceflask-data:
   mongo-data:
 
 networks:
