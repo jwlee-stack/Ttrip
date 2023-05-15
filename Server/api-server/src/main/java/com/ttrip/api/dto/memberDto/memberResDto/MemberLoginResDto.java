@@ -41,6 +41,8 @@ public class MemberLoginResDto {
     private Boolean profileVerification;
     @ApiModelProperty(value = "액세스 토큰", example = "eyJhbGci...")
     private TokenDto tokenDto;
+    @ApiModelProperty(value = "정지 여부", example = "true")
+    private Boolean isFreeze;
 
     public static MemberLoginResDto toBuild(Member member, TokenDto tokenDto)
     {
@@ -58,6 +60,7 @@ public class MemberLoginResDto {
                 .shareLocation(member.getShareLocation())
                 .profileVerification(member.getProfileVerification())
                 .tokenDto(tokenDto)
+                .isFreeze(member.getIsFreezed())
                 .build();
     }
 }

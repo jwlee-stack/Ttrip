@@ -9,6 +9,7 @@ import com.ttrip.api.dto.DataResDto;
 import com.ttrip.api.dto.chatroomDto.ChatMakerReqDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageReqDto;
 import com.ttrip.api.dto.fcmMessageDto.FcmMessageResDto;
+import com.ttrip.api.dto.fcmMessageDto.FromFlaskDto;
 import com.ttrip.api.service.ChatService;
 import com.ttrip.api.service.FcmService;
 import com.ttrip.core.entity.matchHistory.MatchHistory;
@@ -75,6 +76,49 @@ public class FcmServiceImpl implements FcmService {
         logger.info("메세지 발송 요청 성공");
 
         return DataResDto.builder().message("FCM 메세지 발송성공했습니다.").data(true).build();
+    }
+
+    @Override
+    public DataResDto<?> face(FromFlaskDto fromFlaskDto) throws IOException {
+        Member member = memberRepository.findByNickname(fromFlaskDto.getNickname())
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        if (member.getFcmToken() == null){
+            new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
+        }
+
+        Map<String, String> data = new HashMap<>();
+
+        data.put("type", "5");
+        data.put("nickName", member.getNickname());
+        data.put("memberUuid", member.getMemberUuid().toString());
+        data.put("result", fromFlaskDto.getResult().equals("true") ? "true" : "false");
+
+        FcmMessageResDto fcmMessage = FcmMessageResDto.builder()
+                .message(FcmMessageResDto.Message.builder()
+                        .token(member.getFcmToken())
+                        .notification(FcmMessageResDto.Notification.builder()
+                                .title("TTrIP")
+                                .body(fromFlaskDto.getExtraData())
+                                .build()
+                        )
+                        .data(data).build())
+                .validate_only(false).build();
+
+        logger.info("매칭 평가 fcm" + member.getNickname() + "님과의 동행은 만족스러웠나요?");
+
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(objectMapper.writeValueAsString(fcmMessage),
+                MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return null;
     }
 
     //추후에 batch로 옮길 예정
