@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -20,16 +21,14 @@ public class ImageUtil {
     }
 
 
-
     //기존 사진 삭제//
     public String removeImg(String childPath) {
-        File file=new File(parentPath+childPath);
-        log.info("삭제할 파일 경로: {}",file.getPath());
+        File file = new File(parentPath + childPath);
+        log.info("삭제할 파일 경로: {}", file.getPath());
         if (file.exists()) {
             if (!file.delete())
                 throw new RuntimeException("파일 삭제 실패");
-        }
-        else
+        } else
             log.info("삭제할 파일이 존재하지 않음");
         return null;
     }
@@ -90,11 +89,7 @@ public class ImageUtil {
     public String saveBadgeImg(String landmarkName, MultipartFile img, String folder) throws IOException {
         //경로 설정//
         File dir = new File(parentPath + File.separator + folder); //저장할 폴더
-        String originalFilename = img.getOriginalFilename(); //넘어온 파일의 이름
-        String fileName = originalFilename.substring(originalFilename.lastIndexOf("\\") + 1);
-
-        String uploadFileName = landmarkName + "_" + fileName;
-        String childPath = File.separator + folder + File.separator + uploadFileName;
+        String childPath = File.separator + folder + File.separator + landmarkName + "_" + UUID.randomUUID().toString();
 
         try {
             if (!dir.exists()) {
@@ -113,9 +108,6 @@ public class ImageUtil {
         }
 
         //이미지 저장//
-        log.info("originalFileName : " + img.getOriginalFilename());
-        log.info("saveFile : " + saveFile);
-        System.out.println("here it is : " + Paths.get(parentPath + childPath).toAbsolutePath().toString());
         try {
             img.transferTo(saveFile);
         } catch (IOException e) {
