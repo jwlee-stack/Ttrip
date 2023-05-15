@@ -12,4 +12,5 @@ data class UserProfileDialog(
     val gender: String,
     val age: Int,
     val shareLocation: Boolean,
+    val profileVerification: Boolean
 )

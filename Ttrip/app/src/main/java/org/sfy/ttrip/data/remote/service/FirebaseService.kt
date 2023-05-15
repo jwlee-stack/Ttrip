@@ -77,17 +77,20 @@ class FirebaseService : FirebaseMessagingService() {
                 val matchHistoryId = remoteMessage.data["memberUuid"]
                 intent = Intent(this, MainActivity::class.java)
             }
+            5 -> {
+                intent = Intent(this, MainActivity::class.java)
+            }
             else -> {
                 intent = Intent(this, MainActivity::class.java)
             }
         }
 
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val CHANNEL_ID = getString(R.string.notification_channel_id)
         val CHANNEL_NAME = getString(R.string.notification_channel_name)

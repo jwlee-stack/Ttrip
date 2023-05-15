@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import org.sfy.ttrip.R
@@ -24,6 +25,7 @@ class UserProfileDialog(
     private val age: Int,
     private val gender: String,
     private val intro: String,
+    private val profileVerification: Boolean
 ) : Dialog(activity) {
 
     private lateinit var binding: DialogUserInfoBinding
@@ -97,6 +99,12 @@ class UserProfileDialog(
                     )
                 )
                 tvUserProfileSimilarity.setBackgroundResource(R.drawable.bg_rect_medium_orchid_white_lilac_radius10_stroke1)
+            }
+
+            if (profileVerification) {
+                ivProfileVerification.visibility = View.VISIBLE
+            } else {
+                ivProfileVerification.visibility = View.INVISIBLE
             }
         }
     }

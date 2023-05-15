@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="20dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_other_message"
@@ -28,7 +28,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_other_message"
                 android:fontFamily="@font/sc_dream3"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:maxWidth="300dp"
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/white"

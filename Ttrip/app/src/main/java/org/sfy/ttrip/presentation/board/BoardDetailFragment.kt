@@ -237,7 +237,8 @@ class BoardDetailFragment :
                     similarity,
                     it.age,
                     it.gender,
-                    it.intro
+                    it.intro,
+                    it.profileVerification
                 ).show()
             }
         }
