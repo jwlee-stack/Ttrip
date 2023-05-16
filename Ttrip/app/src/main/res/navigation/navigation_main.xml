@@ -195,13 +195,13 @@
             android:name="boardId"
             app:argType="integer" />
         <argument
+            android:name="authorId"
+            app:argType="integer" />
+        <argument
             android:name="city"
             app:argType="string" />
         <argument
             android:name="content"
             app:argType="string" />
-        <argument
-            android:name="authorId"
-            app:argType="integer" />
     </fragment>
 </navigation>

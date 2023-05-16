@@ -76,17 +76,22 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                     checkInfo(true)
                                     binding.tvNextPost.apply {
                                         setOnClickListener {
-                                            //viewModel.postBoard()
+                                            viewModel.postBoard()
                                             showToast("게시글이 작성되었습니다")
 
-                                             navigate(
-                                                 PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment(
-                                                     1,
-                                                     "",
-                                                     "",
-                                                     1
-                                                 )
-                                             )
+                                            // 옵저빙하고 나서 진행 해야함
+                                            viewModel.boardId.observe(requireActivity()){
+                                                if (it != null){
+                                                    navigate(
+                                                        PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment(
+                                                            viewModel.boardId.value!!,
+                                                            viewModel.authorId.value!!,
+                                                            viewModel.postBoardCity.value!!,
+                                                            viewModel.postBoardContent.value!!
+                                                        )
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }

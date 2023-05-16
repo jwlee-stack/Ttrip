@@ -8,5 +8,12 @@ class FinishPostBoardFragment :
     BaseFragment<FragmentFinishPostBoardBinding>(R.layout.fragment_finish_post_board) {
 
     override fun initView() {
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.apply {
+            
+        }
     }
 }
