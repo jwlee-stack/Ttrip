@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_tutorialsFragment"
             app:destination="@id/tutorialsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_certificateProfileFragment"
+            app:destination="@id/certificateProfileFragment" />
     </fragment>
 
     <fragment
@@ -172,4 +175,10 @@
         android:name="org.sfy.ttrip.presentation.mypage.MyPageTutorialsFragment"
         android:label="tutorialsFragment"
         tools:layout="@layout/fragment_tutorials" />
+
+    <fragment
+        android:id="@+id/certificateProfileFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.CertificateProfileFragment"
+        android:label="CertificateProfileFragment"
+        tools:layout="@layout/fragment_certificate_profile" />
 </navigation>

@@ -24,4 +24,12 @@ interface MyPageRemoteDataSource {
     )
 
     suspend fun getMyPosts(): List<BoardBriefResponse>
+
+    suspend fun certificateProfile(
+        trainImg1: MultipartBody.Part?,
+        trainImg2: MultipartBody.Part?,
+        trainImg3: MultipartBody.Part?,
+        testImg: String,
+        nickname: String
+    ): String
 }

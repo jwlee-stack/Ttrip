@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sfy.ttrip.AuthInterceptorClient
+import org.sfy.ttrip.FlaskInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
 import org.sfy.ttrip.data.remote.service.*
 import retrofit2.Retrofit
@@ -62,4 +63,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): LandmarkApiService =
         retrofit.create(LandmarkApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCertificateApiService(
+        @FlaskInterceptorClient retrofit: Retrofit
+    ): CertificateApiService =
+        retrofit.create(CertificateApiService::class.java)
 }
