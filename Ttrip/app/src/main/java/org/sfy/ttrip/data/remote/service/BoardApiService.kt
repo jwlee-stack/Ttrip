@@ -11,7 +11,7 @@ import retrofit2.http.Path
 interface BoardApiService {
 
     @POST("/api/articles/new")
-    suspend fun postBoard(@Body body: PostBoardRequest)
+    suspend fun postBoard(@Body body: PostBoardRequest): BaseResponse<PostBoardResponse>
 
     @POST("/api/articles")
     suspend fun getBoardList(@Body body: SearchBoardRequest): BaseResponse<List<BoardBriefResponse>>
@@ -30,4 +30,7 @@ interface BoardApiService {
 
     @POST("/api/articles/newApply")
     suspend fun postComment(@Body body: CommentRequest)
+
+    @POST("/api/articles/recommendation")
+    suspend fun getRecommendBoard(@Body body: RecommendBoardRequest): BaseResponse<RecommendBoardResponse>
 }
