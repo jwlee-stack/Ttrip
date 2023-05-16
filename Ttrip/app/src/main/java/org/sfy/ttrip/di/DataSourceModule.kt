@@ -45,8 +45,9 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideMyPageDataSource(
-        myPageApiService: MyPageApiService
-    ): MyPageRemoteDataSourceImpl = MyPageRemoteDataSourceImpl(myPageApiService)
+        myPageApiService: MyPageApiService,
+        certificateApiService: CertificateApiService
+    ): MyPageRemoteDataSourceImpl = MyPageRemoteDataSourceImpl(myPageApiService, certificateApiService)
 
     @Provides
     @Singleton

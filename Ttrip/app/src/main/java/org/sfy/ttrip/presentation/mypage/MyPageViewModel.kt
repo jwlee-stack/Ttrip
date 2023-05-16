@@ -278,7 +278,7 @@ class MyPageViewModel @Inject constructor(
             certificateFile1MultiPart,
             certificateFile2MultiPart,
             certificateFile3MultiPart,
-            "https://k8d104.p.ssafy.io:443${_userProfile.value?.profileImgPath}",
+            _userProfile.value?.profileImgPath!!,
             _userProfile.value?.nickname!!
         )
     }
