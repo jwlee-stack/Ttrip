@@ -50,7 +50,7 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
         nickname: String
     ): String {
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
-        map["testImg"] = testImg.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["profileImgPath"] = testImg.toRequestBody("text/plain".toMediaTypeOrNull())
         map["nickname"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
         return certificateApiService.certificateProfile(trainImg1, trainImg2, trainImg3, map).data!!
     }
