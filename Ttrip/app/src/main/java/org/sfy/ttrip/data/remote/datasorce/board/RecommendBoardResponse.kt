@@ -11,6 +11,8 @@ data class RecommendBoardResponse(
     val authorName: String,
     @SerializedName("imgPath")
     val imgPath: String,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("content")
     val content: String,
     @SerializedName("nation")
@@ -35,6 +37,7 @@ data class RecommendBoardResponse(
             articleId,
             authorName,
             imgPath,
+            title,
             content,
             nation,
             city,
