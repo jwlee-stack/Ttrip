@@ -22,7 +22,11 @@
         android:id="@+id/postBoardFragment"
         android:name="org.sfy.ttrip.presentation.board.PostBoardFragment"
         android:label="postBoardFragment"
-        tools:layout="@layout/fragment_post_board" />
+        tools:layout="@layout/fragment_post_board" >
+        <action
+            android:id="@+id/action_postBoardFragment_to_finishPostBoardFragment"
+            app:destination="@id/finishPostBoardFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/boardDetailFragment"
@@ -172,4 +176,23 @@
         android:name="org.sfy.ttrip.presentation.mypage.MyPageTutorialsFragment"
         android:label="tutorialsFragment"
         tools:layout="@layout/fragment_tutorials" />
+
+    <fragment
+        android:id="@+id/finishPostBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.FinishPostBoardFragment"
+        android:label="finishPostBoardFragment"
+        tools:layout="@layout/fragment_finish_post_board">
+        <argument
+            android:name="boardId"
+            app:argType="integer" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <argument
+            android:name="authorId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
