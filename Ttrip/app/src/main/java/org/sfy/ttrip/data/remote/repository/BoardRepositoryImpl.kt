@@ -72,7 +72,7 @@ class BoardRepositoryImpl @Inject constructor(
         city: String,
         content: String,
         numOfArticles: Int
-    ): Resource<RecommendBoard> =
+    ): Resource<List<RecommendBoard>> =
         wrapToResource {
             boardRemoteDataSource.postRecommendBoard(
                 RecommendBoardRequest(
@@ -82,6 +82,6 @@ class BoardRepositoryImpl @Inject constructor(
                     content,
                     numOfArticles
                 )
-            ).toDomainModel()
+            ).map { it.toDomainModel() }
         }
 }

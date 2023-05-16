@@ -37,5 +37,5 @@ interface BoardRepository {
         city: String,
         content: String,
         numOfArticles: Int
-    ): Resource<RecommendBoard>
+    ): Resource<List<RecommendBoard>>
 }

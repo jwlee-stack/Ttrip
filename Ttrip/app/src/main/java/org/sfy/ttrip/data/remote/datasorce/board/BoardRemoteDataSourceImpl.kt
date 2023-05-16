@@ -31,6 +31,6 @@ class BoardRemoteDataSourceImpl @Inject constructor(
         boardApiService.postComment(body)
     }
 
-    override suspend fun postRecommendBoard(body: RecommendBoardRequest): RecommendBoardResponse =
+    override suspend fun postRecommendBoard(body: RecommendBoardRequest): List<RecommendBoardResponse> =
         boardApiService.getRecommendBoard(body).data!!
 }

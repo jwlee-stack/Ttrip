@@ -97,7 +97,7 @@ class BoardListAdapter(
                 val inputDateObject = LocalDate.parse(data.endDate, dateFormat)
                 val today = LocalDate.now()
 
-                if (!inputDateObject.isAfter(today)) {
+                if (!inputDateObject.isAfter(today) && !inputDateObject.isEqual(today)) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
