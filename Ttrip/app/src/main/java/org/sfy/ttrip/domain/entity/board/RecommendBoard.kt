@@ -4,6 +4,7 @@ data class RecommendBoard(
     val articleId: Int,
     val authorName: String,
     val imgPath: String,
+    val title: String,
     val content: String,
     val nation: String,
     val city: String,
