@@ -110,6 +110,16 @@ class MyPageViewModel @Inject constructor(
             }
         }.await()
 
+    private fun updateProfileImg() {
+        viewModelScope.launch {
+            if (isChanged.value!!) {
+                updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
+                _isChanged.value = false
+                getUserProfile()
+            }
+        }
+    }
+
     fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
         viewModelScope.launch {
             updateUserInfoUseCase(age, gender, intro, nickname)
@@ -188,21 +198,12 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfileImg() {
-        viewModelScope.launch {
-            if (isChanged.value!!) {
-                updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
-                _isChanged.value = false
-                getUserProfile()
-            }
-        }
-    }
-
     fun setProfileFile(uri: Uri, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _isChanged.value = true
             _profileImg.value = uri
-            MultipartBody.Part.createFormData("profileImg", rotatedFileName, requestFile)
+            profileFileMultiPart =
+                MultipartBody.Part.createFormData("profileImg", rotatedFileName, requestFile)
         }
     }
 
