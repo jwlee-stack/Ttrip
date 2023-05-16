@@ -61,6 +61,7 @@ class CertificateProfileFragment :
                                     uri, File(absolutelyPath(uri, requireContext()))
                                 )
                             }
+                            else -> {}
                         }
                     }
                 }
