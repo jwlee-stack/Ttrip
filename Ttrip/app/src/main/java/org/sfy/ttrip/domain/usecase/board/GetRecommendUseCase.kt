@@ -8,10 +8,10 @@ import org.sfy.ttrip.domain.entity.board.RecommendBoard
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import javax.inject.Inject
 
-class PostRecommendUseCase @Inject constructor(
+class GetRecommendUseCase @Inject constructor(
     private val boardRepository: BoardRepository
 ) {
-    suspend operator fun invoke(postBoard: PostBoard): Resource<RecommendBoard> =
+    suspend operator fun invoke(postBoard: PostBoard): Resource<List<RecommendBoard>> =
         withContext(Dispatchers.IO) {
             boardRepository.getRecommendBoard(
                 postBoard.articleId,

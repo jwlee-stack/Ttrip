@@ -9,10 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.domain.entity.board.BoardBrief
-import org.sfy.ttrip.domain.entity.board.BoardComment
-import org.sfy.ttrip.domain.entity.board.BoardDetail
-import org.sfy.ttrip.domain.entity.board.PostBoard
+import org.sfy.ttrip.domain.entity.board.*
 import org.sfy.ttrip.domain.entity.user.UserProfileDialog
 import org.sfy.ttrip.domain.usecase.board.*
 import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
@@ -27,7 +24,8 @@ class BoardViewModel @Inject constructor(
     private val getBoardCommentUseCase: GetBoardCommentUseCase,
     private val postCommentUseCase: PostCommentUseCase,
     private val postBoardUseCase: PostBoardUseCase,
-    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase
+    private val getUserProfileDialogUseCase: GetUserProfileDialogUseCase,
+    private val getRecommendUseCase: GetRecommendUseCase
 ) : ViewModel() {
 
     private val _boardListData: MutableLiveData<List<BoardBrief>?> = MutableLiveData()
@@ -65,6 +63,9 @@ class BoardViewModel @Inject constructor(
 
     private val _authorId: MutableLiveData<Int?> = MutableLiveData(null)
     val authorId: MutableLiveData<Int?> = _authorId
+
+    private val _recommendBoardListData: MutableLiveData<List<RecommendBoard>?> = MutableLiveData()
+    val recommendBoardListData: LiveData<List<RecommendBoard>?> = _recommendBoardListData
 
     fun getUserProfile(nickname: String) =
         viewModelScope.launch {
@@ -131,13 +132,34 @@ class BoardViewModel @Inject constructor(
                 _postBoardTitle.value!!
             )) {
                 is Resource.Success<PostBoard> -> {
-                    _boardId.value = value.data.articleId
                     _authorId.value = value.data.authorId
                     _postBoardContent.value = value.data.content
                     _postBoardCity.value = value.data.city
+                    _boardId.value = value.data.articleId
                 }
                 is Resource.Error -> {
                     Log.e("postBoard", "postBoard: ${value.errorMessage}")
+                }
+            }
+        }
+    }
+
+    fun getRecommendBoard() {
+        viewModelScope.launch {
+            when (val value = getRecommendUseCase(
+                PostBoard(
+                    _boardId.value!!,
+                    _postBoardCity.value!!,
+                    _postBoardContent.value!!,
+                    _authorId.value!!
+                )
+            )) {
+                is Resource.Success<List<RecommendBoard>> -> {
+                    Log.d("123123", "getRecommendBoard: ${value.data}")
+                    _recommendBoardListData.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("getRecommendBoard", "getRecommendBoard: ${value.errorMessage}")
                 }
             }
         }

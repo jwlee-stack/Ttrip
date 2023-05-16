@@ -32,5 +32,5 @@ interface BoardApiService {
     suspend fun postComment(@Body body: CommentRequest)
 
     @POST("/api/articles/recommendation")
-    suspend fun getRecommendBoard(@Body body: RecommendBoardRequest): BaseResponse<RecommendBoardResponse>
+    suspend fun getRecommendBoard(@Body body: RecommendBoardRequest): BaseResponse<List<RecommendBoardResponse>>
 }

@@ -17,5 +17,5 @@ interface BoardRemoteDataSource {
 
     suspend fun postComment(body: CommentRequest)
 
-    suspend fun postRecommendBoard(body: RecommendBoardRequest): RecommendBoardResponse
+    suspend fun postRecommendBoard(body: RecommendBoardRequest): List<RecommendBoardResponse>
 }
