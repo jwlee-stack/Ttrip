@@ -43,6 +43,9 @@ class MainActivity : AppCompatActivity() {
     private fun getFCMData(fragment: String) {
         NEW_ALARM_FLAG = true
         when (fragment) {
+            "evaluateDialog" -> {
+
+            }
             "BoardFragment" -> {
                 val articleId = intent.getStringExtra("articleId")
                 val dDay = intent.getStringExtra("dDay")

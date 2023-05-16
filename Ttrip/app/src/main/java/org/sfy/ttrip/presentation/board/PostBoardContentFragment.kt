@@ -55,6 +55,7 @@ class PostBoardContentFragment :
                             viewModel.postBoardTitle(binding.etBoardInfoTitle.text.toString())
                         }
                     })
+
                     changeVisibility(0, contentData)
                 }
                 1 -> {

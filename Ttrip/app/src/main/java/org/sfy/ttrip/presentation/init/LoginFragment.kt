@@ -51,7 +51,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 }
             } else {
                 // 관리자 메일 추가 필요
-                showToast("소명서를 제출해주세요")
+                showToast("이메일을 통해 소명서를 제출해주세요")
             }
         }
 
