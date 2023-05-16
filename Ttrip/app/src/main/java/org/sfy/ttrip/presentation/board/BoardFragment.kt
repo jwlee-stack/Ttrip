@@ -32,6 +32,8 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initObserver()
         initRecyclerView()
         initListener()
+
+        (activity as MainActivity).hideBottomNavigation(false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
