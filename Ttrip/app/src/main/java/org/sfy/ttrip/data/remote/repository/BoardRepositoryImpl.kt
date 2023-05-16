@@ -2,15 +2,9 @@ package org.sfy.ttrip.data.remote.repository
 
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.data.remote.datasorce.board.BoardRemoteDataSource
-import org.sfy.ttrip.data.remote.datasorce.board.CommentRequest
-import org.sfy.ttrip.data.remote.datasorce.board.PostBoardRequest
-import org.sfy.ttrip.data.remote.datasorce.board.SearchBoardRequest
-import org.sfy.ttrip.domain.entity.board.BoardBrief
-import org.sfy.ttrip.domain.entity.board.BoardComment
-import org.sfy.ttrip.domain.entity.board.BoardDetail
+import org.sfy.ttrip.data.remote.datasorce.board.*
+import org.sfy.ttrip.domain.entity.board.*
 import org.sfy.ttrip.domain.repository.board.BoardRepository
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class BoardRepositoryImpl @Inject constructor(
@@ -23,19 +17,21 @@ class BoardRepositoryImpl @Inject constructor(
         city: String,
         startDate: String,
         endDateTime: String,
-        title:String
-    ) {
-        boardRemoteDataSource.postBoard(
-            PostBoardRequest(
-                content,
-                nation,
-                city,
-                startDate,
-                endDateTime,
-                title
-            )
-        )
-    }
+        title: String
+    ): Resource<PostBoard> =
+        wrapToResource {
+            boardRemoteDataSource.postBoard(
+                PostBoardRequest(
+                    content,
+                    nation,
+                    city,
+                    startDate,
+                    endDateTime,
+                    title
+                )
+            ).toDomainModel()
+        }
+
 
     override suspend fun getBoardList(
         condition: Int,
@@ -69,4 +65,23 @@ class BoardRepositoryImpl @Inject constructor(
     override suspend fun postComment(boardId: Int, comment: String) {
         boardRemoteDataSource.postComment(CommentRequest(boardId, comment))
     }
+
+    override suspend fun getRecommendBoard(
+        boardId: Int,
+        authorId: Int,
+        city: String,
+        content: String,
+        numOfArticles: Int
+    ): Resource<RecommendBoard> =
+        wrapToResource {
+            boardRemoteDataSource.postRecommendBoard(
+                RecommendBoardRequest(
+                    boardId,
+                    authorId,
+                    city,
+                    content,
+                    numOfArticles
+                )
+            ).toDomainModel()
+        }
 }

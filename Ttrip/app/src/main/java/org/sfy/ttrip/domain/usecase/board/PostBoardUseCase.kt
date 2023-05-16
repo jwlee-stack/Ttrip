@@ -2,6 +2,8 @@ package org.sfy.ttrip.domain.usecase.board
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.domain.entity.board.PostBoard
 import org.sfy.ttrip.domain.repository.board.BoardRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,10 +18,8 @@ class PostBoardUseCase @Inject constructor(
         endDate: String,
         nation: String,
         startDate: String,
-        title: String,
-    ) {
-        withContext(Dispatchers.IO) {
-            boardRepository.postBoard(content, nation, city, startDate, endDate, title)
-        }
+        title: String
+    ): Resource<PostBoard> = withContext(Dispatchers.IO) {
+        boardRepository.postBoard(content, nation, city, startDate, endDate, title)
     }
 }
