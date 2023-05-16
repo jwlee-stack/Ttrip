@@ -7,6 +7,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.makeMarkerImg
@@ -55,9 +60,25 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     ) { result: ActivityResult ->
         result.data?.let {
             if (it.data != null) {
+                val rotatedBitmap = rotateBitmap(
+                    File(absolutelyPath(it.data as Uri, requireContext())).path,
+                    BitmapFactory.decodeFile(
+                        File(
+                            absolutelyPath(
+                                it.data as Uri,
+                                requireContext()
+                            )
+                        ).path
+                    )
+                )
+                val rotatedFile = createTempFile("rotated_", ".jpg", context?.cacheDir)
+                val outputStream = FileOutputStream(rotatedFile)
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                outputStream.close()
+                val requestFile = rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
+                myPageViewModel.markerfile = rotatedFile
                 myPageViewModel.setProfileFile(
-                    it.data as Uri,
-                    File(absolutelyPath(it.data, requireContext()))
+                    it.data as Uri, rotatedFile.name, requestFile
                 )
             }
         }
@@ -289,5 +310,47 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun requestPermission(activity: Activity, permission: String) {
         ActivityCompat.requestPermissions(activity, arrayOf(permission), 1)
+    }
+
+    private fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+        val orientation = getExifOrientation(filePath)
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
+    private fun getExifOrientation(filePath: String): Int {
+        val exif = ExifInterface(filePath)
+        return exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
     }
 }

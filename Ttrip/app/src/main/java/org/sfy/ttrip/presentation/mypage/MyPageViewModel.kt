@@ -11,6 +11,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
@@ -197,42 +198,35 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun setProfileFile(uri: Uri, file: File) {
+    fun setProfileFile(uri: Uri, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _isChanged.value = true
             _profileImg.value = uri
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            profileFileMultiPart =
-                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-
-            markerfile = file
+            MultipartBody.Part.createFormData("profileImg", rotatedFileName, requestFile)
         }
     }
 
-    fun setCertificateImg1(uri: Uri?, file: File) {
+    fun setCertificateImg1(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _certificateImg1.value = uri
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             certificateFile1MultiPart =
-                MultipartBody.Part.createFormData("trainImg1", file.name, requestFile)
+                MultipartBody.Part.createFormData("trainImg1", rotatedFileName, requestFile)
         }
     }
 
-    fun setCertificateImg2(uri: Uri?, file: File) {
+    fun setCertificateImg2(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _certificateImg2.value = uri
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             certificateFile2MultiPart =
-                MultipartBody.Part.createFormData("trainImg2", file.name, requestFile)
+                MultipartBody.Part.createFormData("trainImg2", rotatedFileName, requestFile)
         }
     }
 
-    fun setCertificateImg3(uri: Uri?, file: File) {
+    fun setCertificateImg3(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _certificateImg3.value = uri
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             certificateFile3MultiPart =
-                MultipartBody.Part.createFormData("trainImg3", file.name, requestFile)
+                MultipartBody.Part.createFormData("trainImg3", rotatedFileName, requestFile)
         }
     }
 

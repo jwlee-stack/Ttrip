@@ -6,6 +6,10 @@ import android.app.Activity.RESULT_OK
 import android.content.*
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
@@ -13,12 +17,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.BindingAdapters.setProfileImg
 import org.sfy.ttrip.databinding.FragmentCertificateProfileBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
@@ -45,20 +52,86 @@ class CertificateProfileFragment :
                         when (myPageViewModel.certificateNum) {
                             1 -> {
                                 binding.ivInputImageCamera1.visibility = View.GONE
+                                val rotatedBitmap = rotateBitmap(
+                                    File(absolutelyPath(uri, requireContext())).path,
+                                    BitmapFactory.decodeFile(
+                                        File(
+                                            absolutelyPath(
+                                                uri,
+                                                requireContext()
+                                            )
+                                        ).path
+                                    )
+                                )
+                                val rotatedFile =
+                                    createTempFile("rotated_", ".jpg", context?.cacheDir)
+                                val outputStream = FileOutputStream(rotatedFile)
+                                rotatedBitmap.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    100,
+                                    outputStream
+                                )
+                                outputStream.close()
+                                val requestFile =
+                                    rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
                                 myPageViewModel.setCertificateImg1(
-                                    uri, File(absolutelyPath(uri, requireContext()))
+                                    uri, rotatedFile.name, requestFile
                                 )
                             }
                             2 -> {
                                 binding.ivInputImageCamera2.visibility = View.GONE
+                                val rotatedBitmap = rotateBitmap(
+                                    File(absolutelyPath(uri, requireContext())).path,
+                                    BitmapFactory.decodeFile(
+                                        File(
+                                            absolutelyPath(
+                                                uri,
+                                                requireContext()
+                                            )
+                                        ).path
+                                    )
+                                )
+                                val rotatedFile =
+                                    createTempFile("rotated_", ".jpg", context?.cacheDir)
+                                val outputStream = FileOutputStream(rotatedFile)
+                                rotatedBitmap.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    100,
+                                    outputStream
+                                )
+                                outputStream.close()
+                                val requestFile =
+                                    rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
                                 myPageViewModel.setCertificateImg2(
-                                    uri, File(absolutelyPath(uri, requireContext()))
+                                    uri, rotatedFile.name, requestFile
                                 )
                             }
                             3 -> {
                                 binding.ivInputImageCamera3.visibility = View.GONE
+                                val rotatedBitmap = rotateBitmap(
+                                    File(absolutelyPath(uri, requireContext())).path,
+                                    BitmapFactory.decodeFile(
+                                        File(
+                                            absolutelyPath(
+                                                uri,
+                                                requireContext()
+                                            )
+                                        ).path
+                                    )
+                                )
+                                val rotatedFile =
+                                    createTempFile("rotated_", ".jpg", context?.cacheDir)
+                                val outputStream = FileOutputStream(rotatedFile)
+                                rotatedBitmap.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    100,
+                                    outputStream
+                                )
+                                outputStream.close()
+                                val requestFile =
+                                    rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
                                 myPageViewModel.setCertificateImg3(
-                                    uri, File(absolutelyPath(uri, requireContext()))
+                                    uri, rotatedFile.name, requestFile
                                 )
                             }
                             else -> {}
@@ -166,6 +239,48 @@ class CertificateProfileFragment :
         values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
         return requireActivity().contentResolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
+        )
+    }
+
+    fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+        val orientation = getExifOrientation(filePath)
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
+    fun getExifOrientation(filePath: String): Int {
+        val exif = ExifInterface(filePath)
+        return exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
         )
     }
 
