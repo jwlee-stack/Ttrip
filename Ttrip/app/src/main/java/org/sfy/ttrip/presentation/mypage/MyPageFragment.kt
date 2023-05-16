@@ -260,7 +260,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         bitmap: Bitmap,
         path: String
     ): Boolean {
-
         val state = Environment.getExternalStorageState()
         if (Environment.MEDIA_MOUNTED == state) {
             val rootPath =
@@ -287,7 +286,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                         Uri.parse("file://" + Environment.getExternalStorageDirectory())
                     )
                 )
-
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -242,7 +242,7 @@ class CertificateProfileFragment :
         )
     }
 
-    fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+    private fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
         val orientation = getExifOrientation(filePath)
         val matrix = Matrix()
         when (orientation) {
@@ -276,7 +276,7 @@ class CertificateProfileFragment :
         )
     }
 
-    fun getExifOrientation(filePath: String): Int {
+    private fun getExifOrientation(filePath: String): Int {
         val exif = ExifInterface(filePath)
         return exif.getAttributeInt(
             ExifInterface.TAG_ORIENTATION,
