@@ -54,14 +54,7 @@ class BoardListAdapter(
                         onBoardItemClicked(data.articleId, data.dueDay.toInt())
                     }
                 }
-                /* if (data.dueDay < 0) {
-                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_dim_gray)
-                     tvBoardDDay.text = "D+${-1 * data.dueDay}"
-                 } else*/
+
                 if (data.dueDay <= 3) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.old_rose))

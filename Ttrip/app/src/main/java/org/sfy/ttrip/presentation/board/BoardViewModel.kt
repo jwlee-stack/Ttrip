@@ -155,7 +155,6 @@ class BoardViewModel @Inject constructor(
                 )
             )) {
                 is Resource.Success<List<RecommendBoard>> -> {
-                    Log.d("123123", "getRecommendBoard: ${value.data}")
                     _recommendBoardListData.value = value.data
                 }
                 is Resource.Error -> {

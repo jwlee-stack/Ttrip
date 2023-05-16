@@ -17,12 +17,12 @@ class FinishPostBoardFragment :
     private fun initListener() {
         binding.apply {
             tvBackToBoard.setOnClickListener {
-
+                navigate(FinishPostBoardFragmentDirections.actionFinishPostBoardFragmentToBoardFragment())
             }
             tvGoToRecommend.setOnClickListener {
-                viewModel.recommendBoardListData.observe(this@FinishPostBoardFragment){
-                    if (it != null){
-                        //navigate()
+                viewModel.recommendBoardListData.observe(this@FinishPostBoardFragment) {
+                    if (it != null) {
+                        navigate(FinishPostBoardFragmentDirections.actionFinishPostBoardFragmentToRecommendBoardFragment())
                     }
                 }
                 viewModel.getRecommendBoard()
