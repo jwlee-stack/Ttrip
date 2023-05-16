@@ -76,9 +76,17 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                     checkInfo(true)
                                     binding.tvNextPost.apply {
                                         setOnClickListener {
-                                            viewModel.postBoard()
+                                            //viewModel.postBoard()
                                             showToast("게시글이 작성되었습니다")
-                                            popBackStack()
+
+                                             navigate(
+                                                 PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment(
+                                                     1,
+                                                     "",
+                                                     "",
+                                                     1
+                                                 )
+                                             )
                                         }
                                     }
                                 }
