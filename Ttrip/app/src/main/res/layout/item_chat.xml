@@ -16,25 +16,75 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_other_message"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_dateline_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/tv_other_message"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/view_dateline_other"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/whisper"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_dateline_other"
+                    app:layout_constraintEnd_toStartOf="@id/tv_dateline_other"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_dateline_other" />
+
+                <TextView
+                    android:id="@+id/tv_dateline_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rect_whisper_radius20"
+                    android:fontFamily="@font/sc_dream4"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2023년 5월 17일" />
+
+                <View
+                    android:id="@+id/view_dateline_other_2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/whisper"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_dateline_other"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_dateline_other"
+                    app:layout_constraintTop_toTopOf="@id/tv_dateline_other" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tv_other_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_other_message"
                 android:fontFamily="@font/sc_dream3"
                 android:gravity="center"
-                android:maxWidth="300dp"
+                android:lineSpacingExtra="5dp"
+                android:maxWidth="200dp"
+                android:paddingVertical="10dp"
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_dateline_other"
                 tools:text="안녕하세요!" />
 
             <TextView
@@ -52,10 +102,58 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_my_message"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_other_message">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_dateline_mine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/tv_my_message"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/view_dateline_mine"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/whisper"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_dateline_mine"
+                    app:layout_constraintEnd_toStartOf="@id/tv_dateline_mine"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_dateline_mine" />
+
+                <TextView
+                    android:id="@+id/tv_dateline_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rect_whisper_radius20"
+                    android:fontFamily="@font/sc_dream4"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2023년 5월 17일" />
+
+                <View
+                    android:id="@+id/view_dateline_mine_2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/whisper"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_dateline_mine"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_dateline_mine"
+                    app:layout_constraintTop_toTopOf="@id/tv_dateline_mine" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tv_my_time"
@@ -73,16 +171,18 @@
                 android:id="@+id/tv_my_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_my_message"
                 android:fontFamily="@font/sc_dream3"
                 android:gravity="center"
-                android:maxWidth="300dp"
+                android:lineSpacingExtra="5dp"
+                android:maxWidth="200dp"
                 android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_dateline_mine"
                 tools:text="안녕하세요!" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,11 @@
 package org.sfy.ttrip.presentation.landmark
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -27,6 +29,8 @@ import java.io.File
 class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doodle),
     DrawDoodleDialogListener {
 
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
     private var arFragment: ArFragment? = null
     private var isObjectPlaced = false
     private var bitmap: Bitmap? = null
@@ -34,12 +38,27 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     private val landmarkViewModel by viewModels<LandmarkViewModel>()
     private val args by navArgs<DoodleFragmentArgs>()
 
-
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(true)
         showToast("방명록 조회를 위해\n탭을 해주세요!")
         initListener()
         setARFunction()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 AR이 종료됩니다.")
+                } else {
+                    popBackStack()
+                    requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     private fun initListener() {
@@ -135,7 +154,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                     node.scaleController.isEnabled = false
                     node.rotationController.isEnabled = false
                     node.translationController.isEnabled = false
-                    node.localScale = Vector3(0.5f, 0.5f, 0.5f) // 크기 조정
+                    node.localScale = Vector3(0.6f, 0.6f, 0.6f) // 크기 조정
                 }
             }
         }
@@ -147,8 +166,8 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
         val transformableNode = TransformableNode(arFragment!!.transformationSystem)
         transformableNode.apply {
             setParent(anchorNode)
-            scaleController.maxScale = 0.51f
-            scaleController.minScale = 0.5f
+            scaleController.maxScale = 0.61f
+            scaleController.minScale = 0.6f
             renderable = viewRenderable
         }
         arFragment!!.arSceneView.scene.addChild(anchorNode)

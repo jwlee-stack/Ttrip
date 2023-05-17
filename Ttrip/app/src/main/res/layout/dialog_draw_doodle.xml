@@ -52,6 +52,16 @@
                 app:layout_constraintStart_toEndOf="@id/iv_doodle_color_neon_blue" />
 
             <ImageView
+                android:id="@+id/iv_doodle_color_old_rose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_doodle_color_old_rose"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/image_doodle_color_pear"
+                app:layout_constraintTop_toTopOf="@id/iv_doodle_color_neon_blue"
+                app:layout_constraintStart_toEndOf="@id/iv_doodle_color_pear" />
+
+            <ImageView
                 android:id="@+id/iv_doodle_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
