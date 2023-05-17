@@ -5,5 +5,6 @@ data class AccessToken(
     val accessToken: String?,
     val refreshToken: String?,
     val accessTokenExpiresIn: String?,
-    val nickname: String?
+    val nickname: String?,
+    val isFreeze: Boolean
 )

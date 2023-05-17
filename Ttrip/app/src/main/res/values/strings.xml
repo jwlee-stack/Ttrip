@@ -189,6 +189,12 @@
     <string name="image_user_check">image_user_check</string>
     <string name="content_valid_city">유효한 도시가 아닙니다. 다시 입력해주세요!</string>
     <string name="content_valid_nation">유효한 나라가 아닙니다. 다시 입력해주세요!</string>
+    <string name="content_post_user_board">게시글</string>
+    <string name="content_finish_user_board">생성이 완료되었습니다.</string>
+    <string name="content_recommend_board">추천 게시글</string>
+    <string name="content_ask_recommend_board">을 받아 보시겠어요?</string>
+    <string name="content_back_to_board">돌아가기</string>
+    <string name="content_go_to_recommend">추천 받기</string>
 
     <!-- Declaration -->
     <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>

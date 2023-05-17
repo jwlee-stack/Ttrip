@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.ListItemBoardContentBinding
 import org.sfy.ttrip.domain.entity.board.BoardBrief
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
+import java.util.*
 
 class BoardListAdapter(
     private val onBoardItemClicked: (boardId: Int, dDay: Int) -> Unit,
@@ -53,14 +54,8 @@ class BoardListAdapter(
                         onBoardItemClicked(data.articleId, data.dueDay.toInt())
                     }
                 }
-                if (data.dueDay < 0) {
-                    clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-                    tvDate.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                    tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                    tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
-                    ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_dim_gray)
-                    tvBoardDDay.text = "D+${-1 * data.dueDay}"
-                } else if (data.dueDay <= 3) {
+
+                if (data.dueDay <= 3) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
                     tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
@@ -70,6 +65,8 @@ class BoardListAdapter(
                     if (data.dueDay.toInt() == 0) {
                         tvBoardDDay.text = "D-DAY"
                         tvBoardDDay.textSize = 15F
+                    } else if (data.dueDay < 0) {
+                        tvBoardDDay.text = "D+${data.dueDay * -1}"
                     } else {
                         tvBoardDDay.text = "D-${data.dueDay}"
                     }
@@ -87,6 +84,19 @@ class BoardListAdapter(
                     tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.royal_blue))
                     ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_blue)
                     tvBoardDDay.text = "D-${data.dueDay}"
+                }
+
+                val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val inputDateObject = LocalDate.parse(data.endDate, dateFormat)
+                val today = LocalDate.now()
+
+                if (!inputDateObject.isAfter(today) && !inputDateObject.isEqual(today)) {
+                    clTicketTop.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
+                    tvDate.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    tvNationCity.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    tvBoardDDay.setTextColor(ContextCompat.getColor(context, R.color.dim_gray))
+                    ivTicketDDayAirplane.setBackgroundResource(R.drawable.ic_airplane_dim_gray)
+                    tvBoardDDay.text = "D+${-1 * data.dueDay}"
                 }
 
                 val dateString = data.createdAt

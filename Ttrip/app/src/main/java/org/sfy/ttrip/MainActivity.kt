@@ -14,17 +14,25 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sfy.ttrip.common.util.DeclarationDialog
+import org.sfy.ttrip.common.util.DeclarationDialogListener
+import org.sfy.ttrip.common.util.EvaluateUserDialog
+import org.sfy.ttrip.common.util.EvaluateUserDialogListener
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
 import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    EvaluateUserDialogListener,
+    DeclarationDialogListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
     private val userViewModel by viewModels<UserInfoViewModel>()
+    private lateinit var nickname: String
+    private lateinit var matchHistoryId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +48,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun evaluate(matchHistoryId: String, rate: Int) {
+        userViewModel.postEvaluateUser(matchHistoryId, rate)
+    }
+
+    override fun openDeclaration(reportedNickname: String) {
+        // 신고 다이얼로그 열기
+        DeclarationDialog(this, this, reportedNickname).show()
+    }
+
+    override fun postDeclaration(reportContext: String, reportedNickname: String) {
+        // 신고 api
+        userViewModel.postReportUser(reportContext, reportedNickname)
+    }
+
+    override fun cancelDeclaration() {
+        // 신고 취소 시 다시 평가 다이얼로그
+        EvaluateUserDialog(this, this, this.nickname, this.matchHistoryId).show()
+    }
+
     private fun getFCMData(fragment: String) {
         NEW_ALARM_FLAG = true
         when (fragment) {
+            "evaluateDialog" -> {
+                val nickname = intent.getStringExtra("nickName")
+                val matchHistoryId = intent.getStringExtra("matchHistoryId")
+                this.nickname = nickname!!
+                this.matchHistoryId = matchHistoryId!!
+                EvaluateUserDialog(this, this, nickname, matchHistoryId).show()
+            }
             "BoardFragment" -> {
                 val articleId = intent.getStringExtra("articleId")
                 val dDay = intent.getStringExtra("dDay")
@@ -105,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
-            userViewModel.postUserFcmToken(true)
+            userViewModel.postUserFcmToken(true, result)
             Log.d("fcmToken", "getFCMToken: $result")
         }
     }

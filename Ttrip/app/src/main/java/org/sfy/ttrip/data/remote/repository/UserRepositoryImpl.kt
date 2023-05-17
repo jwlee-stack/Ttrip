@@ -54,4 +54,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun postUserFcm(fcmToken: String) {
         userRemoteDataSource.postUserFcm(fcmToken)
     }
+
+    override suspend fun postEvaluateUser(matchHistoryId: String, rate: Int) {
+        userRemoteDataSource.postEvaluateUser(matchHistoryId, rate)
+    }
+
+    override suspend fun postReportUser(reportContext: String, reportedNickname: String) {
+        userRemoteDataSource.postReportUser(reportContext, reportedNickname)
+    }
 }

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="recommendBoard"
+            type="org.sfy.ttrip.domain.entity.board.RecommendBoard" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_recommend_board_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="30dp"
+            android:background="@drawable/bg_rect_white_radius20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_recommend_board_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/bg_rect_royal_blue_top_radius20"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_back_to_board"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/image_back_to_onboarding"
+                    android:src="@drawable/ic_back_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_board_detail_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="40dp"
+                    android:fontFamily="@font/sc_dream5"
+                    android:gravity="center"
+                    android:lineSpacingExtra="5dp"
+                    android:text="@{recommendBoard.title}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="방콕 여행 가시는분 있나요?\n함께해요!" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_recommend_board_detail_title">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_recommend_board_detail_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="20dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/iv_recommend_board_detail_user_profile"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/image_board_profile"
+                        android:src="@drawable/ic_profile_circle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_recommend_board_detail_user_nick_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/sc_dream4"
+                        android:text="@{recommendBoard.authorName}"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/iv_recommend_board_detail_user_profile"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="림림" />
+
+                    <TextView
+                        android:id="@+id/tv_recommend_board_detail_user_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/sc_dream3"
+                        android:text="@{recommendBoard.createdAt}"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/iv_recommend_board_detail_user_profile"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_board_detail_user_nick_name"
+                        tools:text="2023.04.19 12:05" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow_recommend_board_detail_user_detail"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:contentDescription="@string/image_go_to_profile_detail"
+                        android:src="@drawable/ic_arrow_left"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_user_similarity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_user_similarity" />
+
+                    <TextView
+                        android:id="@+id/tv_user_similarity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/bg_rect_white_radius10"
+                        android:paddingHorizontal="3dp"
+                        android:paddingVertical="3dp"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_recommend_board_detail_user_date"
+                        app:layout_constraintEnd_toStartOf="@id/iv_arrow_recommend_board_detail_user_detail"
+                        tools:text="97%" />
+
+                    <ImageView
+                        android:id="@+id/iv_delete_option"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@string/content_delete_my_board"
+                        android:src="@drawable/ic_delete_option"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_board_detail_ticket_line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/image_board_line"
+                    android:layerType="software"
+                    android:src="@drawable/line_solid_line_hawkes_blue_stroke2"
+                    app:layout_constraintTop_toBottomOf="@id/cl_recommend_board_detail_user" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_board_detail_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center|left"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_board_detail_ticket_line1"
+                    tools:ignore="RtlHardcoded">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sc_dream4"
+                        android:text="@string/content_ticket_date"
+                        android:textColor="@color/black"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_during"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_rect_alice_blue_radius10"
+                        android:fontFamily="@font/sc_dream4"
+                        android:padding="6dp"
+                        android:textColor="@color/free_speech_blue"
+                        tools:text="2023/04/07 ~ 2023/05/03" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/sc_dream4"
+                        android:text="@string/content_ticket_destination"
+                        android:textColor="@color/black"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_nation_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/bg_rect_alice_blue_radius10"
+                        android:fontFamily="@font/sc_dream4"
+                        android:padding="6dp"
+                        android:textColor="@color/free_speech_blue"
+                        tools:text="태국-방콕" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageView
+                    android:id="@+id/iv_upper_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/image_dash_line"
+                    android:layerType="software"
+                    android:src="@drawable/line_dash_line_dim_grey_transparent30_stroke1_dash_gap10"
+                    app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
+                <ImageView
+                    android:id="@+id/iv_board_detail_line1_left"
+                    android:layout_width="9dp"
+                    android:layout_height="14dp"
+                    android:layout_marginTop="15dp"
+                    android:contentDescription="@string/image_ticket_dash_line"
+                    android:src="@drawable/ic_ticket_dash_line_point_left"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
+                <ImageView
+                    android:id="@+id/iv_board_detail_line1_right"
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="14dp"
+                    android:contentDescription="@string/image_ticket_dash_line"
+                    android:src="@drawable/ic_ticket_dash_line_point_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_board_detail_date" />
+
+                <TextView
+                    android:id="@+id/tv_board_detail_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_rect_gainsboro_white_radius10_stroke1"
+                    android:fontFamily="@font/sc_dream4"
+                    android:gravity="top"
+                    android:padding="20dp"
+                    android:text="@{recommendBoard.content}"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_upper_line"
+                    tools:text="안녕하세요! 이번 주말에 방콕 여행 가는데 같이 카오산로드에서 술 한잔 하실 분 구합니다!" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

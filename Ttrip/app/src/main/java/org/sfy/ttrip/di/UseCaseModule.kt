@@ -41,11 +41,7 @@ import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
 import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
-import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
-import org.sfy.ttrip.domain.usecase.user.GetUserProfileDialogUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserFcmTokenUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserInfoTestUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.user.*
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -226,4 +222,14 @@ object UseCaseModule {
     @Provides
     fun provideRequestAccessToken(authRepository: AuthRepository): AccessTokenUseCase =
         AccessTokenUseCase(authRepository)
+
+    @Singleton
+    @Provides
+    fun providePostEvaluateUserUseCase(userRepository: UserRepository): PostEvaluateUserUseCase =
+        PostEvaluateUserUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun providePostReportUserUseCase(userRepository: UserRepository): PostReportUserUseCase =
+        PostReportUserUseCase(userRepository)
 }

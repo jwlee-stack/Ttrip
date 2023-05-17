@@ -22,7 +22,11 @@
         android:id="@+id/postBoardFragment"
         android:name="org.sfy.ttrip.presentation.board.PostBoardFragment"
         android:label="postBoardFragment"
-        tools:layout="@layout/fragment_post_board" />
+        tools:layout="@layout/fragment_post_board">
+        <action
+            android:id="@+id/action_postBoardFragment_to_finishPostBoardFragment"
+            app:destination="@id/finishPostBoardFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/boardDetailFragment"
@@ -181,4 +185,42 @@
         android:name="org.sfy.ttrip.presentation.mypage.CertificateProfileFragment"
         android:label="CertificateProfileFragment"
         tools:layout="@layout/fragment_certificate_profile" />
+
+    <fragment
+        android:id="@+id/finishPostBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.FinishPostBoardFragment"
+        android:label="finishPostBoardFragment"
+        tools:layout="@layout/fragment_finish_post_board">
+        <argument
+            android:name="boardId"
+            app:argType="integer" />
+        <argument
+            android:name="authorId"
+            app:argType="integer" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_finishPostBoardFragment_to_recommendBoardFragment"
+            app:destination="@id/recommendBoardFragment" />
+        <action
+            android:id="@+id/action_finishPostBoardFragment_to_boardFragment"
+            app:destination="@id/boardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recommendBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.RecommendBoardFragment"
+        android:label="recommendBoardFragment"
+        tools:layout="@layout/fragment_recommend_board_list" >
+        <action
+            android:id="@+id/action_recommendBoardFragment_to_boardDetailFragment"
+            app:destination="@id/boardDetailFragment" />
+        <action
+            android:id="@+id/action_recommendBoardFragment_to_boardFragment"
+            app:destination="@id/boardFragment" />
+    </fragment>
 </navigation>

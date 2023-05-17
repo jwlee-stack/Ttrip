@@ -89,6 +89,9 @@ dependencies {
     implementation libs.arcore
     implementation libs.sceneform.ux
     implementation libs.sceneform.core
+
+    // 키보드 올라옴 여부 확인 라이브러리
+    implementation libs.keyboardvisibilityevent
 }
 
 kapt {

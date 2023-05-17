@@ -25,4 +25,8 @@ interface UserRepository {
     suspend fun getUserProfile(nickName: String): Resource<UserProfileDialog>
 
     suspend fun postUserFcm(fcmToken: String)
+
+    suspend fun postEvaluateUser(matchHistoryId: String, rate: Int)
+
+    suspend fun postReportUser(reportContext: String, reportedNickname: String)
 }

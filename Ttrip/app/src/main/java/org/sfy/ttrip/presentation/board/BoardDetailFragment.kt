@@ -21,6 +21,7 @@ class BoardDetailFragment :
     BoardDialogListener,
     CommentDialogListener,
     UserProfileDialogListener {
+
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
     private val chatViewModel by activityViewModels<ChatViewModel>()
@@ -98,7 +99,6 @@ class BoardDetailFragment :
 
             ivBackToBoard.setOnClickListener {
                 popBackStack()
-                (activity as MainActivity).hideBottomNavigation(false)
             }
         }
     }
@@ -134,7 +134,10 @@ class BoardDetailFragment :
                     tvFinishBoard.visibility = View.GONE
 
                     tvUserSimilarity.visibility = View.VISIBLE
-                    ivArrowBoardDetailUserDetail.visibility = View.VISIBLE
+                    ivArrowBoardDetailUserDetail.apply {
+                        visibility = View.VISIBLE
+                    }
+
                     ivDeleteOption.visibility = View.GONE
 
                     // 모집 진행중인 경우
