@@ -93,6 +93,9 @@ class MainActivity : AppCompatActivity(),
 
                 navController.navigate(R.id.chatFragment, bundle)
             }
+            "MyPageFragment"->{
+                navController.navigate(R.id.myPageFragment)
+            }
         }
     }
 

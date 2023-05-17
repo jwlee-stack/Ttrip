@@ -68,15 +68,34 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
             ivSearchBoard.setOnClickListener {
                 viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
 
-               /* if (etSearchBoard.visibility == View.INVISIBLE) {
-                    etSearchBoard.visibility = View.VISIBLE
-                } else {
-                    viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
-                    etSearchBoard.visibility = View.INVISIBLE
-                }*/
+                /* if (etSearchBoard.visibility == View.INVISIBLE) {
+                     etSearchBoard.visibility = View.VISIBLE
+                 } else {
+                     viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
+                     etSearchBoard.visibility = View.INVISIBLE
+                 }*/
             }
             ivPostBoard.setOnClickListener {
                 navigate(BoardFragmentDirections.actionBoardFragmentToPostBoardFragment())
+            }
+            ivSelectMode.setOnClickListener {
+                if (clBoardSearchTitle.visibility == View.INVISIBLE) clBoardSearchTitle.visibility =
+                    View.VISIBLE
+                else clBoardSearchTitle.visibility = View.INVISIBLE
+            }
+            tvBoardTotal.setOnClickListener {
+                clBoardSearchTitle.visibility = View.GONE
+                viewModel.getBoards(0, "", "", "")
+            }
+            tvBoardCity.setOnClickListener {
+                viewModel.getBoards(1, "", "", "")
+            }
+            tvBoardDay.setOnClickListener {
+                boardListAdapter.sorting()
+                binding.rvBoardBrief.apply {
+                    adapter = boardListAdapter
+                    layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                }
             }
         }
     }
