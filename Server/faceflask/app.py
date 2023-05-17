@@ -21,7 +21,7 @@ app = Flask("__name__")
 class DataRes:
     def __init__(self,nickname,message,data):
         self.type = 5
-        self.nickanme=nickname
+        self.nickname=nickname
         self.extraData=message
         self.result=data
 
