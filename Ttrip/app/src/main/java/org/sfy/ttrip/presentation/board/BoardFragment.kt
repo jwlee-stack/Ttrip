@@ -66,12 +66,14 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
     private fun initListener() {
         binding.apply {
             ivSearchBoard.setOnClickListener {
-                if (etSearchBoard.visibility == View.INVISIBLE) {
+                viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
+
+               /* if (etSearchBoard.visibility == View.INVISIBLE) {
                     etSearchBoard.visibility = View.VISIBLE
                 } else {
                     viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
                     etSearchBoard.visibility = View.INVISIBLE
-                }
+                }*/
             }
             ivPostBoard.setOnClickListener {
                 navigate(BoardFragmentDirections.actionBoardFragmentToPostBoardFragment())
@@ -89,7 +91,20 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
 
     private fun initObserver() {
         viewModel.boardListData.observe(viewLifecycleOwner) { response ->
-            response?.let { boardListAdapter.setBoard(it) }
+            response?.let {
+                if (it.isEmpty()) {
+                    binding.apply {
+                        rvBoardBrief.visibility = View.GONE
+                        tvNoneBoard.visibility = View.VISIBLE
+                    }
+                } else {
+                    binding.apply {
+                        rvBoardBrief.visibility = View.VISIBLE
+                        tvNoneBoard.visibility = View.GONE
+                    }
+                    boardListAdapter.setBoard(it)
+                }
+            }
         }
     }
 
