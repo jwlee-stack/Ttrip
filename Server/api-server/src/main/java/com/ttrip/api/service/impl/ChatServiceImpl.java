@@ -14,7 +14,7 @@ import com.ttrip.core.entity.chatmessage.ChatMessage;
 import com.ttrip.core.entity.chatroom.Chatroom;
 import com.ttrip.core.entity.matchHistory.MatchHistory;
 import com.ttrip.core.entity.member.Member;
-import com.ttrip.core.repository.chatMessage.ChatMessageRepository;
+import com.ttrip.core.mongo.chatMessage.ChatMessageRepository;
 import com.ttrip.core.repository.article.ArticleRepository;
 import com.ttrip.core.repository.chatMember.ChatMemberRepository;
 import com.ttrip.core.repository.chatroom.ChatroomRepoistory;

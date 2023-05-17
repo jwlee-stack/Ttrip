@@ -96,14 +96,6 @@ public class MemberServiceImpl implements MemberService {
                     .data(false)
                     .build();
         }
-        if (blacklistRepository.existsByMember(member)) {
-            log.info("신고로 정지된 계정입니다.");
-            return DataResDto.builder()
-                    .status(430)
-                    .message("신고로 정지된 계정입니다.")
-                    .data(false)
-                    .build();
-        }
         //memberLoginReqDto.setPassword(member.getMemberUuid().toString());
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberLoginReqDto.toAuthentication();
@@ -302,6 +294,8 @@ public class MemberServiceImpl implements MemberService {
                 .reportContext(memberReportReqDto.getReportContext())
                 .member(member)
                 .build();
+        member.setIsFreezed(true);
+        memberRepository.save(member);
         blacklistRepository.save(blacklist);
         log.info("신고 저장(신고자: {}, 피신고자: {})", blacklist.getReporterId(), blacklist.getMember().getMemberId());
         return DataResDto.builder()
