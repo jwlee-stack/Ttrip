@@ -5,7 +5,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentPostBoardContentBinding
@@ -25,7 +24,7 @@ class PostBoardContentFragment :
             val contentData = listOf(
                 binding.clBoardInfoTitle,
                 binding.clBoardInfoContent,
-                binding.clBoardInfoDestination,
+                binding.svBoardInfoDestination,
                 binding.clBoardInfoStartDay,
                 binding.clBoardInfoEndDay
             )
@@ -170,6 +169,7 @@ class PostBoardContentFragment :
                             }
                         })
                     }
+
                     changeVisibility(2, contentData)
                 }
                 3 -> {
@@ -275,7 +275,7 @@ class PostBoardContentFragment :
         }
     }
 
-    private fun changeVisibility(position: Int, bannerData: List<ConstraintLayout>) {
+    private fun changeVisibility(position: Int, bannerData: List<View>) {
         for (i in 0..4) {
             bannerData[i].visibility = View.GONE
         }
