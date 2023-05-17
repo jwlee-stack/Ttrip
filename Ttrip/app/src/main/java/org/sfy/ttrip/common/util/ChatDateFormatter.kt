@@ -20,7 +20,7 @@ fun dateFormat(input: String): String {
 
 fun detailDateFormat(input: String): String {
     val dateTime = LocalDateTime.parse(input, DateTimeFormatter.ISO_DATE_TIME)
-    return dateTime.format(DateTimeFormatter.ofPattern("M/d H:mm"))
+    return dateTime.format(DateTimeFormatter.ofPattern("H:mm"))
 }
 
 fun convertDateString(dateString: String): String {
