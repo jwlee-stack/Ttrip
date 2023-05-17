@@ -21,4 +21,6 @@ interface UserRemoteDataSource {
     suspend fun getUserProfile(nickName: String): UserProfileDialogResponse
 
     suspend fun postUserFcm(fcmToken: String)
+
+    suspend fun postEvaluateUser(matchHistoryId: String, rate: Int)
 }

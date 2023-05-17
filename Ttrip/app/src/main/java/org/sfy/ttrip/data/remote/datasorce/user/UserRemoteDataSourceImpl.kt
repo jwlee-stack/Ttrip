@@ -42,4 +42,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun postUserFcm(fcmToken: String) {
         userApiService.postUserFcm(fcmToken)
     }
+
+    override suspend fun postEvaluateUser(matchHistoryId: String, rate: Int) {
+        userApiService.postEvaluate(UserEvaluateRequest(matchHistoryId, rate))
+    }
 }
