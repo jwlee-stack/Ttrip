@@ -11,7 +11,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://root:ttrip104!@mongo-db:27017/chatDB?authSource=admin
+      uri: mongodb://ttrip:ttrip104!@mongo-db:27017/chatDB?authSource=admin
 
   redis:
     host: redis-db
