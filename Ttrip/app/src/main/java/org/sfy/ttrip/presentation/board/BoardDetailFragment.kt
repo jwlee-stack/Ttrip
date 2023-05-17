@@ -136,12 +136,6 @@ class BoardDetailFragment :
                     tvUserSimilarity.visibility = View.VISIBLE
                     ivArrowBoardDetailUserDetail.apply {
                         visibility = View.VISIBLE
-//                        setOnClickListener {
-//                            this@BoardDetailFragment.nickName = boardDetail.authorName
-//                            this@BoardDetailFragment.boardId = boardDetail.articleId
-//                            this@BoardDetailFragment.similarity = boardDetail.similarity.toFloat()
-//                            viewModel.getUserProfile(nickName)
-//                        }
                     }
 
                     ivDeleteOption.visibility = View.GONE

@@ -46,10 +46,6 @@ class MainActivity : AppCompatActivity(),
         if (fragmentName != null) {
             getFCMData(fragmentName)
         }
-
-        /*this.nickname = "nickname"
-        this.matchHistoryId = "match"
-        EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()*/
     }
 
     override fun evaluate(matchHistoryId: String, rate: Int) {

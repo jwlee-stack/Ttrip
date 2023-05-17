@@ -42,6 +42,7 @@ class DeclarationDialog(
                     activity.showToastMessage("신고 내용을 꼭 입력해주세요!")
                 } else {
                     listener.postDeclaration(etDeclarationContent.text.toString(), reportedNickname)
+                    activity.showToastMessage("신고가 완료되었습니다")
                     dismiss()
                 }
             }

@@ -43,6 +43,7 @@ class EvaluateUserDialog(
                 if (binding.rbUserEvaluateRate.rating.toInt() == 0) {
                     activity.showToastMessage("평점을 입력해주세요!")
                 } else {
+                    activity.showToastMessage("리뷰가 완료되었습니다")
                     listener.evaluate(matchHistoryId, binding.rbUserEvaluateRate.rating.toInt())
                     dismiss()
                 }

@@ -60,7 +60,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
                         }
                     } else {
                         // 관리자 메일 추가 필요
-                        showToast("이메일을 통해 소명서를 제출해주세요")
+                        showToast("자동로그인에 실패햇습니다.\n이메일을 통해 \n소명서를 제출해주세요")
                     }
                 }
             }

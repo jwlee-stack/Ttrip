@@ -50,12 +50,12 @@ class AuthViewModel @Inject constructor(
                 if (value.data.grantType == null) {
                     _isAutoLogin.value = false
                 } else {
+                    _isFreeze.value = value.data.isFreeze
+
                     ApplicationClass.preferences.accessToken = value.data.accessToken
                     ApplicationClass.preferences.refreshToken = value.data.refreshToken
                     _emptyNickname.value = value.data.nickname == null
                     _isAutoLogin.value = true
-
-                    _isFreeze.value = value.data.isFreeze
                 }
             }
             is Resource.Error -> {
@@ -71,8 +71,9 @@ class AuthViewModel @Inject constructor(
     fun requestLogin(phoneNumber: String, password: String) = viewModelScope.launch {
         when (val value = loginUseCase(phoneNumber, password)) {
             is Resource.Success -> {
+                _isFreeze.value = value.data.isFreeze
+
                 _userData.value = value.data
-                _emptyNickname.value = value.data.nickname == null
                 ApplicationClass.preferences.accessToken = value.data.token.accessToken
                 ApplicationClass.preferences.refreshToken = value.data.token.refreshToken
                 ApplicationClass.preferences.userId = value.data.uuid
@@ -83,7 +84,8 @@ class AuthViewModel @Inject constructor(
                 ApplicationClass.preferences.markerImgPath = value.data.markerImgPath
 
                 _isValid.value = true
-                _isFreeze.value = value.data.isFreeze
+
+                _emptyNickname.value = value.data.nickname == null
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")

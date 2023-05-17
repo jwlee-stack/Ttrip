@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.init
 
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.MainActivity
@@ -39,6 +40,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun observeData() {
         authViewModel.emptyNickname.observe(viewLifecycleOwner) {
+            Log.d("123123", "observeData: ${authViewModel.isFreeze.value}")
+
             if (authViewModel.isFreeze.value == false) {
                 if (it == true) {
                     showToast("로그인되었습니다.")
@@ -51,7 +54,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 }
             } else {
                 // 관리자 메일 추가 필요
-                showToast("이메일을 통해 소명서를 제출해주세요")
+                showToast("신고된 계정입니다\n이메일을 통해 소명서를 제출해주세요")
             }
         }
 
