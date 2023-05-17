@@ -96,6 +96,9 @@ class MyPageViewModel @Inject constructor(
     private val _isChanged: MutableLiveData<Boolean> = MutableLiveData(false)
     val isChanged: MutableLiveData<Boolean> = _isChanged
 
+    private val _profileVerification: MutableLiveData<Boolean> = MutableLiveData(false)
+    val profileVerification: MutableLiveData<Boolean> = _profileVerification
+
     suspend fun checkDuplication() =
         viewModelScope.async {
             when (val value = checkDuplicationUseCase(nickname.value!!)) {
@@ -243,6 +246,7 @@ class MyPageViewModel @Inject constructor(
         when (val value = getUserProfileUseCase()) {
             is Resource.Success -> {
                 _userProfile.value = value.data
+                _profileVerification.value = value.data.profileVerification
                 ApplicationClass.preferences.apply {
                     nickname = value.data.nickname
                     gender = value.data.gender
