@@ -13,6 +13,7 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -88,7 +89,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         (activity as MainActivity).hideBottomNavigation(false)
         initListener()
         setUserProfile()
-        observeImg()
+        initObserve()
     }
 
     override fun onAttach(context: Context) {
@@ -148,7 +149,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
     }
 
-    private fun observeImg() {
+    private fun initObserve() {
         myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
             if (myPageViewModel.isChanged.value!!) {
                 myPageViewModel.updateBackgroundImg()
@@ -164,6 +165,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                     )
                 )
             }
+        }
+        myPageViewModel.profileVerification.observe(viewLifecycleOwner) {
+            if (it) binding.ivProfileVerification.visibility = View.VISIBLE
+            else binding.ivProfileVerification.visibility = View.GONE
         }
     }
 
