@@ -14,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sfy.ttrip.common.util.DeclarationDialog
+import org.sfy.ttrip.common.util.DeclarationDialogListener
 import org.sfy.ttrip.common.util.EvaluateUserDialog
 import org.sfy.ttrip.common.util.EvaluateUserDialogListener
 import org.sfy.ttrip.data.remote.service.FirebaseService
@@ -22,7 +24,8 @@ import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
-    EvaluateUserDialogListener {
+    EvaluateUserDialogListener,
+    DeclarationDialogListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -42,15 +45,19 @@ class MainActivity : AppCompatActivity(),
             getFCMData(fragmentName)
         }
 
-        //EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()
+        EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()
     }
 
     override fun evaluate(matchHistoryId: String, rate: Int) {
-
+        // 평가 날리기 api
     }
 
     override fun openDeclaration(reportedNickname: String) {
+        DeclarationDialog(this, this, reportedNickname).show()
+    }
 
+    override fun postDeclaration(reportContext: String, reportedNickname: String) {
+        // 신고 api
     }
 
     private fun getFCMData(fragment: String) {

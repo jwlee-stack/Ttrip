@@ -6,20 +6,18 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
-import org.sfy.ttrip.databinding.DialogEvaluateBinding
+import org.sfy.ttrip.databinding.DialogDeclarationBinding
 
-class EvaluateUserDialog(
+class DeclarationDialog(
     val activity: Activity,
-    private val listener: EvaluateUserDialogListener,
-    private val userNickname: String,
-    private val matchHistoryId: String
+    private val listener: DeclarationDialogListener,
+    private val reportedNickname: String,
 ) : Dialog(activity) {
-
-    private lateinit var binding: DialogEvaluateBinding
+    private lateinit var binding: DialogDeclarationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DialogEvaluateBinding.inflate(layoutInflater)
+        binding = DialogDeclarationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -30,27 +28,18 @@ class EvaluateUserDialog(
         setCancelable(true)
 
         initListener()
-        initView()
     }
 
     private fun initListener() {
         binding.apply {
-            tvCancel.setOnClickListener {
+            tvCancelDeclaration.setOnClickListener {
                 dismiss()
             }
 
-            tvConfirm.setOnClickListener {
-                listener.evaluate(matchHistoryId, binding.rbUserEvaluateRate.numStars)
+            tvConfirmDeclaration.setOnClickListener {
+                listener.postDeclaration("",reportedNickname)
                 dismiss()
-            }
-
-            clDeclaration.setOnClickListener {
-                listener.openDeclaration(userNickname)
             }
         }
-    }
-
-    private fun initView() {
-        binding.tvNickname.text = this.userNickname
     }
 }
