@@ -60,52 +60,6 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
 
         # Loop through each training image for the current person
         for img_path in image_files_in_folder(os.path.join(train_dir, class_dir)):
-            # try:
-            #     pil_image = Image.open(img_path)
-            #     if hasattr(pil_image, '_getexif'):
-            #         orientation = 0x0112
-            #         # exif = pil_image._getexif()
-            #         # app.logger.info(f"exifdata: {list(pil_image.info.keys())}")
-            #         # app.logger.info(f"exifdata: {list(pil_image.info['jfif'])}")
-            #         # app.logger.info(f"exifdata: {list(pil_image.info['jfif_unit'])}")
-
-            #         if exif is not None and orientation in exif.keys():
-            #             orientation_value = exif[orientation]
-            #             rotate_values = {
-            #                 3: pil_image.ROTATE_180,
-            #                 6: pil_image.ROTATE_270,
-            #                 8: pil_image.ROTATE_90
-            #             }
-            #             if orientation_value in rotate_values:
-            #                 pil_image = pil_image.transpose(rotate_values[orientation_value])
-            #                 pil_image.save(img_path, quality=100)
-
-            # except:
-            #     pass
-            # 이미지 파일 자체의 회전 정보 제거
-            # try:
-            #     pil_image = Image.open(img_path)
-            #     if hasattr(pil_image, '_getexif'):
-            #         exifdata = pil_image._getexif()
-            #         if exifdata is not None:
-            #             orientation = exifdata.get(274)
-            #             if orientation == 3:
-            #                 pil_image = pil_image.transpose(Image.ROTATE_180)
-            #             elif orientation == 6:
-            #                 pil_image = pil_image.transpose(Image.ROTATE_270)
-            #             elif orientation == 8:
-            #                 pil_image = pil_image.transpose(Image.ROTATE_90)
-            #             pil_image.save(img_path, quality=100)
-            # except:
-            #     pass
-            # Exif 데이터 제거
-            # im=Image.open(img_path)
-            # data = list(im.getdata())
-            # im_without_exif = Image.new(im.mode, im.size)
-            # im_without_exif.putdata(data)
-
-            # # 제거된 이미지 저장
-            # im_without_exif.save(img_path)
 
             image = face_recognition.load_image_file(img_path)
             face_bounding_boxes = face_recognition.face_locations(image)
@@ -159,55 +113,6 @@ def predict(X_img_path, knn_clf=None, model_path=None, distance_threshold=0.4, n
     :return: a list of names and face locations for the recognized faces in the image: [(name, bounding box), ...].
         For faces of unrecognized persons, the name 'unknown' will be returned.
     """
-    #이미지 파일 자체의 회전 정보 제거
-    # try:
-    #     pil_image = Image.open(X_img_path)
-    #     if hasattr(pil_image, '_getexif'):
-    #         exifdata = pil_image._getexif()
-
-    #         if exifdata is not None:
-    #             orientation = exifdata.get(274)
-    #             if orientation == 3:
-    #                 pil_image = pil_image.transpose(Image.ROTATE_180)
-    #             elif orientation == 6:
-    #                 pil_image = pil_image.transpose(Image.ROTATE_270)
-    #             elif orientation == 8:
-    #                 pil_image = pil_image.transpose(Image.ROTATE_90)
-    #             pil_image.save(X_img_path, quality=100)
-    # except:
-    #     pass
-    # pil_image = Image.open(X_img_path)
-    # pil_image = pil_image.transpose(Image.ROTATE_270)
-    # pil_image.save(X_img_path, quality=100)
-    # img=Image.open(X_img_path)
-    # 이미지의 Exif 정보 가져오기
-    # exif_data = img._getexif()
-    # Orientation 태그의 값 가져오기
-    # orientation = exif_data.get(274)
-    # 값 출력
-    # app.logger.info(f"오리엔테이션: {orientation}")
-
-    # try:
-    #     image=Image.open(X_img_path)
-
-    #     for orientation in ExifTags.TAGS.keys():
-    #        if ExifTags.TAGS[orientation]=='Orientation':
-    #             break
-
-    #     exif = image._getexif()
-
-    #     if exif[orientation] == 3:
-    #         image=image.rotate(180, expand=True)
-    #     elif exif[orientation] == 6:
-    #         image=image.rotate(270, expand=True)
-    #     elif exif[orientation] == 8:
-    #         image=image.rotate(90, expand=True)
-
-    #     image.save(filepath)
-    #     image.close()
-    # except (AttributeError, KeyError, IndexError):
-    #     # cases: image don't have getexif
-    #     pass
 
     if not os.path.isfile(X_img_path) or os.path.splitext(X_img_path)[1][1:] not in ALLOWED_EXTENSIONS:
         app.logger.info("Invalid image path: {}".format(X_img_path))
@@ -224,9 +129,7 @@ def predict(X_img_path, knn_clf=None, model_path=None, distance_threshold=0.4, n
     # Load image file and find face locations
     X_img = face_recognition.load_image_file(X_img_path)
     X_face_locations = face_recognition.face_locations(X_img)
-    #app.logger.info()
-    #app.logger.info(X_face_locations)
-    #app.logger.info()
+
     # If no faces are found in the image, return an empty result.
     if len(X_face_locations) == 0:
         app.logger.info("사진에 인물이 없음!!")
@@ -301,11 +204,6 @@ def hello():
     nickname = request.form.get('nickname')
     profileImgPath = request.form.get('profileImgPath')
 
-    app.logger.info("nickname: %s",nickname)
-    app.logger.info("profileImgPath: %s",profileImgPath)
-    for idx,trainImg in enumerate(trainImgs):
-        app.logger.info("trainImg: %s",trainImg.filename)
-
     response = requests.get('http://application:8081/images' + profileImgPath)
     # 응답의 상태 코드를 확인하여 요청이 성공했는지 확인
     if response.status_code == 200:
@@ -341,8 +239,6 @@ def hello():
         requests.post('http://application:8081/api/fcm/face', json= dataRes.__dict__)
         return jsonify(dataRes.__dict__)
 
-    # app.logger.info("Training complete!")
-
     testFolderPath = os.path.join("test",nickname)
 
     #test 폴더 생성
@@ -353,7 +249,6 @@ def hello():
     ds_store_path = os.path.join(testFolderPath, ".DS_Store")
     if os.path.exists(ds_store_path):
         os.remove(ds_store_path)
-        # app.logger.info(".DS_Store file removed successfully.")
 
     # 파일 객체를 BytesIO에 쓰기
     img_bytes = testImg.read()
@@ -368,8 +263,6 @@ def hello():
     # STEP 2: Using the trained classifier, make predictions for unknown images
     for image_file in os.listdir(testFolderPath):
         full_file_path = os.path.join(testFolderPath, fileName)
-
-        # app.logger.info("Looking for faces in {}".format(image_file))
 
         # Find all people in the image using a trained classifier model
         # Note: You can pass in either a classifier file name or a classifier model instance
