@@ -1,11 +1,12 @@
 package com.ttrip.core.entity.chatmessage;
 
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Document(collection = "chatMessage")
 @Getter
 @Setter
 @Builder
@@ -13,9 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChatMessage {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer chatMessageId;
+    private String chatMessageId;
     private Integer chatroomId;
     //    @Type(type="org.hibernate.type.UUIDCharType")
     //hibernate는 관계형인거 같아서 잘모르겠어요

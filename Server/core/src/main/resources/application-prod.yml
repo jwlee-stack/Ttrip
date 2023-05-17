@@ -9,6 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
 
+  data:
+    mongodb:
+      uri: mongodb://root:ttrip104!@mongo-db:27017/chatDB?authSource=admin
+
   redis:
     host: redis-db
     port: 6379
@@ -17,6 +21,3 @@ spring:
 flask:
   baseurl: 'http://flask-server:5000'
 
-  data:
-    mongodb:
-      uri: mongodb://root:ttrip104!@mongo-db:27017/chatDB?authSource=admin

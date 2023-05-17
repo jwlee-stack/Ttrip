@@ -7,7 +7,7 @@ import com.ttrip.api.service.FcmService;
 import com.ttrip.api.util.BadWordFilterUtil;
 import com.ttrip.core.entity.chatmessage.ChatMessage;
 import com.ttrip.core.entity.member.Member;
-import com.ttrip.core.repository.chatMessage.ChatMessageRepository;
+import com.ttrip.core.mongo.chatMessage.ChatMessageRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
