@@ -19,6 +19,10 @@ class SplashFragment :
         binding.llLogo.setOnClickListener {
             navigate(SplashFragmentDirections.actionSplashFragmentToOnboardingFragment())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         splashAnimation()
         initObserver()
     }

@@ -74,10 +74,12 @@ class FirebaseService : FirebaseMessagingService() {
                 }
             }
             4 -> {
-                val matchHistoryId = remoteMessage.data["memberUuid"]
+                val matchHistoryId = remoteMessage.data["matchHistoryId"]
                 intent = Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     putExtra("fragment", "evaluateDialog")
+                    putExtra("nickName", nickName)
+                    putExtra("matchHistoryId", matchHistoryId)
                 }
             }
             5 -> {

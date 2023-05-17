@@ -14,12 +14,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sfy.ttrip.common.util.EvaluateUserDialog
+import org.sfy.ttrip.common.util.EvaluateUserDialogListener
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
 import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    EvaluateUserDialogListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -38,13 +41,25 @@ class MainActivity : AppCompatActivity() {
         if (fragmentName != null) {
             getFCMData(fragmentName)
         }
+
+        //EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()
+    }
+
+    override fun evaluate(matchHistoryId: String, rate: Int) {
+
+    }
+
+    override fun openDeclaration(reportedNickname: String) {
+
     }
 
     private fun getFCMData(fragment: String) {
         NEW_ALARM_FLAG = true
         when (fragment) {
             "evaluateDialog" -> {
-
+                val nickname = intent.getStringExtra("nickName")
+                val matchHistoryId = intent.getStringExtra("matchHistoryId")
+                EvaluateUserDialog(this, this, nickname!!, matchHistoryId!!).show()
             }
             "BoardFragment" -> {
                 val articleId = intent.getStringExtra("articleId")
