@@ -42,6 +42,14 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("markerImgPath", null)
         set(value) = prefs.edit().putString("markerImgPath", value).apply()
 
+    var tutorials: Boolean
+        get() = prefs.getBoolean("tutorials", false)
+        set(value) = prefs.edit().putBoolean("tutorials", value).apply()
+
+    var live: Boolean
+        get() = prefs.getBoolean("live", false)
+        set(value) = prefs.edit().putBoolean("live", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }

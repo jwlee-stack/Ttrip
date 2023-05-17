@@ -94,6 +94,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         showUserProfileDialog()
         initObserve()
         (activity as MainActivity).hideBottomNavigation(false)
+
+        if(!ApplicationClass.preferences.live) {
+            showToast("상단의 라이브 버튼을 켜서 이용하세요!")
+            ApplicationClass.preferences.live = true
+        }
     }
 
     override fun onAttach(context: Context) {
