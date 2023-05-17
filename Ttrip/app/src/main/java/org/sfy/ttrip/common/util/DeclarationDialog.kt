@@ -33,12 +33,17 @@ class DeclarationDialog(
     private fun initListener() {
         binding.apply {
             tvCancelDeclaration.setOnClickListener {
+                listener.cancelDeclaration()
                 dismiss()
             }
 
             tvConfirmDeclaration.setOnClickListener {
-                listener.postDeclaration("",reportedNickname)
-                dismiss()
+                if (etDeclarationContent.text.toString() == "") {
+                    activity.showToastMessage("신고 내용을 꼭 입력해주세요!")
+                } else {
+                    listener.postDeclaration(etDeclarationContent.text.toString(), reportedNickname)
+                    dismiss()
+                }
             }
         }
     }

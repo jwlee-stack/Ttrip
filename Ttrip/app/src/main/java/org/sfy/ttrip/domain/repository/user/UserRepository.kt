@@ -27,4 +27,6 @@ interface UserRepository {
     suspend fun postUserFcm(fcmToken: String)
 
     suspend fun postEvaluateUser(matchHistoryId: String, rate: Int)
+
+    suspend fun postReportUser(reportContext: String, reportedNickname: String)
 }
