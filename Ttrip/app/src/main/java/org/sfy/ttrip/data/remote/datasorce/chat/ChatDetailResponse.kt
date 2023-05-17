@@ -10,8 +10,10 @@ data class ChatDetailResponse(
     @SerializedName("content")
     val content: String,
     @SerializedName("createdAt")
-    val createdDate: String
+    val createdDate: String,
+    @SerializedName("isFirst")
+    val isFirst: Boolean
 ) : DataToDomainMapper<ChatDetail> {
     override fun toDomainModel(): ChatDetail =
-        ChatDetail(isMine, content, createdDate)
+        ChatDetail(isMine, content, createdDate, isFirst)
 }
