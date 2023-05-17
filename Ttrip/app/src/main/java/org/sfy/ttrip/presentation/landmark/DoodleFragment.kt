@@ -135,7 +135,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                     node.scaleController.isEnabled = false
                     node.rotationController.isEnabled = false
                     node.translationController.isEnabled = false
-                    node.localScale = Vector3(0.5f, 0.5f, 0.5f) // 크기 조정
+                    node.localScale = Vector3(0.7f, 0.7f, 0.7f) // 크기 조정
                 }
             }
         }
@@ -147,8 +147,8 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
         val transformableNode = TransformableNode(arFragment!!.transformationSystem)
         transformableNode.apply {
             setParent(anchorNode)
-            scaleController.maxScale = 0.51f
-            scaleController.minScale = 0.5f
+            scaleController.maxScale = 0.61f
+            scaleController.minScale = 0.6f
             renderable = viewRenderable
         }
         arFragment!!.arSceneView.scene.addChild(anchorNode)

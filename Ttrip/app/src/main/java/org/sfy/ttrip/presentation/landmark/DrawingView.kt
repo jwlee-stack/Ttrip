@@ -20,7 +20,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     init {
         paint.color = Color.BLACK
-        paint.strokeWidth = 10f
+        paint.strokeWidth = 13f
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -66,6 +66,10 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     fun setColorPear() {
         paint.color = ContextCompat.getColor(context, R.color.pear)
+    }
+
+    fun setColorOldRose() {
+        paint.color = ContextCompat.getColor(context, R.color.old_rose)
     }
 
     // 그림판 옵션 초기화
