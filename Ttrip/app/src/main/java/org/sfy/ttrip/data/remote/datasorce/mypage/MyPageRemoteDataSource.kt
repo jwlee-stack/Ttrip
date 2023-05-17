@@ -31,5 +31,5 @@ interface MyPageRemoteDataSource {
         trainImg3: MultipartBody.Part?,
         testImg: String,
         nickname: String
-    ): String
+    ): CertificateProfileResponse
 }

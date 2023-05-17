@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentBoardBinding
@@ -33,6 +34,10 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initRecyclerView()
         initListener()
 
+        if (!ApplicationClass.preferences.tutorials) {
+            ApplicationClass.preferences.tutorials = true
+            navigate(BoardFragmentDirections.actionBoardFragmentToTutorialsFragment())
+        }
         (activity as MainActivity).hideBottomNavigation(false)
     }
 
@@ -66,15 +71,39 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
     private fun initListener() {
         binding.apply {
             ivSearchBoard.setOnClickListener {
-                if (etSearchBoard.visibility == View.INVISIBLE) {
-                    etSearchBoard.visibility = View.VISIBLE
-                } else {
-                    viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
-                    etSearchBoard.visibility = View.INVISIBLE
-                }
+                viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
+
+                /* if (etSearchBoard.visibility == View.INVISIBLE) {
+                     etSearchBoard.visibility = View.VISIBLE
+                 } else {
+                     viewModel.getBoards(2, "", "", etSearchBoard.text.toString())
+                     etSearchBoard.visibility = View.INVISIBLE
+                 }*/
             }
             ivPostBoard.setOnClickListener {
                 navigate(BoardFragmentDirections.actionBoardFragmentToPostBoardFragment())
+            }
+            ivSelectMode.setOnClickListener {
+                if (clBoardSearchTitle.visibility == View.INVISIBLE) clBoardSearchTitle.visibility =
+                    View.VISIBLE
+                else clBoardSearchTitle.visibility = View.INVISIBLE
+            }
+            tvBoardTotal.setOnClickListener {
+                clBoardSearchTitle.visibility = View.GONE
+                viewModel.getBoards(0, "", "", "")
+            }
+            tvBoardCity.setOnClickListener {
+                viewModel.getBoards(1, "", "", "")
+            }
+            tvBoardDay.setOnClickListener {
+                boardListAdapter.sorting()
+                binding.rvBoardBrief.apply {
+                    adapter = boardListAdapter
+                    layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                }
+            }
+            slBoard.setOnRefreshListener {
+                viewModel.getBoards(0, "", "", "")
             }
         }
     }
@@ -89,7 +118,21 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
 
     private fun initObserver() {
         viewModel.boardListData.observe(viewLifecycleOwner) { response ->
-            response?.let { boardListAdapter.setBoard(it) }
+            response?.let {
+                if (it.isEmpty()) {
+                    binding.apply {
+                        rvBoardBrief.visibility = View.GONE
+                        tvNoneBoard.visibility = View.VISIBLE
+                    }
+                } else {
+                    binding.apply {
+                        rvBoardBrief.visibility = View.VISIBLE
+                        tvNoneBoard.visibility = View.GONE
+                    }
+                    boardListAdapter.setBoard(it)
+                }
+                binding.slBoard.isRefreshing = false
+            }
         }
     }
 

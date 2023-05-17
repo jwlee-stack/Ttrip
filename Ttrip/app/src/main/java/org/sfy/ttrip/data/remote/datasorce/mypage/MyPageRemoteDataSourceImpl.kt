@@ -48,10 +48,10 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
         trainImg3: MultipartBody.Part?,
         testImg: String,
         nickname: String
-    ): String {
+    ): CertificateProfileResponse {
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
         map["profileImgPath"] = testImg.toRequestBody("text/plain".toMediaTypeOrNull())
         map["nickname"] = nickname.toRequestBody("text/plain".toMediaTypeOrNull())
-        return certificateApiService.certificateProfile(trainImg1, trainImg2, trainImg3, map).data!!
+        return certificateApiService.certificateProfile(trainImg1, trainImg2, trainImg3, map)
     }
 }

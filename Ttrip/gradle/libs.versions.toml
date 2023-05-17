@@ -48,6 +48,7 @@ arcore = "1.35.0"
 sceneform = "1.15.0"
 
 keyboardvisibilityevent = "3.0.0-RC3"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -90,6 +91,7 @@ arcore = { module = "com.google.ar:core", version.ref = "arcore" }
 sceneform-ux = { module = "com.google.ar.sceneform.ux:sceneform-ux", version.ref = "sceneform" }
 sceneform-core = { module = "com.google.ar.sceneform:core", version.ref = "sceneform" }
 keyboardvisibilityevent = { module = "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent", version.ref = "keyboardvisibilityevent" }
+swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",

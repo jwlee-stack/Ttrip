@@ -33,6 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/iv_select_mode"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="5dp"
@@ -67,7 +68,8 @@
                 android:id="@+id/et_search_board"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="3dp"
                 android:autofillHints=""
                 android:background="@drawable/bg_rect_eclipse_radius10_stroke1_pear"
                 android:fontFamily="@font/sc_dream4"
@@ -75,35 +77,132 @@
                 android:padding="11dp"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_search_board"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_select_mode"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="LabelFor" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_board_search">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_board_search">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_board_brief"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_none_board"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="90dp"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/ic_none_board"
+                    android:fontFamily="@font/sc_dream5"
+                    android:gravity="center"
+                    android:text="@string/content_none_board"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/sl_board"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/list_item_board_content" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_board_brief"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/list_item_board_content" />
+
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_board_search_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ic_none_board"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_board_search">
+
+            <TextView
+                android:id="@+id/tv_board_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="15dp"
+                android:text="@string/content_search_total"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_board_search_line1"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@string/image_board_line"
+                android:layerType="software"
+                android:src="@drawable/line_solid_line_hawkes_blue_stroke2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_board_total" />
+
+            <TextView
+                android:id="@+id/tv_board_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="15dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_board_search_line1"
+                tools:text="한국" />
+
+            <ImageView
+                android:id="@+id/iv_board_search_line2"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@string/image_board_line"
+                android:layerType="software"
+                android:src="@drawable/line_solid_line_hawkes_blue_stroke2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_board_city" />
+
+            <TextView
+                android:id="@+id/tv_board_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:paddingHorizontal="15dp"
+                android:text="@string/content_search_day"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_board_search_line2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

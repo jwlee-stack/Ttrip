@@ -34,13 +34,7 @@ import org.sfy.ttrip.domain.usecase.landmark.IssueBadgeUseCase
 import org.sfy.ttrip.domain.usecase.live.CreateSessionUseCase
 import org.sfy.ttrip.domain.usecase.live.GetCallTokenUseCase
 import org.sfy.ttrip.domain.usecase.live.GetLiveUsersUseCase
-import org.sfy.ttrip.domain.usecase.mypage.GetMyPostsUseCase
-import org.sfy.ttrip.domain.usecase.mypage.GetUserProfileUseCase
-import org.sfy.ttrip.domain.usecase.mypage.LogoutUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdateBackgroundImgUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdatePreferencesUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdateProfileImgUseCase
-import org.sfy.ttrip.domain.usecase.mypage.UpdateUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.mypage.*
 import org.sfy.ttrip.domain.usecase.user.*
 import javax.inject.Singleton
 
@@ -232,4 +226,9 @@ object UseCaseModule {
     @Provides
     fun providePostReportUserUseCase(userRepository: UserRepository): PostReportUserUseCase =
         PostReportUserUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideCertificateProfileUseCase(myPageRepository: MyPageRepository): CertificateProfileUseCase =
+        CertificateProfileUseCase(myPageRepository)
 }

@@ -14,7 +14,8 @@ data class UserProfile(
     val gender: String?,
     val age: String?,
     val fcmToken: String?,
-    val shareLocation: Boolean
+    val shareLocation: Boolean,
+    val profileVerification: Boolean
 ) {
     fun getGenderString(context: Context): String {
         return when (gender) {

@@ -3,6 +3,7 @@ package org.sfy.ttrip.data.remote.repository
 import okhttp3.MultipartBody
 import org.sfy.ttrip.common.util.wrapToResource
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.data.remote.datasorce.mypage.CertificateProfileResponse
 import org.sfy.ttrip.data.remote.datasorce.mypage.MyPageRemoteDataSource
 import org.sfy.ttrip.data.remote.datasorce.mypage.UpdateUserInfoRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
@@ -73,7 +74,7 @@ class MyPageRepositoryImpl @Inject constructor(
         trainImg3: MultipartBody.Part?,
         testImg: String,
         nickname: String
-    ): String =
+    ): CertificateProfileResponse =
         myPageRemoteDataSource.certificateProfile(
             trainImg1,
             trainImg2,

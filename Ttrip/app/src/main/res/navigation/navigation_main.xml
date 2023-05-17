@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_boardFragment_to_postBoardFragment"
             app:destination="@id/postBoardFragment" />
+        <action
+            android:id="@+id/action_boardFragment_to_tutorialsFragment"
+            app:destination="@id/tutorialsFragment" />
     </fragment>
 
     <fragment

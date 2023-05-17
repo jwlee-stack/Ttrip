@@ -129,4 +129,8 @@ class BoardListAdapter(
         this.boardList = boardBriefList
         notifyDataSetChanged()
     }
+
+    fun sorting(){
+        this.boardList = boardList.sortedBy { it.dueDay }
+    }
 }

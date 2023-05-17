@@ -150,6 +150,9 @@
     <string name="content_delete_board">게시글을 삭제하겠습니까?</string>
     <string name="content_finish_board">모집 종료</string>
     <string name="content_delete_my_board">content_delete_my_board</string>
+    <string name="content_none_board">해당 글을 포함하는 게시글이 없습니다</string>
+    <string name="content_search_total">전체</string>
+    <string name="content_search_day">날짜별</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
