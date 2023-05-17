@@ -85,7 +85,7 @@ class FirebaseService : FirebaseMessagingService() {
             5 -> {
                 intent = Intent(this, MainActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    putExtra("fragment", "mMyPageFragment")
+                    putExtra("fragment", "MyPageFragment")
                 }
             }
             else -> {
