@@ -4,6 +4,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.sfy.ttrip.data.remote.datasorce.base.BaseResponse
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
+import org.sfy.ttrip.data.remote.datasorce.user.UserEvaluateRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserInfoTestRequest
 import org.sfy.ttrip.data.remote.datasorce.user.UserProfileDialogResponse
 import retrofit2.http.*
@@ -28,4 +29,7 @@ interface UserApiService {
 
     @PATCH("/api/members/fcm")
     suspend fun postUserFcm(@Body fcmToken: String)
+
+    @POST("/api/matchHistory")
+    suspend fun postEvaluate(@Body body: UserEvaluateRequest)
 }
