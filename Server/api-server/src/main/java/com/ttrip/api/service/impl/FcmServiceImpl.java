@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -79,9 +80,12 @@ public class FcmServiceImpl implements FcmService {
     }
 
     @Override
+    @Transactional
     public DataResDto<?> face(FromFlaskDto fromFlaskDto) throws IOException {
         Member member = memberRepository.findByNickname(fromFlaskDto.getNickname())
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        member.setProfileVerification(fromFlaskDto.getResult().equals("true") ? true : false);
+        memberRepository.save(member);
         if (member.getFcmToken() == null){
             new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
         }
@@ -104,7 +108,7 @@ public class FcmServiceImpl implements FcmService {
                         .data(data).build())
                 .validate_only(false).build();
 
-        logger.info("매칭 평가 fcm" + member.getNickname() + "님과의 동행은 만족스러웠나요?");
+        logger.info("얼굴인증  fcm" + member.getNickname() + " " + fromFlaskDto.getResult());
 
 
         OkHttpClient client = new OkHttpClient();
@@ -146,7 +150,7 @@ public class FcmServiceImpl implements FcmService {
         List<MatchHistory> matchHistoryList = matchHistoryRepository.findByRateIsNullAndArticleIsNull();
         for (MatchHistory matchHistory : matchHistoryList) {
             //마감일로 하루 지났는데도 평가안됬으면
-            System.out.println(ChronoUnit.HOURS.between(matchHistory.getCreatedAt(), LocalDateTime.now()) % 24);
+
             if (ChronoUnit.HOURS.between(matchHistory.getCreatedAt(), LocalDateTime.now()) % 24 == 0) {
                 sendMessageTo(matchHistory.getEvaluator(), FcmMessageReqDto.builder()
                         .type(4)
@@ -166,7 +170,7 @@ public class FcmServiceImpl implements FcmService {
         String targetToken = targetMember.getFcmToken();
         //토큰이 있는지 확인
         if (targetToken == null) {
-            new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
+            throw new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
         }
 
         //string, string 말고 다른 타입도 되나요?
