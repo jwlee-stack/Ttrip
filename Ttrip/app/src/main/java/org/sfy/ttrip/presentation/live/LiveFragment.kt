@@ -119,6 +119,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     override fun onDestroy() {
         super.onDestroy()
         binding.switchLive.isChecked = false
+        landmarkViewModel.clearIssueStatus()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

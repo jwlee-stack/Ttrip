@@ -29,6 +29,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
         (activity as MainActivity).hideBottomNavigation(false)
         initRecyclerView()
         setChatRooms()
+        initListener()
     }
 
     override fun onAttach(context: Context) {
@@ -44,6 +45,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    private fun initListener() {
+        binding.slChat.setOnRefreshListener {
+            chatViewModel.getChatRooms()
+        }
     }
 
     private fun initRecyclerView() {
@@ -81,6 +88,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(R.layout.fragment_chat),
                 }
                 MainActivity.NEW_ALARM_FLAG = false
             }
+            binding.slChat.isRefreshing = false
         }
         chatViewModel.getChatRooms()
     }

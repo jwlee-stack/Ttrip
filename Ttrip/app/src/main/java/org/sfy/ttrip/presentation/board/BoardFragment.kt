@@ -34,7 +34,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
         initRecyclerView()
         initListener()
 
-        if(!ApplicationClass.preferences.tutorials) {
+        if (!ApplicationClass.preferences.tutorials) {
             ApplicationClass.preferences.tutorials = true
             navigate(BoardFragmentDirections.actionBoardFragmentToTutorialsFragment())
         }
@@ -102,6 +102,9 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
                     layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 }
             }
+            slBoard.setOnRefreshListener {
+                viewModel.getBoards(0, "", "", "")
+            }
         }
     }
 
@@ -128,6 +131,7 @@ class BoardFragment : BaseFragment<FragmentBoardBinding>(R.layout.fragment_board
                     }
                     boardListAdapter.setBoard(it)
                 }
+                binding.slBoard.isRefreshing = false
             }
         }
     }

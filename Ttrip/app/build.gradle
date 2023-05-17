@@ -92,6 +92,9 @@ dependencies {
 
     // 키보드 올라옴 여부 확인 라이브러리
     implementation libs.keyboardvisibilityevent
+
+    // 새로고침 라이브러리
+    implementation libs.swiperefreshlayout
 }
 
 kapt {

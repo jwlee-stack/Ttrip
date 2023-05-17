@@ -99,4 +99,8 @@ class LandmarkViewModel @Inject constructor(
     fun setPositionZ(num: Double) {
         _positionZ.value = num
     }
+
+    fun clearIssueStatus() {
+        _issueStatus.value = null
+    }
 }
