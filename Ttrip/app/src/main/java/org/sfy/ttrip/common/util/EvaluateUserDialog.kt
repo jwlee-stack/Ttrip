@@ -40,11 +40,16 @@ class EvaluateUserDialog(
             }
 
             tvConfirm.setOnClickListener {
-                listener.evaluate(matchHistoryId, binding.rbUserEvaluateRate.numStars)
-                dismiss()
+                if (binding.rbUserEvaluateRate.rating.toInt() == 0) {
+                    activity.showToastMessage("평점을 입력해주세요!")
+                } else {
+                    listener.evaluate(matchHistoryId, binding.rbUserEvaluateRate.rating.toInt())
+                    dismiss()
+                }
             }
 
             clDeclaration.setOnClickListener {
+                dismiss()
                 listener.openDeclaration(userNickname)
             }
         }

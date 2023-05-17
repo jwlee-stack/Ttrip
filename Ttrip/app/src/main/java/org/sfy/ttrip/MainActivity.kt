@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
     private val userViewModel by viewModels<UserInfoViewModel>()
+    private lateinit var nickname: String
+    private lateinit var matchHistoryId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,19 +47,28 @@ class MainActivity : AppCompatActivity(),
             getFCMData(fragmentName)
         }
 
-        EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()
+        /*this.nickname = "nickname"
+        this.matchHistoryId = "match"
+        EvaluateUserDialog(this, this, "nickname!!", "matchHistoryId!!").show()*/
     }
 
     override fun evaluate(matchHistoryId: String, rate: Int) {
-        // 평가 날리기 api
+        userViewModel.postEvaluateUser(matchHistoryId, rate)
     }
 
     override fun openDeclaration(reportedNickname: String) {
+        // 신고 다이얼로그 열기
         DeclarationDialog(this, this, reportedNickname).show()
     }
 
     override fun postDeclaration(reportContext: String, reportedNickname: String) {
         // 신고 api
+        userViewModel.postReportUser(reportContext, reportedNickname)
+    }
+
+    override fun cancelDeclaration() {
+        // 신고 취소 시 다시 평가 다이얼로그
+        EvaluateUserDialog(this, this, this.nickname, this.matchHistoryId).show()
     }
 
     private fun getFCMData(fragment: String) {
@@ -66,7 +77,9 @@ class MainActivity : AppCompatActivity(),
             "evaluateDialog" -> {
                 val nickname = intent.getStringExtra("nickName")
                 val matchHistoryId = intent.getStringExtra("matchHistoryId")
-                EvaluateUserDialog(this, this, nickname!!, matchHistoryId!!).show()
+                this.nickname = nickname!!
+                this.matchHistoryId = matchHistoryId!!
+                EvaluateUserDialog(this, this, nickname, matchHistoryId).show()
             }
             "BoardFragment" -> {
                 val articleId = intent.getStringExtra("articleId")

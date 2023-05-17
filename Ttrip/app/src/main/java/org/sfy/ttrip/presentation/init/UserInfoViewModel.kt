@@ -16,10 +16,7 @@ import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
 import org.sfy.ttrip.data.remote.datasorce.user.CheckDuplicationResponse
 import org.sfy.ttrip.domain.entity.user.UserTest
-import org.sfy.ttrip.domain.usecase.user.CheckDuplicationUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserFcmTokenUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserInfoTestUseCase
-import org.sfy.ttrip.domain.usecase.user.PostUserInfoUseCase
+import org.sfy.ttrip.domain.usecase.user.*
 import java.io.File
 import javax.inject.Inject
 
@@ -28,7 +25,9 @@ class UserInfoViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val postUserInfoUseCase: PostUserInfoUseCase,
     private val postUserInfoTestUseCase: PostUserInfoTestUseCase,
-    private val postUserFcmTokenUseCase: PostUserFcmTokenUseCase
+    private val postUserFcmTokenUseCase: PostUserFcmTokenUseCase,
+    private val postEvaluateUserUseCase: PostEvaluateUserUseCase,
+    private val postReportUserUseCase: PostReportUserUseCase
 ) : ViewModel() {
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(null)
@@ -152,5 +151,17 @@ class UserInfoViewModel @Inject constructor(
     fun postUserFcmToken(alarm: Boolean, token: String) {
         if (alarm) viewModelScope.launch { postUserFcmTokenUseCase(token) }
         else viewModelScope.launch { postUserFcmTokenUseCase("") }
+    }
+
+    fun postEvaluateUser(matchHistoryId: String, rate: Int) {
+        viewModelScope.launch {
+            postEvaluateUserUseCase(matchHistoryId, rate)
+        }
+    }
+
+    fun postReportUser(reportContext: String, reportedNickname: String) {
+        viewModelScope.launch {
+            postReportUserUseCase(reportContext, reportedNickname)
+        }
     }
 }

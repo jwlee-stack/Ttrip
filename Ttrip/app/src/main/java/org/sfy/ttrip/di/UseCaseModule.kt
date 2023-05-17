@@ -227,4 +227,9 @@ object UseCaseModule {
     @Provides
     fun providePostEvaluateUserUseCase(userRepository: UserRepository): PostEvaluateUserUseCase =
         PostEvaluateUserUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun providePostReportUserUseCase(userRepository: UserRepository): PostReportUserUseCase =
+        PostReportUserUseCase(userRepository)
 }
