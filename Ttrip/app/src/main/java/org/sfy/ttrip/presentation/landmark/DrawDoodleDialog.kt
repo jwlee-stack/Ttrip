@@ -57,6 +57,9 @@ class DrawDoodleDialog(
             ivDoodleColorNeonBlue.setOnClickListener {
                 drawingView.setColorNeonBlue()
             }
+            ivDoodleColorOldRose.setOnClickListener {
+                drawingView.setColorOldRose()
+            }
             ivDoodleColorPear.setOnClickListener {
                 drawingView.setColorPear()
             }
