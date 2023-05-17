@@ -326,7 +326,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         if (::map.isInitialized) {
             visibleRegion = map.projection.visibleRegion
             val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
-            liveViewModel.liveUserList.observe(viewLifecycleOwner) {
+            liveViewModel.liveUserList.observe(this@LiveFragment) {
                 liveViewModel.filteredLiveUserList.value =
                     it?.filter { user ->
                         val userLatLng = LatLng(user!!.latitude, user.longitude)
