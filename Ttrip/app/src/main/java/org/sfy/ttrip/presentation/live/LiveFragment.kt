@@ -49,16 +49,17 @@ import kotlin.math.sqrt
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
     GoogleMap.OnCameraIdleListener, CloseLiveDialogListener, UserProfileDialogListener,
-    GoogleMap.OnMarkerClickListener {
+    GoogleMap.OnMarkerClickListener, StartARDialogListener {
 
     private lateinit var callback: OnBackPressedCallback
-    private var waitTime = 0L
-
     private lateinit var map: GoogleMap
     private lateinit var visibleRegion: VisibleRegion
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private lateinit var landmarkTag: String
 
+
+    private var waitTime = 0L
     private val liveViewModel by viewModels<LiveViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
     private val landmarkViewModel by activityViewModels<LandmarkViewModel>()
@@ -145,20 +146,18 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val tag = marker.tag as String
-        val value = tag.split(",")
+        landmarkTag = marker.tag as String
+        val value = landmarkTag.split(",")
         if (distance(
                 value[1].toDouble(),
                 value[2].toDouble(),
                 liveViewModel.lat,
                 liveViewModel.lng
-            ) <= 1000.0
+            ) <= 200.0
         ) {
-            landmarkViewModel.issueBadge(value[0].toInt())
-            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(value[0].toInt()))
-
-            (activity as MainActivity).hideBottomNavigation(true)
-
+            landmarkViewModel.issueBadge(landmarkTag.split(",")[0].toInt())
+            val dialog = StartARDialog(requireContext(), this)
+            dialog.show()
         } else {
             showToast("랜드마크와의 거리가 멀어\n접근할 수 없습니다.")
         }
@@ -591,5 +590,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 chatViewModel.clearChatInit()
             }
         }
+    }
+
+    override fun onStartARButtonClicked() {
+        val value = landmarkTag.split(",")
+        navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(value[0].toInt()))
+        (activity as MainActivity).hideBottomNavigation(true)
     }
 }
