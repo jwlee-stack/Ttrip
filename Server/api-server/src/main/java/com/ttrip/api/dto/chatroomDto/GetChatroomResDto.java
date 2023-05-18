@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -31,7 +29,7 @@ public class GetChatroomResDto {
     private String articleTitle;
     @ApiModelProperty(value = "관련 article id", example = "1")
     private Integer articleId;
-    @ApiModelProperty(value = "관련 article status",notes = "T모집중, F모집 완료, D 삭제됨", example = "T")
+    @ApiModelProperty(value = "관련 article status", notes = "T모집중, F모집 완료, D 삭제됨", example = "T")
     private char status;
     @ApiModelProperty(value = "매칭 여부", example = "true")
     private Boolean isMatch;
