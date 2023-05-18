@@ -75,9 +75,9 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
         }
     }
 
-    private fun initObserve(){
+    private fun initObserve() {
         // 옵저빙하고 나서 진행 해야함
-        viewModel.boardId.observe(requireActivity()) {
+        viewModel.boardId.observe(this@PostBoardFragment) {
             if (it != null) {
                 navigate(PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment())
             }
