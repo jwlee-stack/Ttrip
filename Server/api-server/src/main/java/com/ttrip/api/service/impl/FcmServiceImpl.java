@@ -86,7 +86,7 @@ public class FcmServiceImpl implements FcmService {
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
         member.setProfileVerification(fromFlaskDto.getResult().equals("true") ? true : false);
         memberRepository.save(member);
-        if (member.getFcmToken() == null){
+        if (member.getFcmToken() == null) {
             new NoSuchElementException((ErrorMessageEnum.FCM_TOKEN_NOT_EXIST.getMessage()));
         }
 
