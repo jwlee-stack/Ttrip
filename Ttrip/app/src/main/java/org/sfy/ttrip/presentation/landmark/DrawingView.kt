@@ -1,11 +1,7 @@
 package org.sfy.ttrip.presentation.landmark
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -20,7 +16,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     init {
         paint.color = Color.BLACK
-        paint.strokeWidth = 13f
+        paint.strokeWidth = 11f
     }
 
     override fun onDraw(canvas: Canvas?) {
