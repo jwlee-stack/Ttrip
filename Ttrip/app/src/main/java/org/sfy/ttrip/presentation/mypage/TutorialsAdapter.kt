@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class TutorialsAdapter (fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 6
+    override fun getItemCount(): Int = 7
 
     override fun createFragment(position: Int): Fragment {
         return MyPageTutorialsContentFragment().apply {

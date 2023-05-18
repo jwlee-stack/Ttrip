@@ -110,5 +110,107 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tutorials_end"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+
+            <LinearLayout
+                android:id="@+id/ll_board_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/ll_board_finish_recommend"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_board_finish1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="@string/content_tutorials_end1"
+                    android:textColor="@color/pear"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_board_finish2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_light"
+                    android:text="@string/content_tutorials_end2"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_board_finish_recommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/iv_board_finish"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_board_finish1_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_medium"
+                    android:text="@string/content_tutorials_end3"
+                    android:textColor="@color/neon_blue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_board_finish2_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gmarket_sans_ttf_light"
+                    android:text="@string/content_tutorials_end4"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_board_finish"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/image_onboarding_banner"
+                android:src="@drawable/ic_onboarding_travel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_finish_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_board_finish">
+
+                <TextView
+                    android:id="@+id/tv_go_to_start"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/bg_rect_neon_blue_radius10"
+                    android:fontFamily="@font/sc_dream5"
+                    android:gravity="center"
+                    android:text="@string/content_app_start"
+                    android:textColor="@color/white" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
