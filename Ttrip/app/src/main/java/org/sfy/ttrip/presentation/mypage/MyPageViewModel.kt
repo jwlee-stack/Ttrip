@@ -282,6 +282,12 @@ class MyPageViewModel @Inject constructor(
         )
     }
 
+    fun clearCertificateProfile() {
+        certificateImg1.value = null
+        certificateImg2.value = null
+        certificateImg3.value = null
+    }
+
     fun logout() = viewModelScope.launch { logoutUseCase() }
 
     fun postNickname(nickname: String?) {
