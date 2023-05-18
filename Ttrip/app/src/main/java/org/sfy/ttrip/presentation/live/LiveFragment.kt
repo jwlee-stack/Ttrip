@@ -93,9 +93,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getOpenViduToken()
         showUserProfileDialog()
         initObserve()
-        (activity as MainActivity).hideBottomNavigation(false)
 
-        if(!ApplicationClass.preferences.live) {
+        if (!ApplicationClass.preferences.live) {
             showToast("상단의 라이브 버튼을 켜서 이용하세요!")
             ApplicationClass.preferences.live = true
         }
@@ -119,7 +118,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     override fun onDestroy() {
         super.onDestroy()
         binding.switchLive.isChecked = false
-        landmarkViewModel.clearIssueStatus()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -158,6 +156,9 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         ) {
             landmarkViewModel.issueBadge(value[0].toInt())
             navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(value[0].toInt()))
+
+            (activity as MainActivity).hideBottomNavigation(true)
+
         } else {
             showToast("랜드마크와의 거리가 멀어\n접근할 수 없습니다.")
         }
@@ -283,8 +284,10 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         landmarkViewModel.issueStatus.observe(viewLifecycleOwner) {
             if (it == 200) {
                 showToast("뱃지가 발급되었습니다!")
+                landmarkViewModel.clearIssueStatus()
             } else if (it == 204) {
                 showToast("이미 발급된 뱃지입니다.")
+                landmarkViewModel.clearIssueStatus()
             }
         }
     }
@@ -428,11 +431,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     val addresses =
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     val cityName = addresses!![0].locality?.trim()?.replace("-", "")
-
-//                    val geocoderCountry = Geocoder(requireContext(), Locale.KOREA)
-//                    val addressesCountry = geocoderCountry.getFromLocation(location.latitude, location.longitude, 1)
-//                    val countryName = addressesCountry!![0].countryName?.trim()?.replace("-", "")
-//                    country = countryName!!
 
                     if (liveViewModel.cityOnLive.value == "") {
                         liveViewModel.cityOnLive.value = cityName

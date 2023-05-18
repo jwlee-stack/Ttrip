@@ -13,6 +13,17 @@
             android:layout_height="match_parent" />
 
         <ImageView
+            android:id="@+id/iv_back_to_live"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/image_back_to_login"
+            android:src="@drawable/ic_back_arrow_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/iv_add_doodle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
