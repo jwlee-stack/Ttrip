@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat
 class CertificateProfileFragment :
     BaseFragment<FragmentCertificateProfileBinding>(R.layout.fragment_certificate_profile) {
 
+    private val targetWidth = 1280
+    private val targetHeight = 960
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private lateinit var realUri: Uri
 
@@ -61,7 +63,8 @@ class CertificateProfileFragment :
                                                 requireContext()
                                             )
                                         ).path
-                                    )
+                                    ),
+                                    800
                                 )
                                 val rotatedFile =
                                     createTempFile("rotated_", ".jpg", context?.cacheDir)
@@ -89,7 +92,8 @@ class CertificateProfileFragment :
                                                 requireContext()
                                             )
                                         ).path
-                                    )
+                                    ),
+                                    800
                                 )
                                 val rotatedFile =
                                     createTempFile("rotated_", ".jpg", context?.cacheDir)
@@ -117,7 +121,8 @@ class CertificateProfileFragment :
                                                 requireContext()
                                             )
                                         ).path
-                                    )
+                                    ),
+                                    800
                                 )
                                 val rotatedFile =
                                     createTempFile("rotated_", ".jpg", context?.cacheDir)
@@ -242,11 +247,14 @@ class CertificateProfileFragment :
         )
     }
 
-    private fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+    private fun rotateBitmap(filePath: String, bitmap: Bitmap, targetSize: Int): Bitmap {
         val orientation = getExifOrientation(filePath)
         val matrix = Matrix()
         when (orientation) {
-            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_NORMAL -> return resizeBitmapMaintainingAspectRatio(
+                bitmap,
+                targetSize
+            )
             ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
             ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
             ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
@@ -263,9 +271,9 @@ class CertificateProfileFragment :
                 matrix.postScale(-1f, 1f)
             }
             ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
-            else -> return bitmap
+            else -> return resizeBitmapMaintainingAspectRatio(bitmap, targetSize)
         }
-        return Bitmap.createBitmap(
+        val rotatedBitmap = Bitmap.createBitmap(
             bitmap,
             0,
             0,
@@ -274,6 +282,28 @@ class CertificateProfileFragment :
             matrix,
             true
         )
+        return resizeBitmapMaintainingAspectRatio(rotatedBitmap, targetSize)
+    }
+
+    private fun resizeBitmapMaintainingAspectRatio(bitmap: Bitmap, targetSize: Int): Bitmap {
+        val originalWidth = bitmap.width
+        val originalHeight = bitmap.height
+
+        val scaledWidth: Int
+        val scaledHeight: Int
+        val scaleFactor: Float
+
+        if (originalWidth > originalHeight) {
+            scaleFactor = targetSize.toFloat() / originalWidth
+            scaledWidth = targetSize
+            scaledHeight = (originalHeight * scaleFactor).toInt()
+        } else {
+            scaleFactor = targetSize.toFloat() / originalHeight
+            scaledHeight = targetSize
+            scaledWidth = (originalWidth * scaleFactor).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true)
     }
 
     private fun getExifOrientation(filePath: String): Int {
