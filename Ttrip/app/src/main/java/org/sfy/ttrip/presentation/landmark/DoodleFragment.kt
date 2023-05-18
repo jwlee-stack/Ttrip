@@ -54,7 +54,8 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                     showToast("뒤로가기 버튼을\n한번 더 누르면 AR이 종료됩니다.")
                 } else {
                     popBackStack()
-                    requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                    requireActivity().window.decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_VISIBLE
                 }
             }
         }
@@ -62,16 +63,21 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
     }
 
     private fun initListener() {
-        binding.ivAddDoodle.setOnClickListener {
-            val dialog = DrawDoodleDialog(requireContext(), this)
-            dialog.show()
-        }
-        binding.ivSaveDoodle.setOnClickListener {
-            bitmap?.let {
-                sendImageToServer(it)
+        binding.apply {
+            ivAddDoodle.setOnClickListener {
+                val dialog = DrawDoodleDialog(requireContext(), this@DoodleFragment)
+                dialog.show()
             }
-            showToast("낙서가 저장되었습니다!")
-            binding.ivSaveDoodle.visibility = View.GONE
+            ivSaveDoodle.setOnClickListener {
+                bitmap?.let {
+                    sendImageToServer(it)
+                }
+                showToast("낙서가 저장되었습니다!")
+                binding.ivSaveDoodle.visibility = View.GONE
+            }
+            ivBackToLive.setOnClickListener {
+                popBackStack()
+            }
         }
     }
 
