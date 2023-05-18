@@ -108,14 +108,15 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                             // 옵저빙하고 나서 진행 해야함
                                             viewModel.boardId.observe(requireActivity()) {
                                                 if (it != null) {
-                                                    navigate(
+                                                   /* navigate(
                                                         PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment(
                                                             viewModel.boardId.value!!,
                                                             viewModel.authorId.value!!,
                                                             viewModel.postBoardCity.value!!,
                                                             viewModel.postBoardContent.value!!
                                                         )
-                                                    )
+                                                    )*/
+                                                    popBackStack()
                                                 }
                                             }
                                         }

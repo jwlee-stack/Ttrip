@@ -20,7 +20,8 @@ class MyPageTutorialsContentFragment :
                 binding.clTutorialsLive,
                 binding.clTutorialsAr,
                 binding.clTutorialsChat,
-                binding.clTutorialsProfile
+                binding.clTutorialsProfile,
+                binding.clTutorialsEnd
             )
 
             when (bannerPosition) {
@@ -30,12 +31,18 @@ class MyPageTutorialsContentFragment :
                 3 -> changeVisibility(3, contentData)
                 4 -> changeVisibility(4, contentData)
                 5 -> changeVisibility(5, contentData)
+                6 -> {
+                    changeVisibility(6, contentData)
+                    binding.tvGoToStart.setOnClickListener {
+                        popBackStack()
+                    }
+                }
             }
         }
     }
 
     private fun changeVisibility(position: Int, bannerData: List<ConstraintLayout>) {
-        for (i in 0..5) {
+        for (i in 0..6) {
             bannerData[i].visibility = View.GONE
         }
         bannerData[position].visibility = View.VISIBLE
