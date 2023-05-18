@@ -79,6 +79,7 @@
     <string name="image_doodle_color_neon_blue">image_doodle_color_neon_blue</string>
     <string name="image_doodle_color_pear">image_doodle_color_pear</string>
     <string name="image_doodle_clear">image_doodle_clear</string>
+    <string name="content_start_ar">AR 모드를 시작하시겠습니까?</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
