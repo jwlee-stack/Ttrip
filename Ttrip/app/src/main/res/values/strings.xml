@@ -483,4 +483,9 @@
     <string name="content_tutorials_chat">content_tutorials_chat</string>
     <string name="content_tutorials_ar">content_tutorials_ar</string>
     <string name="content_tutorials">튜토리얼 다시보기</string>
+    <string name="content_tutorials_end1">튜토리얼</string>
+    <string name="content_tutorials_end2">이 끝났습니다.</string>
+    <string name="content_tutorials_end3">띱</string>
+    <string name="content_tutorials_end4">을 시작해볼까요?</string>
+    <string name="content_app_start">시작하기</string>
 </resources>
