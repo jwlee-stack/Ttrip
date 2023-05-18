@@ -29,6 +29,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +88,9 @@ public class ChatServiceImpl implements ChatService {
                 chatroomList.add(getChatroomResDto);
             }
         }
-
+        //보낸 시간으로 내림차순으로 정렬
+        Comparator<GetChatroomResDto> comparator = Comparator.comparing(GetChatroomResDto::getUpdatedAt).reversed();
+        Collections.sort(chatroomList, comparator);
         return DataResDto.builder().data(chatroomList).message("채팅목록을 조회했습니다.").build();
     }
 
