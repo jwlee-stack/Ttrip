@@ -15,6 +15,8 @@ import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.chat.ChatViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
@@ -109,6 +111,15 @@ class BoardDetailFragment :
                 boardDetail = it
                 ivBoardDetailUserProfile.setProfileImg(it!!.imgPath)
 
+                val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val inputDateObject = LocalDate.parse(it.endDate, dateFormat)
+                val today = LocalDate.now()
+
+                if (!inputDateObject.isAfter(today) && !inputDateObject.isEqual(today)) {
+                    clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
+                }
+
+
                 // 본인 게시물
                 if (it.isMine) {
                     initRecyclerView()
@@ -188,14 +199,12 @@ class BoardDetailFragment :
         viewModel.getBoardDetail(args.boardId)
 
         binding.apply {
-            if (args.dDay == -2) {
-                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-            } else if (args.dDay == -1) {
-                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
-            } else if (args.dDay <= 3) {
+            if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
+            } else if (args.dDay == -1) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
             } else {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_royal_blue_top_radius20)
             }

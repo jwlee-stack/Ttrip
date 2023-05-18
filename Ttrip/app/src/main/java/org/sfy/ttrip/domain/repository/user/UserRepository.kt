@@ -28,5 +28,9 @@ interface UserRepository {
 
     suspend fun postEvaluateUser(matchHistoryId: String, rate: Int)
 
-    suspend fun postReportUser(reportContext: String, reportedNickname: String)
+    suspend fun postReportUser(
+        reportContext: String,
+        reportedNickname: String,
+        matchHistoryId: String
+    )
 }

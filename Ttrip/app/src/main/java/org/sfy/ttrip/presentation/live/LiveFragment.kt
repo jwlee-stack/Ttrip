@@ -428,6 +428,12 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     val addresses =
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     val cityName = addresses!![0].locality?.trim()?.replace("-", "")
+
+//                    val geocoderCountry = Geocoder(requireContext(), Locale.KOREA)
+//                    val addressesCountry = geocoderCountry.getFromLocation(location.latitude, location.longitude, 1)
+//                    val countryName = addressesCountry!![0].countryName?.trim()?.replace("-", "")
+//                    country = countryName!!
+
                     if (liveViewModel.cityOnLive.value == "") {
                         liveViewModel.cityOnLive.value = cityName
                         // 소켓 연결

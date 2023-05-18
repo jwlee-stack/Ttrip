@@ -77,7 +77,9 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                 rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                 outputStream.close()
                 val requestFile = rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
-                myPageViewModel.markerfile = rotatedFile
+                myPageViewModel.markerfile = File(
+                    absolutelyPath(it.data as Uri, requireContext())
+                )
                 myPageViewModel.setProfileFile(
                     it.data as Uri, rotatedFile.name, requestFile
                 )

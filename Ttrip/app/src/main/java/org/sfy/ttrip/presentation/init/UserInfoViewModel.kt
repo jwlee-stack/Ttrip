@@ -159,9 +159,9 @@ class UserInfoViewModel @Inject constructor(
         }
     }
 
-    fun postReportUser(reportContext: String, reportedNickname: String) {
+    fun postReportUser(reportContext: String, reportedNickname: String, matchHistoryId: String) {
         viewModelScope.launch {
-            postReportUserUseCase(reportContext, reportedNickname)
+            postReportUserUseCase(reportContext, reportedNickname, matchHistoryId)
         }
     }
 }

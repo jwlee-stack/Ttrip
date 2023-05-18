@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import org.sfy.ttrip.R
 import java.io.File
 
-
 fun makeMarkerImg(context: Context, uri: Uri, file: File): Bitmap {
     val bitmap = Bitmap.createBitmap(1500, 1700, Bitmap.Config.ARGB_8888)
     val c = Canvas(bitmap)
