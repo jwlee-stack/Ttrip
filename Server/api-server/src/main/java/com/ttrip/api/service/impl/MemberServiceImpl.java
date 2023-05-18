@@ -16,11 +16,13 @@ import com.ttrip.api.exception.BadRequestException;
 import com.ttrip.api.service.MemberService;
 import com.ttrip.api.service.MypageService;
 import com.ttrip.core.entity.blacklist.Blacklist;
+import com.ttrip.core.entity.matchHistory.MatchHistory;
 import com.ttrip.core.entity.member.Member;
 import com.ttrip.core.entity.refreshToken.RefreshToken;
 import com.ttrip.core.entity.survey.Survey;
 import com.ttrip.core.repository.blacklist.BlacklistRepository;
 import com.ttrip.core.repository.liveRedisDao.LiveRedisDao;
+import com.ttrip.core.repository.matchHistory.MatchHistoryRepository;
 import com.ttrip.core.repository.member.MemberRepository;
 import com.ttrip.core.repository.refreshToken.RefreshTokenRepository;
 import com.ttrip.core.repository.survey.SurveyRepository;
@@ -50,6 +52,7 @@ public class MemberServiceImpl implements MemberService {
     private final BlacklistRepository blacklistRepository;
     private final MypageService mypageService;
     private final LiveRedisDao liveRedisDao;
+    private final MatchHistoryRepository matchHistoryRepository;
 
     @Override
     @Transactional
@@ -287,15 +290,22 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public DataResDto<?> reportMember(MemberReportReqDto memberReportReqDto, MemberDetails memberDetails) {
         Member member = memberRepository.findByNickname(memberReportReqDto.getReportedNickname()).get();
+        member.setIsFreezed(true);
+        memberRepository.save(member);
+
+        MatchHistory matchHistory = matchHistoryRepository.findByMatchHistoryId(memberReportReqDto.getMatchHistoryId())
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.MATCH_NOT_EXIST.getMessage()));
+        matchHistory.setRate(1);
+        matchHistoryRepository.save(matchHistory);
+
         Blacklist blacklist = Blacklist.builder()
                 .reporterId(memberDetails.getMember().getMemberId())
                 .reportContext(memberReportReqDto.getReportContext())
                 .member(member)
                 .build();
-        member.setIsFreezed(true);
-        memberRepository.save(member);
         blacklistRepository.save(blacklist);
         log.info("신고 저장(신고자: {}, 피신고자: {})", blacklist.getReporterId(), blacklist.getMember().getMemberId());
         return DataResDto.builder()

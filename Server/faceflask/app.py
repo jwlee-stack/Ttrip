@@ -70,9 +70,9 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
                 if verbose:
                     app.logger.info("학습할 사진에 사람이 한 명이 아님!!")
                     if len(face_bounding_boxes) < 1:
-                        result="얼굴을 찾지 못함"
+                        result="얼굴이 인식되지 않았습니다. 다시 시도해주세요."
                     else:
-                        result="얼굴이 2개 이상"
+                        result="사진에 얼굴이 2명 이상입니다. 다시 시도해주세요."
 
                     app.logger.info("Image {} not suitable for training: {}".format(img_path, result))
                     return DataRes(nickname,result,"false"),None
@@ -210,7 +210,7 @@ def hello():
         # 이미지 데이터를 BytesIO 객체로 변환
         testImg = BytesIO(response.content)
     else:
-        return response.reason, 400
+        return jsonify(DataRes(nickname,"이미지를 가져오지 못했습니다.","false").__dict__)
 
     trainFolderPath = os.path.join("train",nickname)
     trainImgsFolderPath=os.path.join(trainFolderPath,nickname)
