@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_postBoardFragment_to_finishPostBoardFragment"
             app:destination="@id/finishPostBoardFragment" />
+        <action
+            android:id="@+id/action_postBoardFragment_to_recommendBoardFragment"
+            app:destination="@id/recommendBoardFragment" />
     </fragment>
 
     <fragment
