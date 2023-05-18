@@ -6,7 +6,7 @@ import javax.inject.Inject
 class PostReportUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(reportContext: String, reportedNickname: String) {
-        userRepository.postReportUser(reportContext, reportedNickname)
+    suspend operator fun invoke(reportContext: String, reportedNickname: String, matchHistoryId: String) {
+        userRepository.postReportUser(reportContext, reportedNickname, matchHistoryId)
     }
 }

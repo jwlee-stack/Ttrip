@@ -14,10 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.sfy.ttrip.common.util.DeclarationDialog
-import org.sfy.ttrip.common.util.DeclarationDialogListener
-import org.sfy.ttrip.common.util.EvaluateUserDialog
-import org.sfy.ttrip.common.util.EvaluateUserDialogListener
+import org.sfy.ttrip.common.util.*
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
 import org.sfy.ttrip.presentation.init.UserInfoViewModel
@@ -50,6 +47,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun evaluate(matchHistoryId: String, rate: Int) {
         userViewModel.postEvaluateUser(matchHistoryId, rate)
+        showToastMessage("리뷰 완료되엇습니다.")
     }
 
     override fun openDeclaration(reportedNickname: String) {
@@ -57,9 +55,13 @@ class MainActivity : AppCompatActivity(),
         DeclarationDialog(this, this, reportedNickname).show()
     }
 
-    override fun postDeclaration(reportContext: String, reportedNickname: String) {
+    override fun postDeclaration(
+        reportContext: String,
+        reportedNickname: String
+    ) {
         // 신고 api
-        userViewModel.postReportUser(reportContext, reportedNickname)
+        userViewModel.postReportUser(reportContext, reportedNickname, this.matchHistoryId)
+        showToastMessage("신고 완료되엇습니다.")
     }
 
     override fun cancelDeclaration() {
@@ -93,7 +95,7 @@ class MainActivity : AppCompatActivity(),
 
                 navController.navigate(R.id.chatFragment, bundle)
             }
-            "MyPageFragment"->{
+            "MyPageFragment" -> {
                 navController.navigate(R.id.myPageFragment)
             }
         }

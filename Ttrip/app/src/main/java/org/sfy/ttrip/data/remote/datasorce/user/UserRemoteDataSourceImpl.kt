@@ -47,7 +47,17 @@ class UserRemoteDataSourceImpl @Inject constructor(
         userApiService.postEvaluate(UserEvaluateRequest(matchHistoryId, rate))
     }
 
-    override suspend fun postReportUser(reportContext: String, reportedNickname: String) {
-        userApiService.postUserReport(UserReportRequest(reportContext, reportedNickname))
+    override suspend fun postReportUser(
+        reportContext: String,
+        reportedNickname: String,
+        matchHistoryId: String
+    ) {
+        userApiService.postUserReport(
+            UserReportRequest(
+                reportContext,
+                reportedNickname,
+                matchHistoryId
+            )
+        )
     }
 }

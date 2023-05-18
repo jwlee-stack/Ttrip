@@ -1,7 +1,6 @@
 package org.sfy.ttrip.presentation.init
 
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sfy.ttrip.MainActivity
@@ -40,8 +39,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun observeData() {
         authViewModel.emptyNickname.observe(viewLifecycleOwner) {
-            Log.d("123123", "observeData: ${authViewModel.isFreeze.value}")
-
             if (authViewModel.isFreeze.value == false) {
                 if (it == true) {
                     showToast("로그인되었습니다.")

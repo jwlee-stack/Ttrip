@@ -153,6 +153,7 @@
     <string name="content_none_board">해당 글을 포함하는 게시글이 없습니다</string>
     <string name="content_search_total">전체</string>
     <string name="content_search_day">날짜별</string>
+    <string name="content_none_country">\?</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
@@ -214,6 +215,7 @@
     <string name="content_city_hint">도시를 입력해주세요</string>
     <string name="image_doodle_view">image_doodle_view</string>
     <string-array name="nation_names">
+        <item>대한민국</item>
         <item>한국</item>
         <item>일본</item>
         <item>중국</item>
