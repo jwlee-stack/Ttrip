@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class MemberReportReqDto {
     private String reportedNickname;
     private String reportContext;
+    private Integer matchHistoryId;
 }
