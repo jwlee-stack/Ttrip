@@ -1,6 +1,7 @@
 package org.sfy.ttrip.presentation.board
 
 import android.content.Context
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -20,7 +21,19 @@ class RecommendBoardFragment :
     }
 
     override fun initView() {
-        recommendBoardAdapter.setRecommendBoard(viewModel.recommendBoardListData.value!!)
+        if (viewModel.recommendBoardListData.value!!.isEmpty()) {
+            binding.apply {
+                vpRecommendBoard.visibility = View.GONE
+                tvNoneBoard.visibility = View.VISIBLE
+            }
+
+        } else {
+            binding.apply {
+                vpRecommendBoard.visibility = View.VISIBLE
+                tvNoneBoard.visibility = View.GONE
+            }
+            recommendBoardAdapter.setRecommendBoard(viewModel.recommendBoardListData.value!!)
+        }
         initViewPager()
     }
 
@@ -38,6 +51,11 @@ class RecommendBoardFragment :
     private fun initViewPager() {
         val offsetBetweenPages =
             resources.getDimensionPixelOffset(R.dimen.offsetBetweenPages).toFloat()
+
+        binding.ivBackToBoard.setOnClickListener {
+            navigate(RecommendBoardFragmentDirections.actionRecommendBoardFragmentToBoardFragment())
+            (activity as MainActivity).hideBottomNavigation(false)
+        }
 
         binding.vpRecommendBoard.apply {
             adapter = recommendBoardAdapter

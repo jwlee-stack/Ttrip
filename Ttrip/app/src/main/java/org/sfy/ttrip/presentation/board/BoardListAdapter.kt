@@ -55,6 +55,7 @@ class BoardListAdapter(
                     }
                 }
 
+                tvBoardDDay.textSize = 22F
                 if (data.dueDay <= 3) {
                     clTicketTop.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
                     tvDate.setTextColor(ContextCompat.getColor(context, R.color.old_rose))
