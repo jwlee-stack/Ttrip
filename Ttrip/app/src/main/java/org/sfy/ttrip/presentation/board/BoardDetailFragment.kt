@@ -15,12 +15,15 @@ import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentBoardDetailBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.chat.ChatViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class BoardDetailFragment :
     BaseFragment<FragmentBoardDetailBinding>(R.layout.fragment_board_detail),
     BoardDialogListener,
     CommentDialogListener,
     UserProfileDialogListener {
+
     private val args by navArgs<BoardDetailFragmentArgs>()
     private val viewModel by activityViewModels<BoardViewModel>()
     private val chatViewModel by activityViewModels<ChatViewModel>()
@@ -98,7 +101,6 @@ class BoardDetailFragment :
 
             ivBackToBoard.setOnClickListener {
                 popBackStack()
-                (activity as MainActivity).hideBottomNavigation(false)
             }
         }
     }
@@ -108,6 +110,15 @@ class BoardDetailFragment :
             binding.apply {
                 boardDetail = it
                 ivBoardDetailUserProfile.setProfileImg(it!!.imgPath)
+
+                val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val inputDateObject = LocalDate.parse(it.endDate, dateFormat)
+                val today = LocalDate.now()
+
+                if (!inputDateObject.isAfter(today) && !inputDateObject.isEqual(today)) {
+                    clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
+                }
+
 
                 // 본인 게시물
                 if (it.isMine) {
@@ -134,7 +145,10 @@ class BoardDetailFragment :
                     tvFinishBoard.visibility = View.GONE
 
                     tvUserSimilarity.visibility = View.VISIBLE
-                    ivArrowBoardDetailUserDetail.visibility = View.VISIBLE
+                    ivArrowBoardDetailUserDetail.apply {
+                        visibility = View.VISIBLE
+                    }
+
                     ivDeleteOption.visibility = View.GONE
 
                     // 모집 진행중인 경우
@@ -185,14 +199,12 @@ class BoardDetailFragment :
         viewModel.getBoardDetail(args.boardId)
 
         binding.apply {
-            if (args.dDay == -2) {
-                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_dim_gray_top_radius20)
-            } else if (args.dDay == -1) {
-                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
-            } else if (args.dDay <= 3) {
+            if (args.dDay <= 3) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_old_rose_top_radius20)
             } else if (args.dDay <= 10) {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_ming_top_radius20)
+            } else if (args.dDay == -1) {
+                clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_neon_blue_top_radius20)
             } else {
                 clBoardDetailTitle.setBackgroundResource(R.drawable.bg_rect_royal_blue_top_radius20)
             }
@@ -237,7 +249,8 @@ class BoardDetailFragment :
                     similarity,
                     it.age,
                     it.gender,
-                    it.intro
+                    it.intro,
+                    it.profileVerification
                 ).show()
             }
         }

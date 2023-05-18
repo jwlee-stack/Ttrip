@@ -3,7 +3,7 @@ package org.sfy.ttrip.data.remote.datasorce.board
 
 interface BoardRemoteDataSource {
 
-    suspend fun postBoard(body: PostBoardRequest)
+    suspend fun postBoard(body: PostBoardRequest): PostBoardResponse
 
     suspend fun getBoardList(body: SearchBoardRequest): List<BoardBriefResponse>
 
@@ -16,4 +16,6 @@ interface BoardRemoteDataSource {
     suspend fun getBoardComment(boardId: Int): List<BoardCommentResponse>
 
     suspend fun postComment(body: CommentRequest)
+
+    suspend fun postRecommendBoard(body: RecommendBoardRequest): List<RecommendBoardResponse>
 }

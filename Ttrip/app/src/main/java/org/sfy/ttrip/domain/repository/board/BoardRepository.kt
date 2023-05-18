@@ -1,10 +1,7 @@
 package org.sfy.ttrip.domain.repository.board
 
 import org.sfy.ttrip.data.remote.Resource
-import org.sfy.ttrip.domain.entity.board.BoardBrief
-import org.sfy.ttrip.domain.entity.board.BoardComment
-import org.sfy.ttrip.domain.entity.board.BoardDetail
-import java.time.LocalDateTime
+import org.sfy.ttrip.domain.entity.board.*
 
 interface BoardRepository {
 
@@ -14,8 +11,8 @@ interface BoardRepository {
         city: String,
         startDate: String,
         endDateTime: String,
-        title:String
-    )
+        title: String
+    ): Resource<PostBoard>
 
     suspend fun getBoardList(
         condition: Int,
@@ -33,4 +30,12 @@ interface BoardRepository {
     suspend fun getBoardComment(boardId: Int): Resource<List<BoardComment>>
 
     suspend fun postComment(boardId: Int, comment: String)
+
+    suspend fun getRecommendBoard(
+        boardId: Int,
+        authorId: Int,
+        city: String,
+        content: String,
+        numOfArticles: Int
+    ): Resource<List<RecommendBoard>>
 }

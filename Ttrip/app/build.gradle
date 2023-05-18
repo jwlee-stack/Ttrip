@@ -62,6 +62,7 @@ dependencies {
 
     implementation libs.bundles.retrofit.bundles
     implementation libs.bundles.okhttp3.bundles
+    implementation 'com.google.ar.sceneform:assets:1.17.1'
 
     testImplementation libs.junit
 
@@ -84,6 +85,16 @@ dependencies {
     implementation libs.firebase.auth
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.messaging
+
+    implementation libs.arcore
+    implementation libs.sceneform.ux
+    implementation libs.sceneform.core
+
+    // 키보드 올라옴 여부 확인 라이브러리
+    implementation libs.keyboardvisibilityevent
+
+    // 새로고침 라이브러리
+    implementation libs.swiperefreshlayout
 }
 
 kapt {

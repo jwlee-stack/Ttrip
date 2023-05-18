@@ -10,9 +10,11 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sfy.ttrip.AuthInterceptorClient
+import org.sfy.ttrip.FlaskInterceptorClient
 import org.sfy.ttrip.NoAuthInterceptorClient
 import org.sfy.ttrip.RefreshInterceptorClient
 import org.sfy.ttrip.common.util.Constants.BASE_URL
+import org.sfy.ttrip.common.util.Constants.FLASK_URL
 import org.sfy.ttrip.data.local.datasource.SharedPreferences
 import org.sfy.ttrip.data.remote.AuthInterceptor
 import retrofit2.Retrofit
@@ -76,6 +78,20 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @FlaskInterceptorClient
+    fun provideFlaskHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(45, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @NoAuthInterceptorClient
     fun provideRetrofit(
         @NoAuthInterceptorClient okHttpClient: OkHttpClient
@@ -107,6 +123,18 @@ object NetworkModule {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .build()
+
+    @Provides
+    @Singleton
+    @FlaskInterceptorClient
+    fun provideFlaskRetrofit(
+        @FlaskInterceptorClient okHttpClient: OkHttpClient
+    ): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(FLASK_URL)
             .client(okHttpClient)
             .build()
 }

@@ -5,6 +5,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -13,15 +14,22 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.sfy.ttrip.common.util.*
 import org.sfy.ttrip.data.remote.service.FirebaseService
 import org.sfy.ttrip.databinding.ActivityMainBinding
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    EvaluateUserDialogListener,
+    DeclarationDialogListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
+    private val userViewModel by viewModels<UserInfoViewModel>()
+    private lateinit var nickname: String
+    private lateinit var matchHistoryId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,22 +38,79 @@ class MainActivity : AppCompatActivity() {
 
         initNavigation()
         getFCMToken()
+
+        val fragmentName = intent.getStringExtra("fragment")
+        if (fragmentName != null) {
+            getFCMData(fragmentName)
+        }
+    }
+
+    override fun evaluate(matchHistoryId: String, rate: Int) {
+        userViewModel.postEvaluateUser(matchHistoryId, rate)
+        showToastMessage("리뷰 완료되엇습니다.")
+    }
+
+    override fun openDeclaration(reportedNickname: String) {
+        // 신고 다이얼로그 열기
+        DeclarationDialog(this, this, reportedNickname).show()
+    }
+
+    override fun postDeclaration(
+        reportContext: String,
+        reportedNickname: String
+    ) {
+        // 신고 api
+        userViewModel.postReportUser(reportContext, reportedNickname, this.matchHistoryId)
+        showToastMessage("신고 완료되엇습니다.")
+    }
+
+    override fun cancelDeclaration() {
+        // 신고 취소 시 다시 평가 다이얼로그
+        EvaluateUserDialog(this, this, this.nickname, this.matchHistoryId).show()
+    }
+
+    private fun getFCMData(fragment: String) {
+        NEW_ALARM_FLAG = true
+        when (fragment) {
+            "evaluateDialog" -> {
+                val nickname = intent.getStringExtra("nickName")
+                val matchHistoryId = intent.getStringExtra("matchHistoryId")
+                this.nickname = nickname!!
+                this.matchHistoryId = matchHistoryId!!
+                EvaluateUserDialog(this, this, nickname, matchHistoryId).show()
+            }
+            "BoardFragment" -> {
+                val articleId = intent.getStringExtra("articleId")
+                val dDay = intent.getStringExtra("dDay")
+                val bundle = Bundle()
+                bundle.putString("articleId", articleId)
+                bundle.putString("dDay", dDay)
+
+                navController.navigate(R.id.boardFragment, bundle)
+            }
+            "ChatFragment" -> {
+                val chatroomId = intent.getStringExtra("chatroomId")
+                val bundle = Bundle()
+                bundle.putString("chatroomId", chatroomId)
+
+                navController.navigate(R.id.chatFragment, bundle)
+            }
+            "MyPageFragment" -> {
+                navController.navigate(R.id.myPageFragment)
+            }
+        }
     }
 
     private fun initNavigation() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-
 
         binding.bottomNavigation.apply {
             setupWithNavController(navController)
             itemIconTintList = null
 
             setOnNavigationItemSelectedListener { menuItem ->
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.boardFragment, true)
-                    .build()
+                val navOptions = NavOptions.Builder().setPopUpTo(R.id.boardFragment, true).build()
 
                 when (menuItem.itemId) {
                     R.id.boardFragment -> {
@@ -79,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
+            userViewModel.postUserFcmToken(true, result)
             Log.d("fcmToken", "getFCMToken: $result")
         }
     }
@@ -98,5 +164,9 @@ class MainActivity : AppCompatActivity() {
     fun checkLocationService(): Boolean {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    companion object {
+        var NEW_ALARM_FLAG = false
     }
 }

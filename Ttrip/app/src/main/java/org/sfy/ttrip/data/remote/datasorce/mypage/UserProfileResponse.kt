@@ -26,7 +26,9 @@ data class UserProfileResponse(
     @SerializedName("fcmToken")
     val fcmToken: String?,
     @SerializedName("shareLocation")
-    val shareLocation: Boolean
+    val shareLocation: Boolean,
+    @SerializedName("profileVerification")
+    val profileVerification: Boolean
 ) : DataToDomainMapper<UserProfile> {
     override fun toDomainModel(): UserProfile =
         UserProfile(
@@ -40,6 +42,7 @@ data class UserProfileResponse(
             gender,
             age,
             fcmToken,
-            shareLocation
+            shareLocation,
+            profileVerification
         )
 }

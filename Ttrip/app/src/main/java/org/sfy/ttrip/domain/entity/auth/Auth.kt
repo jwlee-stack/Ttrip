@@ -11,5 +11,6 @@ data class Auth (
     val gender: String?,
     val age: Int?,
     val shareLocation: Boolean,
+    val isFreeze:Boolean,
     val token: Token
 )

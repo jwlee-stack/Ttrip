@@ -13,3 +13,7 @@ annotation class NoAuthInterceptorClient
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class RefreshInterceptorClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FlaskInterceptorClient

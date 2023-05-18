@@ -2,6 +2,7 @@ package org.sfy.ttrip.domain.repository.mypage
 
 import okhttp3.MultipartBody
 import org.sfy.ttrip.data.remote.Resource
+import org.sfy.ttrip.data.remote.datasorce.mypage.CertificateProfileResponse
 import org.sfy.ttrip.domain.entity.board.BoardBrief
 import org.sfy.ttrip.domain.entity.mypage.BackgroundImg
 import org.sfy.ttrip.domain.entity.mypage.UserProfile
@@ -36,4 +37,12 @@ interface MyPageRepository {
     )
 
     suspend fun getMyPosts(): Resource<List<BoardBrief>>
+
+    suspend fun certificateProfile(
+        trainImg1: MultipartBody.Part?,
+        trainImg2: MultipartBody.Part?,
+        trainImg3: MultipartBody.Part?,
+        testImg: String,
+        nickname: String
+    ): CertificateProfileResponse
 }

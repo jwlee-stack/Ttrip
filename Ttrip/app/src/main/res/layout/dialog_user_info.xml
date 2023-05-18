@@ -128,9 +128,10 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_profileVerification"
                     android:layout_width="16sp"
                     android:layout_height="14dp"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="5dp"
                     android:contentDescription="@string/image_user_check"
                     android:src="@drawable/ic_user_check"
                     app:layout_constraintBottom_toBottomOf="@id/ll_user_age_gender"

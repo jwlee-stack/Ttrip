@@ -11,6 +11,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.data.remote.Resource
@@ -33,7 +34,8 @@ class MyPageViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val updateBackgroundImgUseCase: UpdateBackgroundImgUseCase,
     private val updateProfileImgUseCase: UpdateProfileImgUseCase,
-    private val getMyPostsUseCase: GetMyPostsUseCase
+    private val getMyPostsUseCase: GetMyPostsUseCase,
+    private val certificateProfileUseCase: CertificateProfileUseCase
 ) : ViewModel() {
 
     private val _posts = MutableLiveData<List<BoardBrief>?>()
@@ -71,11 +73,31 @@ class MyPageViewModel @Inject constructor(
 
     private var profileFileMultiPart: MultipartBody.Part? = null
 
+    private val _certificateImg1: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg1: MutableLiveData<Uri?> = _certificateImg1
+
+    private var certificateFile1MultiPart: MultipartBody.Part? = null
+
+    private val _certificateImg2: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg2: MutableLiveData<Uri?> = _certificateImg2
+
+    private var certificateFile2MultiPart: MultipartBody.Part? = null
+
+    private val _certificateImg3: MutableLiveData<Uri?> = MutableLiveData()
+    val certificateImg3: MutableLiveData<Uri?> = _certificateImg3
+
+    private var certificateFile3MultiPart: MultipartBody.Part? = null
+
+    var certificateNum = 0
+
     var markerfile: File? = null
     private var markerFileMultiPart: MultipartBody.Part? = null
 
     private val _isChanged: MutableLiveData<Boolean> = MutableLiveData(false)
     val isChanged: MutableLiveData<Boolean> = _isChanged
+
+    private val _profileVerification: MutableLiveData<Boolean> = MutableLiveData(false)
+    val profileVerification: MutableLiveData<Boolean> = _profileVerification
 
     suspend fun checkDuplication() =
         viewModelScope.async {
@@ -90,6 +112,16 @@ class MyPageViewModel @Inject constructor(
                 }
             }
         }.await()
+
+    private fun updateProfileImg() {
+        viewModelScope.launch {
+            if (isChanged.value!!) {
+                updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
+                _isChanged.value = false
+                getUserProfile()
+            }
+        }
+    }
 
     fun updateUserInfo(age: Int, gender: String, intro: String, nickname: String) {
         viewModelScope.launch {
@@ -169,25 +201,36 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfileImg() {
-        viewModelScope.launch {
-            if (isChanged.value!!) {
-                updateProfileImgUseCase(markerFileMultiPart, profileFileMultiPart)
-                _isChanged.value = false
-                getUserProfile()
-            }
-        }
-    }
-
-    fun setProfileFile(uri: Uri, file: File) {
+    fun setProfileFile(uri: Uri, rotatedFileName: String, requestFile: RequestBody) {
         viewModelScope.launch {
             _isChanged.value = true
             _profileImg.value = uri
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileFileMultiPart =
-                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+                MultipartBody.Part.createFormData("profileImg", rotatedFileName, requestFile)
+        }
+    }
 
-            markerfile = file
+    fun setCertificateImg1(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
+        viewModelScope.launch {
+            _certificateImg1.value = uri
+            certificateFile1MultiPart =
+                MultipartBody.Part.createFormData("trainImg1", rotatedFileName, requestFile)
+        }
+    }
+
+    fun setCertificateImg2(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
+        viewModelScope.launch {
+            _certificateImg2.value = uri
+            certificateFile2MultiPart =
+                MultipartBody.Part.createFormData("trainImg2", rotatedFileName, requestFile)
+        }
+    }
+
+    fun setCertificateImg3(uri: Uri?, rotatedFileName: String, requestFile: RequestBody) {
+        viewModelScope.launch {
+            _certificateImg3.value = uri
+            certificateFile3MultiPart =
+                MultipartBody.Part.createFormData("trainImg3", rotatedFileName, requestFile)
         }
     }
 
@@ -203,6 +246,7 @@ class MyPageViewModel @Inject constructor(
         when (val value = getUserProfileUseCase()) {
             is Resource.Success -> {
                 _userProfile.value = value.data
+                _profileVerification.value = value.data.profileVerification
                 ApplicationClass.preferences.apply {
                     nickname = value.data.nickname
                     gender = value.data.gender
@@ -226,6 +270,22 @@ class MyPageViewModel @Inject constructor(
                 Log.d("getMyPosts", "getMyPosts: ${value.errorMessage}")
             }
         }
+    }
+
+    fun certificateProfile() = viewModelScope.launch {
+        certificateProfileUseCase(
+            certificateFile1MultiPart,
+            certificateFile2MultiPart,
+            certificateFile3MultiPart,
+            _userProfile.value?.profileImgPath!!,
+            _userProfile.value?.nickname!!
+        )
+    }
+
+    fun clearCertificateProfile() {
+        certificateImg1.value = null
+        certificateImg2.value = null
+        certificateImg3.value = null
     }
 
     fun logout() = viewModelScope.launch { logoutUseCase() }

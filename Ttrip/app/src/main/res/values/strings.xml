@@ -74,6 +74,11 @@
     <string name="content_live_toggle_off">OFF</string>
     <string name="content_live_toggle_on">ON</string>
     <string name="content_close_live">라이브 실행중에는\n다른 페이지로 이동할 수 없습니다.\n라이브를 종료하시겠습니까?</string>
+    <string name="image_add_doodle">image_add_doodle</string>
+    <string name="image_doodle_color_black">image_doodle_color_black</string>
+    <string name="image_doodle_color_neon_blue">image_doodle_color_neon_blue</string>
+    <string name="image_doodle_color_pear">image_doodle_color_pear</string>
+    <string name="image_doodle_clear">image_doodle_clear</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
@@ -101,6 +106,7 @@
     <string name="content_logout">로그아웃</string>
     <string name="title_my_board">게시글 조회</string>
     <string name="content_logout_dialog">로그아웃하시겠습니까?</string>
+    <string name="image_certificate_profile">image_certificate_profile</string>
 
     <!-- sign_up_information -->
     <string name="image_back_to_login">image_back_to_login</string>
@@ -144,6 +150,10 @@
     <string name="content_delete_board">게시글을 삭제하겠습니까?</string>
     <string name="content_finish_board">모집 종료</string>
     <string name="content_delete_my_board">content_delete_my_board</string>
+    <string name="content_none_board">해당 글을 포함하는 게시글이 없습니다</string>
+    <string name="content_search_total">전체</string>
+    <string name="content_search_day">날짜별</string>
+    <string name="content_none_country">\?</string>
 
     <!-- Edit Profile -->
     <string name="image_dash_line">image_dash_line</string>
@@ -181,6 +191,14 @@
     <string name="image_user_profile">image_user_profile</string>
     <string name="image_close_user_profile">image_close_user_profile</string>
     <string name="image_user_check">image_user_check</string>
+    <string name="content_valid_city">유효한 도시가 아닙니다. 다시 입력해주세요!</string>
+    <string name="content_valid_nation">유효한 나라가 아닙니다. 다시 입력해주세요!</string>
+    <string name="content_post_user_board">게시글</string>
+    <string name="content_finish_user_board">생성이 완료되었습니다.</string>
+    <string name="content_recommend_board">추천 게시글</string>
+    <string name="content_ask_recommend_board">을 받아 보시겠어요?</string>
+    <string name="content_back_to_board">돌아가기</string>
+    <string name="content_go_to_recommend">추천 받기</string>
 
     <!-- Declaration -->
     <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>
@@ -195,7 +213,9 @@
     <string name="content_nation_hint">나라를 입력해주세요</string>
     <string name="content_city">도시</string>
     <string name="content_city_hint">도시를 입력해주세요</string>
+    <string name="image_doodle_view">image_doodle_view</string>
     <string-array name="nation_names">
+        <item>대한민국</item>
         <item>한국</item>
         <item>일본</item>
         <item>중국</item>
@@ -445,4 +465,22 @@
         <item>마라케시</item>
         <item>페스</item>
     </string-array>
+
+    <!-- Notification -->
+    <string name="notification_channel_id">Channel_Id</string>
+    <string name="notification_channel_name">ttrip</string>
+
+    <!-- Badge -->
+    <string name="title_badge">뱃지</string>
+    <string name="content_my_badge">보유한 뱃지</string>
+    <string name="image_badge">image_badge</string>
+
+    <!-- Tutorials -->
+    <string name="content_tutorials_board">content_tutorials_board</string>
+    <string name="content_tutorials_board_detail">content_tutorials_board_detail</string>
+    <string name="content_tutorials_live">content_tutorials_live</string>
+    <string name="content_tutorials_profile">content_tutorials_profile</string>
+    <string name="content_tutorials_chat">content_tutorials_chat</string>
+    <string name="content_tutorials_ar">content_tutorials_ar</string>
+    <string name="content_tutorials">튜토리얼 다시보기</string>
 </resources>

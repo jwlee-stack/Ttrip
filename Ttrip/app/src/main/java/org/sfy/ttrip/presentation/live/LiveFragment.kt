@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.location.Geocoder
 import android.media.MediaPlayer
@@ -12,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -36,8 +38,8 @@ import org.sfy.ttrip.common.util.UserProfileDialog
 import org.sfy.ttrip.common.util.UserProfileDialogListener
 import org.sfy.ttrip.databinding.FragmentLiveBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
-import org.sfy.ttrip.presentation.board.BoardDetailFragmentDirections
 import org.sfy.ttrip.presentation.chat.ChatViewModel
+import org.sfy.ttrip.presentation.landmark.LandmarkViewModel
 import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -46,7 +48,8 @@ import kotlin.math.sqrt
 
 @AndroidEntryPoint
 class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), OnMapReadyCallback,
-    GoogleMap.OnCameraMoveListener, CloseLiveDialogListener, UserProfileDialogListener {
+    GoogleMap.OnCameraIdleListener, CloseLiveDialogListener, UserProfileDialogListener,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var callback: OnBackPressedCallback
     private var waitTime = 0L
@@ -58,6 +61,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     private val liveViewModel by viewModels<LiveViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
+    private val landmarkViewModel by activityViewModels<LandmarkViewModel>()
+
     private val liveUserAdapter by lazy {
         LiveUserAdapter(
             this::getLiveUser,
@@ -77,6 +82,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     }
 
     override fun initView() {
+        (activity as MainActivity).hideBottomNavigation(false)
         blockMoveToOtherMenu()
         setLiveUsersRecyclerView()
         observeLiveState()
@@ -87,6 +93,11 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         getOpenViduToken()
         showUserProfileDialog()
         initObserve()
+
+        if (!ApplicationClass.preferences.live) {
+            showToast("상단의 라이브 버튼을 켜서 이용하세요!")
+            ApplicationClass.preferences.live = true
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -111,7 +122,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        map.setOnCameraMoveListener(this)
+        map.setOnMarkerClickListener(this)
+        map.setOnCameraIdleListener(this)
         // My Location 레이어 활성화
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -132,7 +144,28 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         }
     }
 
-    override fun onCameraMove() {
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val tag = marker.tag as String
+        val value = tag.split(",")
+        if (distance(
+                value[1].toDouble(),
+                value[2].toDouble(),
+                liveViewModel.lat,
+                liveViewModel.lng
+            ) <= 1000.0
+        ) {
+            landmarkViewModel.issueBadge(value[0].toInt())
+            navigate(LiveFragmentDirections.actionLiveFragmentToDoodleFragment(value[0].toInt()))
+
+            (activity as MainActivity).hideBottomNavigation(true)
+
+        } else {
+            showToast("랜드마크와의 거리가 멀어\n접근할 수 없습니다.")
+        }
+        return true
+    }
+
+    override fun onCameraIdle() {
         getFilteredList()
     }
 
@@ -146,6 +179,54 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
 
     override fun clear() {
         liveViewModel.clearUserProfile()
+    }
+
+    private fun setLandmarks() {
+        liveViewModel.landmarks.observe(viewLifecycleOwner) {
+            if (::map.isInitialized) {
+                it?.let {
+                    for (item in it) {
+                        try {
+                            val vectorDrawable = ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_landmark_marker
+                            )
+                            val bitmap = Bitmap.createBitmap(
+                                vectorDrawable?.intrinsicWidth ?: 0,
+                                vectorDrawable?.intrinsicHeight ?: 0,
+                                Bitmap.Config.ARGB_8888
+                            )
+                            val canvas = Canvas(bitmap)
+                            vectorDrawable?.setBounds(0, 0, canvas.width, canvas.height)
+                            vectorDrawable?.draw(canvas)
+
+                            // 마커 이미지의 크기를 조정합니다.
+                            val scaleFactor = 0.5f
+                            val scaledBitmap = Bitmap.createScaledBitmap(
+                                bitmap,
+                                (bitmap.width * scaleFactor).toInt(),
+                                (bitmap.height * scaleFactor).toInt(),
+                                false
+                            )
+
+                            val markerBitmapDescriptor =
+                                BitmapDescriptorFactory.fromBitmap(scaledBitmap)
+                            val markerOptions = MarkerOptions()
+                                .position(LatLng(item.latitude, item.longitude))
+                                .icon(markerBitmapDescriptor)
+
+                            val marker = map.addMarker(markerOptions)
+                            marker?.tag =
+                                "${item.landmarkId},${item.latitude},${item.longitude},${item.landmarkName}"
+
+                        } catch (e: Exception) {
+                            Log.e("setLandmarks", "Failed to decode marker image: ${e.message}")
+                        }
+                    }
+                }
+            }
+        }
+        liveViewModel.getLandmarks()
     }
 
     private fun showUserProfileDialog() {
@@ -162,7 +243,8 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     liveViewModel.matchingRate,
                     it.age,
                     it.gender,
-                    it.intro
+                    it.intro,
+                    it.profileVerification
                 ).show()
             }
         }
@@ -197,6 +279,15 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                 } else {
                     liveViewModel.setLiveUserReset()
                 }
+            }
+        }
+        landmarkViewModel.issueStatus.observe(viewLifecycleOwner) {
+            if (it == 200) {
+                showToast("뱃지가 발급되었습니다!")
+                landmarkViewModel.clearIssueStatus()
+            } else if (it == 204) {
+                showToast("이미 발급된 뱃지입니다.")
+                landmarkViewModel.clearIssueStatus()
             }
         }
     }
@@ -235,6 +326,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                             })
                     }
                 }
+                setLandmarks()
             }
         }
     }
@@ -244,7 +336,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         if (::map.isInitialized) {
             visibleRegion = map.projection.visibleRegion
             val latLngBounds: LatLngBounds = visibleRegion.latLngBounds
-            liveViewModel.liveUserList.observe(viewLifecycleOwner) {
+            liveViewModel.liveUserList.observe(this@LiveFragment) {
                 liveViewModel.filteredLiveUserList.value =
                     it?.filter { user ->
                         val userLatLng = LatLng(user!!.latitude, user.longitude)
@@ -339,6 +431,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
                     val addresses =
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     val cityName = addresses!![0].locality?.trim()?.replace("-", "")
+
                     if (liveViewModel.cityOnLive.value == "") {
                         liveViewModel.cityOnLive.value = cityName
                         // 소켓 연결
@@ -483,7 +576,7 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
         chatViewModel.chatInit.observe(this@LiveFragment) {
             if (it != null) {
                 navigate(
-                    BoardDetailFragmentDirections.actionBoardDetailFragmentToChatDetailFragment(
+                    LiveFragmentDirections.actionLiveFragmentToChatDetailFragment(
                         it.chatId,
                         it.memberUuid,
                         it.imagePath,

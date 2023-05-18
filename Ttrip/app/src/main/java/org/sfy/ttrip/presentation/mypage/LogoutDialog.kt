@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import org.sfy.ttrip.ApplicationClass
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.DialogLogoutBinding
 
@@ -40,6 +41,7 @@ class LogoutDialog(
         binding.apply {
             tvConfirm.setOnClickListener {
                 listener.onConfirmButtonClicked()
+                ApplicationClass.preferences.clearPreferences()
                 dismiss()
             }
             tvCancel.setOnClickListener {

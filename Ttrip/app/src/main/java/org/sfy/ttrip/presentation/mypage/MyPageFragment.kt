@@ -7,9 +7,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +21,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.common.util.makeMarkerImg
@@ -24,6 +30,7 @@ import org.sfy.ttrip.databinding.FragmentMypageBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 import org.sfy.ttrip.presentation.init.InitActivity
 import org.sfy.ttrip.presentation.init.SignUpInfoContentFragment.Companion.REQUEST_READ_STORAGE_PERMISSION
+import org.sfy.ttrip.presentation.init.UserInfoViewModel
 import java.io.File
 import java.io.FileOutputStream
 
@@ -36,6 +43,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private lateinit var markerFile: File
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val userViewModel by activityViewModels<UserInfoViewModel>()
     private val fromActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -53,9 +61,27 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     ) { result: ActivityResult ->
         result.data?.let {
             if (it.data != null) {
+                val rotatedBitmap = rotateBitmap(
+                    File(absolutelyPath(it.data as Uri, requireContext())).path,
+                    BitmapFactory.decodeFile(
+                        File(
+                            absolutelyPath(
+                                it.data as Uri,
+                                requireContext()
+                            )
+                        ).path
+                    )
+                )
+                val rotatedFile = createTempFile("rotated_", ".jpg", context?.cacheDir)
+                val outputStream = FileOutputStream(rotatedFile)
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                outputStream.close()
+                val requestFile = rotatedFile.asRequestBody("image/*".toMediaTypeOrNull())
+                myPageViewModel.markerfile = File(
+                    absolutelyPath(it.data as Uri, requireContext())
+                )
                 myPageViewModel.setProfileFile(
-                    it.data as Uri,
-                    File(absolutelyPath(it.data, requireContext()))
+                    it.data as Uri, rotatedFile.name, requestFile
                 )
             }
         }
@@ -65,7 +91,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         (activity as MainActivity).hideBottomNavigation(false)
         initListener()
         setUserProfile()
-        observeImg()
+        initObserve()
     }
 
     override fun onAttach(context: Context) {
@@ -85,6 +111,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     override fun onConfirmButtonClicked() {
         myPageViewModel.logout()
+        userViewModel.postUserFcmToken(false, "")
         val intent = Intent(activity, InitActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
@@ -102,11 +129,20 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
             tvGetMyPosts.setOnClickListener {
                 navigate(MyPageFragmentDirections.actionMyPageFragmentToMyPageBoardFragment())
             }
+            tvGetMyBadges.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToMyBadgesFragment())
+            }
+            ivCertificateProfile.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToCertificateProfileFragment())
+            }
             ivProfileBackground.setOnClickListener {
                 setBackgroundView()
             }
             ivProfileImage.setOnClickListener {
                 setProfileView()
+            }
+            tvTutorials.setOnClickListener {
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToTutorialsFragment())
             }
         }
         binding.tvLogout.setOnClickListener {
@@ -115,14 +151,14 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
     }
 
-    private fun observeImg() {
+    private fun initObserve() {
         myPageViewModel.backgroundImg.observe(viewLifecycleOwner) {
-            if (myPageViewModel.isChanged.value!!){
+            if (myPageViewModel.isChanged.value!!) {
                 myPageViewModel.updateBackgroundImg()
             }
         }
         myPageViewModel.profileImg.observe(viewLifecycleOwner) {
-            if (myPageViewModel.isChanged.value!!){
+            if (myPageViewModel.isChanged.value!!) {
                 saveImageToGallery(
                     makeMarkerImg(
                         requireContext(),
@@ -131,6 +167,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                     )
                 )
             }
+        }
+        myPageViewModel.profileVerification.observe(viewLifecycleOwner) {
+            if (it) binding.ivProfileVerification.visibility = View.VISIBLE
+            else binding.ivProfileVerification.visibility = View.GONE
         }
     }
 
@@ -230,7 +270,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         bitmap: Bitmap,
         path: String
     ): Boolean {
-
         val state = Environment.getExternalStorageState()
         if (Environment.MEDIA_MOUNTED == state) {
             val rootPath =
@@ -257,7 +296,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
                         Uri.parse("file://" + Environment.getExternalStorageDirectory())
                     )
                 )
-
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -277,5 +315,47 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun requestPermission(activity: Activity, permission: String) {
         ActivityCompat.requestPermissions(activity, arrayOf(permission), 1)
+    }
+
+    private fun rotateBitmap(filePath: String, bitmap: Bitmap): Bitmap {
+        val orientation = getExifOrientation(filePath)
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_NORMAL -> return bitmap
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> {
+                matrix.setRotate(180f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
+    private fun getExifOrientation(filePath: String): Int {
+        val exif = ExifInterface(filePath)
+        return exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
     }
 }

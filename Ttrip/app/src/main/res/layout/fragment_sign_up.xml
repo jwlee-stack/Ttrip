@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/image_login_earth"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/bg_login_earth"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +84,7 @@
                 android:id="@+id/cl_sign_up_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/cl_sign_up_phone_check"
+                app:layout_constraintBottom_toTopOf="@id/cl_sign_up_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -127,6 +128,7 @@
                     android:background="@drawable/bg_rect_neon_blue_radius40"
                     android:fontFamily="@font/gmarket_sans_ttf_bold"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:paddingHorizontal="10dp"
                     android:text="@string/content_certificate_phone"
                     android:textColor="@color/white"
@@ -137,85 +139,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_sign_up_phone_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/cl_sign_up_password"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_sign_up_phone">
-
-                <TextView
-                    android:id="@+id/tv_sign_up_phone_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginBottom="6dp"
-                    android:fontFamily="@font/gmarket_sans_ttf_medium"
-                    android:text="@string/content_phone_number_check"
-                    android:textColor="@color/dim_grey"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/et_sign_up_phone_check"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/et_sign_up_phone_check"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="5dp"
-                    android:autofillHints=""
-                    android:background="@drawable/bg_rect_black_white_radius10_stroke1"
-                    android:inputType="text"
-                    android:padding="10dp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_verify_certification_number"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_sign_up_phone_check"
-                    tools:ignore="LabelFor,TextFields" />
-
-                <TextView
-                    android:id="@+id/tv_verify_certification_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_rect_neon_blue_radius40"
-                    android:fontFamily="@font/gmarket_sans_ttf_bold"
-                    android:gravity="center"
-                    android:paddingHorizontal="10dp"
-                    android:text="@string/content_confirm"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
-                    app:layout_constraintBottom_toBottomOf="@id/et_sign_up_phone_check"
-                    app:layout_constraintEnd_toEndOf="@id/et_sign_up_phone_check"
-                    app:layout_constraintTop_toTopOf="@id/et_sign_up_phone_check" />
-
-                <TextView
-                    android:id="@+id/tv_verification_again"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:fontFamily="@font/gmarket_sans_ttf_medium"
-                    android:text="@string/content_verification_again"
-                    android:textColor="@color/red"
-                    android:textSize="12sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/et_sign_up_phone_check"
-                    app:layout_constraintTop_toBottomOf="@+id/et_sign_up_phone_check" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_sign_up_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/cl_sign_up_password_check"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_sign_up_phone_check">
+                app:layout_constraintTop_toBottomOf="@id/cl_sign_up_phone">
 
                 <TextView
                     android:id="@+id/tv_sign_up_password"

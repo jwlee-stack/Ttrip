@@ -50,4 +50,20 @@ class UserRepositoryImpl @Inject constructor(
         wrapToResource {
             userRemoteDataSource.getUserProfile(nickName).toDomainModel()
         }
+
+    override suspend fun postUserFcm(fcmToken: String) {
+        userRemoteDataSource.postUserFcm(fcmToken)
+    }
+
+    override suspend fun postEvaluateUser(matchHistoryId: String, rate: Int) {
+        userRemoteDataSource.postEvaluateUser(matchHistoryId, rate)
+    }
+
+    override suspend fun postReportUser(
+        reportContext: String,
+        reportedNickname: String,
+        matchHistoryId: String
+    ) {
+        userRemoteDataSource.postReportUser(reportContext, reportedNickname, matchHistoryId)
+    }
 }

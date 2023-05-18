@@ -7,9 +7,8 @@ class BoardRemoteDataSourceImpl @Inject constructor(
     private val boardApiService: BoardApiService
 ) : BoardRemoteDataSource {
 
-    override suspend fun postBoard(body: PostBoardRequest) {
-        boardApiService.postBoard(body)
-    }
+    override suspend fun postBoard(body: PostBoardRequest): PostBoardResponse =
+        boardApiService.postBoard(body).data!!
 
     override suspend fun getBoardList(body: SearchBoardRequest): List<BoardBriefResponse> =
         boardApiService.getBoardList(body).data!!
@@ -31,4 +30,7 @@ class BoardRemoteDataSourceImpl @Inject constructor(
     override suspend fun postComment(body: CommentRequest) {
         boardApiService.postComment(body)
     }
+
+    override suspend fun postRecommendBoard(body: RecommendBoardRequest): List<RecommendBoardResponse> =
+        boardApiService.getRecommendBoard(body).data!!
 }

@@ -50,4 +50,12 @@ object BindingAdapters {
             .circleCrop()
             .into(this)
     }
+
+    @JvmStatic
+    @BindingAdapter("android:certificateImgUri")
+    fun ImageView.setCertificateImg(imgUri: Uri?) {
+        Glide.with(this.context)
+            .load(imgUri)
+            .into(this)
+    }
 }

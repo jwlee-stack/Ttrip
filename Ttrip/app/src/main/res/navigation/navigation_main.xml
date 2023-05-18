@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_boardFragment_to_postBoardFragment"
             app:destination="@id/postBoardFragment" />
+        <action
+            android:id="@+id/action_boardFragment_to_tutorialsFragment"
+            app:destination="@id/tutorialsFragment" />
     </fragment>
 
     <fragment
@@ -23,6 +26,9 @@
         android:name="org.sfy.ttrip.presentation.board.PostBoardFragment"
         android:label="postBoardFragment"
         tools:layout="@layout/fragment_post_board">
+        <action
+            android:id="@+id/action_postBoardFragment_to_finishPostBoardFragment"
+            app:destination="@id/finishPostBoardFragment" />
     </fragment>
 
     <fragment
@@ -45,10 +51,13 @@
         android:id="@+id/liveFragment"
         android:name="org.sfy.ttrip.presentation.live.LiveFragment"
         android:label="liveFragment"
-        tools:layout="@layout/fragment_live" >
+        tools:layout="@layout/fragment_live">
         <action
             android:id="@+id/action_liveFragment_to_chatDetailFragment"
             app:destination="@id/chatDetailFragment" />
+        <action
+            android:id="@+id/action_liveFragment_to_doodleFragment"
+            app:destination="@id/doodleFragment" />
     </fragment>
 
     <fragment
@@ -78,6 +87,15 @@
         <action
             android:id="@+id/action_myPageFragment_to_myPageBoardFragment"
             app:destination="@id/myPageBoardFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_myBadgesFragment"
+            app:destination="@id/myBadgesFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_tutorialsFragment"
+            app:destination="@id/tutorialsFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_certificateProfileFragment"
+            app:destination="@id/certificateProfileFragment" />
     </fragment>
 
     <fragment
@@ -141,5 +159,71 @@
         <action
             android:id="@+id/action_myPageBoardFragment_to_boardDetailFragment"
             app:destination="@id/boardDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/doodleFragment"
+        android:name="org.sfy.ttrip.presentation.landmark.DoodleFragment"
+        android:label="DoodleFragment"
+        tools:layout="@layout/fragment_doodle">
+        <argument
+            android:name="landmarkId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myBadgesFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.MyBadgesFragment"
+        android:label="MyBadgesFragment"
+        tools:layout="@layout/fragment_my_badges" />
+
+    <fragment
+        android:id="@+id/tutorialsFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.MyPageTutorialsFragment"
+        android:label="tutorialsFragment"
+        tools:layout="@layout/fragment_tutorials" />
+
+    <fragment
+        android:id="@+id/certificateProfileFragment"
+        android:name="org.sfy.ttrip.presentation.mypage.CertificateProfileFragment"
+        android:label="CertificateProfileFragment"
+        tools:layout="@layout/fragment_certificate_profile" />
+
+    <fragment
+        android:id="@+id/finishPostBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.FinishPostBoardFragment"
+        android:label="finishPostBoardFragment"
+        tools:layout="@layout/fragment_finish_post_board">
+        <argument
+            android:name="boardId"
+            app:argType="integer" />
+        <argument
+            android:name="authorId"
+            app:argType="integer" />
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_finishPostBoardFragment_to_recommendBoardFragment"
+            app:destination="@id/recommendBoardFragment" />
+        <action
+            android:id="@+id/action_finishPostBoardFragment_to_boardFragment"
+            app:destination="@id/boardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recommendBoardFragment"
+        android:name="org.sfy.ttrip.presentation.board.RecommendBoardFragment"
+        android:label="recommendBoardFragment"
+        tools:layout="@layout/fragment_recommend_board_list" >
+        <action
+            android:id="@+id/action_recommendBoardFragment_to_boardDetailFragment"
+            app:destination="@id/boardDetailFragment" />
+        <action
+            android:id="@+id/action_recommendBoardFragment_to_boardFragment"
+            app:destination="@id/boardFragment" />
     </fragment>
 </navigation>
