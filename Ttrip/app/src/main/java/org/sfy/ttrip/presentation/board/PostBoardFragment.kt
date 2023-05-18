@@ -1,7 +1,9 @@
 package org.sfy.ttrip.presentation.board
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
@@ -11,17 +13,19 @@ import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentPostBoardBinding
 import org.sfy.ttrip.presentation.base.BaseFragment
 
-
 class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragment_post_board) {
 
     private val viewModel by activityViewModels<BoardViewModel>()
     private var keyboardVisible = false
+    private lateinit var callback: OnBackPressedCallback
+    private var waitTime = 0L
 
     override fun initView() {
         initListener()
         initContent()
         (activity as MainActivity).hideBottomNavigation(true)
         viewModel.clearPostData()
+        initObserve()
 
         // 등록
         val keyboardVisibilityEventListener = object : KeyboardVisibilityEventListener {
@@ -45,6 +49,21 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
         (activity as MainActivity).hideBottomNavigation(false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
+                    waitTime = System.currentTimeMillis()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 작성 취소됩니다.")
+                } else {
+                    popBackStack()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
     // 키보드 가시성 상태 확인
     private fun isKeyboardVisible(): Boolean {
         return keyboardVisible
@@ -53,6 +72,15 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
     private fun initListener() {
         binding.ivBackToBoard.setOnClickListener {
             popBackStack()
+        }
+    }
+
+    private fun initObserve(){
+        // 옵저빙하고 나서 진행 해야함
+        viewModel.boardId.observe(requireActivity()) {
+            if (it != null) {
+                navigate(PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment())
+            }
         }
     }
 
@@ -102,23 +130,8 @@ class PostBoardFragment : BaseFragment<FragmentPostBoardBinding>(R.layout.fragme
                                     checkInfo(true)
                                     binding.tvNextPost.apply {
                                         setOnClickListener {
-                                            viewModel.postBoard()
                                             showToast("게시글이 작성되었습니다")
-
-                                            // 옵저빙하고 나서 진행 해야함
-                                            viewModel.boardId.observe(requireActivity()) {
-                                                if (it != null) {
-                                                   /* navigate(
-                                                        PostBoardFragmentDirections.actionPostBoardFragmentToFinishPostBoardFragment(
-                                                            viewModel.boardId.value!!,
-                                                            viewModel.authorId.value!!,
-                                                            viewModel.postBoardCity.value!!,
-                                                            viewModel.postBoardContent.value!!
-                                                        )
-                                                    )*/
-                                                    popBackStack()
-                                                }
-                                            }
+                                            viewModel.postBoard()
                                         }
                                     }
                                 }

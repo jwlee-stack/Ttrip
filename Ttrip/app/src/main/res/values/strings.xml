@@ -199,6 +199,7 @@
     <string name="content_ask_recommend_board">을 받아 보시겠어요?</string>
     <string name="content_back_to_board">돌아가기</string>
     <string name="content_go_to_recommend">추천 받기</string>
+    <string name="content_none_recommend_board">유사한 게시글이 없습니다</string>
 
     <!-- Declaration -->
     <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>
