@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://ttrip-db:3306/coredb
+    username: root
+    password: ttrip104!
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  data:
+    mongodb:
+      uri: mongodb://ttrip:ttrip104!@mongo-db:27017/chatDB?authSource=admin
+
+  redis:
+    host: redis-db
+    port: 6379
+    password: ttrip104!
+
+flask:
+  baseurl: 'http://flask-server:5000'
+

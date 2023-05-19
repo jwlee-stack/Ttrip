@@ -1,0 +1,165 @@
+version: "3.2"
+services:
+  ttrip-db:
+    container_name: ttrip-db
+    image: mariadb
+    volumes:
+      - "/etc/timezone/:/etc/timezone:ro" #ubuntu timezone기준으로 설정
+      - type: volume
+        source: initdb-volume
+        target: /docker-entrypoint-initdb.d
+      - type: volume
+        source: confd-volume
+        target: /etc/mysql/conf.d
+      - type: volume
+        source: data-volume
+        target: /var/lib/mysql
+    environment:
+      - MYSQL_DATABASE_1=coredb
+      - MYSQL_DATABASE_2=batchdb
+      - MYSQL_ROOT_PASSWORD=ttrip104!
+    command: ['--character-set-server=utf8mb4',
+              '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.10
+
+  application:
+    build: ./api-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ttrip104!
+      TZ: "Asia/Seoul"
+    ports:
+      - 8081:8081
+    depends_on:
+      - ttrip-db
+      - mongo-db
+      - flask-server
+    volumes:
+      - upload-images:/var/lib/images
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.11
+
+  batch-server:
+    build: ./batch-server
+    environment:
+      SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/batchdb?useUnicode=true
+      SPRING_BATCH_DB_DATASOURCE_USERNAME: root
+      SPRING_BATCH_DB_DATASOURCE_PASSWORD: ttrip104!
+      SPRING_CORE_DB_DATASOURCE_URL: jdbc:mariadb://ttrip-db:3306/coredb?useUnicode=true
+      SPRING_CORE_DB_DATASOURCE_USERNAME: root
+      SPRING_CORE_DATASOURCE_PASSWORD: ttrip104!
+      TZ: "Asia/Seoul"
+    ports:
+      - 8082:8082
+    depends_on:
+      - ttrip-db
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.12
+
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass ttrip104! --port 6379
+    container_name: redis-db
+    hostname: redis-db
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    environment:
+      TZ: "Asia/Seoul"
+      REDIS_PASSWORD: ttrip104!
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - redis-data:/data
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.13
+
+  flask-server:
+    container_name: flask-server
+    build:
+      context: ./flask-server
+      dockerfile: ./Dockerfile
+    image: my-flask:0.1
+    restart: unless-stopped
+    env_file:
+      - ./flask-server/.env
+    ports:
+      - 5000:5000
+    volumes:
+      - flask-server-data:/app
+    depends_on:
+      - ttrip-db
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.14
+
+  mongo-db:
+    image: mongo:4.4.3
+    container_name: mongo-db
+    hostname: mongo-db
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.15
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=ttrip
+      - MONGO_INITDB_ROOT_PASSWORD=ttrip104! #local 도커환경에서는 root로 설정하세요.
+    ports:
+      - 27017:27017
+    command: [ "--bind_ip", "0.0.0.0" ]
+    volumes:
+      - type: volume
+        source: mongo-data
+        target: /data/db
+
+  faceflask:
+    container_name: faceflask
+    hostname: faceflask
+    image: faceflask:latest
+    build: ./faceflask
+    command: python app.py
+    restart: unless-stopped
+    volumes:
+      - faceflask-data:/app
+    ports:
+      - 5050:5050
+    networks:
+      ttrip_bridge:
+        ipv4_address: 172.35.0.16
+
+volumes:
+  upload-images:
+  initdb-volume:
+  confd-volume:
+  data-volume:
+  redis-data:
+  flask-server-data:
+  faceflask-data:
+  mongo-data:
+
+networks:
+  ttrip_bridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.35.0.0/27 # 32개의 IP만 허용합니다.

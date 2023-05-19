@@ -1,0 +1,59 @@
+server:
+  port: 8082
+
+spring:
+  profiles:
+    active: prod # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
+
+  batch-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+  core-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+
+  redis:
+    host: localhost
+    port: 6379
+    password: ttrip104!
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        show_sql: true #show sql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    view:
+      # html, js, css, mapper들의 위치
+      static-locations: /resource/**
+      prefix: /WEB-INF/chatt/
+      # servlet의 접두사와 접미사
+      suffix: .jsp
+  # 브라우저에서 프론트엔드 코드 수정 시 자동으로 리로드되도록 하는 설정
+  devtools:
+    livereload:
+      enabled: false
+  # 개발 중인 서버에서 FreeMarker 템플릿 캐시를 사용하지 않도록 하는 설정
+  freemarker:
+    cache: false
+
+  batch:
+    job:
+      enabled: false   # batch server 실행시켰을 때, 실행되는지 아닌지
+    jdbc:
+      isolation-level-for-create: default
+
+
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace #show parameter binding
+      SQL: DEBUG
+
+custom:
+  path:
+    upload-images: '/var/lib/images'

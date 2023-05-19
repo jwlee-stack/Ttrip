@@ -1,0 +1,5 @@
+rootProject.name = 'Server'
+include 'api-server'
+include 'core'
+include 'batch-server'
+
