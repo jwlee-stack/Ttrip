@@ -13,6 +13,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sfy.ttrip.common.util.*
 import org.sfy.ttrip.data.remote.service.FirebaseService
@@ -144,6 +145,7 @@ class MainActivity : AppCompatActivity(),
         lifecycleScope.launch {
             val result = FirebaseService().getCurrentToken()
             ApplicationClass.preferences.fcmToken = result
+            delay(200)
             userViewModel.postUserFcmToken(true, result)
             Log.d("fcmToken", "getFCMToken: $result")
         }
