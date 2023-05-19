@@ -64,7 +64,7 @@
 ### 회원정보입력
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/3371046f-c1ef-4ab0-9705-abb3ea52e58f" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/6caac066-0f3b-404e-b1dc-4fb65f87356e" width="180" height="380"/>
-<img src="https://github.com/serim53/Kkaddak/assets/67946662/c8cafca1-8a1a-4fe2-805e-15d4064a929e" width="180" height="380"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/c8cafca1-8a1a-4fe2-805e-15d4064a929e" width="180" height="380"/><br/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/36734187-5a92-4630-99a9-efa9643640c2" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/cd16e64a-b380-4535-a59d-b7353e4ee7b8" width="180" height="380"/>
 <p/>
@@ -107,7 +107,7 @@
 ### 게시글 등록
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/30b00c26-beff-4212-a561-237711414975" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/d93f6258-6913-4394-8e2e-f7ca6ab46dc3" width="180" height="380"/>
-<img src="https://github.com/serim53/Kkaddak/assets/67946662/1227e5c2-2353-463c-bea7-e0406a99526d" width="180" height="380"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/1227e5c2-2353-463c-bea7-e0406a99526d" width="180" height="380"/><br/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/d900987b-6ac5-4ff6-9471-9928407b7cde" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/c70ee0f0-c593-48b7-b831-aea461c58350" width="180" height="380"/>
 <p/>
