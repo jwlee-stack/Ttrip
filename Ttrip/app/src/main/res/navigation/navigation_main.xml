@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_postBoardFragment_to_finishPostBoardFragment"
             app:destination="@id/finishPostBoardFragment" />
+        <action
+            android:id="@+id/action_postBoardFragment_to_recommendBoardFragment"
+            app:destination="@id/recommendBoardFragment" />
     </fragment>
 
     <fragment
@@ -194,18 +197,6 @@
         android:name="org.sfy.ttrip.presentation.board.FinishPostBoardFragment"
         android:label="finishPostBoardFragment"
         tools:layout="@layout/fragment_finish_post_board">
-        <argument
-            android:name="boardId"
-            app:argType="integer" />
-        <argument
-            android:name="authorId"
-            app:argType="integer" />
-        <argument
-            android:name="city"
-            app:argType="string" />
-        <argument
-            android:name="content"
-            app:argType="string" />
         <action
             android:id="@+id/action_finishPostBoardFragment_to_recommendBoardFragment"
             app:destination="@id/recommendBoardFragment" />

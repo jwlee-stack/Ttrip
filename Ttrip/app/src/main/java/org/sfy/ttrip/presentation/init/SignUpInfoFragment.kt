@@ -2,9 +2,12 @@ package org.sfy.ttrip.presentation.init
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import org.sfy.ttrip.MainActivity
 import org.sfy.ttrip.R
 import org.sfy.ttrip.databinding.FragmentSignUpInfoBinding
@@ -27,6 +30,22 @@ class SignUpInfoFragment :
             myPageViewModel.logout()
             popBackStack()
         }
+
+        // 등록
+        val keyboardVisibilityEventListener = object : KeyboardVisibilityEventListener {
+            override fun onVisibilityChanged(isOpen: Boolean) {
+                // 키보드 가시성 변경 시 호출되는 콜백 메서드
+                if (isOpen) {
+                    // 키보드가 올라왔을 때 처리
+                    binding.tvNextInfo.visibility = View.GONE
+                } else {
+                    // 키보드가 내려갔을 때 처리
+                    binding.tvNextInfo.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        KeyboardVisibilityEvent.setEventListener(requireActivity(), keyboardVisibilityEventListener)
     }
 
     private fun initContent() {

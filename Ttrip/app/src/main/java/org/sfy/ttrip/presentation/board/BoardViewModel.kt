@@ -215,4 +215,11 @@ class BoardViewModel @Inject constructor(
         _postBoardNation.value = null
         _postBoardCity.value = null
     }
+
+    fun clearPostBoardData(){
+        _authorId.value = null
+        _postBoardContent.value = null
+        _postBoardCity.value = null
+        _boardId.value = null
+    }
 }
