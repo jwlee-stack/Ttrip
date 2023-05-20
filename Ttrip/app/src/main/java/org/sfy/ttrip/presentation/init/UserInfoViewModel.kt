@@ -96,7 +96,8 @@ class UserInfoViewModel @Inject constructor(
             _userIntro.value!!,
             _userSex.value!!,
             profileImgMultiPart,
-            markerImgMultiPart,
+            profileImgMultiPart,/*
+            markerImgMultiPart,*/
             _userAge.value!!,
             ""
         )) {
@@ -106,7 +107,8 @@ class UserInfoViewModel @Inject constructor(
                     gender = value.data.gender
                     age = value.data.age.toString()
                     profileImgPath = value.data.profileImgPath
-                    markerImgPath = value.data.markerImgPath
+                    profileImgPath = value.data.profileImgPath
+                    /*markerImgPath = value.data.markerImgPath*/
                 }
             }
             is Resource.Error -> {
