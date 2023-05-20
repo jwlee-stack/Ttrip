@@ -58,7 +58,6 @@ class LiveFragment : BaseFragment<FragmentLiveBinding>(R.layout.fragment_live), 
     private lateinit var locationCallback: LocationCallback
     private lateinit var landmarkTag: String
 
-
     private var waitTime = 0L
     private val liveViewModel by viewModels<LiveViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
