@@ -69,11 +69,13 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
                 dialog.show()
             }
             ivSaveDoodle.setOnClickListener {
-                bitmap?.let {
-                    sendImageToServer(it)
+                if (!isObjectPlaced) {
+                    showToast("먼저 방명록 배치를 해주세요!")
+                } else {
+                    sendImageToServer(bitmap!!)
+                    showToast("방명록이 저장되었습니다!")
+                    binding.ivSaveDoodle.visibility = View.GONE
                 }
-                showToast("낙서가 저장되었습니다!")
-                binding.ivSaveDoodle.visibility = View.GONE
             }
             ivBackToLive.setOnClickListener {
                 popBackStack()
@@ -185,6 +187,7 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
         landmarkViewModel.setPositionZ(position.z.toDouble())
         // 사물 배치 상태 변수 변경
         isObjectPlaced = true
+        showToast("배치되었습니다.\n저장 버튼을 눌러주세요!")
     }
 
     private fun sendImageToServer(bitmap: Bitmap) {
@@ -201,6 +204,6 @@ class DoodleFragment : BaseFragment<FragmentDoodleBinding>(R.layout.fragment_doo
         this.bitmap = bitmap
         binding.ivSaveDoodle.visibility = View.VISIBLE
         binding.ivAddDoodle.visibility = View.GONE
-        showToast("낙서가 생성되었습니다.\n낙서를 배치해보세요!")
+        showToast("방명록이 생성되었습니다.\n방명록을 배치해보세요!")
     }
 }

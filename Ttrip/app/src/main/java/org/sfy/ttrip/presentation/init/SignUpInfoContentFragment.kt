@@ -238,8 +238,12 @@ class SignUpInfoContentFragment :
 
     private fun setTextWatcher() {
         binding.etUserInfoNickName.addTextChangedListener {
-            userInfoViewModel.nickname.value = binding.etUserInfoNickName.text.toString()
-            userInfoViewModel.changeDuplicationTrue()
+            if (binding.etUserInfoNickName.text.toString().length > 6) {
+                showToast("닉네임은 6글자 이내로 가능합니다.")
+            } else {
+                userInfoViewModel.nickname.value = binding.etUserInfoNickName.text.toString()
+                userInfoViewModel.changeDuplicationTrue()
+            }
         }
     }
 

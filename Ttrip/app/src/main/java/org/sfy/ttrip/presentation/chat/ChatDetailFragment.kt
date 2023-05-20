@@ -1,6 +1,8 @@
 package org.sfy.ttrip.presentation.chat
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -64,6 +66,13 @@ class ChatDetailFragment : BaseFragment<FragmentChatDetailBinding>(R.layout.frag
     @SuppressLint("ResourceAsColor")
     private fun initListener() {
         binding.apply {
+            binding.etChat.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    binding.rvChat.scrollToPosition(chatList.size - 1)
+                }
+            })
             clMatching.setOnClickListener {
                 chatViewModel.chatMatch(args.chatId, args.memberId)
                 it.setBackgroundResource(R.drawable.bg_rect_honey_suckle_radius40)

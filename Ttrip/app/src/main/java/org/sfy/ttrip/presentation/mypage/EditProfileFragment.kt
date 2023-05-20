@@ -77,8 +77,12 @@ class EditProfileFragment :
     private fun setTextWatcher() {
         binding.apply {
             etNickname.addTextChangedListener {
-                myPageViewModel.postNickname(binding.etNickname.text.toString())
-                myPageViewModel.returnDuplicationTrue()
+                if (binding.etNickname.text.toString().length > 6) {
+                    showToast("닉네임은 6글자 이내로 가능합니다.")
+                } else {
+                    myPageViewModel.postNickname(binding.etNickname.text.toString())
+                    myPageViewModel.returnDuplicationTrue()
+                }
             }
 
             etBirthday.addTextChangedListener(object : TextWatcher {

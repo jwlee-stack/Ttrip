@@ -79,6 +79,7 @@
     <string name="image_doodle_color_neon_blue">image_doodle_color_neon_blue</string>
     <string name="image_doodle_color_pear">image_doodle_color_pear</string>
     <string name="image_doodle_clear">image_doodle_clear</string>
+    <string name="content_start_ar">AR 모드를 시작하시겠습니까?</string>
 
     <!-- Chat -->
     <string name="image_chat">image_chat</string>
@@ -199,6 +200,7 @@
     <string name="content_ask_recommend_board">을 받아 보시겠어요?</string>
     <string name="content_back_to_board">돌아가기</string>
     <string name="content_go_to_recommend">추천 받기</string>
+    <string name="content_none_recommend_board">유사한 게시글이 없습니다</string>
 
     <!-- Declaration -->
     <string name="title_declaration">신고하시는 이유를\n상세히 적어주세요!</string>

@@ -14,6 +14,11 @@ class FinishPostBoardFragment :
         initListener()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clearPostBoardData()
+    }
+
     private fun initListener() {
         binding.apply {
             tvBackToBoard.setOnClickListener {
