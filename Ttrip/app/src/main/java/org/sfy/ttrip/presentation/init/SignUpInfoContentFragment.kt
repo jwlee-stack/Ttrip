@@ -14,7 +14,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -178,9 +177,6 @@ class SignUpInfoContentFragment :
                             null -> binding.ivUserInfoProfilePhotoBlack.visibility = View.VISIBLE
                             else -> {
                                 binding.ivUserInfoProfilePhotoBlack.visibility = View.GONE
-                                Log.d("asdf", "initView: ${userInfoViewModel.profileImgUri.value}")
-                                Log.d("asdf", "initView: ${userInfoViewModel.markerfile}")
-
                                 saveImageToGallery(
                                     makeMarkerImg(
                                         requireContext(),
