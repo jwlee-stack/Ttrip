@@ -1,6 +1,7 @@
 # ✈TTr!P [띱]
+<br>
 
-
+---
 ### 📃 목차
 
 - [프로젝트 소개](#프로젝트-소개)
@@ -10,6 +11,9 @@
 - [팀원 소개](#프로젝트-소개)
 
 ---
+
+<br/>
+
 
 ## ✏프로젝트 소개
 
@@ -23,6 +27,7 @@
 
 ### 🛫TTr!P [여행 동행 매칭 서비스]
 
+**2023.04.10 ~ 2023.05.26 (6주)**<br/>
 
 ```markup
 💚 여행을 준비하며 동행을 구해본 경험이 있으신가요?
@@ -33,20 +38,28 @@
 여행을 좋아하는 여행러들이 여행을 준비하는 과정, 여행 중, 여행 후까지 저희 앱을 꾸준히 활용할 수 있도록 기획했습니다.
 ```
 
+<br/>
+
 ---
 
 ## 🔨기술 스택 및 라이브러리
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/a5715274-b506-4d4c-bb7d-611d35fa7b0c" width="600"/></br>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/719f1075-ae4f-436b-a480-2cefd15d9db5" width="600"/>
 
+<br/>
+
 ---
 
 ## 🔍주요 기능
+
+<br/>
 
 ### 스플래시
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/ae477051-3eaf-4b7f-b899-0f64de79c9f5" width="180" height="380"/>
 <p/>
 * 앱을 시작하는 스플래시 화면입니다.
+
+<br/>
 
 ### 온보딩
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/5bc9a087-8277-459f-8410-476671ebb0ee" width="180" height="380"/>
@@ -55,11 +68,15 @@
 <p/>
 * 앱을 처음 접근하는 사용자가 앱의 기능을 가볍게 파악할 수 있도록 구현한 화면입니다.
 
+<br/>
+
 ### 회원가입/로그인
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/317ec3a2-65f8-442b-91da-94a201428cf5" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/b0cfaefc-e85e-4dc8-ba84-fb5c2f55d0c2" width="180" height="380"/>
 <p/>
 * 회원가입 후 로그인이 가능합니다.
+
+<br/>
 
 ### 회원정보입력
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/3371046f-c1ef-4ab0-9705-abb3ea52e58f" width="180" height="380"/>
@@ -70,6 +87,8 @@
 <p/>
 * 회원정보와 취향테스트를 입력합니다. <br/>
 * 취향 테스트의 결과는 다른 유저와의 매칭률에 반영됩니다.<br/>
+
+<br/>
 
 ### 튜토리얼
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/d2f90c41-2f2f-45a8-aa1f-3540649cf8d4" width="180" height="380"/>
@@ -83,6 +102,8 @@
 * 앱의 모든 기능을 간단히 소개한 튜토리얼입니다.<br/>
 * 최초 로그인시에만 보여지며, 이후에는 마이페이지에서 확인 가능합니다.<br/>
 
+<br/>
+
 ### 동행 모집 보드
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/f0a78fad-fde4-43f0-b7e3-b3a62fb9ce2b" width="180" height="380"/>
 <p/>
@@ -90,18 +111,30 @@
 * 각 게시글의 디자인은 여행 기획과 맞게 티켓 모양으로 구성했습니다.<br/>
 * 남은 날짜 수에 따라 임박한 날짜는 빨간색, 여유롭게 남은 경우 파란색, 그 사이의 남은 날짜에 대해서는 초록색으로 디자인을 구성했습니다.<br/>
 
+<br/>
+
 ### 동행 모집 보드 상세
+
+* 상세 페이지 역시 비행기 티켓 모양으로 구성했습니다. 목록에서는 보이지 않았던 사용자 정보와 본인과의 매칭률 정보도 보여집니다.<br/><br/>
+
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/7d52b7aa-4c89-4df1-b901-c006b349bb4c" width="180" height="380"/>
 <p/>
-* 상세 페이지 역시 비행기 티켓 모양으로 구성했습니다. 목록에서는 보이지 않았던 사용자 정보와 본인과의 매칭률 정보도 보여집니다.<br/><br/>
-* [다른 유저의 게시글]<br/>
+
+**다른 유저의 게시글**
+
  - 매칭 요청 버튼이 보여집니다. <br/>
  - 버튼 클릭시 간단한 소개말을 입력할 수 있고 신청할 수 있습니다. <br/>
  - 해당 글에 신청한 다른 유저의 요청글은 볼 수 없습니다.
 <br/><br/>
-* [본인의 게시글]<br/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/630dad1c-e3a9-4463-9567-ab478af07fd1" width="180" height="380"/>
+<p/>
+
+**본인의 게시글**
+
  - 글에 매칭 신청을 보낸 유저들의 정보와 소개말이 보여집니다. <br/>
  - 이때, 매칭률을 기준으로 정렬되어 보입니다.
+<br/>
+
 <br/>
 
 ### 게시글 등록
@@ -113,6 +146,8 @@
 <p/>
 * 제목, 내용, 여행지, 여행 시작일, 여행 종료일을 순차적으로 기입합니다.<br/>
 
+<br/>
+
 ### 추천 게시글
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/71b41af4-4087-4789-af24-acf18da26f4c" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/b1668161-63c9-45e7-8c58-f5e21e4bc564" width="180" height="380"/>
@@ -122,6 +157,8 @@
 * 게시글 등록 후 내용의 키워드를 분석하여 기존 게시글 중 비슷한 글을 추천하는 페이지입니다.<br/>
 * TF-IDF를 활용하여 구현했습니다.<br/>
 
+<br/>
+
 ### 라이브 모드
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/2d606a87-968a-4b07-8da4-275699b53708" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/9187cfdd-4d4c-4861-809f-0c40101d44a3" width="180" height="380"/>
@@ -130,12 +167,16 @@
 * 실시간으로 내 위치 주변의 앱 유저가 보여집니다.<br/>
 * 유저 정보와 매칭률, 나와의 거리가 표시됩니다. 이때, 가까운 유저를 클릭하여 프로필을 확인하고 채팅을 걸 수 있습니다.<br/>
 
+<br/>
+
 ### 채팅
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/238fc4e4-34a6-47f4-977f-baed06142164" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/b940deac-1172-4632-bf10-633b5b173915" width="180" height="380"/>
 <p/>
 * 유저들과의 채팅을 제공하는 페이지 입니다.<br/>
 * 목록에서는 나와의 매칭률에 따라 색깔을 구분하여 보이게 설정하였습니다.<br/>
+
+<br/>
 
 ### 마이페이지 (+뱃지)
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/92b4d035-b2cd-4c67-82b0-a7dc222ab5d6" width="180" height="380"/>
@@ -145,6 +186,8 @@
 * 프로필 사진 / 배경 사진 / 유저 정보를 확인하고 변경할 수 있습니다.<br/>
 * 프로필 인증 / 내 게시글 보기 / 뱃지 보기 / 취향 테스트 다시하기 / 튜토리얼 다시보기 가 제공되며 로그아웃이 가능한 화면입니다.<br/>
 
+<br/>
+
 ### AR
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/cf0d4ded-e066-43e9-923a-d72e4a6e33bb" width="180" height="380"/>
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/6d87e991-87d1-40d3-bef7-2e9c0a29e040" width="180" height="380"/>
@@ -153,11 +196,15 @@
 * AR을 사용하여 나만의 가상 방명록을 꾸밀 수 있는 페이지입니다.<br/>
 * 랜드마크에 낙서를 생성하여 배치가 가능하며 다른 사람이 기존에 배치해놓은 낙서를 확인할 수 있습니다.<br/>
 
+<br/>
+
 ### 프로필 인증
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/3b534523-c241-44ec-b49a-d776cc657950" width="180" height="380"/>
 <p/>
 * 프로필 사진과 즉석에서 찍는 셀카를 비교하여 프로필 인증을 할 수 있는 페이지입니다.<br/>
 * face_recognition 라이브러리를 사용하여 구현했습니다.<br/>
+
+<br/>
 
 ---
 
@@ -165,10 +212,63 @@
 
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/b418ee45-afa7-454c-8606-507e89dc8ae9" width="800"/>
 
+<br/>
+
 ---
 
 ## 👨🏻‍🤝‍👨🏻팀원소개
 
 <img src="https://github.com/serim53/Kkaddak/assets/67946662/860cc96e-4aad-4595-a886-cc579b5d5fd0" width="800"/>
 
+<br/>
+
 ---
+
+
+## 🎨 Figma
+
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/4cc66819-e3c7-43fe-9a38-59c540ef4fda" width="800"/>
+
+<br/>
+
+---
+
+
+## 📄 기능명세서
+
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/f2ca9e1c-a9e1-4d0b-b97c-5a1653ab7364" width="800"/>
+
+<br/>
+
+---
+
+
+## ✒ ERD
+
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/0b611b34-3649-425b-801d-1fcc7b37287d" width="600"/>
+
+<br/>
+
+---
+
+
+## 🧩 아키텍처
+
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/ecb531fc-655b-4042-a8ce-8571710abb30" width="800"/>
+
+<br/>
+
+---
+
+## 🎇 추가 자료
+
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/eed63086-2fb1-436a-b40a-a4d637dcfc00" width="400"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/0589e637-6cb7-4502-bdd6-99f22e54e32f" width="400"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/2febff04-0b9a-46ae-bde5-d1e278a12cb1" width="400"/>
+<br/>
+<br/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/61eb51f6-d169-4010-a14c-ebc11d5920a3" width="400"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/ebbdf962-ac31-4953-b59b-c75849f5b5ac" width="400"/>
+<br/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/77dd84a3-0b0f-49a1-95d9-bd50e448d633" width="400"/>
+<img src="https://github.com/serim53/Kkaddak/assets/67946662/e8f08c3f-9d7f-42fd-ad51-80491f3a56f1" width="400"/>
