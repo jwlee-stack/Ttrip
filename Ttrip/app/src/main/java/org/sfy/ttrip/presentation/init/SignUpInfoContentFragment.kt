@@ -14,6 +14,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -177,13 +178,16 @@ class SignUpInfoContentFragment :
                             null -> binding.ivUserInfoProfilePhotoBlack.visibility = View.VISIBLE
                             else -> {
                                 binding.ivUserInfoProfilePhotoBlack.visibility = View.GONE
-                                /*saveImageToGallery(
+                                Log.d("asdf", "initView: ${userInfoViewModel.profileImgUri.value}")
+                                Log.d("asdf", "initView: ${userInfoViewModel.markerfile}")
+
+                                saveImageToGallery(
                                     makeMarkerImg(
                                         requireContext(),
                                         userInfoViewModel.profileImgUri.value!!,
                                         userInfoViewModel.markerfile!!
                                     )
-                                )*/
+                                )
                             }
                         }
                     }
@@ -325,12 +329,13 @@ class SignUpInfoContentFragment :
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun saveImageToGallery(bitmap: Bitmap) {
+        //requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
         // 권한 체크
         if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
             if (!checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) ||
                 !checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
             ) {
-                requestPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
                 return
             }
         } else {
@@ -341,7 +346,6 @@ class SignUpInfoContentFragment :
                 return
             }
         }
-
 
         // 그림 저장
         if (!imageExternalSave(
