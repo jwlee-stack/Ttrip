@@ -49,8 +49,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/image_login_earth"
                 android:layout_marginTop="15dp"
+                android:contentDescription="@string/image_login_earth"
                 android:src="@drawable/bg_login_earth"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,6 +84,7 @@
                 android:id="@+id/cl_sign_up_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 app:layout_constraintBottom_toTopOf="@id/cl_sign_up_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,11 +129,11 @@
                     android:background="@drawable/bg_rect_neon_blue_radius40"
                     android:fontFamily="@font/gmarket_sans_ttf_bold"
                     android:gravity="center"
-                    android:visibility="gone"
                     android:paddingHorizontal="10dp"
                     android:text="@string/content_certificate_phone"
                     android:textColor="@color/white"
                     android:textSize="11sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/et_sign_up_phone"
                     app:layout_constraintEnd_toEndOf="@id/et_sign_up_phone"
                     app:layout_constraintTop_toTopOf="@id/et_sign_up_phone" />
@@ -142,7 +143,7 @@
                 android:id="@+id/cl_sign_up_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/cl_sign_up_password_check"
+                android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_sign_up_phone">
@@ -183,7 +184,7 @@
                 android:id="@+id/cl_sign_up_password_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/iv_sign_up_under_line"
+                android:layout_marginTop="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_sign_up_password">

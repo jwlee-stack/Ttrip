@@ -11,12 +11,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -39,9 +41,10 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
     LogoutDialogListener {
 
     private lateinit var callback: OnBackPressedCallback
+    private lateinit var markerFile: File
+
     private var waitTime = 0L
 
-    private lateinit var markerFile: File
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val userViewModel by activityViewModels<UserInfoViewModel>()
     private val fromActivityLauncher = registerForActivityResult(
@@ -87,6 +90,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun initView() {
         (activity as MainActivity).hideBottomNavigation(false)
         initListener()
@@ -118,6 +122,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         showToast("로그아웃되었습니다.")
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initListener() {
         binding.apply {
             ivEditProfile.setOnClickListener {
@@ -184,48 +189,95 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
         return result!!
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setBackgroundView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                ) -> {
+                    fromActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
+        } else {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                ) -> {
+                    fromActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
+                    )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
         }
     }
 
     private fun setProfileView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromProfileActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                ) -> {
+                    fromProfileActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
+        } else {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                ) -> {
+                    fromProfileActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
+                    )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
         }
     }
@@ -243,13 +295,25 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(R.layout.fragment_myp
 
     private fun saveImageToGallery(bitmap: Bitmap) {
         // 권한 체크
-        if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
-            !checkPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        ) {
-            requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) ||
+                !checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
+            ) {
+                requestPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
+                requestPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
+                return
+            }
+        } else {
+            if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                !checkPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            ) {
+                requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                return
+            }
         }
+
+
 
         // 그림 저장
         if (!imageExternalSave(
