@@ -106,6 +106,7 @@ class UserInfoViewModel @Inject constructor(
                     gender = value.data.gender
                     age = value.data.age.toString()
                     profileImgPath = value.data.profileImgPath
+                    profileImgPath = value.data.profileImgPath
                     markerImgPath = value.data.markerImgPath
                 }
             }
@@ -133,12 +134,11 @@ class UserInfoViewModel @Inject constructor(
 
     fun setProfileImg(uri: Uri, file: File) {
         viewModelScope.launch {
+            markerfile = file
             _profileImgUri.value = uri
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             profileImgMultiPart =
                 MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-
-            markerfile = file
         }
     }
 

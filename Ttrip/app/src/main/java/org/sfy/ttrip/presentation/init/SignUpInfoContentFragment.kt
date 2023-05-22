@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.*
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
@@ -15,6 +17,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -83,6 +86,7 @@ class SignUpInfoContentFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun initView() {
         binding.viewModel = userInfoViewModel
 
@@ -199,6 +203,7 @@ class SignUpInfoContentFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initListener() {
         binding.apply {
             tvUserInfoCheckNickName.setOnClickListener {
@@ -260,27 +265,52 @@ class SignUpInfoContentFragment :
         bannerData[position].visibility = View.VISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun setAlbumView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromAlbumActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                ) -> {
+                    fromAlbumActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
+        } else {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                ) -> {
+                    fromAlbumActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
+                    )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
         }
+
     }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
@@ -293,14 +323,24 @@ class SignUpInfoContentFragment :
         return result!!
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun saveImageToGallery(bitmap: Bitmap) {
+        //requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
         // 권한 체크
-        if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
-            !checkPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        ) {
-            requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            requestPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            return
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            if (!checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) ||
+                !checkPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES)
+            ) {
+                return
+            }
+        } else {
+            if (!checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                !checkPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            ) {
+                requestPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                return
+            }
         }
 
         // 그림 저장
